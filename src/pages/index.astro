@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CtaBand from '../components/CtaBand.astro';
+import settings from '../data/settings.json';
+import hero from '../assets/hero.png';
+
+const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: settings.firma,
+  alternateName: settings.marke,
+  url: 'https://wunschausbau.de/',
+  telephone: settings.telefonLink,
+  email: settings.email,
+  areaServed: settings.regionen,
+  sameAs: [settings.instagram]
+};
+---
+<Base
+  title="wunschausbau.de | Innenausbau & Renovierung in Wittlich, Trier und an der Mosel"
+  description="Innenausbau und Renovierung in Wittlich, Trier und der Moselregion: Böden, Innentüren, Fenster, Trockenbau, Sonnenschutz und Holzterrassen – präzise umgesetzt."
+  schema={schema}
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-media">
+      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={70} format="webp" />
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-panel">
+        <p class="eyebrow">{settings.firma}</p>
+        <h1>Innenausbau mit Anspruch – bis ins Detail.</h1>
+        <p class="lead">
+          Von Böden und Türen über Trockenbau bis zur kompletten Renovierung.
+          Wir schaffen Wohnräume, die Qualität sichtbar und spürbar machen.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="/kontakt/">Kostenlose Beratung</a>
+          <a class="btn btn--ghost" href="/referenzen/">Arbeiten ansehen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kennzahlen -->
+  <section class="stats" aria-label="Kennzahlen">
+    <div class="wrap stats-grid">
+      <div><strong>{settings.stats.projekte}</strong><span>realisierte Projekte</span></div>
+      <div><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></div>
+      <div><strong>{settings.region}</strong><span>regional verwurzelt</span></div>
+      <div><strong>{settings.stats.rueckmeldung}</strong><span>Rückmeldung im Regelfall</span></div>
+    </div>
+  </section>
+
+  <!-- Leitsatz -->
+  <section class="quote section--sand">
+    <p class="wrap">Qualität beginnt dort, wo man keine Kompromisse macht.</p>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Unsere Leistungen</p>
+      <h2>Alles aus einer Hand.</h2>
+      <div class="service-grid">
+        {leistungen.map((l) => (
+          <a class="service-card tile reveal" href={`/leistungen/${l.id}/`}>
+            <Image src={l.data.bild} alt={l.data.bildAlt} widths={[480, 800]} sizes="(max-width: 56rem) 100vw, 33vw" quality={65} format="webp" />
+            <div class="service-body">
+              <h3>{l.data.title}</h3>
+              <p>{l.data.kurztext}</p>
+              <span class="more" aria-hidden="true">Mehr erfahren →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Arbeitsweise -->
+  <section class="section section--sand" aria-labelledby="ablauf-titel">
+    <div class="wrap">
+      <p class="eyebrow">So arbeiten wir</p>
+      <h2 id="ablauf-titel">Ein klarer Ablauf. Ein gutes Gefühl.</h2>
+      <p class="lead">Vom ersten Gespräch bis zur sauberen Übergabe behalten Sie jederzeit den Überblick.</p>
+      <div style="margin-top: var(--space-6);"><ProcessSteps /></div>
+    </div>
+  </section>
+
+  <Testimonials />
+  <CtaBand />
+</Base>
+
+<style>
+  .hero { position: relative; min-height: min(82vh, 44rem); min-height: min(82dvh, 44rem); display: grid; align-items: center; overflow: hidden; }
+  .hero-media, .hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-inner { position: relative; width: 100%; padding-block: var(--space-12); }
+  .hero-panel { max-width: 34rem; background: rgba(255, 255, 255, .94); padding: clamp(1.5rem, 4vw, 3rem); border-top: 2px solid var(--brass); }
+  .hero-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); flex-wrap: wrap; }
+  .stats { border-bottom: 1px solid var(--line); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stats-grid div { padding: var(--space-3) var(--space-2); text-align: center; border-right: 1px solid var(--line); display: grid; gap: .25rem; }
+  .stats-grid div:first-child { border-left: 1px solid var(--line); }
+  .stats-grid strong { font-family: var(--font-display); font-size: 1.4rem; }
+  .stats-grid span { font-size: var(--text-sm); color: var(--ink-soft); }
+  .quote p { font-family: var(--font-display); font-size: clamp(1.35rem, 2.6vw, 2rem); text-align: center; padding-block: var(--space-6); max-width: none; }
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-6); }
+  .service-card { text-decoration: none; overflow: hidden; display: grid; grid-template-rows: auto 1fr; transition: border-color var(--dur) var(--ease); }
+  .service-card:hover { border-color: var(--brass); color: inherit; }
+  .service-card img { aspect-ratio: 3 / 2; object-fit: cover; width: 100%; }
+  .service-body { padding: var(--space-3); display: grid; gap: var(--space-1); align-content: start; }
+  .service-body p { color: var(--ink-soft); font-size: var(--text-sm); }
+  .more { color: var(--brass-deep); font-size: var(--text-sm); font-weight: 600; margin-top: var(--space-1); }
+  @media (max-width: 56rem) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid div { border: 0; border-bottom: 1px solid var(--line); }
+    .service-grid { grid-template-columns: 1fr; }
+    .hero-panel { max-width: none; }
+  }
+</style>

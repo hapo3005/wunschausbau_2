@@ -1,0 +1,62 @@
+---
+/**
+ * Basis-Layout: Head-Metadaten, Header, Footer, globale Styles.
+ * Jede Seite setzt title + description; optional ogImage und schema (JSON-LD).
+ */
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import settings from '../data/settings.json';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object;
+}
+const { title, description, schema } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#17181b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={settings.marke} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og-image.jpg', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Einmalige, ruhige Reveal-Animation (respektiert prefers-reduced-motion via CSS)
+      const targets = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        }, { threshold: 0.15 });
+        targets.forEach((t) => io.observe(t));
+      } else {
+        targets.forEach((t) => t.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

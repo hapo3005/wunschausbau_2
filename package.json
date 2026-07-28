@@ -1,0 +1,20 @@
+{
+  "name": "wunschausbau-relaunch",
+  "version": "1.0.0",
+  "description": "Premium-Relaunch wunschausbau.de – KS - Innenausbau Kevin Schmieding",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/prune-originals.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.3.0",
+    "@fontsource-variable/fraunces": "^5.2.5",
+    "@fontsource-variable/inter": "^5.2.5",
+    "astro": "^5.7.0",
+    "nodemailer": "^9.0.3"
+  },
+  "license": "UNLICENSED"
+}

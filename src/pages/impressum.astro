@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import settings from '../data/settings.json';
+---
+<Base title="Impressum | wunschausbau.de" description="Impressum von wunschausbau.de – KS - Innenausbau Kevin Schmieding.">
+  <section class="section">
+    <div class="wrap legal">
+      <h1>Impressum</h1>
+      <p><strong>{settings.firma}</strong></p>
+      <p class="platzhalter">[PLATZHALTER: Straße und Hausnummer]<br />[PLATZHALTER: PLZ und Ort]</p>
+      <p>Telefon: {settings.telefon}<br />E-Mail: {settings.email}</p>
+      <p class="platzhalter">
+        [PLATZHALTER: Rechtsform-Angaben, sofern zutreffend]<br />
+        [PLATZHALTER: Umsatzsteuer-ID oder Hinweis auf Kleinunternehmerregelung]<br />
+        [PLATZHALTER: zuständige Handwerkskammer / Berufsbezeichnung, sofern zutreffend]
+      </p>
+      <div class="warnbox" role="note">
+        Dieser Text ist unvollständig und rechtlich nicht geprüft. Vor Veröffentlichung durch
+        anwaltlich erstellte bzw. geprüfte Angaben ersetzen.
+      </div>
+    </div>
+  </section>
+</Base>

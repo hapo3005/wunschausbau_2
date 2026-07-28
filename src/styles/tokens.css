@@ -1,0 +1,42 @@
+/* ============================================================
+   Design-Tokens – einzige Quelle fuer Farben, Schrift, Abstaende
+   ============================================================ */
+:root {
+  /* Farben */
+  --ink: #17181b;          /* Primaertext, dunkle Flaechen */
+  --ink-soft: #494e56;     /* Sekundaertext */
+  --paper: #ffffff;        /* Grundflaeche */
+  --sand: #faf8f4;         /* Ruhige Wechselflaeche */
+  --line: #e3ddd2;         /* Hairlines, Rahmen */
+  --brass: #b9822f;        /* Messing – nur Linien/Marker, nie Textflaeche */
+  --brass-deep: #7d5518;   /* Messing fuer Text: Kontrast >= 4.5:1 auf Weiss */
+  --paper-inverse: #f6f4ef;/* Text auf dunklen Flaechen */
+  --error: #b3261e;
+
+  /* Typografie */
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-text: 'Inter Variable', system-ui, sans-serif;
+  --text-base: 1rem;        /* 16px */
+  --text-sm: 0.875rem;      /* 14px – kleinste Groesse im UI */
+  --text-lg: 1.125rem;
+  --leading: 1.65;
+
+  /* Raster & Abstaende (8px-Skala) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-12: 6rem;
+  --content-max: 75rem;     /* 1200px */
+  --pad-inline: clamp(1.25rem, 4vw, 3rem);
+
+  /* Form */
+  --radius: 2px;
+  --shadow-float: 0 12px 32px rgba(23, 24, 27, .12);
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --dur: 220ms;
+}

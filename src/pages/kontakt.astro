@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import settings from '../data/settings.json';
+import faq from '../data/faq.json';
+
+const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+---
+<Base
+  title="Kontakt & Anfrage | wunschausbau.de – Innenausbau Wittlich, Trier & Mosel"
+  description="Projekt anfragen: kostenlose Erstberatung für Innenausbau und Renovierung in Wittlich, Trier und der Moselregion. Rückmeldung in der Regel innerhalb von 24 Stunden."
+>
+  <section class="section">
+    <div class="wrap kontakt-grid">
+      <div class="kontakt-intro">
+        <p class="eyebrow">Kontakt</p>
+        <h1>Worum geht es bei Ihrem Projekt?</h1>
+        <p class="lead">
+          Erzählen Sie uns kurz, was geplant ist. Wir prüfen Ihre Anfrage persönlich und melden
+          uns mit einer ehrlichen ersten Einschätzung – in der Regel innerhalb von 24 Stunden.
+        </p>
+
+        <ul class="direkt" aria-label="Direkte Kontaktwege">
+          <li><span>Telefon</span><a href={`tel:${settings.telefonLink}`}>{settings.telefon}</a></li>
+          <li><span>E-Mail</span><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
+          <li><span>WhatsApp</span><a href={settings.whatsapp} target="_blank" rel="noopener noreferrer">Nachricht schreiben</a></li>
+          <li><span>Region</span><b>{settings.region}</b></li>
+        </ul>
+        <p class="foto-hinweis">Fotos oder Pläne? Schicken Sie sie uns nach dem Erstkontakt einfach per WhatsApp oder E-Mail.</p>
+      </div>
+
+      <form class="anfrage tile" method="POST" action="/api/anfrage" novalidate>
+        <fieldset>
+          <legend>Leistung auswählen <b aria-hidden="true">*</b></legend>
+          <div class="choice-grid">
+            {leistungen.map((l, i) => (
+              <label class="choice">
+                <input type="radio" name="leistung" value={l.data.title} required={i === 0} />
+                <span>{l.data.title}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="feld-grid">
+          <label>Name <b aria-hidden="true">*</b>
+            <input name="name" autocomplete="name" required maxlength="120" />
+          </label>
+          <label>Telefon <b aria-hidden="true">*</b>
+            <input name="telefon" type="tel" autocomplete="tel" required maxlength="40" />
+          </label>
+          <label>E-Mail
+            <input name="email" type="email" autocomplete="email" maxlength="160" />
+          </label>
+          <label>Ort / PLZ <b aria-hidden="true">*</b>
+            <input name="ort" autocomplete="postal-code" required maxlength="120" />
+          </label>
+          <label>Objektart
+            <select name="objektart">
+              <option value="">Bitte auswählen</option>
+              <option>Wohnung</option>
+              <option>Haus</option>
+              <option>Gewerbeobjekt</option>
+              <option>Außenbereich</option>
+            </select>
+          </label>
+          <label>Gewünschter Zeitraum
+            <select name="zeitraum">
+              <option value="">Bitte auswählen</option>
+              <option>So bald wie möglich</option>
+              <option>In den nächsten 3 Monaten</option>
+              <option>In den nächsten 6 Monaten</option>
+              <option>Noch offen</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Projektbeschreibung <b aria-hidden="true">*</b>
+          <textarea name="beschreibung" required rows="5" maxlength="4000"
+            placeholder="Was soll gemacht werden? Gibt es Maße, Materialien oder Besonderheiten?"></textarea>
+        </label>
+
+        <label>Grober Budgetrahmen (optional)
+          <select name="budget">
+            <option value="">Noch offen</option>
+            <option>Bis 5.000 €</option>
+            <option>5.000 – 15.000 €</option>
+            <option>15.000 – 30.000 €</option>
+            <option>Über 30.000 €</option>
+          </select>
+        </label>
+
+        <fieldset>
+          <legend>Wie dürfen wir Sie kontaktieren?</legend>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="kontaktweg" value="Telefon" checked /><span>Telefon</span></label>
+            <label class="choice"><input type="radio" name="kontaktweg" value="E-Mail" /><span>E-Mail</span></label>
+            <label class="choice"><input type="radio" name="kontaktweg" value="WhatsApp" /><span>WhatsApp</span></label>
+          </div>
+        </fieldset>
+
+        <!-- Spam-Schutz: Honeypot (fuer Menschen unsichtbar) + Zeitstempel -->
+        <p class="hp" aria-hidden="true">
+          <label>Firma <input name="firma" tabindex="-1" autocomplete="off" /></label>
+        </p>
+        <input type="hidden" name="ts" value={String(Date.now())} />
+
+        <label class="privacy">
+          <input type="checkbox" name="datenschutz" required />
+          <span>Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden.
+            Details in der <a href="/datenschutz/">Datenschutzerklärung</a>. <b aria-hidden="true">*</b></span>
+        </label>
+
+        <button class="btn" type="submit">Projekt unverbindlich anfragen</button>
+        <p class="form-note">Keine Verpflichtung. Pflichtfelder sind mit * markiert.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--sand" aria-labelledby="faq-titel">
+    <div class="wrap">
+      <p class="eyebrow">Häufige Fragen</p>
+      <h2 id="faq-titel">Gut zu wissen.</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details class="tile">
+            <summary>{f.frage}</summary>
+            <p>{f.antwort}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .kontakt-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: var(--space-8); align-items: start; }
+  .direkt { list-style: none; padding: 0; margin-top: var(--space-4); border-top: 1px solid var(--line); }
+  .direkt li { display: grid; grid-template-columns: 7rem 1fr; padding-block: var(--space-2); border-bottom: 1px solid var(--line); align-items: baseline; }
+  .direkt span { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+  .foto-hinweis { margin-top: var(--space-3); font-size: var(--text-sm); color: var(--ink-soft); }
+  .anfrage { padding: clamp(1.5rem, 3vw, 2.5rem); display: grid; gap: var(--space-3); }
+  fieldset { border: 0; padding: 0; }
+  legend, label { font-weight: 600; font-size: var(--text-sm); }
+  legend { margin-bottom: var(--space-1); }
+  label { display: grid; gap: .4rem; }
+  label b { color: var(--error); }
+  input:not([type="radio"]):not([type="checkbox"]), select, textarea {
+    font: inherit; color: inherit; width: 100%;
+    padding: .7rem .85rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper);
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--brass); outline-offset: 1px; }
+  textarea { resize: vertical; }
+  .feld-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+  .choice-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .choice { position: relative; display: block; cursor: pointer; }
+  .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .choice span {
+    display: flex; align-items: center; min-height: 2.75rem; padding: .5rem .85rem;
+    border: 1px solid var(--line); border-radius: var(--radius); font-weight: 500; background: var(--paper);
+  }
+  .choice input:checked + span { border-color: var(--brass-deep); background: var(--sand); font-weight: 600; }
+  .choice input:focus-visible + span { outline: 3px solid var(--brass); outline-offset: 2px; }
+  .hp { position: absolute; left: -9999px; }
+  .privacy { display: flex; gap: .6rem; align-items: flex-start; font-weight: 400; }
+  .privacy input { margin-top: .25rem; width: 1rem; height: 1rem; accent-color: var(--brass-deep); }
+  .form-note { font-size: var(--text-sm); color: var(--ink-soft); }
+  .faq { display: grid; gap: var(--space-2); margin-top: var(--space-4); max-width: 52rem; }
+  details { padding: var(--space-2) var(--space-3); }
+  summary { font-weight: 600; cursor: pointer; }
+  details p { margin-top: var(--space-1); color: var(--ink-soft); }
+  @media (max-width: 56rem) {
+    .kontakt-grid { grid-template-columns: 1fr; }
+    .feld-grid, .choice-grid { grid-template-columns: 1fr; }
+  }
+</style>

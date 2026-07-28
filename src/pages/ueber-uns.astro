@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import CtaBand from '../components/CtaBand.astro';
+import settings from '../data/settings.json';
+
+const werte = [
+  { title: 'Ehrliche Beratung', text: 'Transparent, verständlich und immer passend zu Ihrem Zuhause. Vertrauen von Anfang an.' },
+  { title: 'Klare Kommunikation', text: 'Sie behalten während des gesamten Projekts den Überblick und wissen immer, wo Sie stehen.' },
+  { title: 'Präzise Umsetzung', text: 'Saubere handwerkliche Arbeit statt schneller Kompromisslösungen. Qualität, die bleibt.' },
+  { title: 'Unser Anspruch', text: 'Wir setzen jedes Projekt so um, als wäre es unser eigenes – bis zum letzten Abschluss.' }
+];
+---
+<Base
+  title="Über uns | wunschausbau.de – KS - Innenausbau Kevin Schmieding"
+  description="KS - Innenausbau Kevin Schmieding: Innenausbau und Renovierung in Wittlich, Trier und der Moselregion – persönlich, transparent und handwerklich präzise."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Über uns</p>
+      <h1>Innenausbau, der wirklich passt.</h1>
+      <p class="lead">
+        Hinter {settings.marke} steht {settings.firma}. Bei uns geht es nicht nur darum, etwas einzubauen –
+        sondern darum, dass am Ende alles sauber passt, langlebig ist und optisch überzeugt.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--sand" aria-labelledby="werte-titel">
+    <div class="wrap">
+      <p class="eyebrow">Was uns ausmacht</p>
+      <h2 id="werte-titel">Vier Grundsätze, jede Baustelle.</h2>
+      <div class="werte">
+        {werte.map((w) => (
+          <div class="tile reveal">
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ablauf2-titel">
+    <div class="wrap">
+      <p class="eyebrow">Arbeitsweise</p>
+      <h2 id="ablauf2-titel">Ein klarer Ablauf.</h2>
+      <div style="margin-top: var(--space-6);"><ProcessSteps /></div>
+    </div>
+  </section>
+
+  <section class="section section--sand" aria-labelledby="region-titel">
+    <div class="wrap region">
+      <div>
+        <p class="eyebrow">Einsatzgebiet</p>
+        <h2 id="region-titel">Regional verwurzelt.</h2>
+        <p class="lead">
+          Wir arbeiten in {settings.regionen.join(', ')} und Umgebung.
+          Bei größeren Projekten übernehmen wir auch weitere Strecken – sprechen Sie uns an.
+        </p>
+      </div>
+      <p class="region-mark" aria-hidden="true">{settings.region}</p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .werte { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin-top: var(--space-6); }
+  .werte .tile { padding: var(--space-4); }
+  .werte h3 { margin-bottom: var(--space-1); }
+  .werte p { color: var(--ink-soft); font-size: var(--text-sm); }
+  .region { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; }
+  .region-mark { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 2rem); color: var(--brass-deep); }
+  @media (max-width: 36rem) { .werte { grid-template-columns: 1fr; } }
+</style>

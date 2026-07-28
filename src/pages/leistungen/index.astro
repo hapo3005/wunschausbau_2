@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+---
+<Base
+  title="Leistungen | wunschausbau.de – Innenausbau in Wittlich, Trier & Mosel"
+  description="Unsere Leistungen im Überblick: Böden, Innentüren, Fenster & Außentüren, Sonnenschutz, Trockenbau, Holzterrassen und komplette Renovierungen."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Leistungen</p>
+      <h1>Alles aus einer Hand.</h1>
+      <p class="lead">Sieben Gewerke, ein Anspruch: saubere, präzise Arbeit – von der Beratung bis zur Übergabe.</p>
+
+      <div class="list">
+        {leistungen.map((l, i) => (
+          <a class="row reveal" href={`/leistungen/${l.id}/`}>
+            <span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="row-text">
+              <h2>{l.data.title}</h2>
+              <p>{l.data.kurztext}</p>
+            </div>
+            <Image src={l.data.bild} alt={l.data.bildAlt} widths={[320, 640]} sizes="(max-width: 56rem) 100vw, 260px" quality={65} format="webp" loading="lazy" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .list { margin-top: var(--space-6); border-top: 1px solid var(--line); }
+  .row {
+    display: grid; grid-template-columns: 4rem 1fr 16rem; align-items: center; gap: var(--space-4);
+    padding-block: var(--space-3); border-bottom: 1px solid var(--line); text-decoration: none;
+    transition: background var(--dur) var(--ease);
+  }
+  .row:hover { background: var(--sand); color: inherit; }
+  .row:hover h2 { color: var(--brass-deep); }
+  .idx { font-family: var(--font-display); font-size: 1.5rem; color: var(--brass); font-variant-numeric: tabular-nums; }
+  .row h2 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+  .row-text p { color: var(--ink-soft); font-size: var(--text-sm); margin-top: .35rem; }
+  .row img { aspect-ratio: 8 / 5; object-fit: cover; border-radius: var(--radius); width: 100%; }
+  @media (max-width: 56rem) {
+    .row { grid-template-columns: 1fr; gap: var(--space-2); }
+    .idx { display: none; }
+    .row img { order: -1; }
+  }
+</style>

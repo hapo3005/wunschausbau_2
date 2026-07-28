@@ -1,0 +1,89 @@
+---
+import settings from '../data/settings.json';
+const nav = [
+  { href: '/leistungen/', label: 'Leistungen' },
+  { href: '/referenzen/', label: 'Referenzen' },
+  { href: '/ueber-uns/', label: 'Über uns' },
+  { href: '/kontakt/', label: 'Kontakt' }
+];
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <span class="brand-name">{settings.marke}</span>
+      <span class="brand-claim">{settings.claim}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Hauptnavigation" id="site-nav">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+      <a class="nav-phone" href={`tel:${settings.telefonLink}`}>{settings.telefon}</a>
+      <a class="btn nav-cta" href="/kontakt/">Projekt anfragen</a>
+    </nav>
+
+    <a class="nav-phone-mobile" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
+      <span aria-hidden="true">☎</span>
+    </a>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 255, 255, .96);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner { display: flex; align-items: center; gap: var(--space-4); min-height: 4.5rem; }
+  .brand { display: grid; text-decoration: none; line-height: 1.2; }
+  .brand-name { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -.01em; }
+  .brand-claim { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brass-deep); }
+  .site-nav { display: flex; align-items: center; gap: var(--space-3); margin-left: auto; }
+  .site-nav a:not(.btn) { text-decoration: none; font-weight: 500; font-size: .95rem; padding: .5rem 0; border-bottom: 2px solid transparent; }
+  .site-nav a:not(.btn):hover { color: var(--brass-deep); }
+  .site-nav a[aria-current="page"] { border-bottom-color: var(--brass); }
+  .nav-phone { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+  .menu-btn { display: none; }
+  .nav-phone-mobile { display: none; }
+
+  @media (max-width: 56rem) {
+    .nav-phone-mobile {
+      display: grid; place-content: center; margin-left: auto;
+      width: 2.75rem; height: 2.75rem;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      color: var(--ink); text-decoration: none; font-size: 1.2rem;
+    }
+    .site-nav {
+      display: none;
+      position: absolute; inset: 100% 0 auto 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: var(--space-2) var(--pad-inline) var(--space-3);
+      box-shadow: var(--shadow-float);
+    }
+    .site-nav.open { display: flex; }
+    .site-nav a:not(.btn) { padding: .9rem 0; border-bottom: 1px solid var(--line); }
+    .nav-cta { margin-top: var(--space-2); }
+    .menu-btn {
+      display: grid; gap: 5px; margin-left: auto;
+      width: 2.75rem; height: 2.75rem; place-content: center;
+      background: none; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+    }
+    .menu-btn span { width: 1.25rem; height: 2px; background: var(--ink); }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('.menu-btn');
+  const nav = document.getElementById('site-nav');
+  btn?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(!!open));
+    btn.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+  });
+</script>
