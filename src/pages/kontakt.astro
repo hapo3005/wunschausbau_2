@@ -6,10 +6,21 @@ import faq from '../data/faq.json';
 import { withBase } from '../lib/paths';
 
 const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.frage,
+    acceptedAnswer: { '@type': 'Answer', text: item.antwort }
+  }))
+};
 ---
 <Base
   title="Kontakt & Anfrage | wunschausbau.de – Innenausbau Wittlich, Trier & Mosel"
   description="Projekt anfragen: kostenlose Erstberatung für Innenausbau und Renovierung in Wittlich, Trier und der Moselregion. Rückmeldung in der Regel innerhalb von 24 Stunden."
+  schema={faqSchema}
 >
   <section class="section">
     <div class="wrap kontakt-grid">

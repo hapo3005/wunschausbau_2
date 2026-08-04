@@ -13,12 +13,16 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'HomeAndConstructionBusiness',
+  '@id': 'https://wunschausbau.de/#business',
   name: settings.firma,
   alternateName: settings.marke,
   url: 'https://wunschausbau.de/',
   telephone: settings.telefonLink,
   email: settings.email,
+  image: new URL(withBase('/og-image.jpg'), Astro.site).href,
+  logo: new URL(withBase('/favicon.svg'), Astro.site).href,
   areaServed: settings.regionen,
+  knowsAbout: leistungen.map((leistung) => leistung.data.title),
   sameAs: [settings.instagram]
 };
 ---
@@ -205,7 +209,7 @@ const schema = {
   }
 
   @media (max-width: 36rem) {
-    .hero { min-height: calc(100svh - var(--header-height)); align-items: end; }
+    .hero { min-height: calc(100svh - var(--header-height) - var(--mobile-cta-h)); align-items: end; }
     .hero-inner { padding-block: 2.5rem; }
     .hero-panel { padding: 1.5rem; }
     .hero-actions { display: grid; grid-template-columns: 1fr; }

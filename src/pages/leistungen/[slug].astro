@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { withBase } from '../../lib/paths';
+import settings from '../../data/settings.json';
 
 export async function getStaticPaths() {
   const leistungen = await getCollection('leistungen');
@@ -14,10 +15,25 @@ const { leistung } = Astro.props;
 const { Content } = await render(leistung);
 const alle = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
 const weitere = alle.filter((item) => item.id !== leistung.id);
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: leistung.data.title,
+  serviceType: leistung.data.title,
+  description: leistung.data.metaDescription,
+  areaServed: settings.regionen,
+  provider: {
+    '@type': 'HomeAndConstructionBusiness',
+    '@id': 'https://wunschausbau.de/#business',
+    name: settings.firma
+  }
+};
 ---
 <Base
   title={`${leistung.data.title} | wunschausbau.de – Innenausbau Wittlich, Trier & Mosel`}
   description={leistung.data.metaDescription}
+  schema={serviceSchema}
 >
   <article>
     <section class="section detail-head">

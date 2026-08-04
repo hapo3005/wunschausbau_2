@@ -1,0 +1,55 @@
+---
+import settings from '../data/settings.json';
+---
+<div class="mobile-cta" role="region" aria-label="Schnellkontakt">
+  <a class="btn" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+    </svg>
+    <span>Anrufen</span>
+  </a>
+  <a class="btn btn--ghost" href={settings.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp-Nachricht schreiben">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.06 8.06 0 0 1 2.37 5.72c0 4.47-3.64 8.11-8.11 8.11a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.12.82.83-3.04-.19-.31a8.05 8.05 0 0 1-1.24-4.3c0-4.47 3.64-8.11 8.11-8.11Zm-3.2 4.03c-.15 0-.4.06-.61.29-.21.23-.8.79-.8 1.92 0 1.13.82 2.22.94 2.38.11.15 1.6 2.55 3.95 3.48.55.24.98.38 1.32.49.55.18 1.06.15 1.46.09.44-.07 1.36-.56 1.55-1.09.19-.53.19-.99.14-1.09-.06-.09-.21-.15-.44-.26-.23-.11-1.36-.67-1.57-.75-.21-.08-.36-.11-.52.12-.15.23-.59.75-.72.9-.13.15-.27.17-.5.06-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.47.1-.1.23-.27.34-.4.11-.13.15-.23.23-.38.08-.15.04-.29-.02-.4-.06-.12-.52-1.26-.72-1.72-.19-.45-.38-.39-.52-.4-.13-.01-.29-.01-.44-.01Z"/>
+    </svg>
+    <span>WhatsApp</span>
+  </a>
+</div>
+
+<style>
+  /* Persistenter Schnellkontakt – nur auf kleinen Viewports, wo Header-Telefon/CTA im Menü verschwinden. */
+  .mobile-cta { display: none; }
+
+  @media (max-width: 56rem) {
+    .mobile-cta {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 90;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+      padding: .6rem var(--pad-inline) calc(.6rem + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, .92);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 24px rgba(23, 24, 27, .08);
+      backdrop-filter: blur(12px) saturate(130%);
+    }
+
+    .mobile-cta .btn {
+      min-height: 3.25rem;
+      gap: .5rem;
+      padding-inline: 1rem;
+    }
+
+    .mobile-cta .btn svg { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; }
+  }
+</style>
+
+<style is:global>
+  @media (max-width: 56rem) {
+    /* Inhalt im normalen Fluss über der fixierten Leiste freihalten. */
+    body { padding-bottom: calc(var(--mobile-cta-h) + env(safe-area-inset-bottom)); }
+    /* Bei geöffnetem Mobilmenü die Leiste ausblenden (Backdrop deckt sonst nur teilweise ab). */
+    body.nav-open .mobile-cta { display: none; }
+  }
+</style>

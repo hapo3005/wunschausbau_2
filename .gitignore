@@ -1,0 +1,13 @@
+# Abhängigkeiten
+node_modules/
+
+# Build-Ausgabe
+dist/
+
+# Astro-Cache
+.astro/
+
+# System / Logs
+.DS_Store
+*.log
+npm-debug.log*

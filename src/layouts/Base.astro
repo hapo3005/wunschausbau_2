@@ -5,6 +5,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import MobileCta from '../components/MobileCta.astro';
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
 
@@ -47,6 +48,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <MobileCta />
     <script>
       const targets = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window) {

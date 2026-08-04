@@ -30,6 +30,7 @@
   --content-max: 75rem;
   --pad-inline: clamp(1.25rem, 4vw, 3rem);
   --header-height: 4.5rem;
+  --mobile-cta-h: 4.5rem;
 
   --radius: 2px;
   --radius-md: 4px;
