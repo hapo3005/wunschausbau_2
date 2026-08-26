@@ -7,6 +7,11 @@ dist/
 # Astro-Cache
 .astro/
 
+# Lokale Umgebungsvariablen / Secrets
+.env
+.env.*
+!.env.example
+
 # System / Logs
 .DS_Store
 *.log
