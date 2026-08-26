@@ -1,55 +1,165 @@
 ---
 import stimmen from '../data/kundenstimmen.json';
 import settings from '../data/settings.json';
+
+const [leitstimme, ...weitereStimmen] = stimmen;
 ---
-<section class="section section--dark" aria-labelledby="stimmen-titel">
+<section class="section section--dark testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap">
-    <p class="eyebrow">Kundenstimmen</p>
-    <h2 id="stimmen-titel">Zuverlässig, sauber und empfehlenswert.</h2>
-    <p class="lead">Bewertet mit {settings.stats.bewertung} bei Google.</p>
-    <div class="stimmen">
-      {stimmen.map((stimme, index) => (
-        <figure class="reveal" style={`--reveal-delay: ${index * 55}ms`}>
-          <blockquote>„{stimme.text}“</blockquote>
-          <figcaption>{stimme.name} · {stimme.ort}</figcaption>
-        </figure>
-      ))}
+    <div class="stimmen-head">
+      <div>
+        <p class="eyebrow">Kundenstimmen</p>
+        <h2 id="stimmen-titel">Weiterempfohlen, weil das Ergebnis stimmt.</h2>
+      </div>
+      <p class="rating"><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></p>
+    </div>
+
+    <div class="stimmen-layout">
+      <figure class="leitstimme reveal">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote>{leitstimme.text}</blockquote>
+        <figcaption>{leitstimme.name} · {leitstimme.ort}</figcaption>
+      </figure>
+
+      <div class="weitere-stimmen">
+        {weitereStimmen.map((stimme, index) => (
+          <figure class="stimme reveal" style={`--reveal-delay: ${(index + 1) * 70}ms`}>
+            <blockquote>„{stimme.text}“</blockquote>
+            <figcaption>{stimme.name} · {stimme.ort}</figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .stimmen {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-6);
+  .testimonials {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 18% 20%, rgba(185, 130, 47, .10), transparent 30rem),
+      var(--ink);
   }
-  figure {
+
+  .stimmen-head {
     display: grid;
-    min-width: 0;
-    margin: 0;
-    padding: clamp(1.75rem, 3vw, 2.5rem);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(2rem, 8vw, 8rem);
+  }
+
+  .stimmen-head h2 { max-width: 18ch; }
+
+  .rating {
+    display: grid;
+    min-width: 9rem;
+    gap: .25rem;
+    padding-bottom: .35rem;
+    text-align: right;
+  }
+
+  .rating strong {
+    color: var(--paper-inverse);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 560;
+    line-height: 1;
+  }
+
+  .rating span {
+    color: rgba(246, 244, 239, .58);
+    font-size: .75rem;
+    font-weight: 650;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .stimmen-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(20rem, .65fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    margin-top: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid rgba(246, 244, 239, .22);
+  }
+
+  figure { margin: 0; }
+
+  .leitstimme {
+    position: relative;
+    display: grid;
+    min-height: 24rem;
     align-content: space-between;
     gap: var(--space-4);
-    border: 1px solid rgba(246, 244, 239, .18);
-    border-radius: var(--radius);
-    background: rgba(246, 244, 239, .025);
+    padding: clamp(2rem, 5vw, 4.5rem) 0 0;
   }
-  blockquote {
+
+  .quote-mark {
+    position: absolute;
+    top: 1.1rem;
+    right: 0;
+    color: rgba(225, 187, 114, .16);
+    font-family: var(--font-display);
+    font-size: clamp(7rem, 14vw, 12rem);
+    line-height: .7;
+    pointer-events: none;
+  }
+
+  .leitstimme blockquote {
+    position: relative;
+    z-index: 1;
+    max-width: 20ch;
     margin: 0;
     font-family: var(--font-display);
-    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
-    line-height: 1.5;
+    font-size: clamp(2rem, 4.2vw, 3.8rem);
+    letter-spacing: -.025em;
+    line-height: 1.14;
   }
+
+  .weitere-stimmen {
+    display: grid;
+    align-content: start;
+  }
+
+  .stimme {
+    display: grid;
+    min-height: 12rem;
+    align-content: space-between;
+    gap: var(--space-3);
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-bottom: 1px solid rgba(246, 244, 239, .18);
+  }
+
+  .stimme:first-child { padding-top: clamp(2rem, 5vw, 4.5rem); }
+
+  .stimme blockquote {
+    margin: 0;
+    color: rgba(246, 244, 239, .82);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+    line-height: 1.48;
+  }
+
   figcaption {
     color: var(--brass);
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 650;
     letter-spacing: .04em;
   }
 
   @media (max-width: 56rem) {
-    .stimmen { grid-template-columns: 1fr; }
+    .stimmen-head,
+    .stimmen-layout { grid-template-columns: 1fr; }
+    .rating { text-align: left; }
+    .stimmen-layout { gap: 0; }
+    .leitstimme { min-height: 20rem; }
+    .weitere-stimmen { border-top: 1px solid rgba(246, 244, 239, .18); }
+    .stimme:first-child { padding-top: 2rem; }
+  }
+
+  @media (max-width: 36rem) {
+    .leitstimme { min-height: 17rem; }
+    .leitstimme blockquote { font-size: clamp(1.85rem, 9vw, 2.7rem); }
+    .quote-mark { right: -.25rem; }
   }
 </style>
