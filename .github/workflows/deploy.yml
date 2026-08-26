@@ -1,3 +1,4 @@
+# GitHub Pages deployment for the current KS release
 name: Deploy to GitHub Pages
 
 on:
