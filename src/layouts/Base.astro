@@ -7,6 +7,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/refinements.css';
 import '../styles/premium-fix.css';
+import '../styles/consumer-psychology.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCta from '../components/MobileCta.astro';
@@ -36,7 +37,7 @@ const shouldNoindex = noindex || isPreview;
     {shouldNoindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
-    <meta name="theme-color" content="#17181b" />
+    <meta name="theme-color" content="#fdfcf9" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={settings.marke} />
     <meta property="og:locale" content="de_DE" />
