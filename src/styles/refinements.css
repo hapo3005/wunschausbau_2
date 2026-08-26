@@ -1,11 +1,10 @@
-.service-index {
-  display: none !important;
-}
-
-/* Source Serif 4 needs less compression than the previous display face. */
-main .hero h1 {
-  letter-spacing: -0.024em !important;
-  line-height: .95 !important;
+/* Brand-level H1s use a distinctive grotesque; editorial warmth stays on H2/quotes. */
+main h1 {
+  font-family: var(--font-brand);
+  font-weight: 540;
+  font-variation-settings: "opsz" 78, "wdth" 93, "wght" 540;
+  letter-spacing: -0.042em;
+  line-height: .96;
 }
 
 main .statement-copy {
