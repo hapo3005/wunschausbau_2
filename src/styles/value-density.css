@@ -1,0 +1,156 @@
+/*
+  KS value-density pass
+  Premium is not empty space for its own sake. The page should show work, proof and useful information.
+*/
+
+/* Turn the oversized quote block into a compact visual brand proof. */
+.statement {
+  margin-top: -2.45rem !important;
+  padding-top: calc(var(--space-4) + 2.45rem) !important;
+  padding-bottom: var(--space-4) !important;
+  background: var(--sand) !important;
+}
+
+.statement-grid {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(18rem, .86fr) minmax(0, 1.14fr) !important;
+  grid-template-rows: auto auto;
+  min-height: clamp(22rem, 34vw, 28rem);
+  align-items: center !important;
+  gap: .9rem clamp(2.5rem, 6vw, 5.5rem) !important;
+  padding-block: 0 !important;
+}
+
+.statement-grid::before {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  width: 100%;
+  height: 100%;
+  min-height: clamp(22rem, 34vw, 28rem);
+  background:
+    linear-gradient(180deg, rgba(28,29,31,0), rgba(28,29,31,.08)),
+    url('../assets/service-interior.png') center 54% / cover no-repeat;
+  content: '';
+}
+
+.statement-kicker {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  max-width: 20rem !important;
+  margin: 0 0 .6rem !important;
+  padding-top: .8rem !important;
+  border-top: 1px solid var(--brass) !important;
+  color: var(--ink-soft) !important;
+  font-size: .76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .09em !important;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.statement-copy {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  max-width: 15ch !important;
+  margin: 0 !important;
+  font-family: var(--font-brand) !important;
+  font-size: clamp(2.3rem, 4vw, 3.75rem) !important;
+  font-weight: 600 !important;
+  line-height: .99 !important;
+  letter-spacing: -.025em !important;
+}
+
+/* Keep the following sections rich, but stop each one from becoming another full-screen manifesto. */
+.services-section {
+  padding-top: clamp(4.5rem, 7vw, 6.5rem) !important;
+  padding-bottom: clamp(4rem, 7vw, 6rem) !important;
+}
+
+.service-grid {
+  margin-top: clamp(2.75rem, 5vw, 4.25rem) !important;
+}
+
+.process-section {
+  padding-block: clamp(4.25rem, 7vw, 6rem) !important;
+}
+
+.process-wrap {
+  margin-top: clamp(2.5rem, 5vw, 4rem) !important;
+}
+
+.testimonials {
+  padding-block: clamp(4.25rem, 7vw, 6rem) !important;
+}
+
+.testimonials .stimmen-layout {
+  margin-top: clamp(2.75rem, 5vw, 4rem) !important;
+}
+
+.cta-section {
+  padding-block: clamp(4rem, 7vw, 6rem) !important;
+}
+
+/* More visible project photography, less decorative motion. */
+.services-section .service-card img {
+  filter: saturate(.99) contrast(1.01) brightness(1.015) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .services-section .service-card:hover img {
+    transform: scale(1.008) !important;
+    filter: saturate(1.01) contrast(1.015) brightness(1.015) !important;
+  }
+}
+
+@media (max-width: 56rem) {
+  .statement {
+    margin-top: -1.5rem !important;
+    padding-top: calc(var(--space-3) + 1.5rem) !important;
+  }
+
+  .statement-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: clamp(17rem, 52vw, 23rem) auto auto !important;
+    min-height: 0;
+    gap: 1rem !important;
+  }
+
+  .statement-grid::before {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+  }
+
+  .statement-kicker {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 1.25rem !important;
+  }
+
+  .statement-copy {
+    grid-column: 1;
+    grid-row: 3;
+    max-width: 18ch !important;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 36rem) {
+  .statement-grid {
+    grid-template-rows: 15rem auto auto !important;
+  }
+
+  .statement-copy {
+    font-size: clamp(2.1rem, 10vw, 3rem) !important;
+  }
+
+  .services-section,
+  .process-section,
+  .testimonials,
+  .cta-section {
+    padding-block: 3.75rem !important;
+  }
+}
