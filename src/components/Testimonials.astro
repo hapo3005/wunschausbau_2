@@ -14,11 +14,11 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     <header class="proof-head">
       <div class="proof-heading">
         <p class="eyebrow">Kundenstimmen</p>
-        <h2 id="stimmen-titel">Was Kunden an unserer Arbeit schätzen.</h2>
+        <h2 id="stimmen-titel">Was Kunden über uns sagen.</h2>
       </div>
 
       <div class="proof-head__side">
-        <p class="proof-intro">Saubere Ausführung, klare Absprachen und Räume, die auch nach der Übergabe überzeugen.</p>
+        <p class="proof-intro">Pünktlich sein, sauber arbeiten und Absprachen einhalten – darauf kommt es für uns an.</p>
         <div class="proof-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
           <strong>{bewertung}</strong>
           <span aria-hidden="true">★</span>
@@ -38,7 +38,7 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
           format="webp"
           loading="lazy"
         />
-        <figcaption><span>Innenausbau & Renovierung</span><strong>Raumwirkung im Detail</strong></figcaption>
+        <figcaption><span>Innenausbau & Renovierung</span><strong>Wohnraum</strong></figcaption>
       </figure>
 
       <figure class="project-image project-image--detail">
@@ -51,18 +51,18 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
           format="webp"
           loading="lazy"
         />
-        <figcaption><span>Material & Präzision</span><strong>Böden</strong></figcaption>
+        <figcaption><span>Bodenarbeiten</span><strong>Eichenparkett</strong></figcaption>
       </figure>
 
       <figure class="lead-review reveal">
-        <p class="review-label">Aus Kundensicht</p>
+        <p class="review-label">Kundenstimme</p>
         <blockquote>„{leitstimme.text}“</blockquote>
         <figcaption>
           <strong>{leitstimme.name}</strong>
           <span>{leitstimme.ort}</span>
         </figcaption>
         <a href={withBase('/referenzen/')} class="reference-link">
-          Arbeiten ansehen <span aria-hidden="true">→</span>
+          Weitere Arbeiten <span aria-hidden="true">→</span>
         </a>
       </figure>
     </div>
