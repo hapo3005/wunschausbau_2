@@ -2,6 +2,22 @@
   display: none !important;
 }
 
+/* Source Serif 4 needs less compression than the previous display face. */
+main .hero h1 {
+  letter-spacing: -0.024em !important;
+  line-height: .95 !important;
+}
+
+main .statement-copy {
+  letter-spacing: -0.018em !important;
+  line-height: 1.045 !important;
+}
+
+main .stats-grid strong {
+  font-weight: 560;
+  letter-spacing: -0.01em;
+}
+
 /* Keep paired service images visually level without adding decoration. */
 .services-section .service-card--1 img,
 .services-section .service-card--7 img {
@@ -34,6 +50,8 @@
 
 .services-section .service-body h3 {
   font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+  font-weight: 540;
+  letter-spacing: -0.01em;
 }
 
 .services-section .service-body p {
