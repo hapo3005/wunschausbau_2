@@ -1,13 +1,9 @@
-# GitHub Pages deployment for the current KS release
-# Temporary scheduled release; remove after the current deployment succeeds.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: '0 16 26 8 *'
 
 permissions:
   contents: read
