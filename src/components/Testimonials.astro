@@ -3,55 +3,56 @@ import { Image } from 'astro:assets';
 import stimmen from '../data/kundenstimmen.json';
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
-import proofImage from '../assets/service-doors-windows.png';
+import proofImage from '../assets/service-interior.png';
 
 const [leitstimme, ...weitereStimmen] = stimmen;
 const bewertung = settings.stats.bewertung.replace('★', '').trim();
 ---
 <section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
-    <header class="testimonials-head">
-      <div class="testimonials-title">
+    <header class="proof-head">
+      <div>
         <p class="eyebrow">Kundenstimmen</p>
-        <h2 id="stimmen-titel">Gute Arbeit zeigt sich im Ergebnis – und auf dem Weg dorthin.</h2>
+        <h2 id="stimmen-titel">Räume, die überzeugen. Arbeit, die weiterempfohlen wird.</h2>
       </div>
 
-      <div class="trust-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
-        <div class="trust-score__value"><strong>{bewertung}</strong><span aria-hidden="true">★</span></div>
-        <p>Google-Bewertung</p>
+      <div class="proof-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
+        <strong>{bewertung}</strong>
+        <span aria-hidden="true">★</span>
+        <small>Google-Bewertung</small>
       </div>
     </header>
 
-    <div class="proof-stage">
-      <div class="proof-media">
+    <div class="proof-visual">
+      <div class="proof-image">
         <Image
           src={proofImage}
-          alt="Hochwertig ausgeführter Innenausbau mit Türen und Fenstern"
-          widths={[640, 960, 1400]}
-          sizes="(max-width: 56rem) 100vw, 62vw"
-          quality={82}
+          alt="Hochwertig ausgeführter Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal"
+          widths={[720, 1080, 1600]}
+          sizes="(max-width: 56rem) 100vw, 72vw"
+          quality={84}
           format="webp"
         />
-        <div class="proof-media__label">
+        <div class="proof-caption">
           <span>Innenausbau & Renovierung</span>
           <strong>Wittlich · Trier · Mosel</strong>
         </div>
       </div>
 
       <figure class="featured-review reveal">
-        <p class="review-kicker">Aus Kundensicht</p>
+        <p class="review-label">Aus Kundensicht</p>
         <blockquote>„{leitstimme.text}“</blockquote>
         <figcaption>
           <strong>{leitstimme.name}</strong>
           <span>{leitstimme.ort}</span>
         </figcaption>
         <a href={withBase('/referenzen/')} class="reference-link">
-          Referenzen ansehen <span aria-hidden="true">→</span>
+          Arbeiten ansehen <span aria-hidden="true">→</span>
         </a>
       </figure>
     </div>
 
-    <div class="supporting-reviews" aria-label="Weitere Kundenstimmen">
+    <div class="review-strip" aria-label="Weitere Kundenstimmen">
       {weitereStimmen.map((stimme, index) => (
         <figure class="supporting-review reveal" style={`--reveal-delay: ${(index + 1) * 55}ms`}>
           <blockquote>„{stimme.text}“</blockquote>
@@ -67,7 +68,7 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 
 <style>
   .testimonials {
-    padding-block: clamp(4rem, 6.5vw, 6rem);
+    padding-block: clamp(4rem, 6vw, 5.75rem);
     color: var(--ink);
     background: var(--paper);
     border-block: 1px solid var(--line);
@@ -75,38 +76,35 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 
   .testimonials-inner {
     display: grid;
-    gap: clamp(2.5rem, 4.5vw, 4rem);
+    gap: clamp(2.4rem, 4.5vw, 3.75rem);
   }
 
-  .testimonials-head {
+  .proof-head {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
-    gap: clamp(2rem, 6vw, 6rem);
+    gap: clamp(2rem, 7vw, 7rem);
   }
 
-  .testimonials-title h2 {
-    max-width: 19ch;
+  .proof-head h2 {
+    max-width: 22ch;
     margin: 0;
-    font-size: clamp(2.15rem, 3.5vw, 3.35rem);
-    line-height: 1.01;
-    letter-spacing: -.024em;
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -.022em;
   }
 
-  .trust-score {
+  .proof-score {
     display: grid;
-    justify-items: end;
-    gap: .4rem;
-    padding-bottom: .15rem;
-  }
-
-  .trust-score__value {
-    display: flex;
+    grid-template-columns: auto auto;
     align-items: baseline;
-    gap: .45rem;
+    justify-content: end;
+    column-gap: .45rem;
+    padding-bottom: .2rem;
   }
 
-  .trust-score strong {
+  .proof-score strong {
     font-family: var(--font-brand);
     font-size: clamp(2rem, 3vw, 2.65rem);
     font-weight: 600;
@@ -114,93 +112,106 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     letter-spacing: -.025em;
   }
 
-  .trust-score__value span {
+  .proof-score > span {
     color: var(--brass-deep);
     font-size: .95rem;
   }
 
-  .trust-score p {
+  .proof-score small {
+    grid-column: 1 / -1;
+    margin-top: .55rem;
     color: var(--ink-muted);
-    font-size: .67rem;
+    font-size: .66rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
 
-  .proof-stage {
+  .proof-visual {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(20rem, .75fr);
-    min-height: clamp(27rem, 42vw, 36rem);
-    overflow: hidden;
-    background: var(--sand);
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 25rem);
+    align-items: center;
+    min-height: clamp(29rem, 45vw, 38rem);
   }
 
-  .proof-media {
+  .proof-image {
     position: relative;
-    min-height: 100%;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-height: clamp(29rem, 45vw, 38rem);
     overflow: hidden;
     background: var(--sand-deep);
   }
 
-  .proof-media :global(img) {
+  .proof-image :global(img) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-    filter: saturate(.98) contrast(1.01) brightness(1.02);
+    object-position: center 52%;
+    filter: saturate(.99) contrast(1.01) brightness(1.025);
   }
 
-  .proof-media::after {
+  .proof-image::after {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 58%, rgba(20,20,20,.28));
+    background: linear-gradient(180deg, transparent 66%, rgba(20,20,20,.24));
     content: '';
+    pointer-events: none;
   }
 
-  .proof-media__label {
+  .proof-caption {
     position: absolute;
     z-index: 2;
-    right: clamp(1.25rem, 2.5vw, 2rem);
-    bottom: clamp(1.2rem, 2.5vw, 2rem);
-    left: clamp(1.25rem, 2.5vw, 2rem);
+    right: clamp(1.25rem, 2.2vw, 2rem);
+    bottom: clamp(1.1rem, 2.2vw, 1.75rem);
+    left: clamp(1.25rem, 2.2vw, 2rem);
     display: flex;
-    align-items: flex-end;
+    align-items: end;
     justify-content: space-between;
     gap: 1.5rem;
     color: #fff;
     text-shadow: 0 1px 14px rgba(0,0,0,.2);
   }
 
-  .proof-media__label span {
-    font-size: .7rem;
+  .proof-caption span {
+    font-size: .67rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
 
-  .proof-media__label strong {
-    font-size: .82rem;
+  .proof-caption strong {
+    font-size: .8rem;
     font-weight: 600;
   }
 
   .featured-review {
+    position: relative;
+    z-index: 3;
+    grid-column: 2;
+    grid-row: 1;
     display: grid;
-    align-content: end;
-    gap: clamp(1.4rem, 3vw, 2.25rem);
-    margin: 0;
-    padding: clamp(2.2rem, 4.2vw, 4rem);
-    color: var(--paper-inverse);
-    background: var(--ink);
+    align-content: center;
+    gap: 1.5rem;
+    min-height: clamp(22rem, 32vw, 29rem);
+    margin: 0 clamp(1.25rem, 2.7vw, 2.5rem) 0 0;
+    padding: clamp(2rem, 3.8vw, 3.4rem);
+    color: var(--ink);
+    background: rgba(253,252,249,.965);
+    border: 1px solid rgba(255,255,255,.72);
+    box-shadow: 0 1.5rem 4rem rgba(20,20,20,.14);
+    backdrop-filter: blur(14px);
   }
 
-  .review-kicker {
+  .review-label {
     width: fit-content;
-    padding-top: .75rem;
+    padding-top: .7rem;
     border-top: 1px solid var(--brass);
-    color: rgba(248,246,241,.58);
-    font-size: .68rem;
+    color: var(--brass-deep);
+    font-size: .67rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -210,10 +221,10 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     max-width: 22ch;
     margin: 0;
     font-family: var(--font-text);
-    font-size: clamp(1.45rem, 2.15vw, 2rem);
+    font-size: clamp(1.35rem, 1.9vw, 1.78rem);
     font-weight: 430;
-    line-height: 1.43;
-    letter-spacing: -.015em;
+    line-height: 1.46;
+    letter-spacing: -.014em;
   }
 
   figcaption {
@@ -221,15 +232,12 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     flex-wrap: wrap;
     align-items: baseline;
     gap: .4rem .65rem;
-    font-size: .8rem;
-  }
-
-  .featured-review figcaption {
-    color: rgba(248,246,241,.62);
+    color: var(--ink-soft);
+    font-size: .78rem;
   }
 
   figcaption strong {
-    color: inherit;
+    color: var(--ink);
     font-weight: 600;
   }
 
@@ -244,27 +252,30 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     width: fit-content;
     align-items: center;
     gap: .55rem;
-    padding-bottom: .3rem;
-    border-bottom: 1px solid rgba(248,246,241,.48);
-    color: var(--paper-inverse);
-    font-size: .88rem;
+    margin-top: .25rem;
+    padding-bottom: .28rem;
+    border-bottom: 1px solid rgba(28,29,31,.55);
+    color: var(--ink);
+    font-size: .86rem;
     font-weight: 600;
     text-decoration: none;
     transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
   }
 
-  .supporting-reviews {
+  .review-strip {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2rem, 5vw, 5rem);
+    gap: clamp(2.5rem, 6vw, 6rem);
   }
 
   .supporting-review {
     display: grid;
-    gap: 1.3rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1.25rem 2rem;
     margin: 0;
-    padding-top: clamp(1.5rem, 2.5vw, 2rem);
-    border-top: 1px solid rgba(28,29,31,.18);
+    padding-top: 1.55rem;
+    border-top: 1px solid rgba(28,29,31,.17);
   }
 
   .supporting-review blockquote {
@@ -272,81 +283,110 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     margin: 0;
     color: var(--ink-soft);
     font-family: var(--font-text);
-    font-size: clamp(1rem, 1.22vw, 1.14rem);
+    font-size: clamp(.98rem, 1.1vw, 1.08rem);
     font-weight: 430;
-    line-height: 1.62;
-    letter-spacing: -.006em;
+    line-height: 1.58;
+    letter-spacing: -.005em;
   }
 
   .supporting-review figcaption {
-    color: var(--ink-soft);
-  }
-
-  .supporting-review figcaption strong {
-    color: var(--ink);
+    justify-content: end;
+    white-space: nowrap;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .reference-link:hover {
       gap: .8rem;
-      color: var(--brass);
-      border-color: var(--brass);
+      color: var(--brass-deep);
+      border-color: var(--brass-deep);
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .featured-review {
+      margin-right: 1.25rem;
+    }
+
+    .supporting-review {
+      grid-template-columns: 1fr;
+    }
+
+    .supporting-review figcaption {
+      justify-content: start;
     }
   }
 
   @media (max-width: 56rem) {
-    .testimonials-head,
-    .proof-stage {
+    .proof-head {
       grid-template-columns: 1fr;
-    }
-
-    .testimonials-head {
       align-items: start;
-      gap: 1.5rem;
+      gap: 1.4rem;
     }
 
-    .trust-score {
-      justify-items: start;
+    .proof-score {
+      justify-content: start;
     }
 
-    .proof-stage {
+    .proof-visual {
+      display: grid;
+      grid-template-columns: 1fr;
       min-height: 0;
+      gap: 0;
     }
 
-    .proof-media {
-      min-height: clamp(20rem, 58vw, 28rem);
+    .proof-image,
+    .featured-review {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .proof-image {
+      min-height: clamp(20rem, 60vw, 28rem);
     }
 
     .featured-review {
-      padding: 2.25rem;
+      min-height: 0;
+      margin: 0;
+      padding: 2.1rem;
+      border-top: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .featured-review blockquote {
+      max-width: 32ch;
     }
   }
 
   @media (max-width: 40rem) {
-    .supporting-reviews {
+    .review-strip {
       grid-template-columns: 1fr;
-      gap: 1.75rem;
+      gap: 1.8rem;
     }
 
-    .proof-media__label {
+    .proof-caption {
       display: grid;
       justify-content: start;
-      gap: .35rem;
+      gap: .3rem;
     }
   }
 
   @media (max-width: 36rem) {
     .testimonials {
-      padding-block: 3.75rem;
+      padding-block: 3.6rem;
     }
 
-    .testimonials-title h2 {
-      max-width: 16ch;
-      font-size: clamp(2.05rem, 9vw, 2.8rem);
+    .proof-head h2 {
+      max-width: 18ch;
+      font-size: clamp(1.95rem, 8.8vw, 2.65rem);
+    }
+
+    .featured-review {
+      padding: 1.75rem 1.5rem;
     }
 
     .featured-review blockquote {
-      font-size: clamp(1.3rem, 6vw, 1.65rem);
+      font-size: clamp(1.2rem, 5.8vw, 1.5rem);
     }
   }
 </style>
