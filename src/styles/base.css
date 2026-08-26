@@ -10,6 +10,7 @@ body {
   overflow-x: clip;
   font-family: var(--font-text);
   font-size: var(--text-base);
+  font-weight: 400;
   line-height: var(--leading);
   color: var(--ink);
   background: var(--paper);
@@ -21,9 +22,9 @@ main { isolation: isolate; }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 560;
+  font-weight: 520;
   line-height: 1.08;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.014em;
   text-wrap: balance;
 }
 
@@ -78,9 +79,9 @@ button, input, textarea, select { font: inherit; }
   gap: .75rem;
   margin-bottom: var(--space-2);
   color: var(--brass-deep);
-  font-size: var(--text-sm);
-  font-weight: 650;
-  letter-spacing: .1em;
+  font-size: .82rem;
+  font-weight: 680;
+  letter-spacing: .095em;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -98,8 +99,9 @@ button, input, textarea, select { font: inherit; }
   max-width: 62ch;
   margin-top: var(--space-2);
   color: var(--ink-soft);
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  line-height: 1.65;
+  font-size: clamp(1.04rem, 1.45vw, 1.18rem);
+  font-weight: 420;
+  line-height: 1.68;
 }
 
 .section--dark .lead { color: rgba(246, 244, 239, .76); }
@@ -115,8 +117,9 @@ button, input, textarea, select { font: inherit; }
   border-radius: var(--radius);
   color: var(--paper-inverse);
   background: var(--ink);
-  font-size: var(--text-base);
+  font-size: .96rem;
   font-weight: 650;
+  letter-spacing: -.01em;
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
