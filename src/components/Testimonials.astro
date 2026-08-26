@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import stimmen from '../data/kundenstimmen.json';
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
-import proofImage from '../assets/service-interior.png';
+import interior from '../assets/service-interior.png';
+import floors from '../assets/service-floors.png';
 
 const [leitstimme, ...weitereStimmen] = stimmen;
 const bewertung = settings.stats.bewertung.replace('★', '').trim();
@@ -11,35 +12,49 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 <section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
     <header class="proof-head">
-      <div>
+      <div class="proof-heading">
         <p class="eyebrow">Kundenstimmen</p>
-        <h2 id="stimmen-titel">Räume, die überzeugen. Arbeit, die weiterempfohlen wird.</h2>
+        <h2 id="stimmen-titel">Was Kunden an unserer Arbeit schätzen.</h2>
       </div>
 
-      <div class="proof-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
-        <strong>{bewertung}</strong>
-        <span aria-hidden="true">★</span>
-        <small>Google-Bewertung</small>
+      <div class="proof-head__side">
+        <p class="proof-intro">Saubere Ausführung, klare Absprachen und Räume, die auch nach der Übergabe überzeugen.</p>
+        <div class="proof-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
+          <strong>{bewertung}</strong>
+          <span aria-hidden="true">★</span>
+          <small>Google-Bewertung</small>
+        </div>
       </div>
     </header>
 
-    <div class="proof-visual">
-      <div class="proof-image">
+    <div class="editorial-proof">
+      <figure class="project-image project-image--main">
         <Image
-          src={proofImage}
+          src={interior}
           alt="Hochwertig ausgeführter Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal"
           widths={[720, 1080, 1600]}
-          sizes="(max-width: 56rem) 100vw, 72vw"
+          sizes="(max-width: 56rem) 100vw, 68vw"
+          quality={85}
+          format="webp"
+          loading="lazy"
+        />
+        <figcaption><span>Innenausbau & Renovierung</span><strong>Raumwirkung im Detail</strong></figcaption>
+      </figure>
+
+      <figure class="project-image project-image--detail">
+        <Image
+          src={floors}
+          alt="Hochwertig verlegter Eichenparkettboden"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 56rem) 50vw, 28vw"
           quality={84}
           format="webp"
+          loading="lazy"
         />
-        <div class="proof-caption">
-          <span>Innenausbau & Renovierung</span>
-          <strong>Wittlich · Trier · Mosel</strong>
-        </div>
-      </div>
+        <figcaption><span>Material & Präzision</span><strong>Böden</strong></figcaption>
+      </figure>
 
-      <figure class="featured-review reveal">
+      <figure class="lead-review reveal">
         <p class="review-label">Aus Kundensicht</p>
         <blockquote>„{leitstimme.text}“</blockquote>
         <figcaption>
@@ -52,7 +67,7 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
       </figure>
     </div>
 
-    <div class="review-strip" aria-label="Weitere Kundenstimmen">
+    <div class="supporting-proof" aria-label="Weitere Kundenstimmen">
       {weitereStimmen.map((stimme, index) => (
         <figure class="supporting-review reveal" style={`--reveal-delay: ${(index + 1) * 55}ms`}>
           <blockquote>„{stimme.text}“</blockquote>
@@ -68,7 +83,7 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 
 <style>
   .testimonials {
-    padding-block: clamp(4rem, 6vw, 5.75rem);
+    padding-block: clamp(4.5rem, 7vw, 6.5rem);
     color: var(--ink);
     background: var(--paper);
     border-block: 1px solid var(--line);
@@ -76,23 +91,38 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 
   .testimonials-inner {
     display: grid;
-    gap: clamp(2.4rem, 4.5vw, 3.75rem);
+    gap: clamp(2.75rem, 5vw, 4.5rem);
   }
 
   .proof-head {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1.1fr) minmax(20rem, .72fr);
     align-items: end;
-    gap: clamp(2rem, 7vw, 7rem);
+    gap: clamp(2.5rem, 8vw, 8rem);
   }
 
-  .proof-head h2 {
-    max-width: 22ch;
+  .proof-heading h2 {
+    max-width: 17ch;
     margin: 0;
-    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-size: clamp(2.15rem, 3.7vw, 3.55rem);
     font-weight: 600;
-    line-height: 1.04;
-    letter-spacing: -.022em;
+    line-height: 1.01;
+    letter-spacing: -.025em;
+  }
+
+  .proof-head__side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: .15rem;
+  }
+
+  .proof-intro {
+    max-width: 29rem;
+    color: var(--ink-soft);
+    font-size: .96rem;
+    line-height: 1.68;
   }
 
   .proof-score {
@@ -100,13 +130,13 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     grid-template-columns: auto auto;
     align-items: baseline;
     justify-content: end;
-    column-gap: .45rem;
-    padding-bottom: .2rem;
+    column-gap: .42rem;
+    white-space: nowrap;
   }
 
   .proof-score strong {
     font-family: var(--font-brand);
-    font-size: clamp(2rem, 3vw, 2.65rem);
+    font-size: clamp(1.8rem, 2.7vw, 2.45rem);
     font-weight: 600;
     line-height: .9;
     letter-spacing: -.025em;
@@ -114,135 +144,150 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
 
   .proof-score > span {
     color: var(--brass-deep);
-    font-size: .95rem;
+    font-size: .9rem;
   }
 
   .proof-score small {
     grid-column: 1 / -1;
-    margin-top: .55rem;
+    margin-top: .48rem;
     color: var(--ink-muted);
-    font-size: .66rem;
+    font-size: .63rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
 
-  .proof-visual {
-    position: relative;
+  .editorial-proof {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(17rem, 25rem);
-    align-items: center;
-    min-height: clamp(29rem, 45vw, 38rem);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: minmax(14rem, 1fr) minmax(14rem, .92fr);
+    gap: clamp(.75rem, 1.25vw, 1.15rem);
+    min-height: clamp(34rem, 49vw, 43rem);
   }
 
-  .proof-image {
+  .project-image,
+  .lead-review {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .project-image {
     position: relative;
-    grid-column: 1 / -1;
-    grid-row: 1;
-    min-height: clamp(29rem, 45vw, 38rem);
     overflow: hidden;
     background: var(--sand-deep);
   }
 
-  .proof-image :global(img) {
+  .project-image--main {
+    grid-column: 1 / span 8;
+    grid-row: 1 / span 2;
+  }
+
+  .project-image--detail {
+    grid-column: 9 / span 4;
+    grid-row: 1;
+  }
+
+  .project-image :global(img) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 52%;
     filter: saturate(.99) contrast(1.01) brightness(1.025);
   }
 
-  .proof-image::after {
+  .project-image--main :global(img) {
+    object-position: center 52%;
+  }
+
+  .project-image--detail :global(img) {
+    object-position: center 58%;
+  }
+
+  .project-image::after {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 66%, rgba(20,20,20,.24));
+    background: linear-gradient(180deg, transparent 68%, rgba(18,18,18,.26));
     content: '';
     pointer-events: none;
   }
 
-  .proof-caption {
+  .project-image > figcaption {
     position: absolute;
     z-index: 2;
-    right: clamp(1.25rem, 2.2vw, 2rem);
-    bottom: clamp(1.1rem, 2.2vw, 1.75rem);
-    left: clamp(1.25rem, 2.2vw, 2rem);
+    right: clamp(1rem, 2vw, 1.6rem);
+    bottom: clamp(.95rem, 2vw, 1.45rem);
+    left: clamp(1rem, 2vw, 1.6rem);
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1rem;
     color: #fff;
-    text-shadow: 0 1px 14px rgba(0,0,0,.2);
+    text-shadow: 0 1px 12px rgba(0,0,0,.22);
   }
 
-  .proof-caption span {
-    font-size: .67rem;
+  .project-image > figcaption span {
+    font-size: .65rem;
     font-weight: 600;
-    letter-spacing: .1em;
+    letter-spacing: .09em;
     text-transform: uppercase;
   }
 
-  .proof-caption strong {
-    font-size: .8rem;
+  .project-image > figcaption strong {
+    font-size: .76rem;
     font-weight: 600;
   }
 
-  .featured-review {
-    position: relative;
-    z-index: 3;
-    grid-column: 2;
-    grid-row: 1;
+  .lead-review {
+    grid-column: 9 / span 4;
+    grid-row: 2;
     display: grid;
     align-content: center;
-    gap: 1.5rem;
-    min-height: clamp(22rem, 32vw, 29rem);
-    margin: 0 clamp(1.25rem, 2.7vw, 2.5rem) 0 0;
-    padding: clamp(2rem, 3.8vw, 3.4rem);
-    color: var(--ink);
-    background: rgba(253,252,249,.965);
-    border: 1px solid rgba(255,255,255,.72);
-    box-shadow: 0 1.5rem 4rem rgba(20,20,20,.14);
-    backdrop-filter: blur(14px);
+    gap: clamp(1rem, 2vw, 1.55rem);
+    padding: clamp(1.7rem, 3vw, 2.6rem);
+    background: #f2eee6;
   }
 
   .review-label {
     width: fit-content;
-    padding-top: .7rem;
+    padding-top: .65rem;
     border-top: 1px solid var(--brass);
     color: var(--brass-deep);
-    font-size: .67rem;
+    font-size: .65rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
 
-  .featured-review blockquote {
-    max-width: 22ch;
+  .lead-review blockquote {
+    max-width: 24ch;
     margin: 0;
     font-family: var(--font-text);
-    font-size: clamp(1.35rem, 1.9vw, 1.78rem);
+    font-size: clamp(1.3rem, 1.8vw, 1.68rem);
     font-weight: 430;
-    line-height: 1.46;
-    letter-spacing: -.014em;
+    line-height: 1.48;
+    letter-spacing: -.012em;
   }
 
-  figcaption {
+  .lead-review figcaption,
+  .supporting-review figcaption {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: .4rem .65rem;
+    gap: .35rem .6rem;
     color: var(--ink-soft);
     font-size: .78rem;
   }
 
-  figcaption strong {
+  .lead-review figcaption strong,
+  .supporting-review figcaption strong {
     color: var(--ink);
     font-weight: 600;
   }
 
-  figcaption span::before {
-    margin-right: .65rem;
+  .lead-review figcaption span::before,
+  .supporting-review figcaption span::before {
+    margin-right: .6rem;
     color: var(--brass);
     content: '·';
   }
@@ -251,142 +296,155 @@ const bewertung = settings.stats.bewertung.replace('★', '').trim();
     display: inline-flex;
     width: fit-content;
     align-items: center;
-    gap: .55rem;
+    gap: .5rem;
     margin-top: .25rem;
-    padding-bottom: .28rem;
-    border-bottom: 1px solid rgba(28,29,31,.55);
+    padding-bottom: .25rem;
+    border-bottom: 1px solid rgba(28,29,31,.52);
     color: var(--ink);
-    font-size: .86rem;
+    font-size: .84rem;
     font-weight: 600;
     text-decoration: none;
     transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
   }
 
-  .review-strip {
+  .supporting-proof {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2.5rem, 6vw, 6rem);
+    gap: clamp(2.5rem, 7vw, 7rem);
   }
 
   .supporting-review {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 1.25rem 2rem;
+    gap: 1.15rem;
     margin: 0;
-    padding-top: 1.55rem;
-    border-top: 1px solid rgba(28,29,31,.17);
+    padding-top: clamp(1.4rem, 2.2vw, 1.9rem);
+    border-top: 1px solid rgba(28,29,31,.18);
   }
 
   .supporting-review blockquote {
-    max-width: 38ch;
+    max-width: 42ch;
     margin: 0;
     color: var(--ink-soft);
     font-family: var(--font-text);
-    font-size: clamp(.98rem, 1.1vw, 1.08rem);
+    font-size: clamp(.98rem, 1.14vw, 1.08rem);
     font-weight: 430;
-    line-height: 1.58;
-    letter-spacing: -.005em;
-  }
-
-  .supporting-review figcaption {
-    justify-content: end;
-    white-space: nowrap;
+    line-height: 1.62;
+    letter-spacing: -.004em;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .reference-link:hover {
-      gap: .8rem;
+      gap: .75rem;
       color: var(--brass-deep);
       border-color: var(--brass-deep);
     }
   }
 
   @media (max-width: 64rem) {
-    .featured-review {
-      margin-right: 1.25rem;
+    .proof-head {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, .8fr);
+      gap: 3rem;
     }
 
-    .supporting-review {
+    .proof-head__side {
       grid-template-columns: 1fr;
+      gap: 1.2rem;
     }
 
-    .supporting-review figcaption {
-      justify-content: start;
-    }
+    .proof-score { justify-content: start; }
   }
 
   @media (max-width: 56rem) {
     .proof-head {
       grid-template-columns: 1fr;
       align-items: start;
-      gap: 1.4rem;
+      gap: 1.5rem;
     }
 
-    .proof-score {
-      justify-content: start;
+    .proof-head__side {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 1.5rem;
     }
 
-    .proof-visual {
-      display: grid;
-      grid-template-columns: 1fr;
+    .editorial-proof {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: clamp(22rem, 62vw, 30rem) minmax(15rem, auto);
       min-height: 0;
-      gap: 0;
     }
 
-    .proof-image,
-    .featured-review {
+    .project-image--main {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    .project-image--detail {
       grid-column: 1;
-      grid-row: auto;
+      grid-row: 2;
+      min-height: 16rem;
     }
 
-    .proof-image {
-      min-height: clamp(20rem, 60vw, 28rem);
-    }
-
-    .featured-review {
-      min-height: 0;
-      margin: 0;
-      padding: 2.1rem;
-      border-top: 0;
-      box-shadow: none;
-      backdrop-filter: none;
-    }
-
-    .featured-review blockquote {
-      max-width: 32ch;
+    .lead-review {
+      grid-column: 2;
+      grid-row: 2;
+      min-height: 16rem;
     }
   }
 
   @media (max-width: 40rem) {
-    .review-strip {
+    .proof-head__side {
       grid-template-columns: 1fr;
-      gap: 1.8rem;
+      align-items: start;
     }
 
-    .proof-caption {
+    .editorial-proof {
+      grid-template-columns: 1fr;
+      grid-template-rows: 18rem auto 13rem;
+      gap: .75rem;
+    }
+
+    .project-image--main {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .lead-review {
+      grid-column: 1;
+      grid-row: 2;
+      min-height: 0;
+      padding: 1.6rem;
+    }
+
+    .project-image--detail {
+      grid-column: 1;
+      grid-row: 3;
+      min-height: 13rem;
+    }
+
+    .supporting-proof {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+    }
+
+    .project-image > figcaption {
       display: grid;
       justify-content: start;
-      gap: .3rem;
+      gap: .25rem;
     }
   }
 
   @media (max-width: 36rem) {
     .testimonials {
-      padding-block: 3.6rem;
+      padding-block: 3.75rem;
     }
 
-    .proof-head h2 {
-      max-width: 18ch;
-      font-size: clamp(1.95rem, 8.8vw, 2.65rem);
+    .proof-heading h2 {
+      max-width: 15ch;
+      font-size: clamp(2rem, 9vw, 2.7rem);
     }
 
-    .featured-review {
-      padding: 1.75rem 1.5rem;
-    }
-
-    .featured-review blockquote {
-      font-size: clamp(1.2rem, 5.8vw, 1.5rem);
+    .lead-review blockquote {
+      font-size: 1.22rem;
     }
   }
 </style>
