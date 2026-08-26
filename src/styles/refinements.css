@@ -166,9 +166,9 @@ main .statement-copy {
 }
 
 main .stats-grid strong {
-  font-family: var(--font-brand);
-  font-weight: 650;
-  letter-spacing: -0.025em;
+  font-family: var(--font-brand) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.025em !important;
 }
 
 /* Keep paired service images visually level without adding decoration. */
@@ -202,10 +202,10 @@ main .stats-grid strong {
 }
 
 .services-section .service-body h3 {
-  font-family: var(--font-brand);
+  font-family: var(--font-brand) !important;
   font-size: clamp(1.35rem, 1.8vw, 1.7rem);
-  font-weight: 620;
-  letter-spacing: -0.025em;
+  font-weight: 620 !important;
+  letter-spacing: -0.025em !important;
 }
 
 .services-section .service-body p {
