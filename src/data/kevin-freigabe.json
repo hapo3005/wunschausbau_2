@@ -1,0 +1,197 @@
+[
+  {
+    "nr": "01",
+    "titel": "Name & Kontakt",
+    "typ": "belegt + bestätigen",
+    "ziel": "Ein einziger, überall identischer öffentlicher Auftritt.",
+    "empfehlung": [
+      "Öffentlicher Name: KS-Innenausbau",
+      "Inhaber/Fachidentität: Kevin Schmieding · Bauschreiner aus Wittlich",
+      "Telefon: +49 151 53264522",
+      "E-Mail: kontakt@wunschausbau.de",
+      "Website: wunschausbau.de",
+      "Rechtliche Firmierung/Rechtsform separat erfassen; nicht in den Google-Namen hineinoptimieren."
+    ],
+    "frage": "Passt dieses öffentliche Zielbild? Kevin ergänzt nur Rechtsform/Firmierung und bestätigt, ob die Mobilnummer auch für WhatsApp-Kundenkontakt genutzt werden soll.",
+    "stop": "Nicht weiter, solange öffentlicher Name oder rechtliche Firmierung unklar sind."
+  },
+  {
+    "nr": "02",
+    "titel": "Standortmodell",
+    "typ": "Entscheidung",
+    "ziel": "Google bekommt exakt das reale Geschäftsmodell – ohne Ranking-Trick.",
+    "empfehlung": [
+      "Wenn Kunden an Förbeltstraße 1 regulär während der Geschäftszeiten empfangen werden und der Betrieb dort erkennbar ist: Standort/Hybrid, Adresse sichtbar.",
+      "Wenn dort kein regulärer Kundenempfang stattfindet: Service-Area-Betrieb, Adresse im Google-Profil ausblenden.",
+      "Die Anschrift bleibt unabhängig davon für rechtlich notwendige Angaben korrekt dokumentiert."
+    ],
+    "frage": "Kevin muss nur eine Tatsache beantworten: Werden dort regulär Kunden empfangen – ja oder nein?",
+    "stop": "Ohne diese Antwort weder Google-Adresse noch LocalBusiness-Adressschema final ändern."
+  },
+  {
+    "nr": "03",
+    "titel": "Öffnungszeiten",
+    "typ": "Startvorschlag",
+    "ziel": "Nur Zeiten veröffentlichen, in denen Kunden KS verlässlich erreichen können.",
+    "empfehlung": [
+      "Aktueller öffentlicher Ausgangswert: Montag bis Samstag 08:00–18:00 Uhr.",
+      "Sonntag: geschlossen, sofern Kevin nichts anderes bestätigt.",
+      "Keine Baustellen-Arbeitszeiten als Öffnungszeiten verwenden, wenn Telefon/Anfragen dann nicht verlässlich betreut werden."
+    ],
+    "frage": "Sind Mo–Sa 08:00–18:00 Uhr als echte Kunden-Erreichbarkeit korrekt? Wenn nein, nur die abweichenden Zeiten notieren.",
+    "stop": "Keine geschätzten oder nur theoretischen Öffnungszeiten veröffentlichen."
+  },
+  {
+    "nr": "04",
+    "titel": "Einsatzgebiet",
+    "typ": "Startvorschlag",
+    "ziel": "Ein realistisches Kerngebiet statt einer künstlich großen Karte.",
+    "empfehlung": [
+      "Kernkommunikation: Wittlich · Trier · Moselregion.",
+      "Google-Servicegebiete nur für Orte/Regionen hinterlegen, die KS regelmäßig tatsächlich anfährt.",
+      "Keine weit entfernten Städte nur für zusätzliche Keywords aufnehmen.",
+      "Für die Website bleibt regionale Relevanz wichtiger als eine lange Ortsliste."
+    ],
+    "frage": "Kevin bestätigt das Kerngebiet und nennt nur Abweichungen bzw. weitere regelmäßig bediente Orte sowie seine normale maximale Fahrstrecke.",
+    "stop": "Keine Orte als Servicegebiet aufnehmen, die nur ausnahmsweise bedient werden."
+  },
+  {
+    "nr": "05",
+    "titel": "Leistungen",
+    "typ": "klare Empfehlung",
+    "ziel": "KS als hochwertiger Innenausbauer positionieren – nicht als beliebiger Allrounder.",
+    "empfehlung": [
+      "KERN: Innenausbau & Komplettrenovierung",
+      "KERN: Bodenverlegung & Bodenreparatur",
+      "KERN: Innentüren",
+      "KERN: Fenster & Außentüren",
+      "KERN: Trockenbau",
+      "KERN: Sonnenschutz / Rollläden / Jalousien, sofern aktiv angeboten",
+      "KERN: Holzterrassen",
+      "NUR NACH BESTÄTIGUNG: Küchen- und Möbelmontage, Treppenaufarbeitung",
+      "NICHT AKTIV BEWERBEN: Hausmeisterservice und Garten-/Landschaftsbau, außer Kevin will diese Gewerke ausdrücklich strategisch weiterführen."
+    ],
+    "frage": "Idealfall: Kevin sagt nur 'passt'. Abweichende Leistungen werden als Kernleistung, gelegentlich oder nicht mehr aktiv bewerben markiert.",
+    "stop": "Google, Website und MyHammer erst synchronisieren, wenn die Leistungsmatrix final ist."
+  },
+  {
+    "nr": "06",
+    "titel": "Aussagen & Fakten",
+    "typ": "Risikobereinigung",
+    "ziel": "Starke Aussagen ja – aber nur belegbar und glaubwürdig.",
+    "empfehlung": [
+      "BEHALTEN: Bauschreiner / handwerkliche Fachidentität, weil öffentlich belegt.",
+      "BEHALTEN: 5,0-Sterne-Kommunikation nur dort, wo die aktuelle Quelle eindeutig genannt bzw. technisch aktuell gehalten wird.",
+      "VORERST NICHT VERWENDEN: '500+ Projekte', bis Kevin die Zahl belastbar bestätigt.",
+      "VORERST NICHT VERWENDEN: 'Rückmeldung innerhalb 24 h', bis Kevin die Zusage real einhalten kann.",
+      "NICHT ALS MARKE: 'unschlagbarer Preis', 'bester Preis', 'Preise, die begeistern'.",
+      "ZIELSPRACHE: saubere Ausführung · persönliche Abstimmung · handwerkliche Präzision · zuverlässig · regional."
+    ],
+    "frage": "Kevin bestätigt oder korrigiert nur 500+, 24-h-Rückmeldung, Berufserfahrung/Qualifikationen und weitere konkrete Leistungsversprechen.",
+    "stop": "Unbestätigte Zahlen oder Garantien nicht live stellen."
+  },
+  {
+    "nr": "07",
+    "titel": "Recht",
+    "typ": "Pflichtdaten",
+    "ziel": "Keine Platzhalter mehr beim Produktionslaunch.",
+    "empfehlung": [
+      "Vollständige rechtliche Firmierung und Rechtsform",
+      "ladungsfähige Anschrift",
+      "vertretungsberechtigte Person, falls erforderlich",
+      "USt-IdNr. / Steuernummer nur soweit rechtlich für die Veröffentlichung erforderlich",
+      "zuständige Kammer / Berufsbezeichnung / berufsrechtliche Angaben, soweit anwendbar",
+      "vorhandene Datenschutz- und AGB-Unterlagen mitbringen; Rechtstexte nicht erfinden."
+    ],
+    "frage": "Kevin liefert die vorhandenen Stammdaten/Unterlagen. Alles, was fehlt oder rechtlich unsicher ist, bleibt Launch-Gate statt geraten zu werden.",
+    "stop": "Produktionslaunch nicht mit roten Rechtstext-Platzhaltern freigeben."
+  },
+  {
+    "nr": "08",
+    "titel": "Beweise: Fotos & Stimmen",
+    "typ": "kuratierter Plan",
+    "ziel": "Echte Arbeit wird zum stärksten Vertrauenssignal auf Website und Google.",
+    "empfehlung": [
+      "Startset: 18–24 Originalfotos in hoher Auflösung.",
+      "2–3 starke fertige Räume / Hero-Motive",
+      "3 Boden-Projekte oder Details",
+      "3 Türen-/Fenster-Projekte",
+      "3 Trockenbau-/Renovierungsprojekte",
+      "2 Sonnenschutz-/Terrassenmotive, sofern repräsentativ",
+      "2–3 handwerkliche Detail-/Arbeitssituationen",
+      "2 Vorher/Nachher-Paare",
+      "Aktuelle Testimonials nur verwenden, wenn echt und zur Veröffentlichung freigegeben."
+    ],
+    "frage": "Kevin wählt mit uns die echten Bilder aus und bestätigt vorhandene Kundenstimmen. Fehlende Kategorien werden als Foto-Wunschliste notiert.",
+    "stop": "Keine erfundenen Referenzen und keine fremden/unklar lizenzierten Projektbilder als eigene Arbeit darstellen."
+  },
+  {
+    "nr": "09",
+    "titel": "Kontozugriffe",
+    "typ": "Termin-Check",
+    "ziel": "Nach dem Gespräch nicht wegen Login-Problemen stehen bleiben.",
+    "empfehlung": [
+      "Google-Konto mit Eigentümer-/Managerzugriff auf KS-Innenausbau",
+      "MyHammer-Konto",
+      "offizielles Instagram-Konto",
+      "Domain/DNS-Zugang für wunschausbau.de, sofern verfügbar",
+      "Google Search Console prüfen, falls bereits eingerichtet",
+      "Kevin meldet sich selbst an; keine Passwörter weitergeben oder dokumentieren."
+    ],
+    "frage": "Einfach abhaken, welche Zugriffe funktionieren. Fehlende Zugriffe konkret mit nächstem Besitzer/Schritt notieren.",
+    "stop": "Keine kritische Konto- oder DNS-Änderung durchführen, solange Eigentum/Zugriff unklar ist."
+  },
+  {
+    "nr": "10",
+    "titel": "Google-Baseline",
+    "typ": "vor Änderung sichern",
+    "ziel": "Später messen können, ob die Optimierung tatsächlich wirkt.",
+    "empfehlung": [
+      "Screenshots/Notiz vom aktuellen Profilnamen und Kategorien",
+      "Standort/Service Area und Öffnungszeiten",
+      "Unternehmensbeschreibung und Services",
+      "Anzahl/Bewertung der Google-Rezensionen",
+      "Foto-Bestand",
+      "Performance: Suchbegriffe, Aufrufe, Websiteklicks, Anrufklicks und weitere verfügbare Interaktionen",
+      "Datum der Baseline: 28.08.2026"
+    ],
+    "frage": "Dieser Schritt ist rein operativ: Baseline vollständig sichern und erst danach bearbeiten.",
+    "stop": "Keine Google-Optimierung vor der Baseline."
+  },
+  {
+    "nr": "11",
+    "titel": "Google-Zielbild freigeben",
+    "typ": "ready to paste",
+    "ziel": "Das Profil soll KS klar als relevanten Innenausbauer in der Region verstehen lassen.",
+    "empfehlung": [
+      "Name: KS-Innenausbau – ohne Keyword-Zusätze.",
+      "Hauptkategorie: Auftragnehmer für den Innenausbau, sofern im Editor exakt verfügbar.",
+      "Zusatzkategorien priorisiert: Trockenbauunternehmen · Bodenleger · Fensterinstallationsdienst · Sonnenschutz nur bei echter Leistung und verfügbarer Kategorie.",
+      "Website: wunschausbau.de mit UTM-Tracking nach Produktionslaunch.",
+      "Beschreibung: vorbereitete Premium-Beschreibung aus dem GBP-Master.",
+      "Services: vollständig entlang der finalen Leistungsmatrix.",
+      "Fotos: kuratiertes echtes Startset statt beliebiger Masse.",
+      "Reviews: direkten Bewertungslink sichern, echte Kunden systematisch fragen, jede Rezension individuell beantworten.",
+      "Beiträge: echte Projekte/Vorher-Nachher statt generischer Werbeposts."
+    ],
+    "frage": "Kevin muss das Zielbild nur freigeben oder einzelne Abweichungen nennen. Live-Eintragung erfolgt danach in der festgelegten Reihenfolge.",
+    "stop": "Wenn Google bei Kategorie/Adresse eine neue Verifizierung verlangt: Änderungen stoppen und Verifizierung sauber abschließen."
+  },
+  {
+    "nr": "12",
+    "titel": "MyHammer & Instagram",
+    "typ": "Synchronisierung",
+    "ziel": "Kein Drittprofil darf die neue Premium-Positionierung wieder zurückdrehen.",
+    "empfehlung": [
+      "MyHammer: 5,0-Bewertungen als starkes Vertrauenssignal behalten.",
+      "MyHammer: Preisführer-Sprache ('unschlagbarer Preis', 'bester Preis') entfernen.",
+      "MyHammer: Hausmeister/GaLa und andere Randgewerke nur behalten, wenn Kevin diese Leads wirklich will.",
+      "MyHammer: neue vorbereitete Innenausbau-Beschreibung, echte Projektbilder, NAP und Einsatzgebiet synchronisieren.",
+      "Instagram: aktuellen offiziellen Handle im eingeloggten Konto verifizieren; 2025 wurde @ksinnenausbau öffentlich beworben.",
+      "Instagram: Bio, Website-Link, Kontakt und Bildsprache auf die neue KS-Positionierung ausrichten.",
+      "Danach Website sameAs/Social-Link exakt auf den bestätigten Account setzen."
+    ],
+    "frage": "Kevin gibt die Bereinigung frei und bestätigt nur, welche Randgewerke sowie welcher Instagram-Account wirklich weitergeführt werden.",
+    "stop": "Keinen veralteten Instagram-Handle oder unerwünschte MyHammer-Gewerke ungeprüft übernehmen."
+  }
+]
