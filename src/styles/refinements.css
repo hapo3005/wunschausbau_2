@@ -1,15 +1,14 @@
-/* Brand-level H1s use a distinctive grotesque; editorial warmth stays on H2/quotes. */
+/* KS brand H1s: compact, architectural and deliberately restrained. */
 main h1 {
   font-family: var(--font-brand);
-  font-weight: 540;
-  font-variation-settings: "opsz" 78, "wdth" 93, "wght" 540;
-  letter-spacing: -0.042em;
-  line-height: .96;
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: .93;
 }
 
-/* KS signature hero: character comes from composition, not decoration. */
+/* Hero signature comes from proportion, alignment and weight — not playful forms. */
 main .hero .hero-copy {
-  max-width: 67rem;
+  max-width: 63rem;
 }
 
 main .hero .hero-title {
@@ -18,56 +17,53 @@ main .hero .hero-title {
   width: fit-content;
   max-width: none;
   font-family: var(--font-brand);
-  font-size: clamp(4.15rem, 8.65vw, 7.95rem) !important;
-  font-weight: 540 !important;
-  font-variation-settings: "opsz" 92, "wdth" 91, "wght" 540 !important;
-  letter-spacing: -0.06em !important;
-  line-height: .805 !important;
+  font-size: clamp(4.15rem, 8.55vw, 7.85rem) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.056em !important;
+  line-height: .82 !important;
   text-wrap: nowrap;
 }
 
 main .hero .hero-title-line:first-child {
-  font-weight: 455;
-  font-variation-settings: "opsz" 92, "wdth" 92, "wght" 455;
+  color: rgba(255,255,255,.94);
+  font-weight: 520;
 }
 
 main .hero .hero-title-line--offset {
-  margin-left: clamp(1.15rem, 4.9vw, 5rem) !important;
-  font-weight: 625;
-  font-variation-settings: "opsz" 92, "wdth" 90, "wght" 625;
+  margin-left: 0 !important;
+  font-weight: 720;
 }
 
 main .hero .hero-title-detail {
   display: flex !important;
   align-items: center;
-  width: min(100%, 38rem);
-  gap: clamp(1rem, 2.1vw, 1.8rem);
-  margin-top: clamp(1.2rem, 2.25vw, 1.7rem) !important;
-  margin-left: clamp(1.5rem, 8.2vw, 8.4rem) !important;
-  color: #e1bb72;
-  font-family: var(--font-display);
-  font-size: .3em !important;
-  font-style: italic;
-  font-weight: 430 !important;
-  font-variation-settings: "opsz" 40, "wght" 430 !important;
+  width: min(100%, 34rem);
+  gap: clamp(.9rem, 1.8vw, 1.45rem);
+  margin-top: clamp(1.1rem, 2vw, 1.5rem) !important;
+  margin-left: 0 !important;
+  color: rgba(255,255,255,.7);
+  font-family: var(--font-brand);
+  font-size: .32em !important;
+  font-style: normal;
+  font-weight: 570 !important;
   letter-spacing: -0.018em !important;
-  line-height: 1.05 !important;
+  line-height: 1.08 !important;
   white-space: nowrap;
 }
 
 main .hero .hero-title-detail::after {
-  width: clamp(4.5rem, 12vw, 10.5rem);
+  width: clamp(4rem, 10vw, 8.5rem);
   height: 1px;
   flex: 0 1 auto;
-  background: linear-gradient(90deg, rgba(225,187,114,.78), rgba(225,187,114,.08));
+  background: rgba(225,187,114,.72);
   content: "";
 }
 
 main .hero .lead {
-  max-width: 34rem !important;
-  margin-top: clamp(1.65rem, 3.2vw, 2.35rem) !important;
-  color: rgba(255,255,255,.76) !important;
-  font-size: clamp(1.02rem, 1.45vw, 1.16rem) !important;
+  max-width: 33rem !important;
+  margin-top: clamp(1.7rem, 3.1vw, 2.3rem) !important;
+  color: rgba(255,255,255,.74) !important;
+  font-size: clamp(1.02rem, 1.4vw, 1.15rem) !important;
   line-height: 1.72 !important;
 }
 
@@ -107,21 +103,21 @@ main .hero .hero-secondary span {
 }
 
 main .hero .hero-media img {
-  object-position: 62% center !important;
-  filter: saturate(.86) contrast(1.055) brightness(.94) !important;
+  object-position: 64% center !important;
+  filter: saturate(.84) contrast(1.06) brightness(.93) !important;
   transform: translate3d(0, var(--hero-shift, 0px), 0) scale(1.065) !important;
   will-change: transform;
 }
 
 main .hero .hero-media::after {
   background:
-    linear-gradient(90deg, rgba(11,12,14,.94) 0%, rgba(11,12,14,.73) 31%, rgba(11,12,14,.27) 59%, rgba(11,12,14,.035) 82%),
-    linear-gradient(0deg, rgba(11,12,14,.74) 0%, rgba(11,12,14,.14) 46%, rgba(11,12,14,.04) 100%) !important;
+    linear-gradient(90deg, rgba(10,11,13,.95) 0%, rgba(10,11,13,.74) 31%, rgba(10,11,13,.25) 59%, rgba(10,11,13,.03) 82%),
+    linear-gradient(0deg, rgba(10,11,13,.75) 0%, rgba(10,11,13,.14) 46%, rgba(10,11,13,.04) 100%) !important;
 }
 
 main .hero .hero-note {
-  border-top-color: rgba(225,187,114,.36) !important;
-  color: rgba(255,255,255,.48) !important;
+  border-top-color: rgba(225,187,114,.34) !important;
+  color: rgba(255,255,255,.46) !important;
   font-size: .67rem !important;
   font-weight: 600 !important;
   letter-spacing: .12em !important;
@@ -205,16 +201,16 @@ main .stats-grid strong {
   }
 
   main .hero .hero-title-line--offset {
-    margin-left: clamp(.7rem, 3.4vw, 2.35rem) !important;
+    margin-left: 0 !important;
   }
 
   main .hero .hero-title-detail {
-    width: min(100%, 31rem);
-    margin-left: clamp(.9rem, 6vw, 4rem) !important;
+    width: min(100%, 29rem);
+    margin-left: 0 !important;
   }
 
   main .hero .hero-media img {
-    object-position: 58% center !important;
+    object-position: 60% center !important;
   }
 
   .services-section .service-card img {
@@ -225,25 +221,25 @@ main .stats-grid strong {
 
 @media (max-width: 36rem) {
   main .hero .hero-title {
-    font-size: clamp(3.15rem, 14vw, 4.55rem) !important;
-    letter-spacing: -0.055em !important;
-    line-height: .82 !important;
+    font-size: clamp(3.1rem, 13.8vw, 4.5rem) !important;
+    letter-spacing: -0.052em !important;
+    line-height: .84 !important;
   }
 
   main .hero .hero-title-line--offset {
-    margin-left: .35rem !important;
+    margin-left: 0 !important;
   }
 
   main .hero .hero-title-detail {
     width: 100%;
-    gap: .8rem;
+    gap: .75rem;
     margin-top: 1rem !important;
-    margin-left: .8rem !important;
+    margin-left: 0 !important;
     font-size: .34em !important;
   }
 
   main .hero .hero-title-detail::after {
-    width: min(4.5rem, 16vw);
+    width: min(4rem, 14vw);
   }
 
   main .hero .hero-actions {
@@ -263,7 +259,7 @@ main .stats-grid strong {
   }
 
   main .hero .hero-media img {
-    object-position: 61% center !important;
+    object-position: 62% center !important;
   }
 
   .services-section .service-card img {
