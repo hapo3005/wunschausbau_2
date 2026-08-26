@@ -109,7 +109,8 @@ main .hero .hero-secondary span {
 main .hero .hero-media img {
   object-position: 62% center !important;
   filter: saturate(.86) contrast(1.055) brightness(.94) !important;
-  transform: scale(1.025) !important;
+  transform: translate3d(0, var(--hero-shift, 0px), 0) scale(1.065) !important;
+  will-change: transform;
 }
 
 main .hero .hero-media::after {
@@ -267,5 +268,12 @@ main .stats-grid strong {
 
   .services-section .service-card img {
     aspect-ratio: 3 / 2 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main .hero .hero-media img {
+    transform: scale(1.035) !important;
+    will-change: auto;
   }
 }
