@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  pull_request_target:
+    types: [opened]
 
 permissions:
   contents: read
@@ -16,6 +18,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'pull_request_target' || github.actor == 'hapo3005'
     runs-on: ubuntu-latest
     steps:
       - name: Repository auschecken
