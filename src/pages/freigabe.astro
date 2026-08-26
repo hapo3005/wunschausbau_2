@@ -1,30 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import settings from '../data/settings.json';
-
-const schritte = [
-  { nr: '01', titel: 'Name & Kontakt', text: 'Öffentlichen Namen, rechtliche Firmierung, Telefon, E-Mail und WhatsApp bestätigen.', stop: 'Nicht weiter, solange der öffentliche Unternehmensname unklar ist.' },
-  { nr: '02', titel: 'Standortmodell', text: 'Klären, ob an Förbeltstraße 1 tatsächlich Kunden empfangen werden und ob dauerhafte Beschilderung vorhanden ist.', stop: 'Ergebnis muss Standort/Hybrid oder Service Area sein.' },
-  { nr: '03', titel: 'Öffnungszeiten', text: 'Reale Geschäfts-/Erreichbarkeitszeiten für alle sieben Wochentage festlegen.' },
-  { nr: '04', titel: 'Einsatzgebiet', text: 'Regelmäßig bediente Orte und maximale normale Fahrstrecke festlegen.' },
-  { nr: '05', titel: 'Leistungen', text: 'Jede Leistung als Kernleistung, gelegentlich oder nicht aktiv bewerben einstufen – inklusive Küchen/Möbel, Treppen, Hausmeister und GaLa.' },
-  { nr: '06', titel: 'Aussagen & Fakten', text: '500+ Projekte, 24-h-Rückmeldung, Beratung, Angebot, Erfahrung und Qualifikationen bestätigen oder korrigieren.' },
-  { nr: '07', titel: 'Recht', text: 'Rechtsform, ladungsfähige Anschrift, Vertretung, ggf. USt-ID, Kammer sowie vorhandene Rechtstexte erfassen.' },
-  { nr: '08', titel: 'Beweise', text: 'Testimonials freigeben/ersetzen und mindestens 15–20 echte veröffentlichbare Projektfotos auswählen.' },
-  { nr: '09', titel: 'Kontozugriffe', text: 'Kevin loggt sich selbst in Google Business Profile, MyHammer und Instagram ein; Domain/DNS falls verfügbar.' },
-  { nr: '10', titel: 'Google-Baseline', text: 'Vor Änderungen Kategorien, Standort, Zeiten, Beschreibung, Services, Reviews, Fotos und Performance dokumentieren.' },
-  { nr: '11', titel: 'Google optimieren', text: 'Name → Standort → Kategorien → Kontakt → Beschreibung → Zeiten → Services → Fotos → Review-Link. Genau in dieser Reihenfolge.', stop: 'Wenn Google eine neue Verifizierung verlangt: stoppen und diese sauber abschließen.' },
-  { nr: '12', titel: 'MyHammer & Instagram', text: 'Alte Preisführer-/Allrounder-Signale bereinigen und den aktuellen offiziellen Instagram-Account verifizieren.' }
-];
-
-const plattformen = [
-  { name: 'Google Business Profile', status: 'ready', text: 'Kategorien, Unternehmensbeschreibung, Service-Katalog, Foto- und Review-System sind vorbereitet. Live-Änderungen erst nach den Fakten-Schritten.' },
-  { name: 'Website', status: 'preview ready', text: 'Technischer Preview-Build ist grün. Nach Kevin werden NAP, Kennzahlen, echte Referenzen, Recht und Structured Data final synchronisiert.' },
-  { name: 'MyHammer', status: 'bereinigen', text: '5,0-Bewertungen sind stark, aber Preisführer-Sprache und teilweise unpassende Gewerke widersprechen der neuen Positionierung.' },
-  { name: 'Instagram', status: 'verifizieren', text: 'Der aktuelle offizielle Handle wird im eingeloggten Konto bestätigt; erst danach Website und Structured Data synchronisieren.' },
-  { name: 'Produktion', status: 'nach Freigabe', text: 'Netlify + SMTP-Test + kontrollierter DNS-Cutover. GitHub Pages bleibt nur die nicht indexierte Vorschau.' },
-  { name: 'Search Console', status: 'nach Launch', text: 'Property prüfen/einrichten, Sitemap einreichen und Kernseiten auf Indexierung überwachen.' }
-];
+import schritte from '../data/kevin-freigabe.json';
 ---
 
 <Base
@@ -35,11 +11,11 @@ const plattformen = [
   <section class="approval-hero">
     <div class="wrap approval-hero__inner">
       <p class="eyebrow">Interne Freigabe · Freitag, 28.08.2026</p>
-      <h1>Nicht diskutieren.<br /><em>Einfach abhaken.</em></h1>
-      <p class="lead">Von oben nach unten arbeiten. Die Häkchen werden auf diesem Gerät gespeichert. Nach Schritt 12 dürfen keine Grundsatzfragen zu Unternehmen, Google oder Außenauftritt mehr offen sein.</p>
+      <h1>Kevin muss fast nur noch<br /><em>„passt“ oder „ändern“</em> sagen.</h1>
+      <p class="lead">Jeder Schritt enthält unser vorbereitetes Zielbild. Von oben nach unten arbeiten, nur Abweichungen notieren. Entscheidungen und Notizen bleiben auf diesem Gerät gespeichert.</p>
       <div class="hero-meta">
-        <span>12 Schritte</span>
-        <span>ein Ablauf</span>
+        <span>12 Entscheidungen</span>
+        <span>vorkonfiguriert</span>
         <span>nicht indexiert</span>
       </div>
     </div>
@@ -47,261 +23,430 @@ const plattformen = [
 
   <section class="progress-section" aria-label="Fortschritt">
     <div class="wrap progress-row">
-      <div>
-        <strong id="progress-label">0 / 12 erledigt</strong>
-        <span>Freitag-Freigabe</span>
+      <div class="progress-copy">
+        <strong id="progress-label">0 / 12 entschieden</strong>
+        <span id="progress-subline">Nächster Schritt: 01</span>
       </div>
       <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-      <button id="reset-checklist" class="reset-btn" type="button">Häkchen zurücksetzen</button>
+      <div class="progress-actions">
+        <button id="copy-summary" class="quiet-btn" type="button">Zusammenfassung kopieren</button>
+        <button id="print-page" class="quiet-btn" type="button">Drucken</button>
+        <button id="reset-checklist" class="quiet-btn quiet-btn--danger" type="button">Zurücksetzen</button>
+      </div>
     </div>
   </section>
 
-  <section class="section steps-section" id="ablauf">
-    <div class="wrap">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Freitag · Hauptablauf</p>
-          <h2>Immer den nächsten offenen Schritt.</h2>
-        </div>
-        <p>Keine Sprünge zu Google, bevor die Unternehmensfakten feststehen. Keine Produktionsfreigabe, solange Recht, Bilder oder Formular noch ungeklärt sind.</p>
+  <section class="section intro-section">
+    <div class="wrap intro-grid">
+      <div>
+        <p class="eyebrow">So läuft der Termin</p>
+        <h2>Keine Ideenrunde. Nur Entscheidungen.</h2>
       </div>
+      <div class="intro-rules">
+        <p><strong>Passt:</strong> Empfehlung übernehmen, Schritt ist fertig.</p>
+        <p><strong>Ändern:</strong> Abweichung kurz notieren und bestätigen.</p>
+        <p><strong>STOPP:</strong> Bei der roten Regel nicht einfach weitermachen.</p>
+      </div>
+    </div>
+  </section>
 
+  <section class="section section--sand steps-section" id="ablauf">
+    <div class="wrap">
       <div class="steps-list">
         {schritte.map((schritt, index) => (
-          <article class="step-card" data-step-card>
-            <label class="step-check">
-              <input type="checkbox" data-ks-check={`step-${index + 1}`} />
-              <span class="fake-check" aria-hidden="true"></span>
-              <span class="sr-only">Schritt {schritt.nr} erledigt</span>
-            </label>
-            <span class="step-number">{schritt.nr}</span>
-            <div class="step-copy">
-              <h3>{schritt.titel}</h3>
-              <p>{schritt.text}</p>
-              {schritt.stop && <p class="stop-rule"><strong>STOPP:</strong> {schritt.stop}</p>}
+          <details class="step-card" data-step-card data-step-id={`step-${index + 1}`}>
+            <summary>
+              <span class="step-number">{schritt.nr}</span>
+              <span class="step-summary-copy">
+                <small>{schritt.typ}</small>
+                <strong>{schritt.titel}</strong>
+              </span>
+              <span class="step-status" data-step-status>offen</span>
+              <span class="summary-chevron" aria-hidden="true">⌄</span>
+            </summary>
+
+            <div class="step-body">
+              <div class="step-goal">
+                <small>Ziel</small>
+                <p>{schritt.ziel}</p>
+              </div>
+
+              <div class="recommendation">
+                <div class="recommendation-head">
+                  <span class="recommendation-badge">Unser Vorschlag</span>
+                  <strong>So würden wir es umsetzen.</strong>
+                </div>
+                <ul>
+                  {schritt.empfehlung.map((punkt) => <li>{punkt}</li>)}
+                </ul>
+              </div>
+
+              <div class="decision-question">
+                <small>Kevin entscheidet</small>
+                <p>{schritt.frage}</p>
+              </div>
+
+              {schritt.stop && (
+                <p class="stop-rule"><strong>STOPP:</strong> {schritt.stop}</p>
+              )}
+
+              <div class="decision-panel">
+                <div class="decision-buttons" role="group" aria-label={`Entscheidung Schritt ${schritt.nr}`}>
+                  <button class="decision-btn decision-btn--accept" type="button" data-decision="accept">
+                    <span aria-hidden="true">✓</span> Passt – übernehmen
+                  </button>
+                  <button class="decision-btn decision-btn--change" type="button" data-decision="change">
+                    Ändern
+                  </button>
+                </div>
+
+                <div class="change-box" data-change-box hidden>
+                  <label>
+                    <span>Was soll anders sein?</span>
+                    <textarea data-change-note rows="3" placeholder="Nur die Abweichung notieren, z. B. „Mo–Fr 08:00–17:00, Sa geschlossen“."></textarea>
+                  </label>
+                  <button class="confirm-change" type="button" data-confirm-change>Änderung festhalten</button>
+                  <p class="change-hint" data-change-hint>Eine kurze, eindeutige Notiz reicht.</p>
+                </div>
+              </div>
             </div>
-          </article>
+          </details>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section proof-section section--sand">
-    <div class="wrap">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Bereits belegt</p>
-          <h2>Das muss Kevin nicht neu erklären.</h2>
-        </div>
-        <p>Diese Punkte sind öffentlich dokumentiert. Nur rechtliche Details, Standortnutzung und Aktualität einzelner Accounts müssen bestätigt werden.</p>
-      </div>
-      <div class="proof-grid">
-        <article><small>Person</small><strong>Kevin Schmieding</strong><span>Bauschreiner aus Wittlich</span></article>
-        <article><small>Kontakt</small><strong>{settings.telefon}</strong><span>{settings.email}</span></article>
-        <article><small>Adresse</small><strong>Förbeltstraße 1</strong><span>54516 Wittlich</span></article>
-        <article><small>Belegte Leistungen</small><strong>Boden · Türen/Fenster</strong><span>Trockenbau · Holzterrassen</span></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Danach</p>
-          <h2>Die Umsetzung ist bereits aufgeteilt.</h2>
-        </div>
-        <p>Nach der Freitagsfreigabe wird nicht neu konzipiert. Die bestätigten Fakten werden nur noch synchron in alle Kanäle übertragen und technisch geprüft.</p>
-      </div>
-      <div class="platform-grid">
-        {plattformen.map((item) => (
-          <article class="platform-card">
-            <div class="platform-top"><h3>{item.name}</h3><span class="status">{item.status}</span></div>
-            <p>{item.text}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--dark">
+  <section class="section material-section">
     <div class="wrap material-grid">
       <div>
-        <p class="eyebrow">Zum Termin</p>
-        <h2>Fünf Dinge reichen.</h2>
-        <p class="dark-copy">Wenn diese fünf Pakete verfügbar sind, kann der Termin ohne Nachfassrunde abgeschlossen werden.</p>
+        <p class="eyebrow">Freitag mitbringen</p>
+        <h2>Fünf Pakete. Mehr nicht.</h2>
       </div>
       <div class="material-list">
-        <p><strong>1 · Konten</strong><span>Google, MyHammer, Instagram; Kevin selbst eingeloggt.</span></p>
-        <p><strong>2 · Bilder</strong><span>20–30 Original-Projektfotos, nicht WhatsApp-komprimiert.</span></p>
-        <p><strong>3 · Firmendaten</strong><span>Rechtsform, Anschrift, ggf. USt-ID, Kammer/Berufsangaben.</span></p>
-        <p><strong>4 · Rechtstexte</strong><span>Vorhandene AGB/Datenschutz-Unterlagen, falls es sie gibt.</span></p>
-        <p><strong>5 · Domain</strong><span>DNS-Zugriff nur wenn verfügbar; keine Passwörter teilen.</span></p>
+        <p><strong>Konten</strong><span>Google Business Profile, MyHammer und Instagram – Kevin selbst eingeloggt.</span></p>
+        <p><strong>Bilder</strong><span>20–30 Original-Projektfotos in möglichst voller Auflösung.</span></p>
+        <p><strong>Firmendaten</strong><span>Rechtsform, Firmierung, Anschrift, ggf. Kammer-/Steuerangaben.</span></p>
+        <p><strong>Recht</strong><span>Vorhandene Datenschutz-/AGB-Unterlagen, falls vorhanden.</span></p>
+        <p><strong>Domain</strong><span>DNS-/Domainzugriff, wenn verfügbar. Keine Passwörter weitergeben.</span></p>
       </div>
     </div>
   </section>
 
-  <section class="section launch-section">
-    <div class="wrap launch-card">
-      <p class="eyebrow">Launch Gate</p>
-      <h2>Freitag fertig heißt: keine offene Grundsatzfrage.</h2>
-      <p>Nach dem Termin dürfen nur noch Umsetzungsarbeiten offen sein: Website synchronisieren, Google vollständig pflegen, MyHammer/Instagram angleichen, Netlify und Domain sauber live schalten und Search Console aktivieren.</p>
-      <div class="launch-tags">
-        <span>Fakten bestätigt</span>
-        <span>Google ready</span>
-        <span>echte Beweise</span>
-        <span>Recht geklärt</span>
-        <span>Zugriffe vorhanden</span>
+  <section class="section section--dark launch-section">
+    <div class="wrap launch-grid">
+      <div>
+        <p class="eyebrow">Nach 12 / 12</p>
+        <h2>Dann wird nur noch umgesetzt.</h2>
+      </div>
+      <div>
+        <p class="launch-copy">Die bestätigten Entscheidungen werden anschließend synchron auf Website, Google Business Profile, MyHammer und Instagram übertragen. Danach folgen Netlify, Formular-Test, Domain-Cutover, Search Console und Messung.</p>
+        <div class="launch-tags">
+          <span>Website final</span>
+          <span>Google final</span>
+          <span>MyHammer synchron</span>
+          <span>Instagram synchron</span>
+          <span>Domain launch-ready</span>
+        </div>
       </div>
     </div>
   </section>
 
   <script is:inline>
     (() => {
-      const KEY = 'ks-kevin-freigabe-v1';
-      const checks = [...document.querySelectorAll('[data-ks-check]')];
+      const KEY = 'ks-kevin-freigabe-v2';
+      const cards = [...document.querySelectorAll('[data-step-card]')];
       const progressLabel = document.getElementById('progress-label');
+      const progressSubline = document.getElementById('progress-subline');
       const progressBar = document.getElementById('progress-bar');
       const reset = document.getElementById('reset-checklist');
+      const copySummary = document.getElementById('copy-summary');
+      const printPage = document.getElementById('print-page');
+
+      const emptyState = () => Object.fromEntries(cards.map((card) => [card.dataset.stepId, {
+        decision: '', note: '', confirmed: false
+      }]));
 
       const read = () => {
-        try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
-        catch { return {}; }
+        try {
+          const stored = JSON.parse(localStorage.getItem(KEY) || '{}');
+          return { ...emptyState(), ...stored };
+        } catch {
+          return emptyState();
+        }
       };
 
       const write = (state) => {
         try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
       };
 
-      const update = () => {
-        const done = checks.filter((check) => check.checked).length;
-        if (progressLabel) progressLabel.textContent = `${done} / ${checks.length} erledigt`;
-        if (progressBar) progressBar.style.width = `${checks.length ? (done / checks.length) * 100 : 0}%`;
-        checks.forEach((check) => check.closest('[data-step-card]')?.classList.toggle('is-done', check.checked));
+      const isDone = (entry) => entry?.decision === 'accept' || (
+        entry?.decision === 'change' && entry?.confirmed && String(entry?.note || '').trim().length > 1
+      );
+
+      const openNext = (afterCard = null) => {
+        const state = read();
+        const start = afterCard ? cards.indexOf(afterCard) + 1 : 0;
+        const ordered = [...cards.slice(start), ...cards.slice(0, start)];
+        const next = ordered.find((card) => !isDone(state[card.dataset.stepId]));
+        if (!next) return;
+        cards.forEach((card) => { if (card !== next) card.open = false; });
+        next.open = true;
+        if (afterCard) next.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
 
-      const state = read();
-      checks.forEach((check) => {
-        const id = check.getAttribute('data-ks-check');
-        check.checked = Boolean(state[id]);
-        check.addEventListener('change', () => {
-          const next = read();
-          next[id] = check.checked;
-          write(next);
-          update();
+      const render = () => {
+        const state = read();
+        let done = 0;
+        let nextOpen = null;
+
+        cards.forEach((card) => {
+          const id = card.dataset.stepId;
+          const entry = state[id] || {};
+          const finished = isDone(entry);
+          if (finished) done += 1;
+          else if (!nextOpen) nextOpen = card;
+
+          card.classList.toggle('is-done', finished);
+          card.classList.toggle('is-changed', entry.decision === 'change' && finished);
+
+          const status = card.querySelector('[data-step-status]');
+          if (status) {
+            status.textContent = finished ? (entry.decision === 'change' ? 'geändert' : 'übernommen') : (entry.decision === 'change' ? 'Änderung offen' : 'offen');
+          }
+
+          card.querySelectorAll('[data-decision]').forEach((button) => {
+            const selected = button.dataset.decision === entry.decision;
+            button.classList.toggle('is-selected', selected);
+            button.setAttribute('aria-pressed', String(selected));
+          });
+
+          const changeBox = card.querySelector('[data-change-box]');
+          if (changeBox) changeBox.hidden = entry.decision !== 'change';
+          const note = card.querySelector('[data-change-note]');
+          if (note && note.value !== String(entry.note || '')) note.value = String(entry.note || '');
+
+          const hint = card.querySelector('[data-change-hint]');
+          if (hint) hint.textContent = entry.decision === 'change' && entry.confirmed
+            ? 'Änderung ist festgehalten.'
+            : 'Eine kurze, eindeutige Notiz reicht.';
+        });
+
+        if (progressLabel) progressLabel.textContent = `${done} / ${cards.length} entschieden`;
+        if (progressBar) progressBar.style.width = `${cards.length ? (done / cards.length) * 100 : 0}%`;
+        if (progressSubline) {
+          progressSubline.textContent = nextOpen ? `Nächster Schritt: ${nextOpen.querySelector('.step-number')?.textContent || ''}` : 'Freigabe vollständig';
+        }
+      };
+
+      cards.forEach((card) => {
+        const id = card.dataset.stepId;
+        const accept = card.querySelector('[data-decision="accept"]');
+        const change = card.querySelector('[data-decision="change"]');
+        const note = card.querySelector('[data-change-note]');
+        const confirmChange = card.querySelector('[data-confirm-change]');
+        const hint = card.querySelector('[data-change-hint]');
+
+        accept?.addEventListener('click', () => {
+          const state = read();
+          state[id] = { decision: 'accept', note: '', confirmed: true };
+          write(state);
+          render();
+          card.open = false;
+          openNext(card);
+        });
+
+        change?.addEventListener('click', () => {
+          const state = read();
+          state[id] = { ...(state[id] || {}), decision: 'change', confirmed: false };
+          write(state);
+          render();
+          card.open = true;
+          setTimeout(() => note?.focus(), 0);
+        });
+
+        note?.addEventListener('input', () => {
+          const state = read();
+          state[id] = { ...(state[id] || {}), decision: 'change', note: note.value, confirmed: false };
+          write(state);
+          render();
+        });
+
+        confirmChange?.addEventListener('click', () => {
+          const value = String(note?.value || '').trim();
+          if (value.length < 2) {
+            if (hint) hint.textContent = 'Bitte die Abweichung kurz notieren.';
+            note?.focus();
+            return;
+          }
+          const state = read();
+          state[id] = { decision: 'change', note: value, confirmed: true };
+          write(state);
+          render();
+          card.open = false;
+          openNext(card);
         });
       });
 
       reset?.addEventListener('click', () => {
-        if (!confirm('Alle Häkchen dieser Freigabe zurücksetzen?')) return;
+        if (!confirm('Alle Entscheidungen und Notizen dieser Freigabe zurücksetzen?')) return;
         try { localStorage.removeItem(KEY); } catch {}
-        checks.forEach((check) => { check.checked = false; });
-        update();
+        render();
+        cards.forEach((card) => { card.open = false; });
+        openNext();
       });
 
-      update();
+      copySummary?.addEventListener('click', async () => {
+        const state = read();
+        const lines = ['KS-INNENAUSBAU — FREIGABE 28.08.2026', ''];
+        cards.forEach((card, index) => {
+          const id = card.dataset.stepId;
+          const entry = state[id] || {};
+          const title = card.querySelector('.step-summary-copy strong')?.textContent?.trim() || `Schritt ${index + 1}`;
+          const nr = card.querySelector('.step-number')?.textContent?.trim() || String(index + 1);
+          if (entry.decision === 'accept') lines.push(`${nr} ${title}: ÜBERNEHMEN`);
+          else if (entry.decision === 'change' && entry.confirmed) lines.push(`${nr} ${title}: ÄNDERN — ${entry.note}`);
+          else lines.push(`${nr} ${title}: OFFEN`);
+        });
+        try {
+          await navigator.clipboard.writeText(lines.join('\n'));
+          const old = copySummary.textContent;
+          copySummary.textContent = 'Kopiert ✓';
+          setTimeout(() => { copySummary.textContent = old; }, 1600);
+        } catch {
+          alert(lines.join('\n'));
+        }
+      });
+
+      printPage?.addEventListener('click', () => window.print());
+
+      render();
+      const state = read();
+      const existingOpen = cards.find((card) => card.open);
+      if (!existingOpen) {
+        const firstIncomplete = cards.find((card) => !isDone(state[card.dataset.stepId]));
+        if (firstIncomplete) firstIncomplete.open = true;
+      }
     })();
   </script>
 </Base>
 
 <style>
   .approval-hero { color: var(--paper-inverse); background: var(--ink); }
-  .approval-hero__inner { padding-block: clamp(5rem, 10vw, 9rem); }
-  .approval-hero .eyebrow { color: #e1bb72; }
-  .approval-hero .eyebrow::before { background: #e1bb72; }
+  .approval-hero__inner { padding-block: clamp(5rem, 10vw, 8.5rem); }
+  .approval-hero .eyebrow, .section--dark .eyebrow { color: #e1bb72; }
+  .approval-hero .eyebrow::before, .section--dark .eyebrow::before { background: #e1bb72; }
   .approval-hero h1 {
-    max-width: 12ch;
-    margin-top: 1.6rem;
+    max-width: 15ch;
+    margin-top: 1.5rem;
     color: #fff;
     font-family: var(--font-brand);
-    font-size: clamp(3.3rem, 7.5vw, 7rem);
+    font-size: clamp(3rem, 7vw, 6.6rem);
     font-weight: 560;
-    letter-spacing: -.055em;
-    line-height: .9;
+    letter-spacing: -.052em;
+    line-height: .92;
   }
   .approval-hero h1 em { color: #e1bb72; font-family: var(--font-display); font-weight: 450; }
-  .approval-hero .lead { max-width: 54rem; margin-top: 2rem; color: rgba(255,255,255,.7); }
-  .hero-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.3rem; }
-  .hero-meta span, .status, .launch-tags span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 1.9rem;
-    padding: .25rem .65rem;
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 999px;
-    font-size: .68rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+  .approval-hero .lead { max-width: 55rem; margin-top: 2rem; color: rgba(255,255,255,.7); }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.2rem; }
+  .hero-meta span, .launch-tags span {
+    display: inline-flex; align-items: center; min-height: 1.9rem; padding: .25rem .65rem;
+    border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
+    font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
   }
 
-  .progress-section { position: sticky; top: var(--header-height); z-index: 20; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.96); backdrop-filter: blur(12px); }
-  .progress-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.2rem; min-height: 4.4rem; }
-  .progress-row > div:first-child { display: grid; min-width: 8rem; }
-  .progress-row strong { font-size: .9rem; }
-  .progress-row span { color: var(--ink-muted); font-size: .72rem; }
+  .progress-section { position: sticky; top: var(--header-height); z-index: 30; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.97); backdrop-filter: blur(14px); }
+  .progress-row { display: grid; grid-template-columns: auto minmax(7rem,1fr) auto; align-items: center; gap: 1rem; min-height: 4.7rem; }
+  .progress-copy { display: grid; min-width: 9.5rem; }
+  .progress-copy strong { font-size: .9rem; }
+  .progress-copy span { color: var(--ink-muted); font-size: .72rem; }
   .progress-track { height: 5px; overflow: hidden; border-radius: 999px; background: var(--sand-deep); }
-  .progress-track span { display: block; width: 0; height: 100%; background: var(--brass); transition: width .2s ease; }
-  .reset-btn { padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 2px; color: var(--ink-soft); background: transparent; font: inherit; font-size: .72rem; cursor: pointer; }
+  .progress-track span { display: block; width: 0; height: 100%; background: var(--brass); transition: width .22s ease; }
+  .progress-actions { display: flex; gap: .4rem; }
+  .quiet-btn { padding: .45rem .65rem; border: 1px solid var(--line); border-radius: 2px; color: var(--ink-soft); background: transparent; font: inherit; font-size: .7rem; cursor: pointer; }
+  .quiet-btn:hover { border-color: var(--brass); color: var(--brass-deep); }
+  .quiet-btn--danger:hover { border-color: #b85c2c; color: #8c3e1d; }
 
-  .section-heading { display: grid; grid-template-columns: 1fr minmax(18rem,.7fr); align-items: end; gap: clamp(2rem,8vw,8rem); }
-  .section-heading > p { color: var(--ink-soft); line-height: 1.7; }
+  .intro-grid, .material-grid, .launch-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(3rem, 9vw, 9rem); align-items: start; }
+  .intro-rules { display: grid; gap: .75rem; }
+  .intro-rules p { padding-bottom: .75rem; border-bottom: 1px solid var(--line); color: var(--ink-soft); }
+  .intro-rules strong { color: var(--ink); }
 
-  .steps-list { margin-top: var(--space-6); border-top: 1px solid var(--line); }
-  .step-card { display: grid; grid-template-columns: 3.2rem 4rem minmax(0,1fr); align-items: start; gap: 1.2rem; padding-block: 1.65rem; border-bottom: 1px solid var(--line); transition: opacity .2s ease, background-color .2s ease; }
-  .step-card.is-done { opacity: .55; }
-  .step-card.is-done h3 { text-decoration: line-through; text-decoration-thickness: 1px; }
-  .step-check { display: grid; width: 2.4rem; height: 2.4rem; place-items: center; cursor: pointer; }
-  .step-check input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-  .fake-check { display: grid; width: 1.65rem; height: 1.65rem; place-items: center; border: 1px solid #aaa39a; background: #fff; }
-  .step-check input:checked + .fake-check { border-color: var(--brass); background: var(--brass); }
-  .step-check input:checked + .fake-check::after { color: #fff; content: '✓'; font-size: 1rem; font-weight: 800; }
-  .step-check input:focus-visible + .fake-check { outline: 3px solid rgba(185,130,47,.25); outline-offset: 3px; }
-  .step-number { padding-top: .2rem; color: var(--brass-deep); font-family: var(--font-display); font-size: 1.3rem; }
-  .step-copy h3 { font-size: 1.15rem; }
-  .step-copy > p { max-width: 54rem; margin-top: .45rem; color: var(--ink-soft); line-height: 1.65; }
-  .stop-rule { padding: .6rem .8rem; border-left: 2px solid #b85c2c; background: #fff7f1; font-size: .85rem; }
+  .steps-list { border-top: 1px solid var(--line); }
+  .step-card { border-bottom: 1px solid var(--line); background: var(--paper); }
+  .step-card summary { display: grid; grid-template-columns: 3.5rem minmax(0,1fr) auto 1.5rem; align-items: center; gap: 1rem; min-height: 6rem; padding: .9rem 1rem .9rem 0; cursor: pointer; list-style: none; }
+  .step-card summary::-webkit-details-marker { display: none; }
+  .step-number { color: var(--brass-deep); font-family: var(--font-display); font-size: 1.35rem; }
+  .step-summary-copy { display: grid; gap: .18rem; }
+  .step-summary-copy small { color: var(--ink-muted); font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+  .step-summary-copy strong { font-size: 1.1rem; }
+  .step-status { justify-self: end; padding: .24rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-muted); font-size: .65rem; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; }
+  .step-card.is-done .step-status { border-color: #b9d2bf; color: #376345; background: #f1f8f3; }
+  .step-card.is-changed .step-status { border-color: #dec9a3; color: #7c571c; background: #fff9ee; }
+  .summary-chevron { color: var(--ink-muted); transition: transform .2s ease; }
+  .step-card[open] .summary-chevron { transform: rotate(180deg); }
+  .step-card[open] summary { border-bottom: 1px solid var(--line); }
 
-  .proof-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; margin-top: var(--space-6); background: var(--line); border: 1px solid var(--line); }
-  .proof-grid article { display: grid; gap: .45rem; min-height: 11rem; align-content: end; padding: clamp(1.3rem,3vw,2rem); background: var(--paper); }
-  .proof-grid small { color: var(--brass-deep); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-  .proof-grid strong { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.2; }
-  .proof-grid span { color: var(--ink-soft); font-size: var(--text-sm); }
+  .step-body { display: grid; grid-template-columns: minmax(12rem,.42fr) minmax(0,1fr); gap: 1.2rem 2.5rem; padding: 2rem 1rem 2.4rem 3.5rem; }
+  .step-goal small, .decision-question small { color: var(--brass-deep); font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .step-goal p, .decision-question p { margin-top: .45rem; color: var(--ink-soft); line-height: 1.65; }
+  .recommendation { grid-column: 2; padding: 1.4rem; border: 1px solid var(--line); background: var(--sand); }
+  .recommendation-head { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
+  .recommendation-badge { padding: .25rem .5rem; border: 1px solid var(--brass); border-radius: 999px; color: var(--brass-deep); font-size: .64rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+  .recommendation ul { display: grid; gap: .58rem; margin: 1rem 0 0; padding-left: 1.2rem; color: var(--ink-soft); }
+  .recommendation li::marker { color: var(--brass); }
+  .decision-question { grid-column: 2; }
+  .stop-rule { grid-column: 2; margin: 0; padding: .75rem .9rem; border-left: 2px solid #b85c2c; background: #fff7f1; color: #71432e; font-size: .84rem; }
+  .decision-panel { grid-column: 2; padding-top: .5rem; }
+  .decision-buttons { display: flex; flex-wrap: wrap; gap: .65rem; }
+  .decision-btn, .confirm-change { min-height: 3rem; padding: .7rem 1rem; border: 1px solid var(--line); border-radius: 2px; background: var(--paper); color: var(--ink); font: inherit; font-size: .86rem; font-weight: 720; cursor: pointer; }
+  .decision-btn--accept { border-color: var(--brass); color: var(--brass-deep); }
+  .decision-btn--accept.is-selected { background: var(--brass); color: #fff; }
+  .decision-btn--change.is-selected { border-color: #9b6b32; background: #fff7ea; color: #744a15; }
+  .change-box { margin-top: 1rem; padding: 1.1rem; border: 1px solid #dec9a3; background: #fffaf1; }
+  .change-box label { display: grid; gap: .45rem; }
+  .change-box label > span { font-size: .78rem; font-weight: 750; }
+  .change-box textarea { width: 100%; padding: .75rem; resize: vertical; border: 1px solid #c9b792; border-radius: 2px; background: #fff; color: var(--ink); font: inherit; line-height: 1.5; }
+  .confirm-change { margin-top: .7rem; border-color: #9b6b32; background: #9b6b32; color: #fff; }
+  .change-hint { display: inline-block; margin-left: .75rem; color: var(--ink-muted); font-size: .74rem; }
 
-  .platform-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-top: var(--space-6); }
-  .platform-card { padding: clamp(1.4rem,3vw,2rem); border: 1px solid var(--line); background: var(--paper); }
-  .platform-top { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
-  .platform-card p { margin-top: 1.25rem; color: var(--ink-soft); line-height: 1.7; }
-  .status { min-height: 1.55rem; padding: .15rem .5rem; border-color: var(--line); color: var(--ink-soft); }
+  .material-list { border-top: 1px solid var(--line); }
+  .material-list p { display: grid; grid-template-columns: 9rem 1fr; gap: 1.5rem; padding-block: 1.1rem; border-bottom: 1px solid var(--line); }
+  .material-list span { color: var(--ink-soft); }
 
   .section--dark { color: #fff; background: var(--ink); }
-  .section--dark .eyebrow { color: #e1bb72; }
-  .section--dark .eyebrow::before { background: #e1bb72; }
-  .material-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(3rem,9vw,9rem); }
-  .dark-copy { max-width: 35rem; margin-top: 1.4rem; color: rgba(255,255,255,.62); }
-  .material-list { border-top: 1px solid rgba(255,255,255,.14); }
-  .material-list p { display: grid; grid-template-columns: 11rem 1fr; gap: 1.5rem; padding-block: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.14); }
-  .material-list span { color: rgba(255,255,255,.62); }
+  .launch-copy { max-width: 48rem; color: rgba(255,255,255,.67); line-height: 1.75; }
+  .launch-tags { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.5rem; }
 
-  .launch-card { padding: clamp(2rem,6vw,5rem); border: 1px solid var(--line); background: var(--sand); }
-  .launch-card h2 { max-width: 18ch; }
-  .launch-card > p:not(.eyebrow) { max-width: 50rem; margin-top: 1.4rem; color: var(--ink-soft); line-height: 1.75; }
-  .launch-tags { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 2rem; }
-  .launch-tags span { border-color: var(--brass); color: var(--brass-deep); }
-  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-  @media (max-width: 56rem) {
-    .proof-grid { grid-template-columns: repeat(2,1fr); }
-    .material-grid, .section-heading { grid-template-columns: 1fr; }
+  @media (max-width: 64rem) {
     .progress-row { grid-template-columns: auto 1fr; }
-    .reset-btn { display: none; }
+    .progress-actions { grid-column: 1 / -1; padding-bottom: .65rem; }
+  }
+  @media (max-width: 56rem) {
+    .intro-grid, .material-grid, .launch-grid { grid-template-columns: 1fr; }
+    .step-body { grid-template-columns: 1fr; padding-left: 1rem; }
+    .recommendation, .decision-question, .stop-rule, .decision-panel { grid-column: 1; }
   }
   @media (max-width: 38rem) {
-    .proof-grid, .platform-grid { grid-template-columns: 1fr; }
-    .step-card { grid-template-columns: 2.6rem 2.7rem minmax(0,1fr); gap: .65rem; }
+    .approval-hero h1 { font-size: clamp(2.7rem, 14vw, 4rem); }
+    .progress-row { grid-template-columns: 1fr; padding-block: .65rem; }
+    .progress-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; padding-bottom: 0; }
+    .quiet-btn--danger { grid-column: 1 / -1; }
+    .step-card summary { grid-template-columns: 2.6rem minmax(0,1fr) auto; gap: .65rem; padding-right: 0; }
+    .summary-chevron { display: none; }
+    .step-status { grid-column: 3; font-size: .58rem; }
     .step-number { font-size: 1.05rem; }
-    .material-list p { grid-template-columns: 1fr; gap: .35rem; }
-    .progress-row { gap: .7rem; }
-    .progress-row > div:first-child { min-width: 6.7rem; }
+    .decision-buttons { display: grid; }
+    .change-hint { display: block; margin: .55rem 0 0; }
+    .material-list p { grid-template-columns: 1fr; gap: .3rem; }
+  }
+  @media print {
+    .progress-section, .decision-panel, .summary-chevron { display: none !important; }
+    .approval-hero { color: #000; background: #fff; }
+    .approval-hero h1, .approval-hero .lead { color: #000; }
+    .approval-hero .eyebrow, .approval-hero h1 em { color: #7d5518; }
+    .hero-meta { display: none; }
+    .step-card { break-inside: avoid; }
+    .step-card > .step-body { display: grid !important; }
+    .step-card summary { border-bottom: 1px solid #ddd; }
   }
 </style>
