@@ -38,7 +38,6 @@ main .ks-hero__media {
   background: var(--sand-deep) !important;
 }
 
-main .ks-hero__media :global(img),
 main .ks-hero__media img {
   position: absolute !important;
   inset: 0 !important;
@@ -253,7 +252,6 @@ main .ks-hero__location strong {
     min-height: 20rem !important;
   }
 
-  main .ks-hero__media :global(img),
   main .ks-hero__media img {
     object-position: center 52% !important;
   }
