@@ -18,14 +18,18 @@ Aus einer veröffentlichten KS-Anzeige in der Wittlicher Rundschau / den Mittelm
 - Instagram-Hinweis: **ksinnenausbau**
 - beworbene Leistungen: Bodenverlegung, Fenster- & Türeneinbau, Trockenbau, Holzterrassenmontage
 
-Diese Angaben reduzieren offene Fragen, ersetzen aber nicht Kevins Bestätigung zur rechtlichen Firmierung, zum Kundenempfang am Standort oder zu aktuellen Geschäftszeiten.
+Diese Angaben reduzieren offene Fragen, ersetzen aber nicht Kevins Bestätigung zur rechtlichen Firmierung, zum Kundenempfang am Standort, zu aktuellen Geschäftszeiten oder dazu, welcher Instagram-Handle **heute** noch aktiv ist.
 
 ## 2. Website — bereits synchronisiert
 
 Am 26.08.2026 korrigiert:
 
 - sichtbare Bewertungskennzahl: `4,9 ★` → `5,0 ★`
-- Instagram-Link: `wunschausbau.de` → `ksinnenausbau`
+- Über-uns-Seite: Kevin Schmieding als öffentlich belegter **Bauschreiner aus Wittlich** ergänzt
+
+Bewusst **noch nicht** geändert:
+
+- Instagram-Link. Im aktuellen Code steht `wunschausbau.de`, eine öffentliche Anzeige von 2025 nennt dagegen `ksinnenausbau`. Da der aktuelle Handle heute nicht extern verifiziert werden konnte, wird Freitag im eingeloggten Account geprüft und erst danach synchronisiert.
 
 Weiter von Kevin zu bestätigen:
 
@@ -86,17 +90,19 @@ Vor Veröffentlichung anhand der final von Kevin bestätigten Leistungsliste anp
 
 ## 5. Instagram
 
-Öffentlich beworbener Handle: **ksinnenausbau**.
+Öffentlich 2025 beworbener Handle: **ksinnenausbau**. Im aktuellen Website-Code ist dagegen `wunschausbau.de` hinterlegt.
 
-Website ist darauf synchronisiert. Am Freitag prüfen:
+Diese Abweichung wird **nicht geraten**, sondern am Freitag im tatsächlichen Instagram-Konto aufgelöst:
 
-- [ ] Account noch aktiv und unter diesem Handle erreichbar
+- [ ] aktueller offizieller Handle
 - [ ] Kevin hat Zugriff
 - [ ] Profilname / Bio / Link auf wunschausbau.de aktuell
 - [ ] Telefonnummer bzw. Kontaktweg korrekt
 - [ ] Bildsprache passt zur neuen Website
 - [ ] alte Billigpreis-Kommunikation entfernen, falls vorhanden
 - [ ] hochwertige Projektfotos künftig kanalübergreifend verwenden
+
+Danach Website-`sameAs` und Footer/Links exakt auf den bestätigten Account setzen.
 
 ## 6. Weitere Verzeichnisse / NAP-Konsistenz
 
@@ -148,7 +154,7 @@ Kevin idealerweise eingeloggt bzw. zugriffsbereit für:
 
 - [ ] Google Business Profile
 - [ ] MyHammer
-- [ ] Instagram `ksinnenausbau`
+- [ ] aktuelles offizielles Instagram-Konto
 - [ ] Domain/DNS für wunschausbau.de, falls Search Console eingerichtet werden soll
 
 Keine Passwörter teilen. Kevin meldet sich selbst an.
