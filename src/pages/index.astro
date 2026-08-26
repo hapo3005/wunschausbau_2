@@ -33,10 +33,10 @@ const schema = {
 >
   <section class="hero">
     <div class="hero-media">
-      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={76} format="webp" />
+      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={78} format="webp" />
     </div>
     <div class="wrap hero-inner">
-      <div class="hero-panel">
+      <div class="hero-copy">
         <p class="eyebrow">{settings.firma}</p>
         <h1>Innenausbau mit Anspruch – bis ins Detail.</h1>
         <p class="lead">
@@ -44,39 +44,60 @@ const schema = {
           Wir schaffen Wohnräume, die Qualität sichtbar und spürbar machen.
         </p>
         <div class="hero-actions">
-          <a class="btn" href={withBase('/kontakt/')}>Kostenlose Beratung</a>
-          <a class="btn btn--ghost" href={withBase('/referenzen/')}>Arbeiten ansehen</a>
+          <a class="btn hero-primary" href={withBase('/kontakt/')}>Kostenlose Beratung</a>
+          <a class="btn hero-secondary" href={withBase('/referenzen/')}>Arbeiten ansehen <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+      <p class="hero-note">Innenausbau · Renovierung · Wittlich & Moselregion</p>
     </div>
   </section>
 
   <section class="stats" aria-label="Kennzahlen">
-    <div class="wrap stats-grid">
-      <div><strong>{settings.stats.projekte}</strong><span>realisierte Projekte</span></div>
-      <div><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></div>
-      <div><strong>{settings.region}</strong><span>regional verwurzelt</span></div>
-      <div><strong>{settings.stats.rueckmeldung}</strong><span>Rückmeldung im Regelfall</span></div>
+    <div class="wrap">
+      <div class="stats-grid">
+        <div><strong>{settings.stats.projekte}</strong><span>realisierte Projekte</span></div>
+        <div><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></div>
+        <div><strong>{settings.region}</strong><span>regional verwurzelt</span></div>
+        <div><strong>{settings.stats.rueckmeldung}</strong><span>Rückmeldung im Regelfall</span></div>
+      </div>
     </div>
   </section>
 
-  <section class="quote section--sand">
-    <p class="wrap">Qualität beginnt dort, wo man keine Kompromisse macht.</p>
+  <section class="statement section--sand">
+    <div class="wrap statement-grid">
+      <p class="statement-kicker">Handwerk ist für uns kein Detail.</p>
+      <p class="statement-copy">Qualität beginnt dort, wo man keine Kompromisse macht.</p>
+    </div>
   </section>
 
-  <section class="section">
+  <section class="section services-section">
     <div class="wrap">
-      <p class="eyebrow">Unsere Leistungen</p>
-      <h2>Alles aus einer Hand.</h2>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Unsere Leistungen</p>
+          <h2>Alles aus einer Hand.</h2>
+        </div>
+        <p class="section-intro">
+          Saubere Planung, präzise Ausführung und ein Ergebnis, das sich in den Raum einfügt – vom einzelnen Bauteil bis zur kompletten Renovierung.
+        </p>
+      </div>
+
       <div class="service-grid">
         {leistungen.map((leistung, index) => (
-          <a class="service-card tile reveal" style={`--reveal-delay: ${(index % 3) * 55}ms`} href={withBase(`/leistungen/${leistung.id}/`)}>
+          <a
+            class={`service-card service-card--${index + 1} reveal`}
+            style={`--reveal-delay: ${(index % 3) * 55}ms`}
+            href={withBase(`/leistungen/${leistung.id}/`)}
+          >
             <div class="service-media">
-              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[480, 800]} sizes="(max-width: 56rem) 100vw, 33vw" quality={72} format="webp" />
+              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 60vw" quality={74} format="webp" />
+              <span class="service-index" aria-hidden="true">0{index + 1}</span>
             </div>
             <div class="service-body">
-              <h3>{leistung.data.title}</h3>
-              <p>{leistung.data.kurztext}</p>
+              <div>
+                <h3>{leistung.data.title}</h3>
+                <p>{leistung.data.kurztext}</p>
+              </div>
               <span class="more">Mehr erfahren <span aria-hidden="true">→</span></span>
             </div>
           </a>
@@ -85,13 +106,15 @@ const schema = {
     </div>
   </section>
 
-  <section class="section section--sand" aria-labelledby="ablauf-titel">
-    <div class="wrap">
-      <p class="eyebrow">So arbeiten wir</p>
-      <h2 id="ablauf-titel">Ein klarer Ablauf. Ein gutes Gefühl.</h2>
+  <section class="section section--sand process-section" aria-labelledby="ablauf-titel">
+    <div class="wrap process-heading">
+      <div>
+        <p class="eyebrow">So arbeiten wir</p>
+        <h2 id="ablauf-titel">Ein klarer Ablauf.<br />Ein gutes Gefühl.</h2>
+      </div>
       <p class="lead">Vom ersten Gespräch bis zur sauberen Übergabe behalten Sie jederzeit den Überblick.</p>
-      <div class="process-wrap"><ProcessSteps /></div>
     </div>
+    <div class="wrap process-wrap"><ProcessSteps /></div>
   </section>
 
   <Testimonials />
@@ -102,9 +125,10 @@ const schema = {
   .hero {
     position: relative;
     display: grid;
-    min-height: clamp(36rem, calc(100svh - var(--header-height)), 48rem);
-    align-items: center;
+    min-height: clamp(40rem, calc(100svh - var(--header-height)), 55rem);
+    align-items: end;
     overflow: hidden;
+    color: var(--paper-inverse);
     background: var(--ink);
   }
   .hero-media, .hero-media::after, .hero-media :global(img) {
@@ -113,113 +137,306 @@ const schema = {
     width: 100%;
     height: 100%;
   }
-  .hero-media :global(img) { object-fit: cover; object-position: center; }
+  .hero-media :global(img) {
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.01);
+  }
   .hero-media::after {
-    background: linear-gradient(90deg, rgba(23,24,27,.18), transparent 58%);
+    background:
+      linear-gradient(90deg, rgba(17,18,20,.82) 0%, rgba(17,18,20,.48) 42%, rgba(17,18,20,.08) 72%),
+      linear-gradient(0deg, rgba(17,18,20,.62) 0%, rgba(17,18,20,0) 46%);
     content: "";
   }
-  .hero-inner { position: relative; width: 100%; padding-block: clamp(3.5rem, 8vw, 6rem); }
-  .hero-panel {
-    max-width: 36rem;
-    padding: clamp(1.75rem, 4vw, 3.25rem);
-    border-top: 3px solid var(--brass);
-    background: rgba(255, 255, 255, .94);
-    box-shadow: var(--shadow-float);
-    backdrop-filter: blur(8px);
+  .hero-inner {
+    position: relative;
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--space-4);
+    padding-block: clamp(5rem, 10vw, 8rem) clamp(5.5rem, 9vw, 7.5rem);
   }
-  .hero-panel h1 { max-width: 13ch; }
+  .hero-copy { max-width: 57rem; }
+  .hero .eyebrow { color: #e1bb72; }
+  .hero .eyebrow::before { background: #e1bb72; }
+  .hero h1 {
+    max-width: 11ch;
+    font-size: clamp(3.4rem, 8vw, 7rem);
+    line-height: .95;
+    letter-spacing: -.045em;
+  }
+  .hero .lead {
+    max-width: 42rem;
+    margin-top: var(--space-3);
+    color: rgba(255,255,255,.82);
+    font-size: clamp(1.08rem, 1.8vw, 1.32rem);
+  }
   .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--space-4); }
+  .hero-primary {
+    color: var(--ink);
+    background: var(--paper-inverse);
+    border-color: var(--paper-inverse);
+  }
+  .hero-secondary {
+    color: var(--paper-inverse);
+    background: rgba(255,255,255,.04);
+    border-color: rgba(255,255,255,.55);
+    backdrop-filter: blur(6px);
+  }
+  .hero-note {
+    max-width: 18rem;
+    padding-bottom: .5rem;
+    color: rgba(255,255,255,.62);
+    font-size: .75rem;
+    letter-spacing: .1em;
+    line-height: 1.5;
+    text-align: right;
+    text-transform: uppercase;
+  }
 
-  .stats { border-bottom: 1px solid var(--line); background: var(--paper); }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding-inline: var(--pad-inline); }
+  .stats {
+    position: relative;
+    z-index: 3;
+    margin-top: -2.35rem;
+    background: transparent;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.98);
+    box-shadow: var(--shadow-soft);
+  }
   .stats-grid div {
     display: grid;
     min-width: 0;
-    gap: .25rem;
-    padding: var(--space-3) var(--space-2);
+    gap: .3rem;
+    padding: 1.55rem var(--space-2);
     border-right: 1px solid var(--line);
     text-align: center;
   }
-  .stats-grid div:first-child { border-left: 1px solid var(--line); }
-  .stats-grid strong { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.25; }
+  .stats-grid div:last-child { border-right: 0; }
+  .stats-grid strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    line-height: 1.2;
+  }
   .stats-grid span { color: var(--ink-soft); font-size: var(--text-sm); }
 
-  .quote p {
-    max-width: 44ch;
-    padding-block: var(--space-6);
+  .statement { margin-top: -2.35rem; padding-top: calc(var(--space-6) + 2.35rem); }
+  .statement-grid {
+    display: grid;
+    grid-template-columns: minmax(12rem, .6fr) minmax(0, 1.4fr);
+    align-items: end;
+    gap: clamp(2rem, 8vw, 8rem);
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+  .statement-kicker {
+    max-width: 17rem;
+    padding-top: .85rem;
+    border-top: 1px solid var(--brass);
+    color: var(--ink-soft);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .statement-copy {
+    max-width: 19ch;
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
-    line-height: 1.35;
-    text-align: center;
+    font-size: clamp(2.4rem, 5vw, 4.7rem);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+  }
+
+  .services-section { padding-top: clamp(5rem, 9vw, 8rem); }
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .65fr);
+    align-items: end;
+    gap: clamp(2rem, 8vw, 8rem);
+  }
+  .section-intro {
+    padding-bottom: .25rem;
+    color: var(--ink-soft);
+    font-size: var(--text-base);
+    line-height: 1.7;
   }
 
   .service-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-6);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin-top: clamp(3rem, 7vw, 5.5rem);
   }
   .service-card {
     display: grid;
     min-width: 0;
     grid-template-rows: auto 1fr;
-    overflow: hidden;
     color: var(--ink);
     text-decoration: none;
-    transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease-move);
   }
-  .service-media { overflow: hidden; }
+  .service-card--1 { grid-column: span 7; }
+  .service-card--2 { grid-column: span 5; }
+  .service-card--3,
+  .service-card--4,
+  .service-card--5 { grid-column: span 4; }
+  .service-card--6 { grid-column: span 5; }
+  .service-card--7 { grid-column: span 7; }
+
+  .service-media {
+    position: relative;
+    overflow: hidden;
+    background: var(--sand);
+  }
   .service-card :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
-    transition: transform 280ms var(--ease-move);
+    transition: transform 420ms var(--ease-move), filter 420ms var(--ease);
+  }
+  .service-card--2 :global(img),
+  .service-card--6 :global(img) { aspect-ratio: 4 / 3; }
+  .service-card--3 :global(img),
+  .service-card--4 :global(img),
+  .service-card--5 :global(img) { aspect-ratio: 1 / 1; }
+  .service-index {
+    position: absolute;
+    top: .8rem;
+    left: .8rem;
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.44);
+    color: #fff;
+    background: rgba(17,18,20,.46);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    backdrop-filter: blur(7px);
   }
   .service-body {
     display: grid;
-    padding: var(--space-3);
-    align-content: start;
-    gap: var(--space-1);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--space-3);
+    padding: 1.25rem .1rem 2rem;
+    border-bottom: 1px solid var(--line);
   }
-  .service-body p { color: var(--ink-soft); font-size: var(--text-sm); }
+  .service-body p {
+    max-width: 42rem;
+    margin-top: .55rem;
+    color: var(--ink-soft);
+    font-size: var(--text-sm);
+  }
   .more {
     display: inline-flex;
     align-items: center;
     gap: .45rem;
-    margin-top: var(--space-1);
+    padding-top: .25rem;
     color: var(--brass-deep);
     font-size: var(--text-sm);
     font-weight: 650;
+    white-space: nowrap;
   }
-  .process-wrap { margin-top: var(--space-6); }
+
+  .process-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, .62fr);
+    align-items: end;
+    gap: clamp(2rem, 8vw, 8rem);
+  }
+  .process-heading .lead { padding-bottom: .25rem; }
+  .process-wrap { margin-top: clamp(3rem, 6vw, 5rem); }
 
   @media (hover: hover) and (pointer: fine) {
-    .service-card:hover { border-color: var(--brass); color: var(--ink); transform: translateY(-2px); }
-    .service-card:hover :global(img) { transform: scale(1.025); }
+    .hero-primary:hover { color: #fff; background: var(--brass-deep); border-color: var(--brass-deep); }
+    .hero-secondary:hover { color: var(--ink); background: var(--paper-inverse); border-color: var(--paper-inverse); }
+    .service-card:hover { color: var(--ink); }
+    .service-card:hover :global(img) { transform: scale(1.035); filter: saturate(1.04) contrast(1.02); }
+    .service-card:hover .more { color: var(--ink); }
+  }
+
+  @media (max-width: 64rem) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-note { display: none; }
+    .service-card--1,
+    .service-card--2,
+    .service-card--6,
+    .service-card--7 { grid-column: span 6; }
+    .service-card--3,
+    .service-card--4,
+    .service-card--5 { grid-column: span 4; }
   }
 
   @media (max-width: 56rem) {
+    .hero h1 { max-width: 12ch; }
+    .stats { margin-top: -1.5rem; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .stats-grid div { border-bottom: 1px solid var(--line); }
-    .stats-grid div:nth-child(odd) { border-left: 1px solid var(--line); }
-    .service-grid { grid-template-columns: 1fr; }
-    .service-card { grid-template-columns: minmax(9rem, 38%) minmax(0, 1fr); grid-template-rows: 1fr; }
-    .service-card :global(img) { height: 100%; aspect-ratio: auto; }
-    .hero-panel { max-width: 38rem; }
+    .stats-grid div:nth-child(2n) { border-right: 0; }
+    .stats-grid div:nth-last-child(-n + 2) { border-bottom: 0; }
+    .statement { margin-top: -1.5rem; padding-top: calc(var(--space-5) + 1.5rem); }
+    .statement-grid,
+    .section-heading,
+    .process-heading { grid-template-columns: 1fr; gap: var(--space-3); }
+    .statement-grid { align-items: start; }
+    .statement-copy { max-width: 21ch; }
+    .section-intro { max-width: 44rem; }
+    .service-card--1,
+    .service-card--2,
+    .service-card--3,
+    .service-card--4,
+    .service-card--5,
+    .service-card--6,
+    .service-card--7 { grid-column: span 6; }
+    .service-card :global(img),
+    .service-card--2 :global(img),
+    .service-card--3 :global(img),
+    .service-card--4 :global(img),
+    .service-card--5 :global(img),
+    .service-card--6 :global(img) { aspect-ratio: 4 / 3; }
+    .service-body { grid-template-columns: 1fr; gap: .35rem; }
   }
 
   @media (max-width: 36rem) {
-    .hero { min-height: calc(100svh - var(--header-height) - var(--mobile-cta-h)); align-items: end; }
-    .hero-inner { padding-block: 2.5rem; }
-    .hero-panel { padding: 1.5rem; }
+    .hero {
+      min-height: calc(100svh - var(--header-height) - var(--mobile-cta-h));
+      align-items: end;
+    }
+    .hero-media :global(img) { object-position: 58% center; }
+    .hero-media::after {
+      background:
+        linear-gradient(0deg, rgba(17,18,20,.87) 0%, rgba(17,18,20,.52) 58%, rgba(17,18,20,.1) 100%);
+    }
+    .hero-inner { padding-block: 4rem 5rem; }
+    .hero h1 { font-size: clamp(3rem, 15vw, 4.45rem); }
+    .hero .lead { font-size: 1.05rem; line-height: 1.6; }
     .hero-actions { display: grid; grid-template-columns: 1fr; }
     .hero-actions .btn { width: 100%; }
-    .stats-grid span { font-size: .8rem; line-height: 1.4; }
-    .service-card { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-    .service-card :global(img) { aspect-ratio: 3 / 2; }
+    .stats-grid div { padding: 1.2rem .75rem; }
+    .stats-grid span { font-size: .78rem; line-height: 1.35; }
+    .statement-grid { padding-block: 4.5rem; }
+    .statement-copy { font-size: clamp(2.3rem, 11vw, 3.2rem); }
+    .service-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .service-card--1,
+    .service-card--2,
+    .service-card--3,
+    .service-card--4,
+    .service-card--5,
+    .service-card--6,
+    .service-card--7 { grid-column: 1; }
+    .service-card :global(img),
+    .service-card--2 :global(img),
+    .service-card--3 :global(img),
+    .service-card--4 :global(img),
+    .service-card--5 :global(img),
+    .service-card--6 :global(img) { aspect-ratio: 3 / 2; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .service-card, .service-card :global(img) { transition: none; }
+    .service-card :global(img) { transition: none; }
   }
 </style>
