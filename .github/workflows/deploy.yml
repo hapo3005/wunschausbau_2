@@ -1,4 +1,5 @@
 # GitHub Pages deployment for the current KS release
+# Release merge also refreshes the current Pages build.
 name: Deploy to GitHub Pages
 
 on:
