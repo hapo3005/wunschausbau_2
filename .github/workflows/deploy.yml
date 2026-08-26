@@ -1,11 +1,13 @@
 # GitHub Pages deployment for the current KS release
-# Release merge also refreshes the current Pages build.
+# Temporary scheduled release; remove after the current deployment succeeds.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '55 15 26 8 *'
 
 permissions:
   contents: read
