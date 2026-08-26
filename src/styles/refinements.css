@@ -1,3 +1,65 @@
 .service-index {
   display: none !important;
 }
+
+/* Keep paired service images visually level without adding decoration. */
+.services-section .service-card--1 img,
+.services-section .service-card--7 img {
+  aspect-ratio: 15 / 8 !important;
+}
+
+.services-section .service-card--2 img,
+.services-section .service-card--6 img {
+  aspect-ratio: 4 / 3 !important;
+}
+
+.services-section .service-card--3 img,
+.services-section .service-card--4 img,
+.services-section .service-card--5 img {
+  aspect-ratio: 1 / 1 !important;
+}
+
+.services-section .service-card--1 img { object-position: center 54%; }
+.services-section .service-card--2 img { object-position: center 50%; }
+.services-section .service-card--3 img { object-position: center 52%; }
+.services-section .service-card--4 img { object-position: center 48%; }
+.services-section .service-card--5 img { object-position: center 50%; }
+.services-section .service-card--6 img { object-position: center 52%; }
+.services-section .service-card--7 img { object-position: center 53%; }
+
+.services-section .section-intro {
+  max-width: 38rem;
+  line-height: 1.68;
+}
+
+.services-section .service-body h3 {
+  font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+}
+
+.services-section .service-body p {
+  max-width: 38ch;
+  line-height: 1.62;
+}
+
+.services-section .service-body {
+  padding-top: 1.2rem;
+  padding-bottom: 1.9rem;
+}
+
+.process-section .process-heading .lead {
+  max-width: 34rem;
+  line-height: 1.68;
+}
+
+@media (max-width: 56rem) {
+  .services-section .service-card img {
+    aspect-ratio: 4 / 3 !important;
+    object-position: center !important;
+  }
+}
+
+@media (max-width: 36rem) {
+  .services-section .service-card img {
+    aspect-ratio: 3 / 2 !important;
+  }
+}
