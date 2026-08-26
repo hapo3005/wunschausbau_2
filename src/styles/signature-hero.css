@@ -275,7 +275,7 @@ main .ks-hero__location strong {
 
   main .ks-hero__location {
     top: clamp(1.25rem, 4vw, 2rem) !important;
-    right: var(--page-gutter) !important;
+    right: var(--pad-inline) !important;
     bottom: auto !important;
     width: auto !important;
     max-width: 15rem !important;
