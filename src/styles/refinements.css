@@ -6,6 +6,35 @@ main h1 {
   line-height: .93;
 }
 
+/* Sitewide brand details follow the same typographic voice. */
+.site-header .brand-name,
+.site-footer .footer-brand {
+  font-family: var(--font-brand) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.cta-band h2 {
+  font-family: var(--font-brand) !important;
+  font-weight: 640 !important;
+  letter-spacing: -0.04em !important;
+  line-height: .99 !important;
+}
+
+.testimonials .rating strong {
+  font-family: var(--font-brand) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.025em !important;
+}
+
+.wert > span,
+.region-mark,
+.list .idx {
+  font-family: var(--font-brand) !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.02em !important;
+}
+
 /* Hero signature comes from proportion, alignment and weight — not playful forms. */
 main .hero .hero-copy {
   max-width: 63rem;
@@ -124,12 +153,16 @@ main .hero .hero-note {
   letter-spacing: .115em !important;
 }
 
-/* Editorial serif is reserved for the one large brand statement. */
+/* Editorial serif is reserved for selected human/editorial moments only. */
 main .statement-copy {
   font-family: var(--font-display);
   font-weight: 500;
   letter-spacing: -0.018em !important;
   line-height: 1.045 !important;
+}
+
+.testimonials blockquote {
+  font-family: var(--font-display) !important;
 }
 
 main .stats-grid strong {
