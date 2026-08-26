@@ -10,6 +10,9 @@ Wenn diese Punkte beantwortet sind, können Website + Google Business Profile da
 - [ ] Telefon bestätigt: 0151 53264522
 - [ ] E-Mail bestätigt: kontakt@wunschausbau.de
 - [ ] WhatsApp als Kundenkanal: ja / nein
+- [ ] **Bauschreiner** als öffentlich verwendbare Berufsbezeichnung bestätigt: ja / nein
+
+**Bereits öffentlich belegt:** In einer KS-Anzeige 2025 wurden Kevin Schmieding, Bauschreiner, Förbeltstraße 1, Telefon, E-Mail, wunschausbau.de und der Instagram-Handle `ksinnenausbau` gemeinsam beworben.
 
 ## 2. Google-Standort
 - [ ] Werden an Förbeltstraße 1 Kunden empfangen? ja / nein
@@ -73,6 +76,22 @@ Wenn diese Punkte beantwortet sind, können Website + Google Business Profile da
 - [ ] Fotos ansehen
 - [ ] Review-Link (`Um Rezensionen bitten`) sichern
 
+## 9. Weitere Profile einmal öffnen
+
+### MyHammer
+- [ ] Kevin hat Zugriff
+- [ ] aktuelle Beschreibung ansehen
+- [ ] Leistungen/Kategorien ansehen
+- [ ] Projektbilder ansehen
+- [ ] bestätigen, ob Küchen-/Möbelmontage weiter beworben werden soll
+
+**Wichtig:** Öffentlich aktuell 5,0/5 mit 13 Bewertungen, aber noch mit alter Preisführer-Kommunikation (`unschlagbarer Preis`, `höchste Qualität zum besten Preis`). Diese wird nach Freigabe auf die neue Qualitätspositionierung umgestellt.
+
+### Instagram
+- [ ] Account `ksinnenausbau` aktiv und Zugriff vorhanden
+- [ ] Bio / Website-Link / Kontaktangaben prüfen
+- [ ] bisherige Bildsprache kurz prüfen
+
 ## Zielbild bereits vorbereitet
 - Hauptkategorie: **Auftragnehmer für den Innenausbau** (sofern im Editor verfügbar)
 - fertige Google-Unternehmensbeschreibung
@@ -83,5 +102,7 @@ Wenn diese Punkte beantwortet sind, können Website + Google Business Profile da
 - Google-Post-Vorlagen
 - Website/GBP-Synchronisierung
 - Live-Runbook
+- MyHammer-Zielbeschreibung
+- External-Presence-Synchronisierung
 
 **Wenn die Kästchen oben geklärt sind, brauchen wir danach keine neue Konzeptphase mehr.**
