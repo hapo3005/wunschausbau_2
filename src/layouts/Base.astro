@@ -20,6 +20,8 @@ interface Props {
 
 const { title, description, schema, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
+const shouldNoindex = noindex || isPreview;
 ---
 <!DOCTYPE html>
 <html lang="de">
@@ -29,7 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {shouldNoindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <meta name="theme-color" content="#17181b" />
