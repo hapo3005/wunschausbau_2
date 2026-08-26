@@ -11,7 +11,7 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith('/danke/')
+      filter: (page) => !page.endsWith('/danke/') && !page.endsWith('/freigabe/')
     })
   ],
   build: { inlineStylesheets: 'always' }
