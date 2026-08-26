@@ -6,6 +6,7 @@ import faq from '../data/faq.json';
 import { withBase } from '../lib/paths';
 
 const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -41,7 +42,13 @@ const faqSchema = {
         <p class="foto-hinweis">Fotos oder Pläne? Schicken Sie sie uns nach dem Erstkontakt einfach per WhatsApp oder E-Mail.</p>
       </div>
 
-      <form class="anfrage tile" method="POST" action="/api/anfrage">
+      <form
+        class="anfrage tile"
+        method={isPreview ? undefined : 'POST'}
+        action={isPreview ? undefined : '/api/anfrage'}
+        data-preview={isPreview ? 'true' : undefined}
+        data-email={settings.email}
+      >
         <fieldset>
           <legend>Leistung auswählen <b aria-hidden="true">*</b></legend>
           <div class="choice-grid">
@@ -114,7 +121,7 @@ const faqSchema = {
         <p class="hp" aria-hidden="true">
           <label>Firma <input name="firma" tabindex="-1" autocomplete="off" /></label>
         </p>
-        <input type="hidden" name="ts" value={String(Date.now())} />
+        <input type="hidden" name="ts" value="" data-form-ts />
 
         <label class="privacy">
           <input type="checkbox" name="datenschutz" required />
@@ -127,6 +134,7 @@ const faqSchema = {
           <span aria-hidden="true">→</span>
         </button>
         <p class="form-note">Keine Verpflichtung. Pflichtfelder sind mit * markiert.</p>
+        <p class="form-status" data-form-status hidden aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -245,7 +253,8 @@ const faqSchema = {
     accent-color: var(--brass-deep);
   }
   .submit { justify-self: start; }
-  .form-note { color: var(--ink-soft); font-size: var(--text-sm); }
+  .form-note, .form-status { color: var(--ink-soft); font-size: var(--text-sm); }
+  .form-status { margin-top: calc(var(--space-2) * -1); }
 
   .faq { display: grid; max-width: 54rem; gap: .75rem; margin-top: var(--space-4); }
   details { padding: 0; overflow: hidden; }
@@ -298,3 +307,47 @@ const faqSchema = {
     input, select, textarea, .choice span, .faq-icon::before, .faq-icon::after { transition: none; }
   }
 </style>
+
+<script>
+  const form = document.querySelector('.anfrage');
+  const timestamp = form?.querySelector('[data-form-ts]');
+
+  if (timestamp instanceof HTMLInputElement) {
+    timestamp.value = String(Date.now());
+  }
+
+  if (form instanceof HTMLFormElement && form.dataset.preview === 'true') {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const value = (name) => String(data.get(name) || '').trim();
+      const lines = [
+        `Leistung: ${value('leistung')}`,
+        `Name: ${value('name')}`,
+        `Telefon: ${value('telefon')}`,
+        `E-Mail: ${value('email') || '–'}`,
+        `Ort / PLZ: ${value('ort')}`,
+        `Objektart: ${value('objektart') || '–'}`,
+        `Zeitraum: ${value('zeitraum') || '–'}`,
+        `Budget: ${value('budget') || '–'}`,
+        `Bevorzugter Kontaktweg: ${value('kontaktweg')}`,
+        '',
+        'Projektbeschreibung:',
+        value('beschreibung')
+      ];
+
+      const recipient = form.dataset.email || '';
+      const subject = `Projektanfrage über wunschausbau.de – ${value('leistung')}`;
+      const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+      const status = form.querySelector('[data-form-status]');
+
+      if (status instanceof HTMLElement) {
+        status.hidden = false;
+        status.textContent = 'Ihr E-Mail-Programm wird geöffnet. Die Angaben sind bereits für Sie vorbereitet.';
+      }
+
+      window.location.href = mailto;
+    });
+  }
+</script>
