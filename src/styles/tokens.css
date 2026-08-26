@@ -11,6 +11,7 @@
   --paper-inverse: #f6f4ef;
   --error: #b3261e;
 
+  --font-brand: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
   --font-display: 'Source Serif 4 Variable', Georgia, serif;
   --font-text: 'Manrope Variable', system-ui, sans-serif;
   --text-base: 1rem;
