@@ -1,0 +1,258 @@
+/* KS premium typography correction — strong craft, precise architecture, no font tricks. */
+:root {
+  --font-brand: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+  --font-display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'IBM Plex Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-text);
+  font-variation-settings: 'wght' 400;
+  letter-spacing: 0;
+}
+
+main h1,
+main h2,
+main h3,
+.site-header .brand-name,
+.site-footer .footer-brand,
+.cta-band h2,
+.testimonials .rating strong,
+.region-mark,
+main .stats-grid strong,
+.services-section .service-body h3,
+.list .row h2,
+.process article h3 {
+  font-family: var(--font-brand) !important;
+  font-variation-settings: normal !important;
+}
+
+main h1 {
+  font-weight: 600 !important;
+  letter-spacing: -.026em !important;
+  line-height: .94 !important;
+}
+
+main h2 {
+  font-weight: 600 !important;
+  letter-spacing: -.022em !important;
+  line-height: .99 !important;
+}
+
+main h3 {
+  font-weight: 600 !important;
+  letter-spacing: -.014em !important;
+  line-height: 1.06 !important;
+}
+
+.site-header .brand-name,
+.site-footer .footer-brand {
+  font-weight: 600 !important;
+  letter-spacing: -.018em !important;
+}
+
+.cta-band h2 {
+  font-weight: 600 !important;
+  letter-spacing: -.025em !important;
+  line-height: .98 !important;
+}
+
+.testimonials .rating strong,
+main .stats-grid strong,
+.region-mark {
+  font-weight: 600 !important;
+  letter-spacing: -.015em !important;
+}
+
+/* Human/editorial moments use the regular Plex cut, not a competing decorative typeface. */
+main .statement-copy,
+.testimonials blockquote {
+  font-family: var(--font-text) !important;
+  font-variation-settings: 'wght' 430 !important;
+  font-weight: 430 !important;
+  letter-spacing: -.018em !important;
+}
+
+/* Hero — one confident voice, disciplined scale and hierarchy. */
+main .hero .hero-copy {
+  max-width: 54rem !important;
+}
+
+main .hero .eyebrow {
+  margin-bottom: clamp(1.25rem, 2vw, 1.7rem) !important;
+  font-family: var(--font-text) !important;
+  font-size: .72rem !important;
+  font-weight: 600 !important;
+  font-variation-settings: 'wght' 600 !important;
+  letter-spacing: .14em !important;
+}
+
+main .hero .hero-title {
+  display: grid !important;
+  width: fit-content !important;
+  max-width: none !important;
+  font-family: var(--font-brand) !important;
+  font-size: clamp(4.25rem, 7.15vw, 7rem) !important;
+  font-weight: 600 !important;
+  font-variation-settings: normal !important;
+  letter-spacing: -.035em !important;
+  line-height: .84 !important;
+  text-wrap: nowrap;
+}
+
+main .hero .hero-title-line {
+  display: block;
+  font-weight: 600 !important;
+  font-variation-settings: normal !important;
+}
+
+main .hero .hero-title-line:first-child {
+  color: rgba(255,255,255,.96) !important;
+  font-weight: 600 !important;
+}
+
+main .hero .hero-title-line--offset {
+  margin-left: 0 !important;
+  font-size: .95em;
+  font-weight: 700 !important;
+  letter-spacing: -.032em;
+}
+
+main .hero .hero-title-detail {
+  display: flex !important;
+  align-items: center;
+  width: min(100%, 27rem) !important;
+  gap: clamp(.8rem, 1.5vw, 1.2rem) !important;
+  margin-top: clamp(1.05rem, 1.7vw, 1.35rem) !important;
+  margin-left: 0 !important;
+  color: #e1bb72 !important;
+  font-family: var(--font-text) !important;
+  font-size: .18em !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  letter-spacing: .005em !important;
+  line-height: 1.1 !important;
+  white-space: nowrap;
+}
+
+main .hero .hero-title-detail::after {
+  width: clamp(3.5rem, 8vw, 6.5rem) !important;
+  height: 1px;
+  flex: 0 1 auto;
+  background: rgba(225,187,114,.62) !important;
+  content: '';
+}
+
+main .hero .lead {
+  max-width: 34rem !important;
+  margin-top: clamp(1.65rem, 2.7vw, 2.15rem) !important;
+  color: rgba(255,255,255,.76) !important;
+  font-family: var(--font-text) !important;
+  font-size: clamp(.98rem, 1.15vw, 1.075rem) !important;
+  font-weight: 400 !important;
+  font-variation-settings: 'wght' 400 !important;
+  letter-spacing: -.006em !important;
+  line-height: 1.67 !important;
+}
+
+main .hero .hero-actions {
+  gap: clamp(1rem, 1.8vw, 1.45rem) !important;
+  margin-top: clamp(1.85rem, 3vw, 2.35rem) !important;
+}
+
+main .hero .hero-primary {
+  min-height: 3.35rem !important;
+  padding-inline: 1.55rem !important;
+  font-family: var(--font-text) !important;
+  font-size: .9rem !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  letter-spacing: 0 !important;
+}
+
+main .hero .hero-secondary {
+  font-family: var(--font-text) !important;
+  font-size: .9rem !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  letter-spacing: 0 !important;
+}
+
+main .hero .hero-note {
+  max-width: 14rem !important;
+  padding-top: .7rem !important;
+  color: rgba(255,255,255,.46) !important;
+  font-family: var(--font-text) !important;
+  font-size: .62rem !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  letter-spacing: .12em !important;
+  line-height: 1.55 !important;
+}
+
+/* UI typography should never compete with the headline. */
+.site-nav,
+.btn,
+.eyebrow,
+.lead,
+label,
+legend,
+summary,
+.more,
+.row-link,
+figcaption,
+.footer-meta,
+.footer-region {
+  font-family: var(--font-text) !important;
+  font-variation-settings: 'wght' 400;
+}
+
+.site-nav > a:not(.btn),
+.more,
+.row-link,
+figcaption {
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+}
+
+.btn,
+label,
+legend,
+summary {
+  font-weight: 550 !important;
+  font-variation-settings: 'wght' 550 !important;
+}
+
+.services-section .service-body h3,
+.list .row h2,
+.process article h3 {
+  font-weight: 600 !important;
+  letter-spacing: -.015em !important;
+}
+
+@media (max-width: 56rem) {
+  main .hero .hero-copy { max-width: 46rem !important; }
+  main .hero .hero-title {
+    font-size: clamp(3.8rem, 10.4vw, 5.8rem) !important;
+    letter-spacing: -.033em !important;
+  }
+  main .hero .hero-title-detail { width: min(100%, 24rem) !important; }
+}
+
+@media (max-width: 36rem) {
+  main .hero .hero-title {
+    font-size: clamp(3rem, 12.8vw, 4.15rem) !important;
+    line-height: .86 !important;
+    letter-spacing: -.03em !important;
+  }
+  main .hero .hero-title-line--offset { font-size: .94em; }
+  main .hero .hero-title-detail {
+    width: 100% !important;
+    margin-top: .9rem !important;
+    font-size: .21em !important;
+  }
+  main .hero .lead {
+    max-width: 30rem !important;
+    font-size: .98rem !important;
+  }
+}
