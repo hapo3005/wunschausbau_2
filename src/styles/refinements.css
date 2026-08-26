@@ -7,6 +7,125 @@ main h1 {
   line-height: .96;
 }
 
+/* KS signature hero: character comes from composition, not decoration. */
+main .hero .hero-copy {
+  max-width: 67rem;
+}
+
+main .hero .hero-title {
+  position: relative;
+  display: grid;
+  width: fit-content;
+  max-width: none;
+  font-family: var(--font-brand);
+  font-size: clamp(4.15rem, 8.65vw, 7.95rem) !important;
+  font-weight: 540 !important;
+  font-variation-settings: "opsz" 92, "wdth" 91, "wght" 540 !important;
+  letter-spacing: -0.06em !important;
+  line-height: .805 !important;
+  text-wrap: nowrap;
+}
+
+main .hero .hero-title-line:first-child {
+  font-weight: 455;
+  font-variation-settings: "opsz" 92, "wdth" 92, "wght" 455;
+}
+
+main .hero .hero-title-line--offset {
+  margin-left: clamp(1.15rem, 4.9vw, 5rem) !important;
+  font-weight: 625;
+  font-variation-settings: "opsz" 92, "wdth" 90, "wght" 625;
+}
+
+main .hero .hero-title-detail {
+  display: flex !important;
+  align-items: center;
+  width: min(100%, 38rem);
+  gap: clamp(1rem, 2.1vw, 1.8rem);
+  margin-top: clamp(1.2rem, 2.25vw, 1.7rem) !important;
+  margin-left: clamp(1.5rem, 8.2vw, 8.4rem) !important;
+  color: #e1bb72;
+  font-family: var(--font-display);
+  font-size: .3em !important;
+  font-style: italic;
+  font-weight: 430 !important;
+  font-variation-settings: "opsz" 40, "wght" 430 !important;
+  letter-spacing: -0.018em !important;
+  line-height: 1.05 !important;
+  white-space: nowrap;
+}
+
+main .hero .hero-title-detail::after {
+  width: clamp(4.5rem, 12vw, 10.5rem);
+  height: 1px;
+  flex: 0 1 auto;
+  background: linear-gradient(90deg, rgba(225,187,114,.78), rgba(225,187,114,.08));
+  content: "";
+}
+
+main .hero .lead {
+  max-width: 34rem !important;
+  margin-top: clamp(1.65rem, 3.2vw, 2.35rem) !important;
+  color: rgba(255,255,255,.76) !important;
+  font-size: clamp(1.02rem, 1.45vw, 1.16rem) !important;
+  line-height: 1.72 !important;
+}
+
+main .hero .hero-actions {
+  align-items: center;
+  gap: clamp(1.1rem, 2.2vw, 1.75rem) !important;
+  margin-top: clamp(2rem, 4vw, 2.8rem) !important;
+}
+
+main .hero .hero-primary {
+  min-height: 3.5rem;
+  padding-inline: 1.7rem;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: .94rem;
+  font-weight: 650;
+  letter-spacing: .005em;
+}
+
+main .hero .hero-secondary {
+  min-height: 0 !important;
+  padding: .45rem 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,.48) !important;
+  border-radius: 0 !important;
+  color: rgba(255,255,255,.88) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  font-size: .93rem;
+  font-weight: 580;
+}
+
+main .hero .hero-secondary span {
+  margin-left: .25rem;
+  transition: transform var(--dur) var(--ease-move);
+}
+
+main .hero .hero-media img {
+  object-position: 62% center !important;
+  filter: saturate(.86) contrast(1.055) brightness(.94) !important;
+  transform: scale(1.025) !important;
+}
+
+main .hero .hero-media::after {
+  background:
+    linear-gradient(90deg, rgba(11,12,14,.94) 0%, rgba(11,12,14,.73) 31%, rgba(11,12,14,.27) 59%, rgba(11,12,14,.035) 82%),
+    linear-gradient(0deg, rgba(11,12,14,.74) 0%, rgba(11,12,14,.14) 46%, rgba(11,12,14,.04) 100%) !important;
+}
+
+main .hero .hero-note {
+  border-top-color: rgba(225,187,114,.36) !important;
+  color: rgba(255,255,255,.48) !important;
+  font-size: .67rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .12em !important;
+}
+
 main .statement-copy {
   letter-spacing: -0.018em !important;
   line-height: 1.045 !important;
@@ -68,7 +187,35 @@ main .stats-grid strong {
   line-height: 1.68;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  main .hero .hero-secondary:hover {
+    color: #e1bb72 !important;
+    border-bottom-color: #e1bb72 !important;
+  }
+
+  main .hero .hero-secondary:hover span {
+    transform: translate(.18rem, -.1rem);
+  }
+}
+
 @media (max-width: 56rem) {
+  main .hero .hero-title {
+    font-size: clamp(3.75rem, 11vw, 6rem) !important;
+  }
+
+  main .hero .hero-title-line--offset {
+    margin-left: clamp(.7rem, 3.4vw, 2.35rem) !important;
+  }
+
+  main .hero .hero-title-detail {
+    width: min(100%, 31rem);
+    margin-left: clamp(.9rem, 6vw, 4rem) !important;
+  }
+
+  main .hero .hero-media img {
+    object-position: 58% center !important;
+  }
+
   .services-section .service-card img {
     aspect-ratio: 4 / 3 !important;
     object-position: center !important;
@@ -76,6 +223,48 @@ main .stats-grid strong {
 }
 
 @media (max-width: 36rem) {
+  main .hero .hero-title {
+    font-size: clamp(3.15rem, 14vw, 4.55rem) !important;
+    letter-spacing: -0.055em !important;
+    line-height: .82 !important;
+  }
+
+  main .hero .hero-title-line--offset {
+    margin-left: .35rem !important;
+  }
+
+  main .hero .hero-title-detail {
+    width: 100%;
+    gap: .8rem;
+    margin-top: 1rem !important;
+    margin-left: .8rem !important;
+    font-size: .34em !important;
+  }
+
+  main .hero .hero-title-detail::after {
+    width: min(4.5rem, 16vw);
+  }
+
+  main .hero .hero-actions {
+    display: flex !important;
+    align-items: flex-start;
+    gap: 1.15rem !important;
+  }
+
+  main .hero .hero-primary {
+    width: auto !important;
+    min-height: 3.35rem;
+  }
+
+  main .hero .hero-secondary {
+    width: auto !important;
+    align-self: center;
+  }
+
+  main .hero .hero-media img {
+    object-position: 61% center !important;
+  }
+
   .services-section .service-card img {
     aspect-ratio: 3 / 2 !important;
   }
