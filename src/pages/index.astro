@@ -2,14 +2,54 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import ProcessSteps from '../components/ProcessSteps.astro';
 import Testimonials from '../components/Testimonials.astro';
 import CtaBand from '../components/CtaBand.astro';
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
 import hero from '../assets/hero.png';
+import interior from '../assets/service-interior.png';
+import floors from '../assets/service-floors.png';
+import doors from '../assets/service-doors-windows.png';
 
 const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+
+const process = [
+  {
+    title: 'Beratung & Aufmaß',
+    meta: 'Vor Ort · Wünsche · Bestand · Material',
+    text: 'Wir schauen uns die Situation vor Ort an, nehmen sauber Maß und klären, was technisch, gestalterisch und wirtschaftlich wirklich sinnvoll ist.'
+  },
+  {
+    title: 'Planung & Abstimmung',
+    meta: 'Details · Auswahl · Ablauf · Termin',
+    text: 'Materialien, Anschlüsse, Übergänge und Ablauf werden vor Beginn abgestimmt. So entstehen Entscheidungen nicht erst mitten auf der Baustelle.'
+  },
+  {
+    title: 'Ausführung & Übergabe',
+    meta: 'Präzision · Sauberkeit · Kontrolle · Übergabe',
+    text: 'Die Arbeiten werden ordentlich und nachvollziehbar umgesetzt. Zum Abschluss prüfen wir gemeinsam das Ergebnis und übergeben sauber.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Ein Ansprechpartner',
+    text: 'Von der ersten Idee bis zur Übergabe bleibt die Kommunikation klar und persönlich.'
+  },
+  {
+    title: 'Details vor der Baustelle',
+    text: 'Materialien, Übergänge und Anschlüsse werden vorher durchdacht statt später improvisiert.'
+  },
+  {
+    title: 'Saubere Koordination',
+    text: 'Einzelne Gewerke und Arbeitsschritte werden sinnvoll aufeinander abgestimmt.'
+  },
+  {
+    title: 'Räume statt Einzelteile',
+    text: 'Wir denken nicht nur in Türen, Böden oder Wänden, sondern im stimmigen Gesamtergebnis.'
+  }
+];
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'HomeAndConstructionBusiness',
@@ -31,508 +71,780 @@ const schema = {
   description="Innenausbau und Renovierung in Wittlich, Trier und der Moselregion: Böden, Innentüren, Fenster, Trockenbau, Sonnenschutz und Holzterrassen – präzise umgesetzt."
   schema={schema}
 >
-  <section class="hero">
-    <div class="hero-media">
-      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={80} format="webp" />
+  <section class="ks-hero" aria-labelledby="hero-title">
+    <div class="ks-hero__media">
+      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={84} format="webp" />
     </div>
-    <div class="wrap hero-inner">
-      <div class="hero-copy">
+
+    <div class="wrap ks-hero__inner">
+      <div class="ks-hero__copy">
         <p class="eyebrow">{settings.firma}</p>
-        <h1 class="hero-title">
-          <span class="hero-title-line">Innenausbau</span>
-          <span class="hero-title-line hero-title-line--offset">mit Anspruch.</span>
-          <span class="hero-title-detail">Bis ins Detail.</span>
+        <h1 id="hero-title">
+          <span>Innenausbau</span>
+          <strong>mit Anspruch.</strong>
+          <small>Bis ins Detail.</small>
         </h1>
-        <p class="lead">
+        <p class="ks-hero__lead">
           Von Böden und Türen über Trockenbau bis zur kompletten Renovierung.
-          Wir schaffen Wohnräume, die Qualität sichtbar und spürbar machen.
+          Für Wohnräume, die nicht nur fertig aussehen, sondern wirklich zusammenpassen.
         </p>
-        <div class="hero-actions">
-          <a class="btn hero-primary" href={withBase('/kontakt/')}>Kostenlose Beratung</a>
-          <a class="btn hero-secondary" href={withBase('/referenzen/')}>Arbeiten ansehen <span aria-hidden="true">↗</span></a>
+        <div class="ks-hero__actions">
+          <a class="ks-button" href={withBase('/kontakt/')}>Projekt besprechen</a>
+          <a class="ks-textlink" href={withBase('/referenzen/')}>Arbeiten ansehen <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      <p class="hero-note">Innenausbau · Renovierung<br />Wittlich & Moselregion</p>
-    </div>
-  </section>
 
-  <section class="stats" aria-label="Kennzahlen">
-    <div class="wrap">
-      <div class="stats-grid">
-        <div><strong>{settings.stats.projekte}</strong><span>realisierte Projekte</span></div>
-        <div><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></div>
-        <div><strong>{settings.region}</strong><span>regional verwurzelt</span></div>
-        <div><strong>{settings.stats.rueckmeldung}</strong><span>Rückmeldung im Regelfall</span></div>
+      <div class="ks-hero__location">
+        <span>Innenausbau & Renovierung</span>
+        <strong>{settings.region}</strong>
       </div>
     </div>
   </section>
 
-  <section class="statement section--sand">
-    <div class="wrap statement-grid">
-      <p class="statement-kicker">Handwerk ist für uns kein Detail.</p>
-      <p class="statement-copy">Qualität beginnt dort, wo man keine Kompromisse macht.</p>
+  <section class="proof-rail" aria-label="Vertrauen und Erfahrung">
+    <div class="wrap proof-rail__grid">
+      <div><strong>{settings.stats.projekte}</strong><span>realisierte Projekte</span></div>
+      <div><strong>{settings.stats.bewertung}</strong><span>Google-Bewertung</span></div>
+      <div><strong>{settings.region}</strong><span>regional verwurzelt</span></div>
+      <div><strong>{settings.stats.rueckmeldung}</strong><span>Rückmeldung im Regelfall</span></div>
     </div>
   </section>
 
-  <section class="section services-section">
+  <section class="selected-work" aria-labelledby="selected-work-title">
     <div class="wrap">
-      <div class="section-heading">
+      <header class="section-intro-grid">
         <div>
-          <p class="eyebrow">Unsere Leistungen</p>
-          <h2>Alles aus einer Hand.</h2>
+          <p class="eyebrow">Ausgewählte Arbeiten</p>
+          <h2 id="selected-work-title">Räume zeigen mehr als Versprechen.</h2>
         </div>
-        <p class="section-intro">
-          Saubere Planung, präzise Ausführung und ein Ergebnis, das sich in den Raum einfügt – vom einzelnen Bauteil bis zur kompletten Renovierung.
-        </p>
-      </div>
+        <div class="section-intro-side">
+          <p>Material, Licht, Linien und Übergänge müssen am Ende zusammenspielen. Deshalb zeigen wir lieber Ergebnisse als große Worte.</p>
+          <a class="ks-textlink ks-textlink--dark" href={withBase('/referenzen/')}>Alle Referenzen <span aria-hidden="true">→</span></a>
+        </div>
+      </header>
 
-      <div class="service-grid">
+      <div class="work-editorial">
+        <a class="work-shot work-shot--main reveal" href={withBase('/referenzen/')}>
+          <Image src={interior} alt="Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 66vw" quality={86} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Innenausbau</small><strong>Raumwirkung im Ganzen</strong></span>
+        </a>
+
+        <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 55ms">
+          <Image src={floors} alt="Hochwertig verlegter Eichenparkettboden" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={84} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Böden</small><strong>Material & Präzision</strong></span>
+        </a>
+
+        <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 90ms">
+          <Image src={doors} alt="Moderne Innentür und Fensterfront nach der Montage" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={84} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Türen & Fenster</small><strong>Saubere Übergänge</strong></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="customer-value" aria-labelledby="customer-value-title">
+    <div class="wrap customer-value__inner">
+      <header class="customer-value__head">
+        <p class="eyebrow">Was Sie davon haben</p>
+        <h2 id="customer-value-title">Weniger Reibung.<br />Mehr Sicherheit im Projekt.</h2>
+        <p>Guter Innenausbau ist nicht nur das sichtbare Ergebnis. Entscheidend ist auch, wie zuverlässig der Weg dorthin funktioniert.</p>
+      </header>
+
+      <div class="benefit-grid">
+        {benefits.map((benefit, index) => (
+          <article class={`benefit benefit--${index + 1} reveal`} style={`--reveal-delay: ${index * 45}ms`}>
+            <span class="benefit__icon" aria-hidden="true"></span>
+            <h3>{benefit.title}</h3>
+            <p>{benefit.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="capabilities" aria-labelledby="capabilities-title">
+    <div class="wrap">
+      <header class="section-intro-grid section-intro-grid--compact">
+        <div>
+          <p class="eyebrow">Leistungen</p>
+          <h2 id="capabilities-title">Alles, was ein Raum braucht.</h2>
+        </div>
+        <p class="section-intro-copy">Einzelne Leistungen dort, wo sie gebraucht werden. Oder als abgestimmte Renovierung aus einer Hand.</p>
+      </header>
+
+      <div class="capability-list">
         {leistungen.map((leistung, index) => (
-          <a
-            class={`service-card service-card--${index + 1} reveal`}
-            style={`--reveal-delay: ${(index % 3) * 55}ms`}
-            href={withBase(`/leistungen/${leistung.id}/`)}
-          >
-            <div class="service-media">
-              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 60vw" quality={76} format="webp" />
-            </div>
-            <div class="service-body">
-              <div>
-                <h3>{leistung.data.title}</h3>
-                <p>{leistung.data.kurztext}</p>
-              </div>
-              <span class="more">Mehr erfahren <span aria-hidden="true">→</span></span>
-            </div>
+          <a class={`capability capability--${index + 1}`} href={withBase(`/leistungen/${leistung.id}/`)}>
+            <span class="capability__icon" aria-hidden="true"></span>
+            <span class="capability__copy">
+              <strong>{leistung.data.title}</strong>
+              <small>{leistung.data.kurztext}</small>
+            </span>
+            <span class="capability__arrow" aria-hidden="true">↗</span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section section--sand process-section" aria-labelledby="ablauf-titel">
-    <div class="wrap process-heading">
-      <div>
-        <p class="eyebrow">So arbeiten wir</p>
-        <h2 id="ablauf-titel">Ein klarer Ablauf.<br />Ein gutes Gefühl.</h2>
+  <section class="project-flow" aria-labelledby="project-flow-title">
+    <div class="wrap project-flow__grid">
+      <header class="project-flow__head">
+        <p class="eyebrow">So entsteht Ihr Projekt</p>
+        <h2 id="project-flow-title">Klar vom ersten Gespräch bis zur Übergabe.</h2>
+        <p>Sie wissen, was als Nächstes passiert, welche Entscheidungen anstehen und wie aus einzelnen Arbeitsschritten ein stimmiges Ergebnis wird.</p>
+        <a class="ks-textlink ks-textlink--dark" href={withBase('/kontakt/')}>Projekt starten <span aria-hidden="true">→</span></a>
+      </header>
+
+      <div class="flow-steps">
+        {process.map((step, index) => (
+          <article class={`flow-step flow-step--${index + 1} reveal`} style={`--reveal-delay: ${index * 55}ms`}>
+            <span class="flow-step__icon" aria-hidden="true"></span>
+            <div>
+              <p class="flow-step__meta">{step.meta}</p>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </article>
+        ))}
       </div>
-      <p class="lead">Vom ersten Gespräch bis zur sauberen Übergabe behalten Sie jederzeit den Überblick.</p>
     </div>
-    <div class="wrap process-wrap"><ProcessSteps /></div>
   </section>
 
   <Testimonials />
-  <CtaBand />
+  <CtaBand title="Aus einer Idee kann ein Raum werden, der wirklich zu Ihnen passt." />
 </Base>
 
 <style>
-  .hero {
+  .ks-hero {
     position: relative;
     display: grid;
-    min-height: clamp(42rem, calc(100svh - var(--header-height)), 57rem);
-    align-items: end;
+    min-height: clamp(40rem, 84svh, 52rem);
+    align-items: center;
     overflow: hidden;
-    color: var(--paper-inverse);
-    background: var(--ink);
+    background: #d8d1c7;
   }
 
-  .hero::after {
-    position: absolute;
-    inset: 1rem;
-    border: 1px solid rgba(255,255,255,.08);
-    content: "";
-    pointer-events: none;
-  }
-
-  .hero-media,
-  .hero-media::before,
-  .hero-media::after,
-  .hero-media :global(img) {
+  .ks-hero__media,
+  .ks-hero__media::after,
+  .ks-hero__media :global(img) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
 
-  .hero-media :global(img) {
+  .ks-hero__media :global(img) {
     object-fit: cover;
-    object-position: center;
-    filter: saturate(.9) contrast(1.045);
+    object-position: 65% center;
+    filter: saturate(1) contrast(1.01) brightness(1.055);
     transform: scale(1.015);
   }
 
-  .hero-media::before {
-    z-index: 1;
-    background: radial-gradient(circle at 72% 34%, rgba(255,255,255,.075), transparent 38%);
-    content: "";
+  .ks-hero__media::after {
+    background: linear-gradient(90deg,
+      rgba(253,252,249,.95) 0%,
+      rgba(253,252,249,.90) 24%,
+      rgba(253,252,249,.68) 40%,
+      rgba(253,252,249,.25) 55%,
+      rgba(253,252,249,.04) 68%,
+      rgba(253,252,249,0) 77%);
+    content: '';
   }
 
-  .hero-media::after {
-    z-index: 2;
-    background:
-      linear-gradient(90deg, rgba(13,14,16,.9) 0%, rgba(13,14,16,.64) 34%, rgba(13,14,16,.2) 64%, rgba(13,14,16,.04) 100%),
-      linear-gradient(0deg, rgba(13,14,16,.76) 0%, rgba(13,14,16,.18) 44%, rgba(13,14,16,.05) 100%);
-    content: "";
-  }
-
-  .hero-inner {
+  .ks-hero__inner {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     display: grid;
     width: 100%;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
-    gap: var(--space-4);
-    padding-block: clamp(5rem, 10vw, 8rem) clamp(6rem, 10vw, 8.5rem);
+    gap: 3rem;
+    padding-block: clamp(4.5rem, 7vw, 6.5rem);
   }
 
-  .hero-copy { max-width: 64rem; }
-  .hero .eyebrow {
-    margin-bottom: clamp(1.25rem, 2.4vw, 1.9rem);
-    color: #e1bb72;
-    font-size: .78rem;
-    font-weight: 620;
-    letter-spacing: .115em;
-  }
-  .hero .eyebrow::before { background: #e1bb72; }
+  .ks-hero__copy { max-width: 50rem; }
 
-  .hero h1 {
+  .ks-hero .eyebrow {
+    margin-bottom: clamp(1.2rem, 2vw, 1.6rem);
+    color: var(--brass-deep);
+  }
+
+  .ks-hero h1 {
     display: grid;
     width: fit-content;
-    max-width: none;
+    margin: 0;
     font-family: var(--font-brand);
-    font-size: clamp(4rem, 8.5vw, 7.75rem);
-    font-weight: 560;
-    font-variation-settings: "opsz" 88, "wdth" 91, "wght" 560;
-    letter-spacing: -.057em;
-    line-height: .82;
-    text-wrap: nowrap;
+    font-size: clamp(4rem, 6.9vw, 6.9rem);
+    font-weight: 500;
+    letter-spacing: -.052em;
+    line-height: .86;
   }
 
-  .hero-title-line { display: block; }
+  .ks-hero h1 span,
+  .ks-hero h1 strong { display: block; }
 
-  .hero-title-line--offset {
-    margin-left: clamp(1rem, 4.4vw, 4.4rem);
+  .ks-hero h1 strong { font-weight: 650; }
+
+  .ks-hero h1 small {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: var(--brass-deep);
+    font-family: var(--font-text);
+    font-size: clamp(.92rem, 1.25vw, 1.08rem);
+    font-weight: 600;
+    letter-spacing: .01em;
+    line-height: 1.2;
   }
 
-  .hero-title-detail {
-    display: block;
-    margin-top: clamp(1rem, 2vw, 1.45rem);
-    margin-left: clamp(1.2rem, 8vw, 8rem);
-    color: #e1bb72;
-    font-size: .31em;
-    font-weight: 470;
-    font-variation-settings: "opsz" 48, "wdth" 96, "wght" 470;
-    letter-spacing: -.015em;
-    line-height: 1;
+  .ks-hero h1 small::after {
+    width: clamp(4rem, 9vw, 8rem);
+    height: 1px;
+    background: rgba(118,80,29,.48);
+    content: '';
   }
 
-  .hero .lead {
-    max-width: 36rem;
-    margin-top: clamp(1.6rem, 3vw, 2.25rem);
-    color: rgba(255,255,255,.78);
-    font-size: clamp(1.04rem, 1.55vw, 1.2rem);
-    line-height: 1.68;
+  .ks-hero__lead {
+    max-width: 34rem;
+    margin-top: clamp(1.5rem, 2.5vw, 2rem);
+    color: #373a3e;
+    font-size: clamp(1.02rem, 1.35vw, 1.14rem);
+    line-height: 1.7;
   }
 
-  .hero-actions {
+  .ks-hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: clamp(1.8rem, 3vw, 2.4rem);
   }
 
-  .hero-primary {
-    color: var(--ink);
-    background: var(--paper-inverse);
-    border-color: var(--paper-inverse);
-  }
-
-  .hero-secondary {
+  .ks-button {
+    display: inline-flex;
+    min-height: 3.5rem;
+    align-items: center;
+    padding: .8rem 1.55rem;
     color: var(--paper-inverse);
-    background: rgba(255,255,255,.025);
-    border-color: rgba(255,255,255,.48);
-    backdrop-filter: blur(8px);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    font-size: .93rem;
+    font-weight: 650;
+    text-decoration: none;
   }
 
-  .hero-note {
-    max-width: 15rem;
+  .ks-textlink {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: .55rem;
+    padding-bottom: .28rem;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(28,29,31,.45);
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .ks-textlink--dark { color: var(--ink); }
+
+  .ks-hero__location {
+    display: grid;
+    justify-items: end;
+    gap: .35rem;
     padding-top: .8rem;
-    padding-bottom: .5rem;
-    border-top: 1px solid rgba(225,187,114,.55);
-    color: rgba(255,255,255,.58);
-    font-size: .7rem;
-    font-weight: 650;
-    letter-spacing: .11em;
-    line-height: 1.65;
+    border-top: 1px solid rgba(118,80,29,.38);
+    color: rgba(28,29,31,.67);
+    font-size: .68rem;
+    letter-spacing: .08em;
+    line-height: 1.5;
     text-align: right;
     text-transform: uppercase;
   }
 
-  .stats {
-    position: relative;
-    z-index: 4;
-    margin-top: -2.45rem;
-    background: transparent;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,.985);
-    box-shadow: 0 1.25rem 3rem rgba(20,20,20,.07);
-  }
-
-  .stats-grid div {
-    display: grid;
-    min-width: 0;
-    gap: .3rem;
-    padding: 1.65rem var(--space-2);
-    border-right: 1px solid var(--line);
-    text-align: center;
-  }
-
-  .stats-grid div:last-child { border-right: 0; }
-  .stats-grid strong {
-    font-family: var(--font-display);
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
-    line-height: 1.2;
-  }
-  .stats-grid span { color: var(--ink-soft); font-size: var(--text-sm); }
-
-  .statement {
-    margin-top: -2.45rem;
-    padding-top: calc(var(--space-6) + 2.45rem);
-  }
-
-  .statement-grid {
-    display: grid;
-    grid-template-columns: minmax(12rem, .55fr) minmax(0, 1.45fr);
-    align-items: end;
-    gap: clamp(2rem, 9vw, 9rem);
-    padding-block: clamp(5.5rem, 10vw, 8.5rem);
-  }
-
-  .statement-kicker {
-    max-width: 18rem;
-    padding-top: .9rem;
-    border-top: 1px solid var(--brass);
-    color: var(--ink-soft);
-    font-size: var(--text-sm);
-    font-weight: 650;
-    letter-spacing: .065em;
-    text-transform: uppercase;
-  }
-
-  .statement-copy {
-    max-width: 18ch;
-    font-family: var(--font-display);
-    font-size: clamp(2.55rem, 5.2vw, 4.9rem);
-    line-height: 1.025;
-    letter-spacing: -.04em;
-  }
-
-  .services-section { padding-top: clamp(5.5rem, 9vw, 8.5rem); }
-
-  .section-heading {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .65fr);
-    align-items: end;
-    gap: clamp(2rem, 8vw, 8rem);
-  }
-
-  .section-intro {
-    padding-bottom: .25rem;
-    color: var(--ink-soft);
-    font-size: var(--text-base);
-    line-height: 1.75;
-  }
-
-  .service-grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: clamp(1.1rem, 2vw, 1.65rem);
-    margin-top: clamp(3.25rem, 7vw, 5.75rem);
-  }
-
-  .service-card {
-    display: grid;
-    min-width: 0;
-    grid-template-rows: auto 1fr;
+  .ks-hero__location strong {
     color: var(--ink);
-    text-decoration: none;
+    font-weight: 650;
   }
 
-  .service-card--1 { grid-column: span 7; }
-  .service-card--2 { grid-column: span 5; }
-  .service-card--3,
-  .service-card--4,
-  .service-card--5 { grid-column: span 4; }
-  .service-card--6 { grid-column: span 5; }
-  .service-card--7 { grid-column: span 7; }
-
-  .service-media {
-    position: relative;
-    overflow: hidden;
-    background: var(--sand);
-  }
-
-  .service-card :global(img) {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    filter: saturate(.96);
-    transition: transform 480ms var(--ease-move), filter 480ms var(--ease);
-  }
-
-  .service-card--2 :global(img),
-  .service-card--6 :global(img) { aspect-ratio: 4 / 3; }
-
-  .service-card--3 :global(img),
-  .service-card--4 :global(img),
-  .service-card--5 :global(img) { aspect-ratio: 1 / 1; }
-
-  .service-body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
-    gap: var(--space-3);
-    padding: 1.35rem .1rem 2.2rem;
+  .proof-rail {
+    background: var(--paper);
     border-bottom: 1px solid var(--line);
   }
 
-  .service-body p {
-    max-width: 42rem;
-    margin-top: .55rem;
+  .proof-rail__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .proof-rail__grid > div {
+    display: grid;
+    gap: .38rem;
+    padding: 1.35rem clamp(.8rem, 2vw, 1.5rem);
+    border-right: 1px solid var(--line);
+  }
+
+  .proof-rail__grid > div:first-child { padding-left: 0; }
+  .proof-rail__grid > div:last-child { border-right: 0; padding-right: 0; }
+
+  .proof-rail strong {
+    font-family: var(--font-brand);
+    font-size: clamp(1.18rem, 1.7vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .proof-rail span {
     color: var(--ink-soft);
-    font-size: var(--text-sm);
+    font-size: .76rem;
+  }
+
+  .selected-work,
+  .capabilities {
+    padding-block: clamp(5rem, 8vw, 7.5rem);
+    background: var(--paper);
+  }
+
+  .section-intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .65fr);
+    align-items: end;
+    gap: clamp(2.5rem, 8vw, 8rem);
+    margin-bottom: clamp(2.75rem, 5vw, 4.25rem);
+  }
+
+  .section-intro-grid h2,
+  .customer-value h2,
+  .project-flow h2 {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(2.45rem, 4.4vw, 4rem);
+    font-weight: 600;
+    line-height: .99;
+    letter-spacing: -.035em;
+  }
+
+  .section-intro-side,
+  .section-intro-copy {
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .section-intro-side {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  .work-editorial {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(18rem, .75fr);
+    grid-template-rows: repeat(2, minmax(15rem, 1fr));
+    gap: clamp(.8rem, 1.5vw, 1.2rem);
+    min-height: clamp(38rem, 56vw, 52rem);
+  }
+
+  .work-shot {
+    position: relative;
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--sand);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .work-shot--main { grid-row: 1 / 3; }
+
+  .work-shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 260ms var(--ease-move);
+  }
+
+  .work-shot--main :global(img) { object-position: center 52%; }
+  .work-shot--detail:first-of-type :global(img) { object-position: center 50%; }
+
+  .work-shot::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(18,18,18,.42));
+    content: '';
+  }
+
+  .work-shot__caption {
+    position: absolute;
+    z-index: 2;
+    right: 1.35rem;
+    bottom: 1.25rem;
+    left: 1.35rem;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    text-shadow: 0 1px 12px rgba(0,0,0,.18);
+  }
+
+  .work-shot__caption small {
+    font-size: .67rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .work-shot__caption strong {
+    font-size: .86rem;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .customer-value {
+    padding-block: clamp(5rem, 8vw, 7.25rem);
+    background: #f4efe7;
+    border-block: 1px solid var(--line);
+  }
+
+  .customer-value__inner {
+    display: grid;
+    grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .customer-value__head {
+    align-self: start;
+  }
+
+  .customer-value__head > p:last-child {
+    max-width: 31rem;
+    margin-top: 1.35rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-self: start;
+  }
+
+  .benefit {
+    min-height: 14rem;
+    padding: 1.65rem clamp(1.3rem, 2.5vw, 2rem) 1.7rem 0;
+    border-top: 1px solid rgba(28,29,31,.18);
+  }
+
+  .benefit:nth-child(even) {
+    padding-left: clamp(1.3rem, 2.5vw, 2rem);
+    border-left: 1px solid rgba(28,29,31,.12);
+  }
+
+  .benefit__icon,
+  .capability__icon,
+  .flow-step__icon {
+    display: block;
+    background: var(--brass-deep);
+    -webkit-mask: var(--benefit-icon) center / contain no-repeat;
+    mask: var(--benefit-icon) center / contain no-repeat;
+  }
+
+  .benefit__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .benefit--1 { --benefit-icon: var(--ks-icon-talk); }
+  .benefit--2 { --benefit-icon: var(--ks-icon-plan); }
+  .benefit--3 { --benefit-icon: var(--ks-icon-build); }
+  .benefit--4 { --benefit-icon: var(--ks-icon-renovation); }
+
+  .benefit h3 {
+    margin: 0 0 .7rem;
+    font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -.025em;
+  }
+
+  .benefit p {
+    max-width: 31ch;
+    color: var(--ink-soft);
+    font-size: .9rem;
     line-height: 1.65;
   }
 
-  .more {
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    padding-top: .25rem;
-    color: var(--brass-deep);
-    font-size: var(--text-sm);
-    font-weight: 650;
-    white-space: nowrap;
-  }
+  .section-intro-grid--compact { margin-bottom: clamp(2.25rem, 4vw, 3.5rem); }
+  .section-intro-copy { align-self: end; max-width: 32rem; }
 
-  .process-section { padding-block: clamp(5.5rem, 9vw, 8.5rem); }
-
-  .process-heading {
+  .capability-list {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, .62fr);
-    align-items: end;
-    gap: clamp(2rem, 8vw, 8rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(3rem, 8vw, 8rem);
+    border-top: 1px solid var(--ink);
   }
 
-  .process-heading .lead { padding-bottom: .25rem; }
-  .process-wrap { margin-top: clamp(3.5rem, 7vw, 5.75rem); }
+  .capability {
+    --benefit-icon: var(--ks-icon-renovation);
+    display: grid;
+    grid-template-columns: 1.3rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: 7.3rem;
+    padding-block: 1.3rem;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .capability--1 { --benefit-icon: var(--ks-icon-floor); }
+  .capability--2 { --benefit-icon: var(--ks-icon-door); }
+  .capability--3 { --benefit-icon: var(--ks-icon-window); }
+  .capability--4 { --benefit-icon: var(--ks-icon-shade); }
+  .capability--5 { --benefit-icon: var(--ks-icon-drywall); }
+  .capability--6 { --benefit-icon: var(--ks-icon-terrace); }
+  .capability--7 { --benefit-icon: var(--ks-icon-renovation); }
+
+  .capability__icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .capability__copy {
+    display: grid;
+    gap: .35rem;
+  }
+
+  .capability__copy strong {
+    font-family: var(--font-brand);
+    font-size: clamp(1.2rem, 1.5vw, 1.42rem);
+    font-weight: 600;
+    letter-spacing: -.022em;
+  }
+
+  .capability__copy small {
+    max-width: 42ch;
+    color: var(--ink-soft);
+    font-size: .82rem;
+    line-height: 1.55;
+  }
+
+  .capability__arrow {
+    color: var(--ink-muted);
+    font-size: .92rem;
+    transition: transform var(--dur) var(--ease-move), color var(--dur) var(--ease);
+  }
+
+  .project-flow {
+    padding-block: clamp(5rem, 8vw, 7.5rem);
+    background: #f4efe7;
+    border-block: 1px solid var(--line);
+  }
+
+  .project-flow__grid {
+    display: grid;
+    grid-template-columns: minmax(18rem, .68fr) minmax(0, 1.32fr);
+    gap: clamp(3.5rem, 9vw, 9rem);
+  }
+
+  .project-flow__head {
+    align-self: start;
+  }
+
+  .project-flow__head > p:not(.eyebrow) {
+    max-width: 30rem;
+    margin-top: 1.25rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .project-flow__head .ks-textlink { margin-top: 1.6rem; }
+
+  .flow-steps {
+    border-top: 1px solid var(--ink);
+  }
+
+  .flow-step {
+    --benefit-icon: var(--ks-icon-talk);
+    display: grid;
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    gap: 1.4rem;
+    padding-block: clamp(1.8rem, 3vw, 2.5rem);
+    border-bottom: 1px solid rgba(28,29,31,.16);
+  }
+
+  .flow-step--2 { --benefit-icon: var(--ks-icon-plan); }
+  .flow-step--3 { --benefit-icon: var(--ks-icon-build); }
+
+  .flow-step__icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: .25rem;
+  }
+
+  .flow-step__meta {
+    margin-bottom: .75rem;
+    color: var(--brass-deep) !important;
+    font-size: .66rem !important;
+    font-weight: 650;
+    letter-spacing: .09em;
+    line-height: 1.5 !important;
+    text-transform: uppercase;
+  }
+
+  .flow-step h3 {
+    margin: 0 0 .8rem;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -.028em;
+  }
+
+  .flow-step p:last-child {
+    max-width: 49rem;
+    color: var(--ink-soft);
+    font-size: .92rem;
+    line-height: 1.7;
+  }
 
   @media (hover: hover) and (pointer: fine) {
-    .hero-primary:hover { color: #fff; background: var(--brass-deep); border-color: var(--brass-deep); }
-    .hero-secondary:hover { color: var(--ink); background: var(--paper-inverse); border-color: var(--paper-inverse); }
-    .service-card:hover { color: var(--ink); }
-    .service-card:hover :global(img) { transform: scale(1.04); filter: saturate(1.03) contrast(1.025); }
-    .service-card:hover .more { color: var(--ink); }
+    .ks-textlink:hover {
+      gap: .82rem;
+      color: var(--brass-deep);
+      border-bottom-color: var(--brass-deep);
+    }
+
+    .work-shot:hover :global(img) { transform: scale(1.012); }
+
+    .capability:hover .capability__arrow {
+      color: var(--brass-deep);
+      transform: translate(.15rem, -.1rem);
+    }
   }
 
   @media (max-width: 64rem) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-note { display: none; }
-    .service-card--1,
-    .service-card--2,
-    .service-card--6,
-    .service-card--7 { grid-column: span 6; }
-    .service-card--3,
-    .service-card--4,
-    .service-card--5 { grid-column: span 4; }
+    .customer-value__inner,
+    .project-flow__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .customer-value__head,
+    .project-flow__head { max-width: 48rem; }
   }
 
   @media (max-width: 56rem) {
-    .hero::after { inset: .65rem; }
-    .hero h1 { font-size: clamp(3.7rem, 11vw, 6rem); }
-    .hero-title-line--offset { margin-left: clamp(.65rem, 3vw, 2rem); }
-    .hero-title-detail { margin-left: clamp(.8rem, 7vw, 4rem); }
-    .stats { margin-top: -1.5rem; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .stats-grid div { border-bottom: 1px solid var(--line); }
-    .stats-grid div:nth-child(2n) { border-right: 0; }
-    .stats-grid div:nth-last-child(-n + 2) { border-bottom: 0; }
-    .statement { margin-top: -1.5rem; padding-top: calc(var(--space-5) + 1.5rem); }
-    .statement-grid,
-    .section-heading,
-    .process-heading { grid-template-columns: 1fr; gap: var(--space-3); }
-    .statement-grid { align-items: start; }
-    .statement-copy { max-width: 20ch; }
-    .section-intro { max-width: 44rem; }
-    .service-card--1,
-    .service-card--2,
-    .service-card--3,
-    .service-card--4,
-    .service-card--5,
-    .service-card--6,
-    .service-card--7 { grid-column: span 6; }
-    .service-card :global(img),
-    .service-card--2 :global(img),
-    .service-card--3 :global(img),
-    .service-card--4 :global(img),
-    .service-card--5 :global(img),
-    .service-card--6 :global(img) { aspect-ratio: 4 / 3; }
-    .service-body { grid-template-columns: 1fr; gap: .35rem; }
-  }
-
-  @media (max-width: 36rem) {
-    .hero {
-      min-height: calc(100svh - var(--header-height) - var(--mobile-cta-h));
+    .ks-hero {
+      min-height: 44rem;
       align-items: end;
     }
 
-    .hero::after { display: none; }
-    .hero-media :global(img) { object-position: 58% center; filter: saturate(.89) contrast(1.045); }
-    .hero-media::before { display: none; }
-    .hero-media::after {
-      background: linear-gradient(0deg, rgba(13,14,16,.92) 0%, rgba(13,14,16,.6) 58%, rgba(13,14,16,.14) 100%);
+    .ks-hero__media :global(img) { object-position: 61% center; }
+
+    .ks-hero__media::after {
+      background: linear-gradient(90deg,
+        rgba(253,252,249,.94) 0%,
+        rgba(253,252,249,.88) 45%,
+        rgba(253,252,249,.57) 70%,
+        rgba(253,252,249,.10) 100%);
     }
-    .hero-inner { padding-block: 4rem 5rem; }
-    .hero h1 {
-      font-size: clamp(3.2rem, 14.5vw, 4.7rem);
-      line-height: .84;
-      letter-spacing: -.052em;
+
+    .ks-hero__inner {
+      grid-template-columns: 1fr;
+      padding-block: 4.75rem 3.75rem;
     }
-    .hero-title-line--offset { margin-left: .4rem; }
-    .hero-title-detail {
-      margin-top: 1rem;
-      margin-left: 1.1rem;
-      font-size: .34em;
+
+    .ks-hero__location {
+      width: fit-content;
+      justify-items: start;
+      text-align: left;
     }
-    .hero .lead { max-width: 32rem; font-size: 1.02rem; line-height: 1.62; }
-    .hero-actions { display: grid; grid-template-columns: 1fr; }
-    .hero-actions .btn { width: 100%; }
-    .stats-grid div { padding: 1.2rem .75rem; }
-    .stats-grid span { font-size: .78rem; line-height: 1.35; }
-    .statement-grid { padding-block: 4.75rem; }
-    .statement-copy { font-size: clamp(2.3rem, 11vw, 3.2rem); }
-    .service-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .service-card--1,
-    .service-card--2,
-    .service-card--3,
-    .service-card--4,
-    .service-card--5,
-    .service-card--6,
-    .service-card--7 { grid-column: 1; }
-    .service-card :global(img),
-    .service-card--2 :global(img),
-    .service-card--3 :global(img),
-    .service-card--4 :global(img),
-    .service-card--5 :global(img),
-    .service-card--6 :global(img) { aspect-ratio: 3 / 2; }
+
+    .proof-rail__grid { grid-template-columns: repeat(2, 1fr); }
+    .proof-rail__grid > div:nth-child(2) { border-right: 0; }
+    .proof-rail__grid > div:nth-child(3),
+    .proof-rail__grid > div:nth-child(4) { border-top: 1px solid var(--line); }
+    .proof-rail__grid > div:nth-child(3) { padding-left: 0; }
+
+    .section-intro-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .section-intro-side { max-width: 38rem; }
+
+    .work-editorial {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: clamp(23rem, 65vw, 31rem) clamp(16rem, 42vw, 21rem);
+      min-height: 0;
+    }
+
+    .work-shot--main {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+
+    .capability-list { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 40rem) {
+    .ks-hero h1 {
+      font-size: clamp(3.2rem, 14vw, 4.7rem);
+      letter-spacing: -.048em;
+    }
+
+    .ks-hero__media::after {
+      background: linear-gradient(180deg,
+        rgba(253,252,249,.55) 0%,
+        rgba(253,252,249,.76) 42%,
+        rgba(253,252,249,.96) 100%);
+    }
+
+    .proof-rail__grid { grid-template-columns: 1fr; }
+    .proof-rail__grid > div,
+    .proof-rail__grid > div:nth-child(2),
+    .proof-rail__grid > div:nth-child(3),
+    .proof-rail__grid > div:nth-child(4) {
+      padding-inline: 0;
+      border-right: 0;
+      border-top: 1px solid var(--line);
+    }
+    .proof-rail__grid > div:first-child { border-top: 0; }
+
+    .work-editorial {
+      grid-template-columns: 1fr;
+      grid-template-rows: 22rem 17rem 17rem;
+    }
+
+    .work-shot--main {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .work-shot__caption {
+      display: grid;
+      justify-content: start;
+      gap: .25rem;
+    }
+
+    .work-shot__caption strong { text-align: left; }
+
+    .benefit-grid { grid-template-columns: 1fr; }
+    .benefit { min-height: 0; padding-right: 0; }
+    .benefit:nth-child(even) { padding-left: 0; border-left: 0; }
+    .benefit__icon { margin-bottom: 1.5rem; }
+
+    .capability {
+      grid-template-columns: 1.2rem minmax(0, 1fr) auto;
+      min-height: 6.5rem;
+    }
+
+    .flow-step { grid-template-columns: 1.2rem minmax(0, 1fr); gap: 1rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .service-card :global(img) { transition: none; }
+    .work-shot :global(img),
+    .capability__arrow { transition: none; }
   }
 </style>
