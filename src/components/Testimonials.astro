@@ -2,37 +2,51 @@
 import stimmen from '../data/kundenstimmen.json';
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
+
+const [leitstimme, ...weitereStimmen] = stimmen;
+const bewertung = settings.stats.bewertung.replace('★', '').trim();
 ---
 <section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
     <header class="testimonials-head">
       <div class="testimonials-title">
         <p class="eyebrow">Kundenstimmen</p>
-        <h2 id="stimmen-titel">Erfahrung, die Vertrauen schafft.</h2>
+        <h2 id="stimmen-titel">So wird unsere Arbeit erlebt.</h2>
       </div>
 
-      <div class="trust-score" aria-label={`Google-Bewertung ${settings.stats.bewertung}`}>
-        <strong>{settings.stats.bewertung}</strong>
-        <span class="trust-star" aria-hidden="true">★</span>
-        <span class="trust-label">Google-Bewertung</span>
+      <div class="trust-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
+        <div class="trust-score__value">
+          <strong>{bewertung}</strong>
+          <span aria-hidden="true">★</span>
+        </div>
+        <p>Google-Bewertung</p>
       </div>
     </header>
 
-    <div class="testimonials-grid">
-      {stimmen.map((stimme, index) => (
-        <figure class="testimonial reveal" style={`--reveal-delay: ${index * 55}ms`}>
-          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <blockquote>„{stimme.text}“</blockquote>
-          <figcaption>
-            <strong>{stimme.name}</strong>
-            <span>{stimme.ort}</span>
-          </figcaption>
-        </figure>
-      ))}
+    <div class="testimonial-stage">
+      <figure class="testimonial testimonial--lead reveal">
+        <blockquote>„{leitstimme.text}“</blockquote>
+        <figcaption>
+          <strong>{leitstimme.name}</strong>
+          <span>{leitstimme.ort}</span>
+        </figcaption>
+      </figure>
+
+      <div class="testimonial-side">
+        {weitereStimmen.map((stimme, index) => (
+          <figure class="testimonial testimonial--compact reveal" style={`--reveal-delay: ${(index + 1) * 55}ms`}>
+            <blockquote>„{stimme.text}“</blockquote>
+            <figcaption>
+              <strong>{stimme.name}</strong>
+              <span>{stimme.ort}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
 
     <footer class="testimonials-foot">
-      <p>Saubere Arbeit. Verlässliche Kommunikation. Ergebnisse, die weiterempfohlen werden.</p>
+      <p>Saubere Ausführung, verlässliche Kommunikation und Ergebnisse, die weiterempfohlen werden.</p>
       <a href={withBase('/referenzen/')} class="reference-link">
         Referenzen ansehen <span aria-hidden="true">→</span>
       </a>
@@ -50,7 +64,7 @@ import { withBase } from '../lib/paths';
 
   .testimonials-inner {
     display: grid;
-    gap: clamp(2.6rem, 5vw, 4.25rem);
+    gap: clamp(2.5rem, 5vw, 4rem);
   }
 
   .testimonials-head {
@@ -61,85 +75,116 @@ import { withBase } from '../lib/paths';
   }
 
   .testimonials-title h2 {
-    max-width: 12ch;
+    max-width: 15ch;
     margin: 0;
-    font-size: clamp(2.35rem, 4vw, 3.65rem);
-    line-height: .99;
+    font-size: clamp(2.25rem, 3.7vw, 3.45rem);
+    line-height: 1;
+    letter-spacing: -.025em;
   }
 
   .trust-score {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    justify-items: end;
+    gap: .45rem;
+    padding-bottom: .2rem;
+  }
+
+  .trust-score__value {
+    display: flex;
     align-items: baseline;
-    column-gap: .45rem;
-    min-width: 13rem;
-    padding: 0 0 .35rem;
+    gap: .5rem;
   }
 
   .trust-score strong {
     font-family: var(--font-brand);
-    font-size: clamp(2rem, 3vw, 2.7rem);
+    font-size: clamp(2rem, 3vw, 2.65rem);
     font-weight: 600;
     line-height: .9;
     letter-spacing: -.025em;
   }
 
-  .trust-star {
+  .trust-score__value span {
     color: var(--brass-deep);
-    font-size: 1.15rem;
+    font-size: 1rem;
   }
 
-  .trust-label {
-    grid-column: 1 / -1;
-    margin-top: .55rem;
+  .trust-score p {
     color: var(--ink-muted);
-    font-size: .69rem;
+    font-size: .68rem;
     font-weight: 600;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
 
-  .testimonials-grid {
+  .testimonial-stage {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid rgba(28,29,31,.22);
+    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, .88fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    padding-block: clamp(2.5rem, 4.5vw, 4rem);
+    border-top: 1px solid rgba(28,29,31,.2);
     border-bottom: 1px solid rgba(28,29,31,.14);
   }
 
   .testimonial {
+    margin: 0;
+  }
+
+  .testimonial--lead {
+    position: relative;
     display: grid;
-    min-width: 0;
-    min-height: 18.5rem;
+    min-height: 19rem;
+    align-content: space-between;
+    gap: 2.25rem;
+    padding-left: clamp(1.25rem, 2.3vw, 2rem);
+  }
+
+  .testimonial--lead::before {
+    position: absolute;
+    top: .2rem;
+    bottom: .2rem;
+    left: 0;
+    width: 2px;
+    background: var(--brass);
+    content: '';
+  }
+
+  .testimonial--lead blockquote {
+    max-width: 24ch;
+    margin: 0;
+    font-family: var(--font-text);
+    font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+    font-weight: 430;
+    line-height: 1.42;
+    letter-spacing: -.018em;
+  }
+
+  .testimonial-side {
+    display: grid;
+    align-content: stretch;
+  }
+
+  .testimonial--compact {
+    display: grid;
     align-content: space-between;
     gap: 1.5rem;
+    padding: .2rem 0 clamp(2rem, 3vw, 2.75rem);
+  }
+
+  .testimonial--compact + .testimonial--compact {
+    padding-top: clamp(2rem, 3vw, 2.75rem);
+    padding-bottom: .2rem;
+    border-top: 1px solid rgba(28,29,31,.12);
+  }
+
+  .testimonial--compact blockquote {
+    max-width: 36ch;
     margin: 0;
-    padding: clamp(1.8rem, 3vw, 2.6rem) clamp(1.5rem, 3vw, 2.5rem) clamp(1.75rem, 3vw, 2.35rem);
-  }
-
-  .testimonial:first-child { padding-left: 0; }
-  .testimonial:last-child { padding-right: 0; }
-
-  .testimonial + .testimonial {
-    border-left: 1px solid rgba(28,29,31,.12);
-  }
-
-  .stars {
-    width: fit-content;
-    color: var(--brass-deep);
-    font-size: .72rem;
-    letter-spacing: .14em;
-  }
-
-  blockquote {
-    max-width: 29ch;
-    margin: 0;
-    color: var(--ink);
+    color: var(--ink-soft);
     font-family: var(--font-text);
-    font-size: clamp(1.12rem, 1.55vw, 1.38rem);
+    font-size: clamp(1.04rem, 1.3vw, 1.18rem);
     font-weight: 430;
-    line-height: 1.55;
-    letter-spacing: -.012em;
+    line-height: 1.62;
+    letter-spacing: -.008em;
   }
 
   figcaption {
@@ -148,7 +193,7 @@ import { withBase } from '../lib/paths';
     align-items: baseline;
     gap: .4rem .65rem;
     color: var(--ink-soft);
-    font-size: .82rem;
+    font-size: .8rem;
   }
 
   figcaption strong {
@@ -170,9 +215,9 @@ import { withBase } from '../lib/paths';
   }
 
   .testimonials-foot p {
-    max-width: 44rem;
+    max-width: 42rem;
     color: var(--ink-soft);
-    font-size: .92rem;
+    font-size: .9rem;
     line-height: 1.65;
   }
 
@@ -198,35 +243,45 @@ import { withBase } from '../lib/paths';
   }
 
   @media (max-width: 56rem) {
+    .testimonials-head,
+    .testimonial-stage {
+      grid-template-columns: 1fr;
+    }
+
     .testimonials-head {
-      grid-template-columns: 1fr;
       align-items: start;
-      gap: 1.6rem;
+      gap: 1.5rem;
     }
 
-    .trust-score { min-width: 0; }
-
-    .testimonials-grid {
-      grid-template-columns: 1fr;
+    .trust-score {
+      justify-items: start;
     }
 
-    .testimonial,
-    .testimonial:first-child,
-    .testimonial:last-child {
+    .testimonial-stage {
+      gap: 2.25rem;
+    }
+
+    .testimonial--lead {
       min-height: 0;
-      padding: 1.8rem 0;
+      padding-bottom: 2rem;
     }
 
-    .testimonial + .testimonial {
+    .testimonial-side {
       border-top: 1px solid rgba(28,29,31,.12);
-      border-left: 0;
     }
 
-    blockquote { max-width: 40rem; }
+    .testimonial--compact {
+      padding-top: 2rem;
+    }
+
+    .testimonial--lead blockquote,
+    .testimonial--compact blockquote {
+      max-width: 42rem;
+    }
 
     .testimonials-foot {
       grid-template-columns: 1fr;
-      gap: 1.25rem;
+      gap: 1.2rem;
     }
 
     .reference-link { width: fit-content; }
@@ -238,12 +293,12 @@ import { withBase } from '../lib/paths';
     }
 
     .testimonials-title h2 {
-      font-size: clamp(2.2rem, 10vw, 3rem);
+      max-width: 13ch;
+      font-size: clamp(2.15rem, 9.6vw, 2.9rem);
     }
 
-    blockquote {
-      font-size: 1.05rem;
-      line-height: 1.6;
+    .testimonial--lead blockquote {
+      font-size: clamp(1.35rem, 6.5vw, 1.75rem);
     }
   }
 </style>
