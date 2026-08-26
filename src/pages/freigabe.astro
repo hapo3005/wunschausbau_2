@@ -2,67 +2,98 @@
 import Base from '../layouts/Base.astro';
 import settings from '../data/settings.json';
 
-const offen = [
-  ['Standortmodell', 'Werden an der Förbeltstraße 1 tatsächlich Kunden empfangen?'],
-  ['Geschäftszeiten', 'Welche Zeiten sollen bei Google als verlässliche Erreichbarkeit veröffentlicht werden?'],
-  ['Einsatzgebiet', 'Welche Orte werden regelmäßig angefahren und wie weit geht KS für normale Aufträge?'],
-  ['Leistungskatalog', 'Küchenmontage, Möbelmontage und Treppenaufarbeitung: Kernleistung, gelegentlich oder künftig nicht mehr aktiv bewerben?'],
-  ['Kennzahlen', 'Sind 500+ realisierte Projekte und Rückmeldung im Regelfall innerhalb von 24 Stunden belastbar?'],
-  ['Kundenstimmen', 'Sind die aktuell hinterlegten Testimonials echt und zur Veröffentlichung freigegeben?'],
-  ['Recht', 'Firmierung, Rechtsform, ladungsfähige Anschrift, ggf. USt-ID, Kammer/Berufsbezeichnung, Datenschutz und AGB.'],
-  ['Bilder', 'Welche 20–30 Original-Projektfotos dürfen Website, Google und MyHammer verwenden?']
+const schritte = [
+  { nr: '01', titel: 'Name & Kontakt', text: 'Öffentlichen Namen, rechtliche Firmierung, Telefon, E-Mail und WhatsApp bestätigen.', stop: 'Nicht weiter, solange der öffentliche Unternehmensname unklar ist.' },
+  { nr: '02', titel: 'Standortmodell', text: 'Klären, ob an Förbeltstraße 1 tatsächlich Kunden empfangen werden und ob dauerhafte Beschilderung vorhanden ist.', stop: 'Ergebnis muss Standort/Hybrid oder Service Area sein.' },
+  { nr: '03', titel: 'Öffnungszeiten', text: 'Reale Geschäfts-/Erreichbarkeitszeiten für alle sieben Wochentage festlegen.' },
+  { nr: '04', titel: 'Einsatzgebiet', text: 'Regelmäßig bediente Orte und maximale normale Fahrstrecke festlegen.' },
+  { nr: '05', titel: 'Leistungen', text: 'Jede Leistung als Kernleistung, gelegentlich oder nicht aktiv bewerben einstufen – inklusive Küchen/Möbel, Treppen, Hausmeister und GaLa.' },
+  { nr: '06', titel: 'Aussagen & Fakten', text: '500+ Projekte, 24-h-Rückmeldung, Beratung, Angebot, Erfahrung und Qualifikationen bestätigen oder korrigieren.' },
+  { nr: '07', titel: 'Recht', text: 'Rechtsform, ladungsfähige Anschrift, Vertretung, ggf. USt-ID, Kammer sowie vorhandene Rechtstexte erfassen.' },
+  { nr: '08', titel: 'Beweise', text: 'Testimonials freigeben/ersetzen und mindestens 15–20 echte veröffentlichbare Projektfotos auswählen.' },
+  { nr: '09', titel: 'Kontozugriffe', text: 'Kevin loggt sich selbst in Google Business Profile, MyHammer und Instagram ein; Domain/DNS falls verfügbar.' },
+  { nr: '10', titel: 'Google-Baseline', text: 'Vor Änderungen Kategorien, Standort, Zeiten, Beschreibung, Services, Reviews, Fotos und Performance dokumentieren.' },
+  { nr: '11', titel: 'Google optimieren', text: 'Name → Standort → Kategorien → Kontakt → Beschreibung → Zeiten → Services → Fotos → Review-Link. Genau in dieser Reihenfolge.', stop: 'Wenn Google eine neue Verifizierung verlangt: stoppen und diese sauber abschließen.' },
+  { nr: '12', titel: 'MyHammer & Instagram', text: 'Alte Preisführer-/Allrounder-Signale bereinigen und den aktuellen offiziellen Instagram-Account verifizieren.' }
 ];
 
 const plattformen = [
-  {
-    name: 'Google Business Profile',
-    status: 'vorbereitet',
-    text: 'Ziel: Auftragnehmer für den Innenausbau als Hauptkategorie, präzise Zusatzkategorien, kompletter Service-Katalog, echte Projektbilder und systematischer Review-Aufbau.'
-  },
-  {
-    name: 'MyHammer',
-    status: 'anpassen',
-    text: 'Starkes Asset mit 5,0/5 und aktuell 13 Bewertungen. Die sichtbare Preisführer-Kommunikation passt jedoch nicht mehr zur neuen Qualitätspositionierung.'
-  },
-  {
-    name: 'Instagram',
-    status: 'prüfen',
-    text: 'Eine veröffentlichte KS-Anzeige aus 2025 nennt @ksinnenausbau, im aktuellen Website-Code steht ein anderer Handle. Freitag im echten Konto verifizieren, nicht raten.'
-  },
-  {
-    name: 'wunschausbau.de',
-    status: 'cutover planen',
-    text: 'Die öffentliche Domain zeigt noch den alten Auftritt. Die neue Astro-Seite ist als Vorschau fertig; Produktion soll wegen des Anfrageformulars über Netlify erfolgen.'
-  }
+  { name: 'Google Business Profile', status: 'ready', text: 'Kategorien, Unternehmensbeschreibung, Service-Katalog, Foto- und Review-System sind vorbereitet. Live-Änderungen erst nach den Fakten-Schritten.' },
+  { name: 'Website', status: 'preview ready', text: 'Technischer Preview-Build ist grün. Nach Kevin werden NAP, Kennzahlen, echte Referenzen, Recht und Structured Data final synchronisiert.' },
+  { name: 'MyHammer', status: 'bereinigen', text: '5,0-Bewertungen sind stark, aber Preisführer-Sprache und teilweise unpassende Gewerke widersprechen der neuen Positionierung.' },
+  { name: 'Instagram', status: 'verifizieren', text: 'Der aktuelle offizielle Handle wird im eingeloggten Konto bestätigt; erst danach Website und Structured Data synchronisieren.' },
+  { name: 'Produktion', status: 'nach Freigabe', text: 'Netlify + SMTP-Test + kontrollierter DNS-Cutover. GitHub Pages bleibt nur die nicht indexierte Vorschau.' },
+  { name: 'Search Console', status: 'nach Launch', text: 'Property prüfen/einrichten, Sitemap einreichen und Kernseiten auf Indexierung überwachen.' }
 ];
 ---
 
 <Base
   title="Freigabe | KS-Innenausbau"
-  description="Interne Freigabeseite für den Relaunch von KS-Innenausbau."
+  description="Interne Schritt-für-Schritt-Freigabe für den Relaunch von KS-Innenausbau."
   noindex={true}
 >
   <section class="approval-hero">
     <div class="wrap approval-hero__inner">
       <p class="eyebrow">Interne Freigabe · Freitag, 28.08.2026</p>
-      <h1>Alles vorbereitet.<br /><em>Nur Fakten fehlen.</em></h1>
-      <p class="lead">Diese Seite bündelt die Entscheidungen, die Kevin bestätigen muss, damit Website, Google Business Profile und externe Plattformen danach ohne neue Konzeptphase finalisiert werden können.</p>
+      <h1>Nicht diskutieren.<br /><em>Einfach abhaken.</em></h1>
+      <p class="lead">Von oben nach unten arbeiten. Die Häkchen werden auf diesem Gerät gespeichert. Nach Schritt 12 dürfen keine Grundsatzfragen zu Unternehmen, Google oder Außenauftritt mehr offen sein.</p>
       <div class="hero-meta">
-        <span>KS-Innenausbau</span>
-        <span>Wittlich · Trier · Mosel</span>
+        <span>12 Schritte</span>
+        <span>ein Ablauf</span>
         <span>nicht indexiert</span>
       </div>
     </div>
   </section>
 
-  <section class="section proof-section">
+  <section class="progress-section" aria-label="Fortschritt">
+    <div class="wrap progress-row">
+      <div>
+        <strong id="progress-label">0 / 12 erledigt</strong>
+        <span>Freitag-Freigabe</span>
+      </div>
+      <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+      <button id="reset-checklist" class="reset-btn" type="button">Häkchen zurücksetzen</button>
+    </div>
+  </section>
+
+  <section class="section steps-section" id="ablauf">
     <div class="wrap">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Öffentlich belegt</p>
-          <h2>Darauf können wir bereits bauen.</h2>
+          <p class="eyebrow">Freitag · Hauptablauf</p>
+          <h2>Immer den nächsten offenen Schritt.</h2>
         </div>
-        <p>Eine veröffentlichte KS-Anzeige bestätigt zentrale Unternehmensdaten und die handwerkliche Identität. Rechtliche Details und das Google-Standortmodell bleiben trotzdem Freigabepunkte.</p>
+        <p>Keine Sprünge zu Google, bevor die Unternehmensfakten feststehen. Keine Produktionsfreigabe, solange Recht, Bilder oder Formular noch ungeklärt sind.</p>
+      </div>
+
+      <div class="steps-list">
+        {schritte.map((schritt, index) => (
+          <article class="step-card" data-step-card>
+            <label class="step-check">
+              <input type="checkbox" data-ks-check={`step-${index + 1}`} />
+              <span class="fake-check" aria-hidden="true"></span>
+              <span class="sr-only">Schritt {schritt.nr} erledigt</span>
+            </label>
+            <span class="step-number">{schritt.nr}</span>
+            <div class="step-copy">
+              <h3>{schritt.titel}</h3>
+              <p>{schritt.text}</p>
+              {schritt.stop && <p class="stop-rule"><strong>STOPP:</strong> {schritt.stop}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section proof-section section--sand">
+    <div class="wrap">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Bereits belegt</p>
+          <h2>Das muss Kevin nicht neu erklären.</h2>
+        </div>
+        <p>Diese Punkte sind öffentlich dokumentiert. Nur rechtliche Details, Standortnutzung und Aktualität einzelner Accounts müssen bestätigt werden.</p>
       </div>
       <div class="proof-grid">
         <article><small>Person</small><strong>Kevin Schmieding</strong><span>Bauschreiner aus Wittlich</span></article>
@@ -73,32 +104,14 @@ const plattformen = [
     </div>
   </section>
 
-  <section class="section section--sand">
-    <div class="wrap decision-layout">
-      <div class="decision-intro">
-        <p class="eyebrow">Kevin entscheidet</p>
-        <h2>Keine Ideenrunde.<br />Nur bestätigen oder korrigieren.</h2>
-        <p>Wo echte Unternehmensfakten fehlen, bleibt der Punkt offen. So vermeiden wir erfundene Leistungen, falsche Standortangaben und unbelegte Werbeversprechen.</p>
-      </div>
-      <div class="decision-list">
-        {offen.map(([title, text]) => (
-          <article class="decision-item">
-            <div><span class="status status--open">offen</span><h3>{title}</h3></div>
-            <p>{text}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="wrap">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Gesamtauftritt</p>
-          <h2>Ein Unternehmen. Ein Markenbild.</h2>
+          <p class="eyebrow">Danach</p>
+          <h2>Die Umsetzung ist bereits aufgeteilt.</h2>
         </div>
-        <p>Website und Google allein reichen nicht. Alle starken Kontaktpunkte müssen dieselbe Qualitätspositionierung transportieren.</p>
+        <p>Nach der Freitagsfreigabe wird nicht neu konzipiert. Die bestätigten Fakten werden nur noch synchron in alle Kanäle übertragen und technisch geprüft.</p>
       </div>
       <div class="platform-grid">
         {plattformen.map((item) => (
@@ -114,41 +127,85 @@ const plattformen = [
   <section class="section section--dark">
     <div class="wrap material-grid">
       <div>
-        <p class="eyebrow">Zum Termin bereithalten</p>
-        <h2>Material statt Nacharbeit.</h2>
-        <p class="dark-copy">Je mehr davon am Freitag vorliegt, desto schneller können wir danach live gehen.</p>
+        <p class="eyebrow">Zum Termin</p>
+        <h2>Fünf Dinge reichen.</h2>
+        <p class="dark-copy">Wenn diese fünf Pakete verfügbar sind, kann der Termin ohne Nachfassrunde abgeschlossen werden.</p>
       </div>
       <div class="material-list">
-        <p><strong>Google-Zugang</strong><span>Kevin selbst eingeloggt, keine Passwortweitergabe.</span></p>
-        <p><strong>MyHammer & Instagram</strong><span>Accountzugriff und aktueller Profilstand.</span></p>
-        <p><strong>20–30 Originalfotos</strong><span>Fertige Projekte, Details, Vorher/Nachher, Arbeitssituationen.</span></p>
-        <p><strong>Rechtsdaten</strong><span>Firmierung, Rechtsform, Anschrift, ggf. USt-ID, Kammer und bestehende Texte.</span></p>
-        <p><strong>Domain/DNS</strong><span>Zugriff für Netlify-Cutover und Search Console, ohne Mail-DNS zu verändern.</span></p>
+        <p><strong>1 · Konten</strong><span>Google, MyHammer, Instagram; Kevin selbst eingeloggt.</span></p>
+        <p><strong>2 · Bilder</strong><span>20–30 Original-Projektfotos, nicht WhatsApp-komprimiert.</span></p>
+        <p><strong>3 · Firmendaten</strong><span>Rechtsform, Anschrift, ggf. USt-ID, Kammer/Berufsangaben.</span></p>
+        <p><strong>4 · Rechtstexte</strong><span>Vorhandene AGB/Datenschutz-Unterlagen, falls es sie gibt.</span></p>
+        <p><strong>5 · Domain</strong><span>DNS-Zugriff nur wenn verfügbar; keine Passwörter teilen.</span></p>
       </div>
     </div>
   </section>
 
   <section class="section launch-section">
     <div class="wrap launch-card">
-      <p class="eyebrow">Definition of Done</p>
-      <h2>Nach Freitag folgt Umsetzung – keine neue Konzeptphase.</h2>
-      <p>Wenn Name, Standortmodell, Zeiten, Einsatzgebiet, Leistungen, Kennzahlen, Recht, Bilder und Zugriffe bestätigt sind, können wir Website, Google Business Profile, MyHammer und die Produktionsdomain final synchronisieren.</p>
+      <p class="eyebrow">Launch Gate</p>
+      <h2>Freitag fertig heißt: keine offene Grundsatzfrage.</h2>
+      <p>Nach dem Termin dürfen nur noch Umsetzungsarbeiten offen sein: Website synchronisieren, Google vollständig pflegen, MyHammer/Instagram angleichen, Netlify und Domain sauber live schalten und Search Console aktivieren.</p>
       <div class="launch-tags">
-        <span>Website finalisieren</span>
-        <span>Netlify + Domain</span>
-        <span>Google-Profil optimieren</span>
-        <span>MyHammer angleichen</span>
-        <span>Search Console</span>
+        <span>Fakten bestätigt</span>
+        <span>Google ready</span>
+        <span>echte Beweise</span>
+        <span>Recht geklärt</span>
+        <span>Zugriffe vorhanden</span>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const KEY = 'ks-kevin-freigabe-v1';
+      const checks = [...document.querySelectorAll('[data-ks-check]')];
+      const progressLabel = document.getElementById('progress-label');
+      const progressBar = document.getElementById('progress-bar');
+      const reset = document.getElementById('reset-checklist');
+
+      const read = () => {
+        try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
+        catch { return {}; }
+      };
+
+      const write = (state) => {
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+      };
+
+      const update = () => {
+        const done = checks.filter((check) => check.checked).length;
+        if (progressLabel) progressLabel.textContent = `${done} / ${checks.length} erledigt`;
+        if (progressBar) progressBar.style.width = `${checks.length ? (done / checks.length) * 100 : 0}%`;
+        checks.forEach((check) => check.closest('[data-step-card]')?.classList.toggle('is-done', check.checked));
+      };
+
+      const state = read();
+      checks.forEach((check) => {
+        const id = check.getAttribute('data-ks-check');
+        check.checked = Boolean(state[id]);
+        check.addEventListener('change', () => {
+          const next = read();
+          next[id] = check.checked;
+          write(next);
+          update();
+        });
+      });
+
+      reset?.addEventListener('click', () => {
+        if (!confirm('Alle Häkchen dieser Freigabe zurücksetzen?')) return;
+        try { localStorage.removeItem(KEY); } catch {}
+        checks.forEach((check) => { check.checked = false; });
+        update();
+      });
+
+      update();
+    })();
+  </script>
 </Base>
 
 <style>
-  .approval-hero {
-    color: var(--paper-inverse);
-    background: var(--ink);
-  }
+  .approval-hero { color: var(--paper-inverse); background: var(--ink); }
   .approval-hero__inner { padding-block: clamp(5rem, 10vw, 9rem); }
   .approval-hero .eyebrow { color: #e1bb72; }
   .approval-hero .eyebrow::before { background: #e1bb72; }
@@ -163,7 +220,7 @@ const plattformen = [
     line-height: .9;
   }
   .approval-hero h1 em { color: #e1bb72; font-family: var(--font-display); font-weight: 450; }
-  .approval-hero .lead { max-width: 50rem; margin-top: 2rem; color: rgba(255,255,255,.7); }
+  .approval-hero .lead { max-width: 54rem; margin-top: 2rem; color: rgba(255,255,255,.7); }
   .hero-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.3rem; }
   .hero-meta span, .status, .launch-tags span {
     display: inline-flex;
@@ -177,26 +234,46 @@ const plattformen = [
     letter-spacing: .06em;
     text-transform: uppercase;
   }
+
+  .progress-section { position: sticky; top: var(--header-height); z-index: 20; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.96); backdrop-filter: blur(12px); }
+  .progress-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.2rem; min-height: 4.4rem; }
+  .progress-row > div:first-child { display: grid; min-width: 8rem; }
+  .progress-row strong { font-size: .9rem; }
+  .progress-row span { color: var(--ink-muted); font-size: .72rem; }
+  .progress-track { height: 5px; overflow: hidden; border-radius: 999px; background: var(--sand-deep); }
+  .progress-track span { display: block; width: 0; height: 100%; background: var(--brass); transition: width .2s ease; }
+  .reset-btn { padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 2px; color: var(--ink-soft); background: transparent; font: inherit; font-size: .72rem; cursor: pointer; }
+
   .section-heading { display: grid; grid-template-columns: 1fr minmax(18rem,.7fr); align-items: end; gap: clamp(2rem,8vw,8rem); }
   .section-heading > p { color: var(--ink-soft); line-height: 1.7; }
+
+  .steps-list { margin-top: var(--space-6); border-top: 1px solid var(--line); }
+  .step-card { display: grid; grid-template-columns: 3.2rem 4rem minmax(0,1fr); align-items: start; gap: 1.2rem; padding-block: 1.65rem; border-bottom: 1px solid var(--line); transition: opacity .2s ease, background-color .2s ease; }
+  .step-card.is-done { opacity: .55; }
+  .step-card.is-done h3 { text-decoration: line-through; text-decoration-thickness: 1px; }
+  .step-check { display: grid; width: 2.4rem; height: 2.4rem; place-items: center; cursor: pointer; }
+  .step-check input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .fake-check { display: grid; width: 1.65rem; height: 1.65rem; place-items: center; border: 1px solid #aaa39a; background: #fff; }
+  .step-check input:checked + .fake-check { border-color: var(--brass); background: var(--brass); }
+  .step-check input:checked + .fake-check::after { color: #fff; content: '✓'; font-size: 1rem; font-weight: 800; }
+  .step-check input:focus-visible + .fake-check { outline: 3px solid rgba(185,130,47,.25); outline-offset: 3px; }
+  .step-number { padding-top: .2rem; color: var(--brass-deep); font-family: var(--font-display); font-size: 1.3rem; }
+  .step-copy h3 { font-size: 1.15rem; }
+  .step-copy > p { max-width: 54rem; margin-top: .45rem; color: var(--ink-soft); line-height: 1.65; }
+  .stop-rule { padding: .6rem .8rem; border-left: 2px solid #b85c2c; background: #fff7f1; font-size: .85rem; }
+
   .proof-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; margin-top: var(--space-6); background: var(--line); border: 1px solid var(--line); }
   .proof-grid article { display: grid; gap: .45rem; min-height: 11rem; align-content: end; padding: clamp(1.3rem,3vw,2rem); background: var(--paper); }
   .proof-grid small { color: var(--brass-deep); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
   .proof-grid strong { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.2; }
   .proof-grid span { color: var(--ink-soft); font-size: var(--text-sm); }
-  .decision-layout { display: grid; grid-template-columns: minmax(18rem,.65fr) minmax(0,1.35fr); gap: clamp(3rem,9vw,9rem); }
-  .decision-intro { position: sticky; top: calc(var(--header-height) + 2rem); align-self: start; }
-  .decision-intro p:last-child { margin-top: 1.5rem; color: var(--ink-soft); line-height: 1.7; }
-  .decision-list { border-top: 1px solid var(--line); }
-  .decision-item { display: grid; grid-template-columns: minmax(12rem,.5fr) 1fr; gap: 2rem; padding-block: 1.6rem; border-bottom: 1px solid var(--line); }
-  .decision-item h3 { margin-top: .55rem; font-size: 1.05rem; }
-  .decision-item p { color: var(--ink-soft); line-height: 1.65; }
-  .status { min-height: 1.55rem; padding: .15rem .5rem; border-color: var(--line); color: var(--ink-soft); }
-  .status--open { color: #8d4b23; background: #fff6ee; border-color: #e8c8af; }
+
   .platform-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-top: var(--space-6); }
   .platform-card { padding: clamp(1.4rem,3vw,2rem); border: 1px solid var(--line); background: var(--paper); }
   .platform-top { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
   .platform-card p { margin-top: 1.25rem; color: var(--ink-soft); line-height: 1.7; }
+  .status { min-height: 1.55rem; padding: .15rem .5rem; border-color: var(--line); color: var(--ink-soft); }
+
   .section--dark { color: #fff; background: var(--ink); }
   .section--dark .eyebrow { color: #e1bb72; }
   .section--dark .eyebrow::before { background: #e1bb72; }
@@ -205,19 +282,26 @@ const plattformen = [
   .material-list { border-top: 1px solid rgba(255,255,255,.14); }
   .material-list p { display: grid; grid-template-columns: 11rem 1fr; gap: 1.5rem; padding-block: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.14); }
   .material-list span { color: rgba(255,255,255,.62); }
+
   .launch-card { padding: clamp(2rem,6vw,5rem); border: 1px solid var(--line); background: var(--sand); }
   .launch-card h2 { max-width: 18ch; }
   .launch-card > p:not(.eyebrow) { max-width: 50rem; margin-top: 1.4rem; color: var(--ink-soft); line-height: 1.75; }
   .launch-tags { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 2rem; }
   .launch-tags span { border-color: var(--brass); color: var(--brass-deep); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
   @media (max-width: 56rem) {
     .proof-grid { grid-template-columns: repeat(2,1fr); }
-    .decision-layout, .material-grid, .section-heading { grid-template-columns: 1fr; }
-    .decision-intro { position: static; }
+    .material-grid, .section-heading { grid-template-columns: 1fr; }
+    .progress-row { grid-template-columns: auto 1fr; }
+    .reset-btn { display: none; }
   }
   @media (max-width: 38rem) {
     .proof-grid, .platform-grid { grid-template-columns: 1fr; }
-    .decision-item { grid-template-columns: 1fr; gap: .75rem; }
+    .step-card { grid-template-columns: 2.6rem 2.7rem minmax(0,1fr); gap: .65rem; }
+    .step-number { font-size: 1.05rem; }
     .material-list p { grid-template-columns: 1fr; gap: .35rem; }
+    .progress-row { gap: .7rem; }
+    .progress-row > div:first-child { min-width: 6.7rem; }
   }
 </style>
