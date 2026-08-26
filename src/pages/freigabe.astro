@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro';
+import settings from '../data/settings.json';
+
+const offen = [
+  ['Standortmodell', 'Werden an der Förbeltstraße 1 tatsächlich Kunden empfangen?'],
+  ['Geschäftszeiten', 'Welche Zeiten sollen bei Google als verlässliche Erreichbarkeit veröffentlicht werden?'],
+  ['Einsatzgebiet', 'Welche Orte werden regelmäßig angefahren und wie weit geht KS für normale Aufträge?'],
+  ['Leistungskatalog', 'Küchenmontage, Möbelmontage und Treppenaufarbeitung: Kernleistung, gelegentlich oder künftig nicht mehr aktiv bewerben?'],
+  ['Kennzahlen', 'Sind 500+ realisierte Projekte und Rückmeldung im Regelfall innerhalb von 24 Stunden belastbar?'],
+  ['Kundenstimmen', 'Sind die aktuell hinterlegten Testimonials echt und zur Veröffentlichung freigegeben?'],
+  ['Recht', 'Firmierung, Rechtsform, ladungsfähige Anschrift, ggf. USt-ID, Kammer/Berufsbezeichnung, Datenschutz und AGB.'],
+  ['Bilder', 'Welche 20–30 Original-Projektfotos dürfen Website, Google und MyHammer verwenden?']
+];
+
+const plattformen = [
+  {
+    name: 'Google Business Profile',
+    status: 'vorbereitet',
+    text: 'Ziel: Auftragnehmer für den Innenausbau als Hauptkategorie, präzise Zusatzkategorien, kompletter Service-Katalog, echte Projektbilder und systematischer Review-Aufbau.'
+  },
+  {
+    name: 'MyHammer',
+    status: 'anpassen',
+    text: 'Starkes Asset mit 5,0/5 und aktuell 13 Bewertungen. Die sichtbare Preisführer-Kommunikation passt jedoch nicht mehr zur neuen Qualitätspositionierung.'
+  },
+  {
+    name: 'Instagram',
+    status: 'prüfen',
+    text: 'Eine veröffentlichte KS-Anzeige aus 2025 nennt @ksinnenausbau, im aktuellen Website-Code steht ein anderer Handle. Freitag im echten Konto verifizieren, nicht raten.'
+  },
+  {
+    name: 'wunschausbau.de',
+    status: 'cutover planen',
+    text: 'Die öffentliche Domain zeigt noch den alten Auftritt. Die neue Astro-Seite ist als Vorschau fertig; Produktion soll wegen des Anfrageformulars über Netlify erfolgen.'
+  }
+];
+---
+
+<Base
+  title="Freigabe | KS-Innenausbau"
+  description="Interne Freigabeseite für den Relaunch von KS-Innenausbau."
+  noindex={true}
+>
+  <section class="approval-hero">
+    <div class="wrap approval-hero__inner">
+      <p class="eyebrow">Interne Freigabe · Freitag, 28.08.2026</p>
+      <h1>Alles vorbereitet.<br /><em>Nur Fakten fehlen.</em></h1>
+      <p class="lead">Diese Seite bündelt die Entscheidungen, die Kevin bestätigen muss, damit Website, Google Business Profile und externe Plattformen danach ohne neue Konzeptphase finalisiert werden können.</p>
+      <div class="hero-meta">
+        <span>KS-Innenausbau</span>
+        <span>Wittlich · Trier · Mosel</span>
+        <span>nicht indexiert</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section proof-section">
+    <div class="wrap">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Öffentlich belegt</p>
+          <h2>Darauf können wir bereits bauen.</h2>
+        </div>
+        <p>Eine veröffentlichte KS-Anzeige bestätigt zentrale Unternehmensdaten und die handwerkliche Identität. Rechtliche Details und das Google-Standortmodell bleiben trotzdem Freigabepunkte.</p>
+      </div>
+      <div class="proof-grid">
+        <article><small>Person</small><strong>Kevin Schmieding</strong><span>Bauschreiner aus Wittlich</span></article>
+        <article><small>Kontakt</small><strong>{settings.telefon}</strong><span>{settings.email}</span></article>
+        <article><small>Adresse</small><strong>Förbeltstraße 1</strong><span>54516 Wittlich</span></article>
+        <article><small>Belegte Leistungen</small><strong>Boden · Türen/Fenster</strong><span>Trockenbau · Holzterrassen</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap decision-layout">
+      <div class="decision-intro">
+        <p class="eyebrow">Kevin entscheidet</p>
+        <h2>Keine Ideenrunde.<br />Nur bestätigen oder korrigieren.</h2>
+        <p>Wo echte Unternehmensfakten fehlen, bleibt der Punkt offen. So vermeiden wir erfundene Leistungen, falsche Standortangaben und unbelegte Werbeversprechen.</p>
+      </div>
+      <div class="decision-list">
+        {offen.map(([title, text]) => (
+          <article class="decision-item">
+            <div><span class="status status--open">offen</span><h3>{title}</h3></div>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Gesamtauftritt</p>
+          <h2>Ein Unternehmen. Ein Markenbild.</h2>
+        </div>
+        <p>Website und Google allein reichen nicht. Alle starken Kontaktpunkte müssen dieselbe Qualitätspositionierung transportieren.</p>
+      </div>
+      <div class="platform-grid">
+        {plattformen.map((item) => (
+          <article class="platform-card">
+            <div class="platform-top"><h3>{item.name}</h3><span class="status">{item.status}</span></div>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap material-grid">
+      <div>
+        <p class="eyebrow">Zum Termin bereithalten</p>
+        <h2>Material statt Nacharbeit.</h2>
+        <p class="dark-copy">Je mehr davon am Freitag vorliegt, desto schneller können wir danach live gehen.</p>
+      </div>
+      <div class="material-list">
+        <p><strong>Google-Zugang</strong><span>Kevin selbst eingeloggt, keine Passwortweitergabe.</span></p>
+        <p><strong>MyHammer & Instagram</strong><span>Accountzugriff und aktueller Profilstand.</span></p>
+        <p><strong>20–30 Originalfotos</strong><span>Fertige Projekte, Details, Vorher/Nachher, Arbeitssituationen.</span></p>
+        <p><strong>Rechtsdaten</strong><span>Firmierung, Rechtsform, Anschrift, ggf. USt-ID, Kammer und bestehende Texte.</span></p>
+        <p><strong>Domain/DNS</strong><span>Zugriff für Netlify-Cutover und Search Console, ohne Mail-DNS zu verändern.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section launch-section">
+    <div class="wrap launch-card">
+      <p class="eyebrow">Definition of Done</p>
+      <h2>Nach Freitag folgt Umsetzung – keine neue Konzeptphase.</h2>
+      <p>Wenn Name, Standortmodell, Zeiten, Einsatzgebiet, Leistungen, Kennzahlen, Recht, Bilder und Zugriffe bestätigt sind, können wir Website, Google Business Profile, MyHammer und die Produktionsdomain final synchronisieren.</p>
+      <div class="launch-tags">
+        <span>Website finalisieren</span>
+        <span>Netlify + Domain</span>
+        <span>Google-Profil optimieren</span>
+        <span>MyHammer angleichen</span>
+        <span>Search Console</span>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .approval-hero {
+    color: var(--paper-inverse);
+    background: var(--ink);
+  }
+  .approval-hero__inner { padding-block: clamp(5rem, 10vw, 9rem); }
+  .approval-hero .eyebrow { color: #e1bb72; }
+  .approval-hero .eyebrow::before { background: #e1bb72; }
+  .approval-hero h1 {
+    max-width: 12ch;
+    margin-top: 1.6rem;
+    color: #fff;
+    font-family: var(--font-brand);
+    font-size: clamp(3.3rem, 7.5vw, 7rem);
+    font-weight: 560;
+    letter-spacing: -.055em;
+    line-height: .9;
+  }
+  .approval-hero h1 em { color: #e1bb72; font-family: var(--font-display); font-weight: 450; }
+  .approval-hero .lead { max-width: 50rem; margin-top: 2rem; color: rgba(255,255,255,.7); }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.3rem; }
+  .hero-meta span, .status, .launch-tags span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.9rem;
+    padding: .25rem .65rem;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 999px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .section-heading { display: grid; grid-template-columns: 1fr minmax(18rem,.7fr); align-items: end; gap: clamp(2rem,8vw,8rem); }
+  .section-heading > p { color: var(--ink-soft); line-height: 1.7; }
+  .proof-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; margin-top: var(--space-6); background: var(--line); border: 1px solid var(--line); }
+  .proof-grid article { display: grid; gap: .45rem; min-height: 11rem; align-content: end; padding: clamp(1.3rem,3vw,2rem); background: var(--paper); }
+  .proof-grid small { color: var(--brass-deep); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .proof-grid strong { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.2; }
+  .proof-grid span { color: var(--ink-soft); font-size: var(--text-sm); }
+  .decision-layout { display: grid; grid-template-columns: minmax(18rem,.65fr) minmax(0,1.35fr); gap: clamp(3rem,9vw,9rem); }
+  .decision-intro { position: sticky; top: calc(var(--header-height) + 2rem); align-self: start; }
+  .decision-intro p:last-child { margin-top: 1.5rem; color: var(--ink-soft); line-height: 1.7; }
+  .decision-list { border-top: 1px solid var(--line); }
+  .decision-item { display: grid; grid-template-columns: minmax(12rem,.5fr) 1fr; gap: 2rem; padding-block: 1.6rem; border-bottom: 1px solid var(--line); }
+  .decision-item h3 { margin-top: .55rem; font-size: 1.05rem; }
+  .decision-item p { color: var(--ink-soft); line-height: 1.65; }
+  .status { min-height: 1.55rem; padding: .15rem .5rem; border-color: var(--line); color: var(--ink-soft); }
+  .status--open { color: #8d4b23; background: #fff6ee; border-color: #e8c8af; }
+  .platform-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-top: var(--space-6); }
+  .platform-card { padding: clamp(1.4rem,3vw,2rem); border: 1px solid var(--line); background: var(--paper); }
+  .platform-top { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
+  .platform-card p { margin-top: 1.25rem; color: var(--ink-soft); line-height: 1.7; }
+  .section--dark { color: #fff; background: var(--ink); }
+  .section--dark .eyebrow { color: #e1bb72; }
+  .section--dark .eyebrow::before { background: #e1bb72; }
+  .material-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(3rem,9vw,9rem); }
+  .dark-copy { max-width: 35rem; margin-top: 1.4rem; color: rgba(255,255,255,.62); }
+  .material-list { border-top: 1px solid rgba(255,255,255,.14); }
+  .material-list p { display: grid; grid-template-columns: 11rem 1fr; gap: 1.5rem; padding-block: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.14); }
+  .material-list span { color: rgba(255,255,255,.62); }
+  .launch-card { padding: clamp(2rem,6vw,5rem); border: 1px solid var(--line); background: var(--sand); }
+  .launch-card h2 { max-width: 18ch; }
+  .launch-card > p:not(.eyebrow) { max-width: 50rem; margin-top: 1.4rem; color: var(--ink-soft); line-height: 1.75; }
+  .launch-tags { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 2rem; }
+  .launch-tags span { border-color: var(--brass); color: var(--brass-deep); }
+  @media (max-width: 56rem) {
+    .proof-grid { grid-template-columns: repeat(2,1fr); }
+    .decision-layout, .material-grid, .section-heading { grid-template-columns: 1fr; }
+    .decision-intro { position: static; }
+  }
+  @media (max-width: 38rem) {
+    .proof-grid, .platform-grid { grid-template-columns: 1fr; }
+    .decision-item { grid-template-columns: 1fr; gap: .75rem; }
+    .material-list p { grid-template-columns: 1fr; gap: .35rem; }
+  }
+</style>
