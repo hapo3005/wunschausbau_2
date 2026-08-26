@@ -7,9 +7,9 @@ const steps = [
 ---
 <ol class="process">
   {steps.map((step, index) => (
-    <li class="reveal" style={`--reveal-delay: ${index * 55}ms`}>
+    <li class="reveal" style={`--reveal-delay: ${index * 70}ms`}>
       <span class="nr" aria-hidden="true">{step.nr}</span>
-      <div>
+      <div class="step-copy">
         <h3>{step.title}</h3>
         <p>{step.text}</p>
       </div>
@@ -22,43 +22,97 @@ const steps = [
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 0;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--paper);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--line);
     list-style: none;
   }
+
   .process li {
+    position: relative;
     display: grid;
     min-width: 0;
-    gap: var(--space-4);
-    padding: clamp(1.75rem, 4vw, 2.75rem);
+    min-height: clamp(17rem, 25vw, 21rem);
+    grid-template-rows: auto 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    padding: clamp(1.5rem, 3vw, 2.25rem) clamp(2rem, 4vw, 3.5rem) clamp(2rem, 4vw, 3.25rem) 0;
     border-right: 1px solid var(--line);
   }
-  .process li:last-child { border-right: 0; }
+
+  .process li:not(:first-child) { padding-left: clamp(2rem, 4vw, 3.5rem); }
+  .process li:last-child { padding-right: 0; border-right: 0; }
+
+  .process li::before {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 3.25rem;
+    height: 2px;
+    background: var(--brass);
+    content: "";
+  }
+
+  .process li:not(:first-child)::before { left: clamp(2rem, 4vw, 3.5rem); }
+
   .nr {
     display: block;
-    color: var(--brass);
+    color: rgba(185, 130, 47, .48);
     font-family: var(--font-display);
-    font-size: 1.75rem;
+    font-size: clamp(3.8rem, 6vw, 5.8rem);
     font-variant-numeric: tabular-nums;
-    line-height: 1;
+    letter-spacing: -.04em;
+    line-height: .82;
   }
-  h3 { margin-bottom: .65rem; }
-  p { color: var(--ink-soft); font-size: var(--text-sm); }
+
+  .step-copy {
+    align-self: end;
+    max-width: 22rem;
+  }
+
+  h3 {
+    margin-bottom: .8rem;
+    font-size: clamp(1.55rem, 2.3vw, 2rem);
+  }
+
+  p {
+    color: var(--ink-soft);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+  }
 
   @media (max-width: 56rem) {
-    .process { grid-template-columns: 1fr; }
-    .process li {
-      grid-template-columns: 3rem minmax(0, 1fr);
+    .process {
+      grid-template-columns: 1fr;
+      border-bottom: 0;
+    }
+
+    .process li,
+    .process li:not(:first-child),
+    .process li:last-child {
+      min-height: 0;
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      grid-template-rows: auto;
+      align-items: start;
       gap: var(--space-3);
+      padding: 2rem 0;
       border-right: 0;
       border-bottom: 1px solid var(--line);
     }
-    .process li:last-child { border-bottom: 0; }
+
+    .process li:not(:first-child)::before,
+    .process li::before { left: 0; }
+
+    .nr { font-size: 2.8rem; line-height: 1; }
+    .step-copy { max-width: 34rem; }
   }
 
   @media (max-width: 30rem) {
-    .process li { grid-template-columns: 1fr; gap: var(--space-2); }
+    .process li,
+    .process li:not(:first-child),
+    .process li:last-child {
+      grid-template-columns: 3.6rem minmax(0, 1fr);
+      gap: var(--space-2);
+    }
+
+    .nr { font-size: 2.35rem; }
   }
 </style>
