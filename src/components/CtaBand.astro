@@ -3,8 +3,8 @@ import { withBase } from '../lib/paths';
 
 interface Props { title?: string; text?: string; }
 const {
-  title = 'Lassen Sie uns über Ihr Projekt sprechen.',
-  text = 'Kostenlose Erstberatung, ehrliche Einschätzung, Rückmeldung in der Regel innerhalb von 24 Stunden.'
+  title = 'Sie möchten etwas umbauen oder renovieren?',
+  text = 'Schicken Sie uns kurz, worum es geht. Wir melden uns in der Regel innerhalb von 24 Stunden.'
 } = Astro.props;
 ---
 <section class="section cta-section">
@@ -17,7 +17,7 @@ const {
     <div class="cta-side">
       <p>{text}</p>
       <a class="cta-link" href={withBase('/kontakt/')}>
-        <span>Projekt unverbindlich anfragen</span>
+        <span>Anfrage senden</span>
         <span aria-hidden="true">→</span>
       </a>
     </div>
