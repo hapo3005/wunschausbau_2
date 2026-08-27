@@ -1,435 +1,438 @@
 /*
-  Premium homepage hero v2
-  Immersive architecture-first composition for KS-Innenausbau.
-  This deliberately overrides the page-local hero layout without touching the rest of the homepage.
+  KS homepage hero — premium editorial overlay
+  Purpose: isolate the homepage hero from older global styling passes and create
+  a calm, architecture-led composition instead of a generic 50/50 split.
 */
 
-main > section.ks-hero.ks-hero {
-  position: relative;
-  display: grid;
-  min-height: clamp(43rem, calc(100svh - 5.2rem), 58rem);
-  align-items: center;
-  overflow: hidden;
-  color: #f8f5ee;
-  background: #171717;
+html body main#inhalt > section.ks-hero {
+  position: relative !important;
+  display: grid !important;
+  min-height: clamp(44rem, calc(100svh - 5.25rem), 56rem) !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  color: var(--ink) !important;
+  background: #cbc1b4 !important;
   isolation: isolate;
 }
 
-main > section.ks-hero.ks-hero::before {
+html body main#inhalt > section.ks-hero::before {
   position: absolute;
   z-index: 3;
-  inset: clamp(1rem, 1.7vw, 1.55rem);
-  border: 1px solid rgba(255,255,255,.16);
+  inset: clamp(.75rem, 1.25vw, 1.1rem);
+  border: 1px solid rgba(255,255,255,.22);
   content: '';
   pointer-events: none;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__media,
-main > section.ks-hero.ks-hero .ks-hero__media::after,
-main > section.ks-hero.ks-hero .ks-hero__media img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+html body main#inhalt > section.ks-hero .ks-hero__media,
+html body main#inhalt > section.ks-hero .ks-hero__media::after,
+html body main#inhalt > section.ks-hero .ks-hero__media img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__media img {
-  object-fit: cover;
-  object-position: 67% 52%;
-  filter: saturate(.88) contrast(1.045) brightness(.88);
-  transform: scale(1.018);
+html body main#inhalt > section.ks-hero .ks-hero__media {
+  z-index: 0 !important;
+  overflow: hidden !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__media::after {
-  z-index: 1;
+html body main#inhalt > section.ks-hero .ks-hero__media img {
+  object-fit: cover !important;
+  object-position: 64% 52% !important;
+  filter: saturate(.94) contrast(1.025) brightness(1.03) !important;
+  transform: scale(1.018) !important;
+}
+
+html body main#inhalt > section.ks-hero .ks-hero__media::after {
+  z-index: 1 !important;
   background:
-    linear-gradient(90deg,
-      rgba(17,17,17,.90) 0%,
-      rgba(17,17,17,.78) 25%,
-      rgba(17,17,17,.48) 43%,
-      rgba(17,17,17,.15) 61%,
-      rgba(17,17,17,.04) 78%),
-    linear-gradient(0deg,
-      rgba(12,12,12,.62) 0%,
-      rgba(12,12,12,.12) 34%,
-      rgba(12,12,12,.04) 68%);
-  content: '';
+    linear-gradient(180deg, rgba(20,20,18,.04) 0%, rgba(20,20,18,.00) 46%, rgba(20,20,18,.12) 100%),
+    linear-gradient(90deg, rgba(20,20,18,.16) 0%, rgba(20,20,18,.03) 36%, rgba(20,20,18,0) 68%) !important;
+  content: '' !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__inner {
-  position: relative;
-  z-index: 4;
-  display: grid;
-  width: 100%;
-  min-height: inherit;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(3rem, 8vw, 8rem);
-  padding-top: clamp(5.2rem, 9vw, 8rem);
-  padding-bottom: clamp(6.8rem, 10vw, 9rem);
+html body main#inhalt > section.ks-hero .ks-hero__inner {
+  position: relative !important;
+  z-index: 4 !important;
+  display: grid !important;
+  width: 100% !important;
+  min-height: inherit !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: end !important;
+  gap: clamp(2rem, 5vw, 5rem) !important;
+  padding-top: clamp(5rem, 9vw, 7.5rem) !important;
+  padding-bottom: clamp(4.25rem, 7vw, 6rem) !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__copy {
-  position: relative;
-  max-width: 43rem;
-  padding-left: clamp(1.15rem, 2vw, 1.7rem);
+html body main#inhalt > section.ks-hero .ks-hero__copy {
+  position: relative !important;
+  width: min(44rem, 52vw) !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(2.35rem, 4vw, 3.75rem) clamp(2.35rem, 4vw, 4rem) clamp(2.25rem, 3.6vw, 3.35rem) !important;
+  color: var(--ink) !important;
+  background: rgba(253,252,249,.955) !important;
+  border: 1px solid rgba(255,255,255,.68) !important;
+  box-shadow: 0 1.6rem 4rem rgba(25,22,18,.13) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(.9) !important;
+  backdrop-filter: blur(10px) saturate(.9) !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__copy::before {
+html body main#inhalt > section.ks-hero .ks-hero__copy::before {
   position: absolute;
-  top: .2rem;
-  bottom: .15rem;
-  left: 0;
-  width: 1px;
-  background: linear-gradient(180deg, #d2ab65 0%, rgba(210,171,101,.12) 74%, transparent 100%);
+  top: 0;
+  left: clamp(2.35rem, 4vw, 4rem);
+  width: clamp(4.5rem, 8vw, 7rem);
+  height: 3px;
+  background: var(--brass) !important;
   content: '';
 }
 
-main > section.ks-hero.ks-hero .eyebrow {
-  margin: 0 0 clamp(1.5rem, 2.6vw, 2.1rem);
-  color: #d9b66f;
-  font-family: var(--font-text);
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  line-height: 1.45;
-  text-transform: uppercase;
+html body main#inhalt > section.ks-hero .eyebrow {
+  display: block !important;
+  margin: 0 0 clamp(1.2rem, 2vw, 1.65rem) !important;
+  padding: 0 !important;
+  color: var(--brass-deep) !important;
+  font-family: var(--font-text) !important;
+  font-size: .66rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .145em !important;
+  line-height: 1.5 !important;
+  text-transform: uppercase !important;
 }
 
-main > section.ks-hero.ks-hero .eyebrow::before {
-  display: none;
+html body main#inhalt > section.ks-hero .eyebrow::before {
+  display: none !important;
 }
 
-main > section.ks-hero.ks-hero h1 {
-  display: grid;
-  width: fit-content;
-  max-width: 11ch;
-  margin: 0;
-  color: #fff;
-  font-family: var(--font-brand);
-  font-size: clamp(3.9rem, 6.25vw, 6.35rem);
-  font-weight: 500;
-  letter-spacing: -.045em;
-  line-height: .88;
-  text-wrap: balance;
+html body main#inhalt > section.ks-hero h1 {
+  display: grid !important;
+  width: fit-content !important;
+  max-width: 10.5ch !important;
+  margin: 0 !important;
+  color: var(--ink) !important;
+  font-family: var(--font-brand) !important;
+  font-size: clamp(3.7rem, 5.45vw, 5.55rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: -.044em !important;
+  line-height: .9 !important;
+  text-wrap: balance !important;
 }
 
-main > section.ks-hero.ks-hero h1 span,
-main > section.ks-hero.ks-hero h1 strong {
-  display: block;
+html body main#inhalt > section.ks-hero h1 span,
+html body main#inhalt > section.ks-hero h1 strong {
+  display: block !important;
+  color: var(--ink) !important;
 }
 
-main > section.ks-hero.ks-hero h1 span {
-  color: rgba(255,255,255,.92);
-  font-weight: 500;
+html body main#inhalt > section.ks-hero h1 span {
+  font-weight: 500 !important;
 }
 
-main > section.ks-hero.ks-hero h1 strong {
-  color: #fff;
-  font-weight: 650;
+html body main#inhalt > section.ks-hero h1 strong {
+  font-weight: 650 !important;
 }
 
-main > section.ks-hero.ks-hero h1 small {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: min(100%, 22rem);
-  margin-top: clamp(1rem, 1.7vw, 1.35rem);
-  color: #d9b66f;
-  font-family: var(--font-text);
-  font-size: clamp(.78rem, .95vw, .9rem);
-  font-weight: 600;
-  letter-spacing: .09em;
-  line-height: 1.2;
-  text-transform: uppercase;
+html body main#inhalt > section.ks-hero h1 small {
+  display: flex !important;
+  align-items: center !important;
+  gap: .9rem !important;
+  width: min(100%, 19rem) !important;
+  margin-top: clamp(.9rem, 1.5vw, 1.15rem) !important;
+  color: var(--brass-deep) !important;
+  font-family: var(--font-text) !important;
+  font-size: clamp(.72rem, .82vw, .82rem) !important;
+  font-weight: 650 !important;
+  letter-spacing: .11em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
 }
 
-main > section.ks-hero.ks-hero h1 small::after {
-  width: clamp(3.5rem, 7vw, 6rem);
-  height: 1px;
-  flex: 0 1 auto;
-  background: rgba(217,182,111,.58);
-  content: '';
+html body main#inhalt > section.ks-hero h1 small::after {
+  width: clamp(3rem, 5vw, 4.8rem) !important;
+  height: 1px !important;
+  flex: 0 1 auto !important;
+  background: rgba(118,80,29,.38) !important;
+  content: '' !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__lead {
-  max-width: 31rem;
-  margin-top: clamp(1.6rem, 2.5vw, 2rem);
-  color: rgba(248,245,238,.73);
-  font-size: clamp(.98rem, 1.15vw, 1.08rem);
-  font-weight: 400;
-  line-height: 1.72;
+html body main#inhalt > section.ks-hero .ks-hero__lead {
+  max-width: 34rem !important;
+  margin: clamp(1.5rem, 2.35vw, 1.95rem) 0 0 !important;
+  color: #555a5f !important;
+  font-family: var(--font-text) !important;
+  font-size: clamp(.98rem, 1.08vw, 1.06rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.72 !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(1.15rem, 2vw, 1.7rem);
-  margin-top: clamp(2rem, 3.2vw, 2.6rem);
+html body main#inhalt > section.ks-hero .ks-hero__actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: clamp(1.2rem, 2vw, 1.65rem) !important;
+  margin-top: clamp(1.8rem, 2.8vw, 2.3rem) !important;
 }
 
-main > section.ks-hero.ks-hero .ks-button {
-  display: inline-flex;
-  min-height: 3.55rem;
-  align-items: center;
-  padding: .85rem 1.55rem;
-  color: #1c1d1f;
-  background: #f7f3eb;
-  border: 1px solid #f7f3eb;
-  font-size: .9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+html body main#inhalt > section.ks-hero .ks-button {
+  display: inline-flex !important;
+  min-height: 3.45rem !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: .82rem 1.45rem !important;
+  color: #fff !important;
+  background: #1c1d1f !important;
+  border: 1px solid #1c1d1f !important;
+  box-shadow: none !important;
+  font-family: var(--font-text) !important;
+  font-size: .9rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
 }
 
-main > section.ks-hero.ks-hero .ks-textlink {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: .55rem;
-  padding-bottom: .3rem;
-  color: rgba(255,255,255,.86);
-  border-bottom: 1px solid rgba(255,255,255,.42);
-  font-size: .88rem;
-  font-weight: 550;
-  text-decoration: none;
-  transition: gap 180ms ease, color 180ms ease, border-color 180ms ease;
+html body main#inhalt > section.ks-hero .ks-textlink {
+  display: inline-flex !important;
+  width: fit-content !important;
+  min-height: 0 !important;
+  align-items: center !important;
+  gap: .55rem !important;
+  padding: .4rem 0 !important;
+  color: var(--ink) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(28,29,31,.36) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-text) !important;
+  font-size: .88rem !important;
+  font-weight: 550 !important;
+  text-decoration: none !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__location {
-  position: absolute;
-  right: clamp(2rem, 3.5vw, 3.5rem);
-  bottom: clamp(2.3rem, 4vw, 3.6rem);
-  display: grid;
-  min-width: 15rem;
-  justify-items: end;
-  gap: .34rem;
-  padding-top: .75rem;
-  border-top: 1px solid rgba(217,182,111,.46);
-  color: rgba(255,255,255,.54);
-  font-size: .62rem;
-  font-weight: 500;
-  letter-spacing: .1em;
-  line-height: 1.5;
-  text-align: right;
-  text-transform: uppercase;
+html body main#inhalt > section.ks-hero .ks-hero__location {
+  position: absolute !important;
+  right: clamp(1.8rem, 3vw, 3rem) !important;
+  bottom: clamp(2rem, 3.4vw, 3rem) !important;
+  display: grid !important;
+  min-width: 15.5rem !important;
+  justify-items: end !important;
+  gap: .35rem !important;
+  padding: .9rem 1rem .9rem 1.2rem !important;
+  color: rgba(255,255,255,.68) !important;
+  background: rgba(18,18,18,.56) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+  font-size: .61rem !important;
+  font-weight: 500 !important;
+  letter-spacing: .095em !important;
+  line-height: 1.5 !important;
+  text-align: right !important;
+  text-transform: uppercase !important;
 }
 
-main > section.ks-hero.ks-hero .ks-hero__location strong {
-  color: rgba(255,255,255,.92);
-  font-weight: 600;
+html body main#inhalt > section.ks-hero .ks-hero__location strong {
+  color: #fff !important;
+  font-weight: 650 !important;
 }
 
-/* The proof rail becomes a deliberate bridge between image and content. */
-main > section.proof-rail.proof-rail {
-  position: relative;
-  z-index: 7;
-  margin-top: clamp(-3.35rem, -4vw, -2.65rem);
-  padding-bottom: clamp(1.2rem, 2vw, 1.7rem);
-  background: transparent;
-  border: 0;
+/* Slim, quiet proof band. It should support the hero, not compete with it. */
+html body main#inhalt > section.proof-rail {
+  position: relative !important;
+  z-index: 5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--paper) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
 }
 
-main > section.proof-rail.proof-rail .proof-rail__grid {
-  grid-template-columns: 1.05fr .95fr 1.2fr .8fr;
-  border: 1px solid rgba(28,29,31,.09);
-  background: rgba(253,252,249,.985);
-  box-shadow: 0 1.35rem 3.2rem rgba(28,29,31,.10);
+html body main#inhalt > section.proof-rail .proof-rail__grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.25fr .85fr !important;
+  border: 0 !important;
+  border-top: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
-main > section.proof-rail.proof-rail .proof-rail__grid > div {
-  min-height: 6.2rem;
-  justify-content: center;
-  padding: 1.25rem clamp(1.15rem, 2.2vw, 1.8rem);
-  border-right: 1px solid var(--line);
+html body main#inhalt > section.proof-rail .proof-rail__grid > div,
+html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child,
+html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
+  display: grid !important;
+  min-height: 5.3rem !important;
+  align-content: center !important;
+  gap: .28rem !important;
+  padding: 1rem clamp(1rem, 2vw, 1.65rem) !important;
+  border-right: 1px solid var(--line) !important;
+  border-bottom: 0 !important;
 }
 
-main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child {
-  padding-left: clamp(1.15rem, 2.2vw, 1.8rem);
+html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child {
+  padding-left: 0 !important;
 }
 
-main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
-  padding-right: clamp(1.15rem, 2.2vw, 1.8rem);
-  border-right: 0;
+html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
+  padding-right: 0 !important;
+  border-right: 0 !important;
 }
 
-main > section.proof-rail.proof-rail strong {
-  color: var(--ink);
-  font-family: var(--font-brand);
-  font-size: clamp(1.16rem, 1.45vw, 1.38rem);
-  font-weight: 600;
-  letter-spacing: -.018em;
-  line-height: 1.05;
+html body main#inhalt > section.proof-rail strong {
+  color: var(--ink) !important;
+  font-family: var(--font-brand) !important;
+  font-size: clamp(1.08rem, 1.35vw, 1.28rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.015em !important;
+  line-height: 1.05 !important;
 }
 
-main > section.proof-rail.proof-rail span {
-  color: var(--ink-muted);
-  font-size: .7rem;
-  line-height: 1.45;
+html body main#inhalt > section.proof-rail span {
+  color: var(--ink-muted) !important;
+  font-size: .68rem !important;
+  line-height: 1.45 !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  main > section.ks-hero.ks-hero .ks-button:hover {
-    background: #fff;
-    border-color: #fff;
-    transform: translateY(-1px);
+  html body main#inhalt > section.ks-hero .ks-button:hover {
+    color: #fff !important;
+    background: var(--brass-deep) !important;
+    border-color: var(--brass-deep) !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-textlink:hover {
-    gap: .8rem;
-    color: #d9b66f;
-    border-color: #d9b66f;
+  html body main#inhalt > section.ks-hero .ks-textlink:hover {
+    gap: .78rem !important;
+    color: var(--brass-deep) !important;
+    border-bottom-color: var(--brass-deep) !important;
   }
 }
 
-@media (max-width: 64rem) {
-  main > section.ks-hero.ks-hero {
-    min-height: clamp(42rem, 86svh, 51rem);
+@media (max-width: 68rem) {
+  html body main#inhalt > section.ks-hero .ks-hero__copy {
+    width: min(41rem, 61vw) !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__media img {
-    object-position: 64% center;
-  }
-
-  main > section.ks-hero.ks-hero .ks-hero__media::after {
-    background:
-      linear-gradient(90deg,
-        rgba(17,17,17,.91) 0%,
-        rgba(17,17,17,.78) 34%,
-        rgba(17,17,17,.43) 59%,
-        rgba(17,17,17,.10) 82%),
-      linear-gradient(0deg, rgba(12,12,12,.58), rgba(12,12,12,.03) 48%);
+  html body main#inhalt > section.ks-hero h1 {
+    font-size: clamp(3.45rem, 6vw, 5rem) !important;
   }
 }
 
 @media (max-width: 56rem) {
-  main > section.ks-hero.ks-hero {
-    min-height: 47rem;
-    align-items: end;
+  html body main#inhalt > section.ks-hero {
+    min-height: 46rem !important;
   }
 
-  main > section.ks-hero.ks-hero::before {
-    inset: .75rem;
+  html body main#inhalt > section.ks-hero::before {
+    inset: .65rem !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__inner {
-    grid-template-columns: 1fr;
-    align-items: end;
-    padding-top: 7rem;
-    padding-bottom: 6rem;
+  html body main#inhalt > section.ks-hero .ks-hero__media img {
+    object-position: 67% center !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__copy {
-    max-width: 39rem;
+  html body main#inhalt > section.ks-hero .ks-hero__inner {
+    grid-template-columns: 1fr !important;
+    align-items: end !important;
+    padding-top: 8rem !important;
+    padding-bottom: 2.5rem !important;
   }
 
-  main > section.ks-hero.ks-hero h1 {
-    font-size: clamp(3.7rem, 10.5vw, 5.6rem);
+  html body main#inhalt > section.ks-hero .ks-hero__copy {
+    width: min(39rem, 92vw) !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__location {
-    display: none;
+  html body main#inhalt > section.ks-hero .ks-hero__location {
+    display: none !important;
   }
 
-  main > section.proof-rail.proof-rail {
-    margin-top: -2rem;
+  html body main#inhalt > section.proof-rail .proof-rail__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div,
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child,
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
+    min-height: 4.8rem !important;
+    padding: .9rem 1rem !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid > div,
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child,
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
-    min-height: 5.4rem;
-    padding: 1rem 1.15rem;
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:nth-child(2) {
+    border-right: 0 !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:nth-child(2) {
-    border-right: 0;
-  }
-
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:nth-child(-n+2) {
-    border-bottom: 1px solid var(--line);
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:nth-child(-n+2) {
+    border-bottom: 1px solid var(--line) !important;
   }
 }
 
 @media (max-width: 40rem) {
-  main > section.ks-hero.ks-hero {
-    min-height: 44rem;
+  html body main#inhalt > section.ks-hero {
+    min-height: 43rem !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__media img {
-    object-position: 70% center;
-    filter: saturate(.86) contrast(1.045) brightness(.78);
+  html body main#inhalt > section.ks-hero .ks-hero__media img {
+    object-position: 73% center !important;
+    filter: saturate(.92) contrast(1.02) brightness(.9) !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__media::after {
-    background:
-      linear-gradient(180deg,
-        rgba(17,17,17,.26) 0%,
-        rgba(17,17,17,.44) 35%,
-        rgba(17,17,17,.88) 76%,
-        rgba(17,17,17,.95) 100%);
+  html body main#inhalt > section.ks-hero .ks-hero__media::after {
+    background: linear-gradient(180deg, rgba(20,20,18,.06) 0%, rgba(20,20,18,.14) 52%, rgba(20,20,18,.34) 100%) !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__inner {
-    padding-top: 12rem;
-    padding-bottom: 4.7rem;
+  html body main#inhalt > section.ks-hero .ks-hero__inner {
+    padding-top: 10rem !important;
+    padding-bottom: 1.25rem !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__copy {
-    align-self: end;
-    max-width: none;
-    padding-left: 1rem;
+  html body main#inhalt > section.ks-hero .ks-hero__copy {
+    width: 100% !important;
+    padding: 1.75rem 1.45rem 1.65rem !important;
+    background: rgba(253,252,249,.965) !important;
+    box-shadow: 0 1rem 2.8rem rgba(25,22,18,.16) !important;
   }
 
-  main > section.ks-hero.ks-hero h1 {
-    max-width: 9ch;
-    font-size: clamp(3rem, 13.2vw, 4.25rem);
-    line-height: .89;
+  html body main#inhalt > section.ks-hero .ks-hero__copy::before {
+    left: 1.45rem !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__lead {
-    max-width: 29rem;
-    font-size: .96rem;
+  html body main#inhalt > section.ks-hero h1 {
+    max-width: 9.5ch !important;
+    font-size: clamp(2.85rem, 12vw, 3.8rem) !important;
+    line-height: .92 !important;
   }
 
-  main > section.ks-hero.ks-hero .ks-hero__actions {
-    align-items: flex-start;
-    gap: 1rem;
+  html body main#inhalt > section.ks-hero .ks-hero__lead {
+    font-size: .94rem !important;
+    line-height: 1.65 !important;
   }
 
-  main > section.proof-rail.proof-rail {
-    margin-top: 0;
-    padding-bottom: 0;
+  html body main#inhalt > section.ks-hero .ks-hero__actions {
+    align-items: flex-start !important;
+    gap: .85rem !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid {
-    grid-template-columns: 1fr;
-    border-inline: 0;
-    box-shadow: none;
+  html body main#inhalt > section.ks-hero .ks-button {
+    min-height: 3.2rem !important;
+    padding-inline: 1.15rem !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid > div,
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child,
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
-    min-height: 0;
-    padding: 1rem 0;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+  html body main#inhalt > section.proof-rail .proof-rail__grid {
+    grid-template-columns: 1fr !important;
   }
 
-  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
-    border-bottom: 0;
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div,
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child,
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
+    min-height: 4.4rem !important;
+    padding: .8rem 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  main > section.ks-hero.ks-hero .ks-button,
-  main > section.ks-hero.ks-hero .ks-textlink {
-    transition: none;
+  html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
+    border-bottom: 0 !important;
   }
 }
