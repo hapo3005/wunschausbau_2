@@ -1,0 +1,22 @@
+{
+  "unternehmen": "KS-Innenausbau",
+  "inhaber": "Kevin Schmieding",
+  "strasse": "Förbeltstraße 1",
+  "plz": "54516",
+  "ort": "Wittlich",
+  "land": "Deutschland",
+  "telefon": "0151 53264522",
+  "email": "kontakt@wunschausbau.de",
+  "website": "https://www.wunschausbau.de",
+  "ustId": "",
+  "wirtschaftsId": "",
+  "register": "",
+  "registernummer": "",
+  "kammer": "",
+  "berufsbezeichnung": "",
+  "berufsbezeichnungStaat": "",
+  "berufsrecht": "",
+  "vsbgStatus": "pending",
+  "launchApproved": false,
+  "datenquelle": "Bisherige öffentlich zugängliche Website wunschausbau.de, geprüft am 27.08.2026"
+}
