@@ -1,6 +1,7 @@
 ---
 const score = '5,0';
 const reviewCount = '13';
+const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
 ---
 <section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
@@ -9,10 +10,15 @@ const reviewCount = '13';
         <p class="eyebrow">Bewertungen</p>
         <h2 id="stimmen-titel">Vertrauen entsteht nicht durch Versprechen.</h2>
       </div>
-      <p class="proof-intro">
-        Entscheidend ist, wie ein Handwerker arbeitet, kommuniziert und eine Baustelle hinterlässt.
-        Dafür gibt es bereits öffentliches Feedback, das nicht von uns formuliert wurde.
-      </p>
+      <div class="proof-intro-wrap">
+        <p class="proof-intro">
+          Entscheidend ist, wie ein Handwerker arbeitet, kommuniziert und eine Baustelle hinterlässt.
+          Dafür gibt es bereits öffentliches Feedback, das nicht von uns formuliert wurde.
+        </p>
+        <a class="proof-source" href={myHammerUrl} target="_blank" rel="noopener noreferrer">
+          Bewertungen bei MyHammer ansehen <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </header>
 
     <div class="proof-stage">
@@ -90,10 +96,29 @@ const reviewCount = '13';
     letter-spacing: -.035em;
   }
 
+  .proof-intro-wrap {
+    display: grid;
+    gap: 1.25rem;
+  }
+
   .proof-intro {
     max-width: 31rem;
     color: var(--ink-soft);
     line-height: 1.72;
+  }
+
+  .proof-source {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: .55rem;
+    padding-bottom: .3rem;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(28,29,31,.34);
+    font-size: .82rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), gap var(--dur) var(--ease-move);
   }
 
   .proof-stage {
@@ -212,6 +237,14 @@ const reviewCount = '13';
 
   .proof-principles strong { color: var(--ink); font-size: .95rem; font-weight: 600; }
   .proof-principles span { color: var(--ink-soft); font-size: .78rem; line-height: 1.6; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .proof-source:hover {
+      gap: .75rem;
+      color: var(--brass-deep);
+      border-color: var(--brass-deep);
+    }
+  }
 
   @media (max-width: 56rem) {
     .proof-head,
