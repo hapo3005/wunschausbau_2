@@ -36,97 +36,301 @@ const serviceSchema = {
   schema={serviceSchema}
 >
   <article>
-    <section class="section detail-head">
-      <div class="wrap head-grid">
-        <div class="head-copy">
+    <section class="service-head">
+      <div class="wrap service-head__grid">
+        <div class="service-head__copy">
           <p class="eyebrow"><a href={withBase('/leistungen/')} class="crumb">Leistungen</a></p>
           <h1>{leistung.data.title}</h1>
-          <p class="lead">{leistung.data.kurztext}</p>
-          <a class="btn head-cta" href={withBase('/kontakt/')}>Projekt anfragen</a>
+          <p class="service-head__lead">{leistung.data.kurztext}</p>
+          <div class="service-head__actions">
+            <a class="btn" href={withBase('/kontakt/')}>Projekt anfragen</a>
+            <a class="text-link" href={withBase('/leistungen/')}>Alle Leistungen <span aria-hidden="true">→</span></a>
+          </div>
         </div>
-        <div class="head-media">
-          <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[640, 1024]} sizes="(max-width: 56rem) 100vw, 50vw" quality={76} format="webp" loading="eager" />
+
+        <div class="service-head__media">
+          <Image
+            src={leistung.data.bild}
+            alt={leistung.data.bildAlt}
+            widths={[640, 960, 1440]}
+            sizes="(max-width: 56rem) 100vw, 55vw"
+            quality={82}
+            format="webp"
+            loading="eager"
+          />
         </div>
       </div>
     </section>
 
-    <section class="section section--sand">
-      <div class="wrap prose">
-        <Content />
+    <section class="service-content">
+      <div class="wrap service-content__grid">
+        <aside class="service-content__aside" aria-label="Leistungsbereich">
+          <p class="eyebrow">Im Detail</p>
+          <p class="service-content__statement">Sauber geplant.<br />Präzise ausgeführt.<br />Stimmig im Raum.</p>
+        </aside>
+        <div class="prose">
+          <Content />
+        </div>
       </div>
     </section>
   </article>
 
-  <section class="section" aria-label="Weitere Leistungen">
-    <div class="wrap">
-      <p class="eyebrow">Weitere Leistungen</p>
+  <section class="more-services" aria-labelledby="weitere-title">
+    <div class="wrap more-services__grid">
+      <header>
+        <p class="eyebrow">Weitere Leistungen</p>
+        <h2 id="weitere-title">Der Rest muss genauso gut passen.</h2>
+      </header>
       <ul class="weitere">
         {weitere.map((item) => (
-          <li><a href={withBase(`/leistungen/${item.id}/`)}>{item.data.title}<span aria-hidden="true">→</span></a></li>
+          <li>
+            <a href={withBase(`/leistungen/${item.id}/`)}>
+              <span>{item.data.title}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
       </ul>
     </div>
   </section>
+
   <CtaBand />
 </Base>
 
 <style>
-  .head-grid {
+  .service-head {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+    background: var(--paper);
+  }
+
+  .service-head__grid {
     display: grid;
-    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(20rem, .78fr) minmax(0, 1.22fr);
     align-items: center;
-    gap: clamp(3rem, 7vw, 7rem);
+    gap: clamp(3rem, 8vw, 8rem);
   }
-  .head-copy { max-width: 34rem; }
-  .head-cta { margin-top: var(--space-4); }
-  .head-media { overflow: hidden; border-radius: var(--radius); }
-  .head-media :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-  .crumb { text-decoration: none; }
-  .prose { max-width: 51rem; }
-  .prose :global(h2) { margin: var(--space-5) 0 var(--space-2); font-size: clamp(1.55rem, 2.6vw, 2rem); }
-  .prose :global(h2:first-child) { margin-top: 0; }
-  .prose :global(p) { margin-bottom: var(--space-2); color: var(--ink-soft); }
-  .prose :global(ul) {
-    display: grid;
-    gap: .5rem;
-    margin: 0 0 var(--space-2) 1.25rem;
+
+  .service-head__copy { max-width: 34rem; }
+  .crumb { color: inherit; text-decoration: none; }
+
+  .service-head h1 {
+    max-width: 10ch;
+    font-size: clamp(3.5rem, 6vw, 5.8rem);
+    line-height: .92;
+  }
+
+  .service-head__lead {
+    max-width: 34rem;
+    margin-top: 1.6rem;
     color: var(--ink-soft);
+    font-size: clamp(1.03rem, 1.4vw, 1.18rem);
+    line-height: 1.7;
   }
-  .weitere {
+
+  .service-head__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
-    margin-top: var(--space-2);
-    padding: 0;
-    list-style: none;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 2rem;
   }
-  .weitere a {
+
+  .text-link {
     display: inline-flex;
     align-items: center;
     gap: .55rem;
-    min-height: 2.8rem;
-    padding: .55rem 1rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    font-size: var(--text-sm);
-    font-weight: 550;
+    padding-bottom: .28rem;
+    border-bottom: 1px solid rgba(28,29,31,.38);
+    font-size: .9rem;
+    font-weight: 650;
     text-decoration: none;
-    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .service-head__media {
+    position: relative;
+    min-height: clamp(28rem, 43vw, 40rem);
+    overflow: hidden;
+    background: var(--sand);
+  }
+
+  .service-head__media::after {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(28,29,31,.08);
+    content: '';
+    pointer-events: none;
+  }
+
+  .service-head__media :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    object-fit: cover;
+  }
+
+  .service-content {
+    padding-block: clamp(5rem, 8vw, 7.5rem);
+    background: #f4efe7;
+    border-block: 1px solid var(--line);
+  }
+
+  .service-content__grid {
+    display: grid;
+    grid-template-columns: minmax(16rem, .55fr) minmax(0, 1.1fr);
+    align-items: start;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .service-content__aside {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+
+  .service-content__statement {
+    max-width: 13ch;
+    margin-top: 1.5rem;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.4vw, 3.2rem);
+    font-weight: 600;
+    letter-spacing: -.032em;
+    line-height: .98;
+  }
+
+  .prose { max-width: 51rem; }
+
+  .prose :global(> p:first-child) {
+    max-width: 47ch;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    color: var(--ink);
+    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    line-height: 1.65;
+  }
+
+  .prose :global(h2) {
+    margin: clamp(2.8rem, 5vw, 4rem) 0 1.1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(28,29,31,.16);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    line-height: 1;
+  }
+
+  .prose :global(h2:first-of-type) { margin-top: 0; }
+
+  .prose :global(p) {
+    margin-bottom: 1.15rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .prose :global(ul) {
+    display: grid;
+    gap: .7rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    color: var(--ink-soft);
+    list-style: none;
+  }
+
+  .prose :global(li) {
+    position: relative;
+    padding-left: 1.5rem;
+    line-height: 1.65;
+  }
+
+  .prose :global(li::before) {
+    position: absolute;
+    top: .72em;
+    left: 0;
+    width: .6rem;
+    height: 1px;
+    background: var(--brass);
+    content: '';
+  }
+
+  .more-services {
+    padding-block: clamp(5rem, 8vw, 7rem);
+    background: var(--paper);
+  }
+
+  .more-services__grid {
+    display: grid;
+    grid-template-columns: minmax(18rem, .7fr) minmax(0, 1.3fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .more-services h2 {
+    max-width: 12ch;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    line-height: .98;
+  }
+
+  .weitere {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+  }
+
+  .weitere a {
+    display: flex;
+    min-height: 4.7rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: .9rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease), padding-left var(--dur) var(--ease-move);
+  }
+
+  .weitere a > span:last-child {
+    color: var(--brass-deep);
+    font-family: var(--font-text);
+    font-size: .95rem;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .weitere a:hover { color: var(--brass-deep); border-color: var(--brass); background: var(--sand); }
+    .text-link:hover { gap: .8rem; color: var(--brass-deep); border-color: var(--brass-deep); }
+    .weitere a:hover { padding-left: .35rem; color: var(--brass-deep); }
   }
 
   @media (max-width: 56rem) {
-    .head-grid { grid-template-columns: 1fr; gap: var(--space-4); }
-    .head-media { grid-row: 1; }
-    .head-copy { grid-row: 2; }
+    .service-head__grid,
+    .service-content__grid,
+    .more-services__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .service-head__media { grid-row: 1; min-height: clamp(23rem, 68vw, 34rem); }
+    .service-head__copy { grid-row: 2; max-width: 40rem; }
+    .service-content__aside { position: static; }
+    .service-content__statement { max-width: 16ch; }
   }
 
   @media (max-width: 36rem) {
-    .head-cta { width: 100%; }
-    .weitere { display: grid; }
-    .weitere a { justify-content: space-between; }
+    .service-head { padding-block: 0 4.25rem; }
+    .service-head__grid { gap: 2rem; }
+    .service-head__media {
+      width: calc(100% + 2.25rem);
+      min-height: 20rem;
+      margin-left: -1.125rem;
+    }
+    .service-head h1 { font-size: clamp(3rem, 13vw, 4.25rem); }
+    .service-head__actions { align-items: flex-start; }
+    .service-content,
+    .more-services { padding-block: 4.25rem; }
+    .service-content__statement { font-size: clamp(2.15rem, 10vw, 3rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .text-link,
+    .weitere a { transition: none; }
   }
 </style>
