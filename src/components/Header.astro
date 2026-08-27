@@ -32,7 +32,7 @@ const path = Astro.url.pathname;
 
       <div class="nav-actions">
         <a class="nav-phone" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
-          <span class="nav-phone-mark" aria-hidden="true"></span>
+          <span class="nav-phone-line" aria-hidden="true"></span>
           <span>{settings.telefon}</span>
         </a>
 
@@ -56,15 +56,16 @@ const path = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 100;
-    color: #f7f3eb;
-    background: #171716;
-    border-bottom: 1px solid rgba(255,255,255,.09);
+    color: var(--ink);
+    background: rgba(252, 250, 246, .985);
+    border-top: 3px solid #b9822f;
+    border-bottom: 1px solid rgba(23, 24, 27, .10);
     transition: background-color 180ms ease, box-shadow 180ms ease;
   }
 
   .site-header.is-scrolled {
-    background: rgba(23,23,22,.985);
-    box-shadow: 0 .8rem 2.4rem rgba(0,0,0,.18);
+    background: rgba(252, 250, 246, .995);
+    box-shadow: 0 .65rem 2rem rgba(23, 24, 27, .06);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
@@ -72,11 +73,11 @@ const path = Astro.url.pathname;
   .header-shell {
     display: grid;
     width: min(calc(100% - clamp(2rem, 5vw, 5rem)), 92rem);
-    min-height: 5.75rem;
+    min-height: 5.6rem;
     margin-inline: auto;
-    grid-template-columns: minmax(15rem, 1fr) auto minmax(15rem, 1fr);
+    grid-template-columns: minmax(16rem, 1fr) auto minmax(13rem, 1fr);
     align-items: center;
-    gap: clamp(1.6rem, 3vw, 3.6rem);
+    gap: clamp(1.75rem, 3vw, 3.5rem);
   }
 
   .brand {
@@ -84,41 +85,40 @@ const path = Astro.url.pathname;
     width: fit-content;
     align-items: center;
     gap: .9rem;
-    color: #f7f3eb;
+    color: var(--ink);
     text-decoration: none;
   }
 
   .brand-mark {
-    width: 3.35rem;
-    height: 3.35rem;
+    width: 3.3rem;
+    height: 3.3rem;
     flex: 0 0 auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: .93;
-    transition: opacity 180ms ease, transform 220ms var(--ease-move);
+    opacity: .94;
+    transition: opacity 170ms ease, transform 220ms var(--ease-move);
   }
 
   .brand-copy {
     display: grid;
-    gap: .28rem;
+    gap: .26rem;
     min-width: 0;
   }
 
   .brand-name {
-    color: #fff;
+    color: #16171a;
     font-family: var(--font-brand);
-    font-size: 1.38rem;
-    font-weight: 680;
+    font-size: 1.34rem;
+    font-weight: 700;
     letter-spacing: -.035em;
     line-height: .98;
   }
 
   .brand-claim {
-    color: #d9b66f;
+    color: #7d5518;
     font-family: var(--font-text);
-    font-size: .68rem;
-    font-weight: 650;
-    letter-spacing: .13em;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .12em;
     line-height: 1.2;
     text-transform: uppercase;
   }
@@ -130,21 +130,21 @@ const path = Astro.url.pathname;
   .nav-links {
     grid-column: 2;
     display: flex;
+    min-height: 5.6rem;
     align-items: center;
     justify-content: center;
-    gap: clamp(1.65rem, 2.4vw, 2.8rem);
-    min-height: 5.75rem;
+    gap: clamp(1.65rem, 2.35vw, 2.65rem);
   }
 
   .nav-links > a {
     position: relative;
     display: inline-flex;
-    min-height: 5.75rem;
+    min-height: 5.6rem;
     align-items: center;
-    color: rgba(255,255,255,.84);
+    color: #25272b;
     font-family: var(--font-text);
-    font-size: 1rem;
-    font-weight: 590;
+    font-size: 1.02rem;
+    font-weight: 640;
     letter-spacing: -.012em;
     text-decoration: none;
     white-space: nowrap;
@@ -154,16 +154,16 @@ const path = Astro.url.pathname;
   .nav-links > a::after {
     position: absolute;
     right: 50%;
-    bottom: 0;
+    bottom: 1.15rem;
     left: 50%;
     height: 2px;
-    background: #d0a65e;
+    background: #b9822f;
     content: '';
     transition: right 190ms var(--ease-move), left 190ms var(--ease-move);
   }
 
   .nav-links > a[aria-current="page"] {
-    color: #fff;
+    color: #111214;
   }
 
   .nav-links > a[aria-current="page"]::after {
@@ -176,115 +176,95 @@ const path = Astro.url.pathname;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: clamp(1rem, 1.7vw, 1.45rem);
   }
 
   .nav-phone {
-    display: inline-flex;
-    align-items: center;
-    gap: .65rem;
-    color: rgba(255,255,255,.9);
-    font-family: var(--font-text);
-    font-size: .98rem;
-    font-weight: 610;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -.012em;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 160ms ease;
-  }
-
-  .nav-phone-mark {
-    width: 1.6rem;
-    height: 1px;
-    flex: 0 0 auto;
-    background: #d0a65e;
-    transition: width 180ms var(--ease-move);
+    display: none;
   }
 
   .nav-cta {
     display: inline-flex;
-    min-height: 3.45rem;
+    min-height: 3.25rem;
     align-items: center;
     justify-content: center;
     gap: .8rem;
-    padding: .9rem 1.3rem .9rem 1.45rem;
-    color: #171716;
-    background: #f4f0e8;
-    border: 1px solid #f4f0e8;
+    padding: .86rem 1.28rem .86rem 1.4rem;
+    color: #fff;
+    background: #1a1b1e;
+    border: 1px solid #1a1b1e;
     font-family: var(--font-text);
-    font-size: .96rem;
-    font-weight: 660;
+    font-size: .98rem;
+    font-weight: 680;
     letter-spacing: -.012em;
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 170ms ease, border-color 170ms ease, color 170ms ease, transform 170ms var(--ease-move);
+    transition: color 170ms ease, background-color 170ms ease, border-color 170ms ease, transform 170ms var(--ease-move);
   }
 
   .nav-cta svg {
     width: 1rem;
     height: 1rem;
-    color: #8f641f;
+    color: #d7b36b;
     transition: transform 200ms var(--ease-move);
   }
 
   .menu-btn { display: none; }
 
   @media (hover: hover) and (pointer: fine) {
-    .brand:hover .brand-mark { opacity: 1; transform: scale(1.025); }
-    .nav-links > a:hover { color: #fff; }
+    .brand:hover .brand-mark { opacity: 1; transform: scale(1.02); }
+    .nav-links > a:hover { color: #111214; }
     .nav-links > a:hover::after { right: 0; left: 0; }
-    .nav-phone:hover { color: #fff; }
-    .nav-phone:hover .nav-phone-mark { width: 2.1rem; }
     .nav-cta:hover {
-      color: #171716;
-      background: #d9b66f;
-      border-color: #d9b66f;
+      color: #17181b;
+      background: #d7b36b;
+      border-color: #d7b36b;
       transform: translateY(-1px);
     }
-    .nav-cta:hover svg { transform: translate(.12rem, -.12rem); }
+    .nav-cta:hover svg { color: #17181b; transform: translate(.12rem, -.12rem); }
   }
 
-  @media (max-width: 78rem) {
+  @media (max-width: 76rem) {
     .header-shell {
       width: min(calc(100% - 2.5rem), 88rem);
-      grid-template-columns: minmax(13rem, 1fr) auto minmax(12rem, 1fr);
+      grid-template-columns: minmax(13rem, 1fr) auto minmax(10rem, 1fr);
       gap: 1.5rem;
     }
 
     .brand-mark { width: 3rem; height: 3rem; }
-    .brand-name { font-size: 1.25rem; }
-    .brand-claim { font-size: .62rem; }
-    .nav-links { gap: 1.4rem; }
+    .brand-name { font-size: 1.2rem; }
+    .brand-claim { font-size: .61rem; }
+    .nav-links { gap: 1.3rem; }
     .nav-links > a { font-size: .95rem; }
-    .nav-phone-mark { display: none; }
-    .nav-phone { font-size: .91rem; }
-    .nav-cta { padding-inline: 1.05rem 1.15rem; font-size: .91rem; }
+    .nav-cta { padding-inline: 1.05rem 1.15rem; font-size: .92rem; }
   }
 
-  @media (max-width: 66rem) {
-    .nav-phone { display: none; }
-    .nav-links { gap: 1.15rem; }
+  @media (max-width: 64rem) {
+    .header-shell {
+      grid-template-columns: minmax(12rem, 1fr) auto auto;
+      gap: 1.1rem;
+    }
+    .nav-links { gap: 1rem; }
+    .nav-links > a { font-size: .9rem; }
   }
 
   @media (max-width: 56rem) {
-    .site-header { min-height: 4.8rem; }
+    .site-header { min-height: 4.75rem; border-top-width: 2px; }
 
     .header-shell {
       display: flex;
       width: calc(100% - 2rem);
-      min-height: 4.8rem;
+      min-height: 4.75rem;
       gap: 1rem;
     }
 
     .brand { gap: .7rem; }
-    .brand-mark { width: 2.7rem; height: 2.7rem; }
-    .brand-name { font-size: 1.1rem; }
+    .brand-mark { width: 2.65rem; height: 2.65rem; }
+    .brand-name { font-size: 1.08rem; }
     .brand-claim { font-size: .56rem; letter-spacing: .1em; }
 
     .site-nav {
       position: fixed;
-      top: 4.8rem;
+      top: calc(4.75rem + 2px);
       right: 0;
       bottom: 0;
       left: 0;
@@ -295,10 +275,10 @@ const path = Astro.url.pathname;
       padding: clamp(2rem, 7vw, 3rem) var(--pad-inline) calc(1.6rem + env(safe-area-inset-bottom));
       overflow-y: auto;
       color: var(--ink);
-      background: #f8f5ee;
+      background: #fbf9f4;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(-.45rem);
+      transform: translateY(-.4rem);
       transition: opacity 200ms ease, transform 240ms var(--ease-move), visibility 0s linear 240ms;
     }
 
@@ -317,12 +297,12 @@ const path = Astro.url.pathname;
     }
 
     .nav-links > a {
-      min-height: 4.9rem;
+      min-height: 4.85rem;
       color: #17181b;
       border-bottom: 1px solid rgba(28,29,31,.13);
       font-family: var(--font-brand);
-      font-size: clamp(1.6rem, 6vw, 2rem);
-      font-weight: 620;
+      font-size: clamp(1.55rem, 6vw, 2rem);
+      font-weight: 650;
       letter-spacing: -.03em;
     }
 
@@ -335,8 +315,7 @@ const path = Astro.url.pathname;
       height: 2px;
       transition: width 190ms var(--ease-move);
     }
-    .nav-links > a[aria-current="page"] { color: #17181b; }
-    .nav-links > a[aria-current="page"]::after { width: 3.25rem; }
+    .nav-links > a[aria-current="page"]::after { width: 3.2rem; }
 
     .nav-actions {
       display: grid;
@@ -346,33 +325,36 @@ const path = Astro.url.pathname;
     .nav-phone {
       display: inline-flex;
       min-height: 3.2rem;
+      align-items: center;
+      gap: .7rem;
       color: #17181b;
       font-size: 1rem;
+      font-weight: 650;
+      text-decoration: none;
     }
 
-    .nav-phone-mark { display: block; }
+    .nav-phone-line {
+      width: 2rem;
+      height: 1px;
+      background: #b9822f;
+    }
 
     .nav-cta {
       min-height: 3.9rem;
       justify-content: space-between;
-      color: #fff;
-      background: #17181b;
-      border-color: #17181b;
       font-size: 1rem;
     }
 
-    .nav-cta svg { color: #d9b66f; }
-
     .menu-btn {
       display: grid;
-      width: 2.95rem;
-      height: 2.95rem;
+      width: 2.9rem;
+      height: 2.9rem;
       margin-left: auto;
       padding: 0;
       place-content: center;
       gap: 7px;
-      border: 1px solid rgba(255,255,255,.18);
-      color: #fff;
+      border: 1px solid rgba(23,24,27,.16);
+      color: #17181b;
       background: transparent;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -398,7 +380,6 @@ const path = Astro.url.pathname;
     .site-header,
     .brand-mark,
     .nav-links > a::after,
-    .nav-phone-mark,
     .nav-cta,
     .nav-cta svg,
     .site-nav,
