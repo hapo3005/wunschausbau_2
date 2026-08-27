@@ -8,10 +8,5 @@
   "whatsapp": "https://wa.me/4915153264522",
   "instagram": "https://www.instagram.com/wunschausbau.de",
   "region": "Wittlich · Trier · Mosel",
-  "regionen": ["Wittlich", "Trier", "Moselregion"],
-  "stats": {
-    "projekte": "500+",
-    "bewertung": "5,0 ★",
-    "rueckmeldung": "24 h"
-  }
+  "regionen": ["Wittlich", "Trier", "Moselregion"]
 }
