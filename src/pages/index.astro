@@ -17,36 +17,36 @@ const process = [
   {
     title: 'Beratung & Aufmaß',
     meta: 'Vor Ort · Aufmaß · Wünsche',
-    text: 'Wir kommen vorbei, schauen uns den Bestand an, messen aus und besprechen, was Sie sich vorstellen.'
+    text: 'Wir schauen uns den Bestand vor Ort an, messen sauber auf und klären, was der Raum leisten soll.'
   },
   {
     title: 'Planung & Abstimmung',
     meta: 'Material · Details · Termin',
-    text: 'Danach klären wir Material, Details, Reihenfolge und Termin. Was sich vorher entscheiden lässt, wird auch vorher entschieden.'
+    text: 'Material, Anschlüsse, Reihenfolge und Termin werden abgestimmt, bevor die Ausführung beginnt.'
   },
   {
     title: 'Ausführung & Übergabe',
     meta: 'Ausführung · Kontrolle · Übergabe',
-    text: 'Wir führen die Arbeiten sauber aus und gehen das Ergebnis am Ende gemeinsam mit Ihnen durch.'
+    text: 'Wir setzen präzise um, kontrollieren die Details und übergeben einen Raum, der als Ganzes funktioniert.'
   }
 ];
 
 const benefits = [
   {
-    title: 'Direkter Ansprechpartner',
-    text: 'Sie wissen, mit wem Sie sprechen und wer sich um Ihr Projekt kümmert.'
+    title: 'Ein Ansprechpartner',
+    text: 'Sie wissen, wer Ihr Projekt kennt, Entscheidungen mit Ihnen abstimmt und erreichbar bleibt.'
   },
   {
-    title: 'Details vorher klären',
-    text: 'Materialien, Maße und Anschlüsse besprechen wir, bevor die Arbeiten beginnen.'
+    title: 'Details vor Beginn',
+    text: 'Material, Maße und Anschlüsse stehen fest, bevor die eigentliche Arbeit startet.'
   },
   {
-    title: 'Ablauf im Blick',
-    text: 'Die einzelnen Arbeiten werden so geplant, dass sie sinnvoll aufeinander folgen.'
+    title: 'Gewerke im Takt',
+    text: 'Die einzelnen Arbeiten greifen sinnvoll ineinander – ohne unnötige Schleifen.'
   },
   {
-    title: 'Alles soll zusammenpassen',
-    text: 'Am Ende zählt nicht die einzelne Tür oder der einzelne Boden, sondern der ganze Raum.'
+    title: 'Der Raum zählt',
+    text: 'Tür, Boden und Wand sind kein Einzelprojekt. Entscheidend ist das Gesamtbild.'
   }
 ];
 
@@ -92,7 +92,7 @@ const schema = {
           <strong>mit Anspruch.</strong>
         </h1>
         <p class="ks-hero__lead">
-          Böden, Türen, Trockenbau oder eine komplette Renovierung: Wir kümmern uns darum, dass am Ende alles sauber zusammenpasst.
+          Böden, Türen, Trockenbau oder komplette Renovierung: sauber geplant, präzise umgesetzt und so abgestimmt, dass am Ende alles zusammenpasst.
         </p>
         <div class="ks-hero__actions">
           <a class="ks-button" href={withBase('/kontakt/')}>Projekt besprechen</a>
@@ -104,22 +104,22 @@ const schema = {
 
   <section class="proof-rail" aria-label="Vertrauen und Fachidentität">
     <div class="wrap proof-rail__grid">
-      <div><strong>5,0 / 5</strong><span>MyHammer · 13 Bewertungen</span></div>
-      <div><strong>Bauschreiner</strong><span>handwerkliche Fachidentität</span></div>
-      <div><strong>{settings.region}</strong><span>regional im Einsatz</span></div>
-      <div><strong>Direkt</strong><span>persönliche Abstimmung</span></div>
+      <div><strong>5,0 / 5</strong><span>öffentliches Feedback auf MyHammer</span></div>
+      <div><strong>Bauschreiner</strong><span>Fachwissen aus dem Handwerk</span></div>
+      <div><strong>{settings.region}</strong><span>vor Ort in der Region</span></div>
+      <div><strong>Direkt</strong><span>ein Ansprechpartner</span></div>
     </div>
   </section>
 
   <section class="selected-work" aria-labelledby="selected-work-title">
     <div class="wrap">
-      <header class="section-intro-grid">
+      <header class="section-intro-grid reveal">
         <div>
-          <p class="eyebrow">Leistungswelten</p>
-          <h2 id="selected-work-title">So kann Innenausbau wirken.</h2>
+          <p class="eyebrow">Raum & Material</p>
+          <h2 id="selected-work-title">Innenausbau, der als Ganzes wirkt.</h2>
         </div>
         <div class="section-intro-side">
-          <p>Für die Vorschau zeigen wir die gewünschte Bildsprache rund um Räume, Materialien und Details. In der finalen Referenzgalerie erscheinen ausschließlich freigegebene Originalaufnahmen von KS-Innenausbau.</p>
+          <p>Die aktuelle Vorschau nutzt Beispielmotive, um Materialität und Raumwirkung zu zeigen. Zum Launch folgen ausschließlich freigegebene Originalprojekte von KS-Innenausbau.</p>
           <a class="ks-textlink ks-textlink--dark" href={withBase('/referenzen/')}>Referenzen ansehen <span aria-hidden="true">→</span></a>
         </div>
       </header>
@@ -145,10 +145,10 @@ const schema = {
 
   <section class="customer-value" aria-labelledby="customer-value-title">
     <div class="wrap customer-value__inner">
-      <header class="customer-value__head">
-        <p class="eyebrow">Zusammenarbeit</p>
-        <h2 id="customer-value-title">Damit auf der Baustelle alles läuft.</h2>
-        <p>Viele Probleme entstehen, weil Details zu spät geklärt werden. Deshalb besprechen wir die wichtigen Punkte vor Beginn und halten den Ablauf übersichtlich.</p>
+      <header class="customer-value__head reveal">
+        <p class="eyebrow">Vor der Baustelle</p>
+        <h2 id="customer-value-title">Gute Arbeit beginnt, bevor das Werkzeug läuft.</h2>
+        <p>Maße, Material, Anschlüsse und Reihenfolge klären wir vor Beginn. So wird aus vielen Einzelarbeiten ein sauberer Ablauf.</p>
       </header>
 
       <div class="benefit-grid">
@@ -165,12 +165,12 @@ const schema = {
 
   <section class="capabilities" aria-labelledby="capabilities-title">
     <div class="wrap">
-      <header class="section-intro-grid section-intro-grid--compact">
+      <header class="section-intro-grid section-intro-grid--compact reveal">
         <div>
-          <p class="eyebrow">Leistungen</p>
-          <h2 id="capabilities-title">Unsere Leistungen im Überblick.</h2>
+          <p class="eyebrow">Was wir ausbauen</p>
+          <h2 id="capabilities-title">Vom Boden bis zum fertigen Raum.</h2>
         </div>
-        <p class="section-intro-copy">Ob einzelne Arbeiten oder eine komplette Renovierung: Wir besprechen, was gebraucht wird und was zusammen Sinn ergibt.</p>
+        <p class="section-intro-copy">Einzelne Arbeiten oder komplette Renovierung: Wir verbinden die Leistungen so, dass technisch und optisch alles zusammenpasst.</p>
       </header>
 
       <div class="capability-list">
@@ -190,10 +190,10 @@ const schema = {
 
   <section class="project-flow" aria-labelledby="project-flow-title">
     <div class="wrap project-flow__grid">
-      <header class="project-flow__head">
-        <p class="eyebrow">Ablauf</p>
-        <h2 id="project-flow-title">So läuft ein Auftrag bei uns ab.</h2>
-        <p>Erst anschauen und messen, dann die Details klären, danach umsetzen. Sie wissen dabei, was als Nächstes passiert.</p>
+      <header class="project-flow__head reveal">
+        <p class="eyebrow">Vom ersten Termin bis zur Übergabe</p>
+        <h2 id="project-flow-title">Vom Aufmaß bis zur Übergabe.</h2>
+        <p>Erst verstehen, dann planen, dann ausführen. Sie wissen jederzeit, was als Nächstes passiert und warum.</p>
         <a class="ks-textlink" href={withBase('/kontakt/')}>Projekt besprechen <span aria-hidden="true">→</span></a>
       </header>
 
