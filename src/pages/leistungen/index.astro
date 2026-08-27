@@ -14,20 +14,19 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
   <section class="section">
     <div class="wrap">
       <p class="eyebrow">Leistungen</p>
-      <h1>Alles aus einer Hand.</h1>
-      <p class="lead">Sieben Gewerke, ein Anspruch: saubere, präzise Arbeit – von der Beratung bis zur Übergabe.</p>
+      <h1>Innenausbau im Zusammenspiel.</h1>
+      <p class="lead">Böden, Türen, Trockenbau und weitere Arbeiten werden so geplant, dass am Ende nicht nur jedes Detail stimmt, sondern der ganze Raum.</p>
 
       <div class="list">
         {leistungen.map((leistung, index) => (
           <a class="row reveal" href={withBase(`/leistungen/${leistung.id}/`)} style={`--reveal-delay: ${(index % 3) * 45}ms`}>
-            <span class="idx" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <div class="row-text">
               <h2>{leistung.data.title}</h2>
               <p>{leistung.data.kurztext}</p>
               <span class="row-link">Leistung ansehen <span aria-hidden="true">→</span></span>
             </div>
             <div class="row-media">
-              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[320, 640]} sizes="(max-width: 56rem) 100vw, 260px" quality={72} format="webp" loading="lazy" />
+              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[320, 640]} sizes="(max-width: 56rem) 100vw, 300px" quality={76} format="webp" loading="lazy" />
             </div>
           </a>
         ))}
@@ -41,32 +40,39 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
   .list { margin-top: var(--space-6); border-top: 1px solid var(--line); }
   .row {
     display: grid;
-    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(13rem, 16rem);
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
     align-items: center;
-    gap: var(--space-4);
-    padding-block: var(--space-3);
+    gap: clamp(2rem, 5vw, 5rem);
+    min-height: 12rem;
+    padding-block: clamp(1.4rem, 2.4vw, 2rem);
     border-bottom: 1px solid var(--line);
     color: var(--ink);
     text-decoration: none;
     transition: background-color var(--dur) var(--ease);
   }
-  .idx {
-    color: var(--brass);
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-variant-numeric: tabular-nums;
+  .row-text { max-width: 44rem; }
+  .row h2 {
+    font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+    transition: color var(--dur) var(--ease);
   }
-  .row h2 { font-size: clamp(1.45rem, 2.5vw, 1.9rem); transition: color var(--dur) var(--ease); }
-  .row-text p { margin-top: .35rem; color: var(--ink-soft); font-size: var(--text-sm); }
+  .row-text p {
+    max-width: 54ch;
+    margin-top: .45rem;
+    color: var(--ink-soft);
+    font-size: var(--text-sm);
+    line-height: 1.65;
+  }
   .row-link {
     display: inline-flex;
-    gap: .4rem;
-    margin-top: .6rem;
+    gap: .45rem;
+    margin-top: .8rem;
+    padding-bottom: .2rem;
     color: var(--brass-deep);
+    border-bottom: 1px solid rgba(118,80,29,.28);
     font-size: var(--text-sm);
     font-weight: 650;
   }
-  .row-media { overflow: hidden; border-radius: var(--radius); }
+  .row-media { overflow: hidden; background: var(--sand); }
   .row :global(img) {
     width: 100%;
     aspect-ratio: 8 / 5;
@@ -75,14 +81,17 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .row:hover { color: var(--ink); background: var(--sand); }
+    .row:hover { color: var(--ink); background: rgba(247,243,236,.58); }
     .row:hover h2 { color: var(--brass-deep); }
-    .row:hover :global(img) { transform: scale(1.025); }
+    .row:hover :global(img) { transform: scale(1.018); }
   }
 
   @media (max-width: 56rem) {
-    .row { grid-template-columns: minmax(9rem, 38%) minmax(0, 1fr); gap: var(--space-3); }
-    .idx { display: none; }
+    .row {
+      grid-template-columns: minmax(9rem, 38%) minmax(0, 1fr);
+      gap: var(--space-3);
+      min-height: 0;
+    }
     .row-media { grid-column: 1; grid-row: 1; }
     .row-text { grid-column: 2; }
   }
