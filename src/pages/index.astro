@@ -62,8 +62,7 @@ const schema = {
   image: new URL(withBase('/og-image.jpg'), Astro.site).href,
   logo: new URL(withBase('/favicon.svg'), Astro.site).href,
   areaServed: settings.regionen,
-  knowsAbout: leistungen.map((leistung) => leistung.data.title),
-  sameAs: [settings.instagram]
+  knowsAbout: leistungen.map((leistung) => leistung.data.title)
 };
 ---
 <Base
@@ -73,7 +72,16 @@ const schema = {
 >
   <section class="ks-hero" aria-labelledby="hero-title">
     <div class="ks-hero__media">
-      <Image src={hero} alt="" widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" quality={84} format="webp" />
+      <Image
+        src={hero}
+        alt="Heller, modern ausgebauter Wohn- und Küchenbereich mit warmen Holzoberflächen"
+        widths={[640, 1024, 1440, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={82}
+        format="webp"
+      />
     </div>
 
     <div class="wrap ks-hero__inner">
@@ -82,20 +90,14 @@ const schema = {
         <h1 id="hero-title">
           <span>Innenausbau</span>
           <strong>mit Anspruch.</strong>
-          <small>Bis ins Detail.</small>
         </h1>
         <p class="ks-hero__lead">
           Böden, Türen, Trockenbau oder eine komplette Renovierung: Wir kümmern uns darum, dass am Ende alles sauber zusammenpasst.
         </p>
         <div class="ks-hero__actions">
           <a class="ks-button" href={withBase('/kontakt/')}>Projekt besprechen</a>
-          <a class="ks-textlink" href={withBase('/referenzen/')}>Arbeiten ansehen <span aria-hidden="true">↗</span></a>
+          <a class="ks-textlink" href={withBase('/referenzen/')}>Arbeiten ansehen <span aria-hidden="true">→</span></a>
         </div>
-      </div>
-
-      <div class="ks-hero__location">
-        <span>Innenausbau & Renovierung</span>
-        <strong>{settings.region}</strong>
       </div>
     </div>
   </section>
@@ -117,24 +119,24 @@ const schema = {
           <h2 id="selected-work-title">So kann Innenausbau wirken.</h2>
         </div>
         <div class="section-intro-side">
-          <p>Die Motive zeigen, welche Räume, Materialien und Details bei unseren Leistungsbereichen im Mittelpunkt stehen. Für die finale Referenzgalerie ergänzen wir ausschließlich freigegebene Originalaufnahmen realisierter KS-Projekte.</p>
-          <a class="ks-textlink ks-textlink--dark" href={withBase('/referenzen/')}>Bildwelt ansehen <span aria-hidden="true">→</span></a>
+          <p>Für die Vorschau zeigen wir die gewünschte Bildsprache rund um Räume, Materialien und Details. In der finalen Referenzgalerie erscheinen ausschließlich freigegebene Originalaufnahmen von KS-Innenausbau.</p>
+          <a class="ks-textlink ks-textlink--dark" href={withBase('/referenzen/')}>Referenzen ansehen <span aria-hidden="true">→</span></a>
         </div>
       </header>
 
       <div class="work-editorial">
         <a class="work-shot work-shot--main reveal" href={withBase('/referenzen/')}>
-          <Image src={interior} alt="Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 66vw" quality={86} format="webp" loading="lazy" />
+          <Image src={interior} alt="Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 66vw" quality={84} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Innenausbau</small><strong>Wohnraum</strong></span>
         </a>
 
         <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 55ms">
-          <Image src={floors} alt="Hochwertig verlegter Eichenparkettboden" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={84} format="webp" loading="lazy" />
+          <Image src={floors} alt="Hochwertig verlegter Eichenparkettboden" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={82} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Böden</small><strong>Eichenparkett</strong></span>
         </a>
 
         <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 90ms">
-          <Image src={doors} alt="Moderne Innentür und Fensterfront nach der Montage" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={84} format="webp" loading="lazy" />
+          <Image src={doors} alt="Moderne Innentür und Fensterfront nach der Montage" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={82} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Türen & Fenster</small><strong>Montage</strong></span>
         </a>
       </div>
@@ -179,7 +181,7 @@ const schema = {
               <strong>{leistung.data.title}</strong>
               <small>{leistung.data.kurztext}</small>
             </span>
-            <span class="capability__arrow" aria-hidden="true">↗</span>
+            <span class="capability__arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </div>
@@ -192,7 +194,7 @@ const schema = {
         <p class="eyebrow">Ablauf</p>
         <h2 id="project-flow-title">So läuft ein Auftrag bei uns ab.</h2>
         <p>Erst anschauen und messen, dann die Details klären, danach umsetzen. Sie wissen dabei, was als Nächstes passiert.</p>
-        <a class="ks-textlink ks-textlink--dark" href={withBase('/kontakt/')}>Projekt besprechen <span aria-hidden="true">→</span></a>
+        <a class="ks-textlink" href={withBase('/kontakt/')}>Projekt besprechen <span aria-hidden="true">→</span></a>
       </header>
 
       <div class="flow-steps">
@@ -218,10 +220,12 @@ const schema = {
   .ks-hero {
     position: relative;
     display: grid;
-    min-height: clamp(40rem, 84svh, 52rem);
+    min-height: clamp(40rem, calc(100svh - 5.5rem), 53rem);
     align-items: center;
     overflow: hidden;
-    background: #d8d1c7;
+    color: #fff;
+    background: #24211e;
+    isolation: isolate;
   }
 
   .ks-hero__media,
@@ -233,105 +237,104 @@ const schema = {
     height: 100%;
   }
 
+  .ks-hero__media { z-index: 0; overflow: hidden; }
+
   .ks-hero__media :global(img) {
     object-fit: cover;
-    object-position: 65% center;
-    filter: saturate(1) contrast(1.01) brightness(1.055);
-    transform: scale(1.015);
+    object-position: 66% 50%;
+    filter: saturate(1) contrast(1.01) brightness(1.08);
+    transform: scale(1.006);
   }
 
   .ks-hero__media::after {
-    background: linear-gradient(90deg,
-      rgba(253,252,249,.95) 0%,
-      rgba(253,252,249,.90) 24%,
-      rgba(253,252,249,.68) 40%,
-      rgba(253,252,249,.25) 55%,
-      rgba(253,252,249,.04) 68%,
-      rgba(253,252,249,0) 77%);
+    z-index: 1;
+    background:
+      linear-gradient(90deg,
+        rgba(18,17,16,.36) 0%,
+        rgba(18,17,16,.26) 20%,
+        rgba(18,17,16,.15) 38%,
+        rgba(18,17,16,.06) 54%,
+        rgba(18,17,16,.01) 66%,
+        rgba(18,17,16,0) 76%),
+      linear-gradient(0deg, rgba(15,14,13,.10) 0%, rgba(15,14,13,0) 48%);
     content: '';
   }
 
   .ks-hero__inner {
     position: relative;
     z-index: 2;
-    display: grid;
     width: 100%;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 3rem;
-    padding-block: clamp(4.5rem, 7vw, 6.5rem);
+    padding-block: clamp(5rem, 8vw, 7rem);
   }
 
-  .ks-hero__copy { max-width: 50rem; }
+  .ks-hero__copy {
+    width: min(100%, 41rem);
+    color: #fff;
+  }
 
   .ks-hero .eyebrow {
-    margin-bottom: clamp(1.2rem, 2vw, 1.6rem);
-    color: var(--brass-deep);
+    margin-bottom: clamp(1.25rem, 2vw, 1.65rem);
+    color: #e0bd7a;
+    font-size: .69rem;
+    letter-spacing: .13em;
   }
+
+  .ks-hero .eyebrow::before { background: rgba(224,189,122,.82); }
 
   .ks-hero h1 {
     display: grid;
-    width: fit-content;
+    width: max-content;
+    max-width: 100%;
     margin: 0;
+    color: #fff;
     font-family: var(--font-brand);
-    font-size: clamp(4rem, 6.9vw, 6.9rem);
+    font-size: clamp(3.8rem, 6.1vw, 6.15rem);
     font-weight: 500;
-    letter-spacing: -.052em;
-    line-height: .86;
+    letter-spacing: -.045em;
+    line-height: .9;
+    text-shadow: 0 1px 16px rgba(0,0,0,.11);
   }
 
   .ks-hero h1 span,
-  .ks-hero h1 strong { display: block; }
+  .ks-hero h1 strong {
+    display: block;
+    white-space: nowrap;
+  }
 
   .ks-hero h1 strong { font-weight: 650; }
 
-  .ks-hero h1 small {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-    color: var(--brass-deep);
-    font-family: var(--font-text);
-    font-size: clamp(.92rem, 1.25vw, 1.08rem);
-    font-weight: 600;
-    letter-spacing: .01em;
-    line-height: 1.2;
-  }
-
-  .ks-hero h1 small::after {
-    width: clamp(4rem, 9vw, 8rem);
-    height: 1px;
-    background: rgba(118,80,29,.48);
-    content: '';
-  }
-
   .ks-hero__lead {
-    max-width: 34rem;
-    margin-top: clamp(1.5rem, 2.5vw, 2rem);
-    color: #373a3e;
-    font-size: clamp(1.02rem, 1.35vw, 1.14rem);
+    max-width: 32rem;
+    margin-top: clamp(1.45rem, 2.3vw, 1.9rem);
+    color: rgba(255,255,255,.94);
+    font-size: clamp(1rem, 1.15vw, 1.08rem);
+    font-weight: 430;
     line-height: 1.7;
+    text-shadow: 0 1px 14px rgba(0,0,0,.13);
   }
 
   .ks-hero__actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1.4rem;
-    margin-top: clamp(1.8rem, 3vw, 2.4rem);
+    gap: clamp(1.2rem, 2vw, 1.7rem);
+    margin-top: clamp(1.9rem, 3vw, 2.45rem);
   }
 
   .ks-button {
     display: inline-flex;
-    min-height: 3.5rem;
+    min-height: 3.45rem;
     align-items: center;
-    padding: .8rem 1.55rem;
-    color: var(--paper-inverse);
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    font-size: .93rem;
-    font-weight: 650;
+    justify-content: center;
+    padding: .82rem 1.5rem;
+    color: var(--ink);
+    background: #f8f5ee;
+    border: 1px solid #f8f5ee;
+    font-size: .92rem;
+    font-weight: 620;
+    line-height: 1.2;
     text-decoration: none;
+    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
   }
 
   .ks-textlink {
@@ -348,25 +351,9 @@ const schema = {
     transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
   }
 
-  .ks-textlink--dark { color: var(--ink); }
-
-  .ks-hero__location {
-    display: grid;
-    justify-items: end;
-    gap: .35rem;
-    padding-top: .8rem;
-    border-top: 1px solid rgba(118,80,29,.38);
-    color: rgba(28,29,31,.67);
-    font-size: .68rem;
-    letter-spacing: .08em;
-    line-height: 1.5;
-    text-align: right;
-    text-transform: uppercase;
-  }
-
-  .ks-hero__location strong {
-    color: var(--ink);
-    font-weight: 650;
+  .ks-hero .ks-textlink {
+    color: rgba(255,255,255,.96);
+    border-bottom-color: rgba(255,255,255,.62);
   }
 
   .proof-rail {
@@ -377,29 +364,31 @@ const schema = {
   .proof-rail__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
   }
 
   .proof-rail__grid > div {
     display: grid;
-    gap: .38rem;
-    padding: 1.35rem clamp(.8rem, 2vw, 1.5rem);
+    min-height: 5.2rem;
+    align-content: center;
+    gap: .34rem;
+    padding: 1rem clamp(1rem, 2vw, 1.5rem);
     border-right: 1px solid var(--line);
   }
 
   .proof-rail__grid > div:first-child { padding-left: 0; }
-  .proof-rail__grid > div:last-child { border-right: 0; padding-right: 0; }
+  .proof-rail__grid > div:last-child { padding-right: 0; border-right: 0; }
 
   .proof-rail strong {
     font-family: var(--font-brand);
-    font-size: clamp(1.18rem, 1.7vw, 1.5rem);
+    font-size: clamp(1.08rem, 1.35vw, 1.28rem);
     font-weight: 600;
     line-height: 1.05;
   }
 
   .proof-rail span {
-    color: var(--ink-soft);
-    font-size: .76rem;
+    color: var(--ink-muted);
+    font-size: .7rem;
+    line-height: 1.45;
   }
 
   .selected-work,
@@ -433,10 +422,7 @@ const schema = {
     line-height: 1.7;
   }
 
-  .section-intro-side {
-    display: grid;
-    gap: 1.6rem;
-  }
+  .section-intro-side { display: grid; gap: 1.6rem; }
 
   .work-editorial {
     display: grid;
@@ -513,9 +499,7 @@ const schema = {
     gap: clamp(3rem, 8vw, 8rem);
   }
 
-  .customer-value__head {
-    align-self: start;
-  }
+  .customer-value__head { align-self: start; }
 
   .customer-value__head > p:last-child {
     max-width: 31rem;
@@ -615,10 +599,7 @@ const schema = {
   .capability--6 .capability__icon { --benefit-icon: var(--ks-icon-terrace); }
   .capability--7 .capability__icon { --benefit-icon: var(--ks-icon-renovation); }
 
-  .capability__copy {
-    display: grid;
-    gap: .35rem;
-  }
+  .capability__copy { display: grid; gap: .35rem; }
 
   .capability__copy strong {
     font-size: clamp(1.04rem, 1.35vw, 1.2rem);
@@ -635,7 +616,7 @@ const schema = {
 
   .capability__arrow {
     color: var(--brass-deep);
-    font-size: .9rem;
+    font-size: .95rem;
     transition: transform 220ms var(--ease-move);
   }
 
@@ -656,19 +637,17 @@ const schema = {
   .project-flow__head > p:not(.eyebrow) {
     max-width: 31rem;
     margin-top: 1.5rem;
-    color: rgba(247,244,238,.67);
+    color: rgba(247,244,238,.72);
     line-height: 1.7;
   }
 
   .project-flow .ks-textlink {
     margin-top: 1.8rem;
     color: #f7f4ee;
-    border-bottom-color: rgba(247,244,238,.45);
+    border-bottom-color: rgba(247,244,238,.48);
   }
 
-  .flow-steps {
-    border-top: 1px solid rgba(247,244,238,.18);
-  }
+  .flow-steps { border-top: 1px solid rgba(247,244,238,.18); }
 
   .flow-step {
     display: grid;
@@ -691,8 +670,8 @@ const schema = {
 
   .flow-step__meta {
     margin-bottom: .5rem;
-    color: rgba(247,244,238,.47);
-    font-size: .62rem;
+    color: rgba(247,244,238,.55);
+    font-size: .64rem;
     font-weight: 600;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -709,55 +688,42 @@ const schema = {
   .flow-step p:last-child {
     max-width: 48rem;
     margin-top: .7rem;
-    color: rgba(247,244,238,.67);
+    color: rgba(247,244,238,.72);
     font-size: .9rem;
     line-height: 1.68;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .ks-textlink:hover {
-      gap: .8rem;
-      color: var(--brass-deep);
-      border-color: var(--brass-deep);
-    }
-
+    .ks-button:hover { background: #fff; border-color: #fff; transform: translateY(-1px); }
+    .ks-textlink:hover { gap: .78rem; color: var(--brass-deep); border-color: var(--brass-deep); }
+    .ks-hero .ks-textlink:hover { color: #e0bd7a; border-color: #e0bd7a; }
     .work-shot:hover :global(img) { transform: scale(1.012); }
-    .capability:hover .capability__arrow { transform: translate(.16rem, -.16rem); }
+    .capability:hover .capability__arrow { transform: translateX(.18rem); }
   }
 
   @media (max-width: 64rem) {
     .section-intro-grid,
     .customer-value__inner,
-    .project-flow__grid {
-      gap: 3.5rem;
+    .project-flow__grid { gap: 3.5rem; }
+
+    .ks-hero__media::after {
+      background:
+        linear-gradient(90deg,
+          rgba(18,17,16,.40) 0%,
+          rgba(18,17,16,.28) 30%,
+          rgba(18,17,16,.15) 52%,
+          rgba(18,17,16,.04) 76%,
+          rgba(18,17,16,0) 88%),
+        linear-gradient(0deg, rgba(15,14,13,.10), rgba(15,14,13,0) 52%);
     }
   }
 
   @media (max-width: 56rem) {
-    .ks-hero {
-      min-height: 46rem;
-      align-items: end;
-    }
-
-    .ks-hero__media :global(img) { object-position: 62% center; }
-
-    .ks-hero__media::after {
-      background: linear-gradient(90deg,
-        rgba(253,252,249,.95) 0%,
-        rgba(253,252,249,.88) 43%,
-        rgba(253,252,249,.42) 68%,
-        rgba(253,252,249,.12) 100%);
-    }
-
-    .ks-hero__inner {
-      grid-template-columns: 1fr;
-      align-items: end;
-      padding-block: 5rem 3.5rem;
-    }
-
-    .ks-hero__location {
-      display: none;
-    }
+    .ks-hero { min-height: 44rem; align-items: end; }
+    .ks-hero__media :global(img) { object-position: 66% center; }
+    .ks-hero__inner { padding-block: 8rem 4rem; }
+    .ks-hero__copy { max-width: 37rem; }
+    .ks-hero h1 { font-size: clamp(3.35rem, 10vw, 5rem); }
 
     .section-intro-grid,
     .customer-value__inner,
@@ -766,9 +732,7 @@ const schema = {
       gap: 2.5rem;
     }
 
-    .section-intro-grid {
-      align-items: start;
-    }
+    .section-intro-grid { align-items: start; }
 
     .work-editorial {
       grid-template-columns: 1fr 1fr;
@@ -776,19 +740,11 @@ const schema = {
       min-height: 0;
     }
 
-    .work-shot--main {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-
-    .work-shot--detail {
-      grid-row: 2;
-    }
+    .work-shot--main { grid-column: 1 / -1; grid-row: 1; }
+    .work-shot--detail { grid-row: 2; }
 
     .benefit-grid,
-    .capability-list {
-      grid-template-columns: 1fr;
-    }
+    .capability-list { grid-template-columns: 1fr; }
 
     .benefit,
     .benefit:nth-child(even) {
@@ -808,75 +764,70 @@ const schema = {
   }
 
   @media (max-width: 40rem) {
+    .ks-hero { min-height: 41rem; }
+
+    .ks-hero__media :global(img) {
+      object-position: 68% center;
+      filter: saturate(1) contrast(1.01) brightness(1.03);
+    }
+
+    .ks-hero__media::after {
+      background:
+        linear-gradient(180deg,
+          rgba(18,17,16,.04) 0%,
+          rgba(18,17,16,.10) 28%,
+          rgba(18,17,16,.30) 64%,
+          rgba(18,17,16,.50) 100%);
+    }
+
+    .ks-hero__inner { padding-block: 11rem 3.35rem; }
+    .ks-hero h1 { font-size: clamp(3rem, 13vw, 4.15rem); line-height: .91; }
+    .ks-hero h1 span,
+    .ks-hero h1 strong { white-space: normal; }
+    .ks-hero__lead { font-size: .97rem; line-height: 1.65; }
+    .ks-hero__actions { align-items: flex-start; gap: 1rem; }
+
     .work-editorial {
       grid-template-columns: 1fr;
       grid-template-rows: 20rem 14rem 14rem;
     }
 
     .work-shot--main,
-    .work-shot--detail {
-      grid-column: 1;
-      grid-row: auto;
-    }
+    .work-shot--detail { grid-column: 1; grid-row: auto; }
   }
 
   @media (max-width: 36rem) {
-    .ks-hero {
-      min-height: 42rem;
-    }
+    .proof-rail__grid { grid-template-columns: 1fr 1fr; }
 
-    .ks-hero__media :global(img) { object-position: 61% center; }
-
-    .ks-hero__inner { padding-block: 4.25rem 2.75rem; }
-
-    .ks-hero h1 { font-size: clamp(3.2rem, 14vw, 4.6rem); }
-
-    .ks-hero__actions {
-      align-items: flex-start;
-      gap: 1.05rem;
-    }
-
-    .proof-rail__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .proof-rail__grid > div {
-      padding: 1.1rem .75rem 1.1rem 0;
+    .proof-rail__grid > div,
+    .proof-rail__grid > div:first-child,
+    .proof-rail__grid > div:last-child {
+      min-height: 0;
+      padding: 1rem .75rem 1rem 0;
       border-bottom: 1px solid var(--line);
     }
 
-    .proof-rail__grid > div:nth-child(even) {
-      padding-right: 0;
-      padding-left: .75rem;
-      border-right: 0;
-    }
-
+    .proof-rail__grid > div:nth-child(even) { padding-right: 0; padding-left: .75rem; border-right: 0; }
     .proof-rail__grid > div:nth-last-child(-n + 2) { border-bottom: 0; }
 
     .selected-work,
     .customer-value,
     .capabilities,
-    .project-flow {
-      padding-block: 4rem;
-    }
+    .project-flow { padding-block: 4rem; }
 
     .section-intro-grid h2,
     .customer-value h2,
-    .project-flow h2 {
-      font-size: clamp(2.2rem, 10vw, 3rem);
-    }
+    .project-flow h2 { font-size: clamp(2.2rem, 10vw, 3rem); }
 
-    .work-shot__caption {
-      display: grid;
-      justify-content: start;
-      gap: .25rem;
-    }
-
+    .work-shot__caption { display: grid; justify-content: start; gap: .25rem; }
     .work-shot__caption strong { text-align: left; }
+    .capability { gap: .9rem; }
+  }
 
-    .capability {
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: .9rem;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .ks-button,
+    .ks-textlink,
+    .work-shot :global(img),
+    .capability__arrow { transition: none; }
   }
 </style>
