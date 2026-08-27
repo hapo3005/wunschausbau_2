@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import Testimonials from '../components/Testimonials.astro';
 import CtaBand from '../components/CtaBand.astro';
 import interior from '../assets/service-interior.png';
 import floors from '../assets/service-floors.png';
@@ -11,29 +10,36 @@ import drywall from '../assets/service-drywall.png';
 import sun from '../assets/service-sun-protection.png';
 
 const bilder = [
-  { src: interior, alt: 'Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal', label: 'Innenausbau' },
-  { src: floors, alt: 'Hochwertig verlegter Eichenparkettboden', label: 'Böden' },
-  { src: doors, alt: 'Moderne Innentür und Fensterfront nach der Montage', label: 'Innentüren' },
-  { src: drywall, alt: 'Trockenbauwand mit sauberer Decke und Einbauspots', label: 'Trockenbau' },
-  { src: sun, alt: 'Wohnzimmer mit maßgefertigten Plissees als Sonnenschutz', label: 'Sonnenschutz' },
+  { src: interior, alt: 'Wohnraum mit Holzvertäfelung und Einbauregal', label: 'Innenausbau' },
+  { src: floors, alt: 'Eichenparkettboden in einem hellen Wohnraum', label: 'Böden' },
+  { src: doors, alt: 'Moderne Innentür und Fensterfront', label: 'Innentüren' },
+  { src: drywall, alt: 'Trockenbauwand mit Decke und Einbauspots', label: 'Trockenbau' },
+  { src: sun, alt: 'Wohnzimmer mit Plissees als Sonnenschutz', label: 'Sonnenschutz' },
   { src: terrace, alt: 'Holzterrasse mit Blick in den Garten', label: 'Holzterrassen' }
 ];
 ---
 <Base
-  title="Referenzen | wunschausbau.de – Arbeiten aus Wittlich, Trier & Mosel"
-  description="Einblicke in unsere Arbeit: Böden, Innentüren, Trockenbau, Sonnenschutz und Holzterrassen in Wittlich, Trier und der Moselregion."
+  title="Leistungen im Bild | wunschausbau.de – Innenausbau Wittlich, Trier & Mosel"
+  description="Bildliche Einblicke in die Leistungsbereiche von KS-Innenausbau: Böden, Innentüren, Trockenbau, Sonnenschutz und Holzterrassen."
 >
-  <section class="section">
-    <div class="wrap">
-      <p class="eyebrow">Referenzen</p>
-      <h1>Unsere Arbeiten.</h1>
-      <p class="lead">Ein Eindruck davon, worauf wir Wert legen: saubere Linien, exakte Übergänge, stimmige Räume.</p>
+  <section class="section visual-intro">
+    <div class="wrap intro-grid">
+      <div>
+        <p class="eyebrow">Bildwelt & Referenzen</p>
+        <h1>Räume, Materialien, Details.</h1>
+      </div>
+      <div class="intro-copy">
+        <p class="lead">Diese Bildwelt zeigt die Leistungsbereiche und den Qualitätsanspruch, für den KS-Innenausbau stehen soll.</p>
+        <p class="preview-note">Für den finalen Launch wird diese Galerie ausschließlich mit freigegebenen Originalaufnahmen realisierter KS-Projekte bestückt.</p>
+      </div>
+    </div>
 
+    <div class="wrap">
       <ul class="galerie">
         {bilder.map((bild, index) => (
           <li class="reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
             <div class="gallery-media">
-              <Image src={bild.src} alt={bild.alt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 50vw" quality={76} format="webp" loading="lazy" />
+              <Image src={bild.src} alt={bild.alt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 50vw" quality={78} format="webp" loading="lazy" />
             </div>
             <span class="label">{bild.label}</span>
           </li>
@@ -41,51 +47,76 @@ const bilder = [
       </ul>
     </div>
   </section>
-  <Testimonials />
-  <CtaBand title="Ihr Projekt könnte das nächste sein." />
+  <CtaBand title="Sie möchten sehen, was bei Ihrem Projekt möglich ist?" />
 </Base>
 
 <style>
+  .visual-intro { padding-top: clamp(5rem, 8vw, 7rem); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, .78fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+  .intro-copy { display: grid; gap: 1.15rem; }
+  .intro-copy .lead { margin-top: 0; }
+  .preview-note {
+    max-width: 52ch;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: .78rem;
+    line-height: 1.65;
+  }
   .galerie {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
+    grid-template-columns: 1.2fr .8fr;
+    gap: clamp(.8rem, 1.5vw, 1.2rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
     padding: 0;
     list-style: none;
   }
   .galerie li {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
     background: var(--sand);
   }
-  .gallery-media { overflow: hidden; }
+  .galerie li:nth-child(3n + 2),
+  .galerie li:nth-child(3n + 3) { align-self: stretch; }
+  .gallery-media { height: 100%; overflow: hidden; }
   .galerie :global(img) {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    height: 100%;
+    min-height: clamp(18rem, 34vw, 32rem);
     object-fit: cover;
     transition: transform 300ms var(--ease-move);
   }
+  .galerie li:nth-child(even) :global(img) { min-height: clamp(16rem, 27vw, 25rem); }
   .label {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: .55rem 1rem;
-    color: var(--paper-inverse);
-    background: rgba(23, 24, 27, .94);
-    font-size: var(--text-sm);
+    right: 1rem;
+    bottom: 1rem;
+    padding: .55rem .8rem;
+    color: #fff;
+    background: rgba(23,24,27,.88);
+    font-size: .72rem;
     font-weight: 600;
-    letter-spacing: .05em;
+    letter-spacing: .06em;
+    backdrop-filter: blur(8px);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .galerie li:hover :global(img) { transform: scale(1.025); }
+    .galerie li:hover :global(img) { transform: scale(1.018); }
   }
 
   @media (max-width: 56rem) {
+    .intro-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .galerie { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 40rem) {
     .galerie { grid-template-columns: 1fr; }
+    .galerie :global(img), .galerie li:nth-child(even) :global(img) { min-height: 16rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
