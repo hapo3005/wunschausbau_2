@@ -25,47 +25,54 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
   @media (max-width: 56rem) {
     .mobile-cta {
       position: fixed;
-      right: max(.7rem, env(safe-area-inset-right));
-      bottom: max(.55rem, env(safe-area-inset-bottom));
-      left: max(.7rem, env(safe-area-inset-left));
+      right: auto;
+      bottom: max(.45rem, env(safe-area-inset-bottom));
+      left: 50%;
       z-index: 90;
       display: grid;
+      width: min(calc(100% - 1.4rem), 18.75rem);
       grid-template-columns: 1fr 1fr;
-      gap: .4rem;
-      padding: .35rem;
-      background: rgba(253, 252, 249, .94);
-      border: 1px solid rgba(28,29,31,.14);
-      box-shadow: 0 .65rem 2rem rgba(23,24,27,.14);
-      backdrop-filter: blur(14px) saturate(125%);
+      gap: .24rem;
+      padding: .24rem;
+      background: #fdfcf9;
+      border: 1px solid rgba(28,29,31,.13);
+      border-radius: .42rem;
+      box-shadow: 0 .45rem 1.35rem rgba(23,24,27,.11);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transform: translateY(calc(100% + 1rem));
-      transition: opacity 180ms ease, transform 240ms var(--ease-move);
+      transform: translateX(-50%);
+      transition: opacity 160ms ease, visibility 0s linear 160ms;
     }
 
     .mobile-cta.is-visible {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
-      transform: none;
+      transition-delay: 0s;
     }
 
     .mobile-cta .btn {
-      min-height: 3rem;
-      gap: .48rem;
-      padding: .62rem .75rem;
-      font-size: .88rem;
+      min-height: 2.75rem;
+      gap: .42rem;
+      padding: .48rem .64rem;
+      border-radius: .24rem;
+      font-size: .82rem;
+      font-weight: 650;
       box-shadow: none;
     }
 
     .mobile-cta .btn svg {
-      width: 1.05rem;
-      height: 1.05rem;
+      width: .96rem;
+      height: .96rem;
       flex: 0 0 auto;
     }
   }
 
   @media (max-width: 22rem) {
-    .mobile-cta .btn span { font-size: .8rem; }
+    .mobile-cta { width: calc(100% - 1rem); }
+    .mobile-cta .btn { padding-inline: .5rem; }
+    .mobile-cta .btn span { font-size: .78rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
