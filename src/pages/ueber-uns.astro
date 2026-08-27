@@ -5,125 +5,292 @@ import CtaBand from '../components/CtaBand.astro';
 import settings from '../data/settings.json';
 
 const werte = [
-  { title: 'Ehrliche Beratung', text: 'Wir sagen, was sinnvoll ist – und auch, was sich nicht lohnt.' },
-  { title: 'Klare Abstimmung', text: 'Material, Maße, Anschlüsse und Termine werden vor der Ausführung geklärt.' },
-  { title: 'Präzise Ausführung', text: 'Saubere Anschlüsse, stimmige Details und ein ordentliches Ergebnis stehen im Mittelpunkt.' },
-  { title: 'Blick fürs Ganze', text: 'Boden, Türen, Trockenbau und Übergänge sollen am Ende selbstverständlich zusammenpassen.' }
+  { title: 'Ehrliche Beratung', text: 'Wir sagen, was sinnvoll ist – und genauso klar, was sich für Ihr Projekt nicht lohnt.' },
+  { title: 'Klare Abstimmung', text: 'Material, Maße, Anschlüsse und Termine werden geklärt, bevor auf der Baustelle improvisiert werden muss.' },
+  { title: 'Präzise Ausführung', text: 'Saubere Anschlüsse, stimmige Details und ein ordentliches Ergebnis sind kein Extra, sondern der Maßstab.' },
+  { title: 'Blick fürs Ganze', text: 'Boden, Türen, Trockenbau und Übergänge sollen am Ende nicht einzeln auffallen, sondern selbstverständlich zusammenpassen.' }
 ];
 ---
 <Base
   title="Über uns | wunschausbau.de – KS - Innenausbau Kevin Schmieding"
   description="Kevin Schmieding, Bauschreiner aus Wittlich: Innenausbau und Renovierung in Wittlich, Trier und der Moselregion – persönlich, transparent und handwerklich präzise."
 >
-  <section class="section intro">
-    <div class="wrap intro-grid">
+  <section class="about-hero">
+    <div class="wrap about-hero__grid">
       <div>
         <p class="eyebrow">Über uns</p>
         <h1>Innenausbau, der wirklich passt.</h1>
       </div>
-      <p class="lead">
-        Hinter {settings.marke} steht Kevin Schmieding, Bauschreiner aus Wittlich. Entscheidend ist nicht nur,
-        dass etwas eingebaut wird – sondern dass Materialien, Anschlüsse und Details am Ende sauber zusammenpassen.
-      </p>
+      <div class="about-hero__copy">
+        <p>Hinter {settings.marke} steht Kevin Schmieding, Bauschreiner aus Wittlich. Entscheidend ist nicht nur, dass etwas eingebaut wird – sondern dass Materialien, Anschlüsse und Details am Ende sauber zusammenpassen.</p>
+        <p class="about-hero__signature">Persönlich abgestimmt. Handwerklich sauber. Regional erreichbar.</p>
+      </div>
     </div>
   </section>
 
-  <section class="section section--sand" aria-labelledby="werte-titel">
-    <div class="wrap">
-      <p class="eyebrow">Zusammenarbeit</p>
-      <h2 id="werte-titel">Was auf jeder Baustelle zählt.</h2>
-      <div class="werte">
+  <section class="manifesto" aria-labelledby="manifesto-title">
+    <div class="wrap manifesto__grid">
+      <div>
+        <p class="eyebrow">Haltung</p>
+        <h2 id="manifesto-title">Nicht möglichst viel.<br />Sondern das Richtige sauber gelöst.</h2>
+      </div>
+      <div class="manifesto__copy">
+        <p>Ein guter Ausbau beginnt für uns nicht mit dem ersten Schnitt, sondern mit den richtigen Fragen. Was soll der Raum können? Welche Details müssen vorher geklärt sein? Und welche Lösung bleibt auch später noch stimmig?</p>
+        <p>So entsteht ein Ergebnis, das nicht nach Einzelgewerken aussieht, sondern nach einem Raum aus einem Guss.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="values" aria-labelledby="werte-titel">
+    <div class="wrap values__grid">
+      <header class="values__head reveal">
+        <p class="eyebrow">Zusammenarbeit</p>
+        <h2 id="werte-titel">Was auf jeder Baustelle zählt.</h2>
+        <p>Vier Dinge, an denen wir Entscheidungen, Kommunikation und Ausführung messen.</p>
+      </header>
+
+      <div class="values__list">
         {werte.map((wert, index) => (
-          <div class="wert reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
-            <span class="wert-accent" aria-hidden="true"></span>
-            <h3>{wert.title}</h3>
-            <p>{wert.text}</p>
-          </div>
+          <article class="value reveal" style={`--reveal-delay: ${index * 45}ms`}>
+            <span class="value__mark" aria-hidden="true"></span>
+            <div>
+              <h3>{wert.title}</h3>
+              <p>{wert.text}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="ablauf2-titel">
-    <div class="wrap">
-      <p class="eyebrow">Arbeitsweise</p>
-      <h2 id="ablauf2-titel">Ein klarer Ablauf.</h2>
-      <div class="process-wrap"><ProcessSteps /></div>
+  <section class="workflow" aria-labelledby="ablauf2-titel">
+    <div class="wrap workflow__intro reveal">
+      <div>
+        <p class="eyebrow">Arbeitsweise</p>
+        <h2 id="ablauf2-titel">Ein klarer Ablauf.</h2>
+      </div>
+      <p>Vom ersten Gespräch bis zur Übergabe bleibt nachvollziehbar, was als Nächstes passiert und welche Entscheidungen vorher getroffen werden müssen.</p>
     </div>
+    <div class="wrap process-wrap"><ProcessSteps /></div>
   </section>
 
-  <section class="section section--sand" aria-labelledby="region-titel">
-    <div class="wrap region">
+  <section class="region-band" aria-labelledby="region-titel">
+    <div class="wrap region-band__grid">
       <div>
         <p class="eyebrow">Einsatzgebiet</p>
         <h2 id="region-titel">Regional verwurzelt.</h2>
-        <p class="lead">
-          Wir arbeiten in {settings.regionen.join(', ')} und Umgebung.
-          Bei größeren Projekten übernehmen wir auch weitere Strecken – sprechen Sie uns an.
-        </p>
+        <p>Wir arbeiten in {settings.regionen.join(', ')} und Umgebung. Bei größeren Projekten übernehmen wir auch weitere Strecken – sprechen Sie uns an.</p>
       </div>
-      <p class="region-mark" aria-hidden="true">{settings.region}</p>
+      <p class="region-band__mark" aria-hidden="true">{settings.region}</p>
     </div>
   </section>
+
   <CtaBand />
 </Base>
 
 <style>
-  .intro-grid {
+  .about-hero {
+    padding-block: clamp(5.5rem, 9vw, 8.5rem);
+    background: var(--paper);
+  }
+
+  .about-hero__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(20rem, .85fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, .75fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .about-hero h1 {
+    max-width: 10.5ch;
+    font-size: clamp(3.4rem, 6.2vw, 5.9rem);
+    line-height: .92;
+  }
+
+  .about-hero__copy {
+    display: grid;
+    gap: 1.6rem;
+    padding-bottom: .35rem;
+    color: var(--ink-soft);
+    font-size: clamp(1.02rem, 1.35vw, 1.16rem);
+    line-height: 1.72;
+  }
+
+  .about-hero__signature {
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--line);
+    color: var(--brass-deep);
+    font-size: .78rem;
+    font-weight: 650;
+    letter-spacing: .04em;
+  }
+
+  .manifesto {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    color: var(--paper-inverse);
+    background: #1c1d1f;
+  }
+
+  .manifesto__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .7fr);
+    align-items: start;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .manifesto .eyebrow { color: #d2ab65; }
+  .manifesto .eyebrow::before { background: #d2ab65; }
+
+  .manifesto h2 {
+    max-width: 15ch;
+    color: #fff;
+    font-size: clamp(3rem, 5.2vw, 5rem);
+    font-weight: 600;
+    line-height: .94;
+    letter-spacing: -.04em;
+  }
+
+  .manifesto__copy {
+    display: grid;
+    gap: 1.4rem;
+    padding-top: 2.2rem;
+    border-top: 1px solid rgba(247,244,238,.18);
+    color: rgba(247,244,238,.74);
+    font-size: .98rem;
+    line-height: 1.75;
+  }
+
+  .values {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    background: #f4efe7;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .values__grid {
+    display: grid;
+    grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .values__head h2,
+  .workflow__intro h2,
+  .region-band h2 {
+    max-width: 12ch;
+    font-size: clamp(2.55rem, 4.4vw, 4rem);
+    line-height: .97;
+  }
+
+  .values__head > p:last-child {
+    max-width: 28rem;
+    margin-top: 1.35rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .values__list { border-top: 1px solid rgba(28,29,31,.2); }
+
+  .value {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-block: clamp(1.6rem, 2.5vw, 2.2rem);
+    border-bottom: 1px solid rgba(28,29,31,.16);
+  }
+
+  .value__mark {
+    width: 1.4rem;
+    height: 1px;
+    margin-top: .75rem;
+    background: var(--brass);
+  }
+
+  .value h3 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 600;
+  }
+
+  .value p {
+    max-width: 52ch;
+    margin-top: .65rem;
+    color: var(--ink-soft);
+    font-size: .9rem;
+    line-height: 1.7;
+  }
+
+  .workflow {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    background: var(--paper);
+  }
+
+  .workflow__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, .72fr);
     align-items: end;
     gap: clamp(3rem, 8vw, 8rem);
   }
-  .intro-grid .lead { margin-top: 0; }
-  .werte {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin-top: var(--space-6);
-    border-top: 1px solid var(--line);
+
+  .workflow__intro > p {
+    max-width: 47ch;
+    color: var(--ink-soft);
+    line-height: 1.72;
   }
-  .wert {
-    position: relative;
-    padding: clamp(1.75rem, 4vw, 3rem);
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: rgba(255,255,255,.45);
+
+  .process-wrap { margin-top: clamp(3rem, 5vw, 4.5rem); }
+
+  .region-band {
+    padding-block: clamp(4.5rem, 7vw, 6.5rem);
+    background: #f4efe7;
+    border-block: 1px solid var(--line);
   }
-  .wert:nth-child(even) { border-right: 0; }
-  .wert-accent {
-    display: block;
-    width: 2.75rem;
-    height: 1px;
-    margin-bottom: var(--space-3);
-    background: var(--brass);
-  }
-  .wert h3 { margin-bottom: .65rem; }
-  .wert p { color: var(--ink-soft); font-size: var(--text-sm); }
-  .process-wrap { margin-top: var(--space-6); }
-  .region {
+
+  .region-band__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: var(--space-6);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
   }
-  .region-mark {
-    max-width: 14ch;
+
+  .region-band__grid > div > p:last-child {
+    max-width: 48ch;
+    margin-top: 1.3rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .region-band__mark {
+    max-width: 12ch;
     color: var(--brass-deep);
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
-    line-height: 1.2;
+    font-size: clamp(2rem, 4.5vw, 4.2rem);
+    font-weight: 600;
+    line-height: .98;
     text-align: right;
   }
 
   @media (max-width: 56rem) {
-    .intro-grid { grid-template-columns: 1fr; gap: var(--space-3); }
-    .intro-grid .lead { margin-top: var(--space-1); }
+    .about-hero__grid,
+    .manifesto__grid,
+    .values__grid,
+    .workflow__intro,
+    .region-band__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .manifesto__copy { padding-top: 1.5rem; }
+    .region-band__mark { text-align: left; }
   }
 
   @media (max-width: 36rem) {
-    .werte { grid-template-columns: 1fr; }
-    .wert { border-right: 0; }
-    .region { grid-template-columns: 1fr; }
-    .region-mark { text-align: left; }
+    .about-hero { padding-block: 4.5rem; }
+    .about-hero h1 { font-size: clamp(3rem, 13vw, 4.2rem); }
+    .manifesto,
+    .values,
+    .workflow,
+    .region-band { padding-block: 4.25rem; }
+    .manifesto h2 { font-size: clamp(2.7rem, 12vw, 3.75rem); }
+    .value { gap: 1rem; }
+    .region-band__mark { font-size: clamp(2.2rem, 11vw, 3.3rem); }
   }
 </style>
