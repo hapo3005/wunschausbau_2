@@ -11,98 +11,230 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
   title="Leistungen | wunschausbau.de – Innenausbau in Wittlich, Trier & Mosel"
   description="Unsere Leistungen im Überblick: Böden, Innentüren, Fenster & Außentüren, Sonnenschutz, Trockenbau, Holzterrassen und komplette Renovierungen."
 >
-  <section class="section">
-    <div class="wrap">
-      <p class="eyebrow">Leistungen</p>
-      <h1>Innenausbau im Zusammenspiel.</h1>
-      <p class="lead">Böden, Türen, Trockenbau und weitere Arbeiten werden so geplant, dass am Ende nicht nur jedes Detail stimmt, sondern der ganze Raum.</p>
-
-      <div class="list">
-        {leistungen.map((leistung, index) => (
-          <a class="row reveal" href={withBase(`/leistungen/${leistung.id}/`)} style={`--reveal-delay: ${(index % 3) * 45}ms`}>
-            <div class="row-text">
-              <h2>{leistung.data.title}</h2>
-              <p>{leistung.data.kurztext}</p>
-              <span class="row-link">Leistung ansehen <span aria-hidden="true">→</span></span>
-            </div>
-            <div class="row-media">
-              <Image src={leistung.data.bild} alt={leistung.data.bildAlt} widths={[320, 640]} sizes="(max-width: 56rem) 100vw, 300px" quality={76} format="webp" loading="lazy" />
-            </div>
-          </a>
-        ))}
+  <section class="services-hero">
+    <div class="wrap services-hero__grid">
+      <div>
+        <p class="eyebrow">Leistungen</p>
+        <h1>Innenausbau im Zusammenspiel.</h1>
       </div>
+      <div class="services-hero__copy">
+        <p>Boden, Tür, Wand und Anschlüsse betrachten wir nicht als einzelne Positionen. Entscheidend ist, wie alles am Ende zusammenwirkt.</p>
+        <p class="services-hero__aside">Einzelne Arbeiten sind genauso möglich wie eine komplette Renovierung.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-editorial" aria-label="Leistungsbereiche">
+    <div class="wrap services-list">
+      {leistungen.map((leistung, index) => (
+        <a class={`service-story service-story--${index + 1} reveal`} href={withBase(`/leistungen/${leistung.id}/`)} style={`--reveal-delay: ${(index % 2) * 45}ms`}>
+          <div class="service-story__media">
+            <Image
+              src={leistung.data.bild}
+              alt={leistung.data.bildAlt}
+              widths={[640, 960, 1280]}
+              sizes="(max-width: 56rem) 100vw, 52vw"
+              quality={80}
+              format="webp"
+              loading="lazy"
+            />
+          </div>
+          <div class="service-story__content">
+            <p class="service-story__kicker">Leistungsbereich</p>
+            <h2>{leistung.data.title}</h2>
+            <p>{leistung.data.kurztext}</p>
+            <span class="service-story__link">Leistung ansehen <span aria-hidden="true">→</span></span>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
   <CtaBand />
 </Base>
 
 <style>
-  .list { margin-top: var(--space-6); border-top: 1px solid var(--line); }
-  .row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
-    align-items: center;
-    gap: clamp(2rem, 5vw, 5rem);
-    min-height: 12rem;
-    padding-block: clamp(1.4rem, 2.4vw, 2rem);
+  .services-hero {
+    padding-block: clamp(5.5rem, 9vw, 8.5rem) clamp(4rem, 7vw, 6.5rem);
     border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .services-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, .68fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .services-hero h1 {
+    max-width: 12ch;
+    font-size: clamp(3.3rem, 6vw, 5.8rem);
+    line-height: .92;
+  }
+
+  .services-hero__copy {
+    display: grid;
+    gap: 1.45rem;
+    padding-bottom: .35rem;
+    color: var(--ink-soft);
+    font-size: clamp(1.03rem, 1.35vw, 1.16rem);
+    line-height: 1.72;
+  }
+
+  .services-hero__aside {
+    max-width: 38ch;
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: .82rem;
+    line-height: 1.6;
+  }
+
+  .services-editorial {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+    background: var(--paper);
+  }
+
+  .services-list {
+    display: grid;
+    gap: clamp(4rem, 8vw, 7.5rem);
+  }
+
+  .service-story {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(20rem, .72fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 8rem);
     color: var(--ink);
     text-decoration: none;
-    transition: background-color var(--dur) var(--ease);
   }
-  .row-text { max-width: 44rem; }
-  .row h2 {
-    font-size: clamp(1.65rem, 2.8vw, 2.25rem);
-    transition: color var(--dur) var(--ease);
+
+  .service-story:nth-child(even) {
+    grid-template-columns: minmax(20rem, .72fr) minmax(0, 1.08fr);
   }
-  .row-text p {
-    max-width: 54ch;
-    margin-top: .45rem;
-    color: var(--ink-soft);
-    font-size: var(--text-sm);
-    line-height: 1.65;
+
+  .service-story:nth-child(even) .service-story__media { grid-column: 2; }
+  .service-story:nth-child(even) .service-story__content { grid-column: 1; grid-row: 1; }
+
+  .service-story__media {
+    position: relative;
+    min-height: clamp(22rem, 35vw, 33rem);
+    overflow: hidden;
+    background: var(--sand);
   }
-  .row-link {
-    display: inline-flex;
-    gap: .45rem;
-    margin-top: .8rem;
-    padding-bottom: .2rem;
-    color: var(--brass-deep);
-    border-bottom: 1px solid rgba(118,80,29,.28);
-    font-size: var(--text-sm);
-    font-weight: 650;
+
+  .service-story__media::after {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(28,29,31,.08);
+    content: '';
+    pointer-events: none;
   }
-  .row-media { overflow: hidden; background: var(--sand); }
-  .row :global(img) {
+
+  .service-story :global(img) {
     width: 100%;
-    aspect-ratio: 8 / 5;
+    height: 100%;
+    min-height: inherit;
     object-fit: cover;
-    transition: transform 280ms var(--ease-move);
+    transition: transform 360ms var(--ease-move), filter 260ms var(--ease);
+  }
+
+  .service-story__content {
+    position: relative;
+    max-width: 31rem;
+    padding-top: 1.35rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .service-story__content::before {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 4rem;
+    height: 1px;
+    background: var(--brass);
+    content: '';
+  }
+
+  .service-story__kicker {
+    margin-bottom: 1.15rem;
+    color: var(--brass-deep);
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  .service-story h2 {
+    max-width: 13ch;
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    font-weight: 600;
+    line-height: .94;
+    letter-spacing: -.035em;
+    transition: color 220ms var(--ease);
+  }
+
+  .service-story__content > p:not(.service-story__kicker) {
+    max-width: 43ch;
+    margin-top: 1.3rem;
+    color: var(--ink-soft);
+    font-size: .98rem;
+    line-height: 1.72;
+  }
+
+  .service-story__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.7rem;
+    padding-bottom: .3rem;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(28,29,31,.38);
+    font-size: .9rem;
+    font-weight: 650;
+    transition: gap 220ms var(--ease-move), color 220ms var(--ease), border-color 220ms var(--ease);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .row:hover { color: var(--ink); background: rgba(247,243,236,.58); }
-    .row:hover h2 { color: var(--brass-deep); }
-    .row:hover :global(img) { transform: scale(1.018); }
+    .service-story:hover h2 { color: var(--brass-deep); }
+    .service-story:hover :global(img) { transform: scale(1.018); filter: saturate(1.02); }
+    .service-story:hover .service-story__link { gap: .85rem; color: var(--brass-deep); border-color: var(--brass-deep); }
   }
 
   @media (max-width: 56rem) {
-    .row {
-      grid-template-columns: minmax(9rem, 38%) minmax(0, 1fr);
-      gap: var(--space-3);
-      min-height: 0;
+    .services-hero__grid,
+    .service-story,
+    .service-story:nth-child(even) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
     }
-    .row-media { grid-column: 1; grid-row: 1; }
-    .row-text { grid-column: 2; }
+
+    .services-hero__grid { align-items: start; }
+    .services-hero__copy { max-width: 42rem; }
+
+    .service-story:nth-child(even) .service-story__media,
+    .service-story:nth-child(even) .service-story__content {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .service-story__media { min-height: clamp(20rem, 62vw, 30rem); }
+    .service-story__content { max-width: 38rem; }
   }
 
   @media (max-width: 36rem) {
-    .row { grid-template-columns: 1fr; padding-block: var(--space-3); }
-    .row-media, .row-text { grid-column: 1; }
-    .row-media { grid-row: 1; }
+    .services-hero { padding-block: 4.5rem 3.5rem; }
+    .services-hero h1 { font-size: clamp(3rem, 13vw, 4.2rem); }
+    .services-editorial { padding-block: 3.5rem 4.25rem; }
+    .services-list { gap: 4.5rem; }
+    .service-story { gap: 1.6rem; }
+    .service-story__media { min-height: 18rem; }
+    .service-story h2 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .row, .row h2, .row :global(img) { transition: none; }
+    .service-story :global(img),
+    .service-story h2,
+    .service-story__link { transition: none; }
   }
 </style>
