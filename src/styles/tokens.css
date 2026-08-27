@@ -1,19 +1,19 @@
 :root {
-  --ink: #17181b;
-  --ink-soft: #494e56;
-  --ink-muted: #6e7279;
-  --paper: #ffffff;
-  --sand: #faf8f4;
-  --sand-deep: #f1ece3;
-  --line: #e3ddd2;
-  --brass: #b9822f;
-  --brass-deep: #7d5518;
-  --paper-inverse: #f6f4ef;
+  --ink: #1c1d1f;
+  --ink-soft: #50545a;
+  --ink-muted: #73767b;
+  --paper: #fdfcf9;
+  --sand: #f7f3ec;
+  --sand-deep: #eee7dc;
+  --line: #ded7cb;
+  --brass: #b98538;
+  --brass-deep: #76501d;
+  --paper-inverse: #f8f6f1;
   --error: #b3261e;
 
-  --font-brand: 'Instrument Sans Variable', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Instrument Sans Variable', 'Helvetica Neue', Arial, sans-serif;
-  --font-text: 'Instrument Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-brand: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+  --font-display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'IBM Plex Sans Variable', 'Helvetica Neue', Arial, sans-serif;
   --text-base: 1rem;
   --text-sm: 0.875rem;
   --text-lg: 1.125rem;
