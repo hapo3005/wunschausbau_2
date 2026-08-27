@@ -168,16 +168,12 @@ button, input, textarea, select { font: inherit; }
   background: var(--paper);
 }
 
-.reveal { opacity: 1; transform: none; }
-.js .reveal {
-  opacity: 0;
-  transform: translateY(.65rem);
-  transition:
-    opacity var(--dur-enter) var(--ease),
-    transform var(--dur-enter) var(--ease-move);
-  transition-delay: var(--reveal-delay, 0ms);
+/* Motion is progressive enhancement: content is never hidden by CSS. */
+.reveal,
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
-.js .reveal.is-visible { opacity: 1; transform: none; }
 
 .legal { max-width: 46rem; }
 .legal h1 { margin-bottom: var(--space-4); overflow-wrap: anywhere; hyphens: auto; }
@@ -234,9 +230,8 @@ button, input, textarea, select { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .skip-link,
-  .btn,
-  .js .reveal { transition: none; }
-  .js .reveal {
+  .btn { transition: none; }
+  .reveal {
     opacity: 1;
     transform: none;
   }
