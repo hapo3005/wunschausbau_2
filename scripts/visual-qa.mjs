@@ -197,6 +197,39 @@ try {
         if (expanded !== 'true' || !navVisible) {
           addFailure('interaction', 'Mobiles Menü öffnet nicht korrekt', { route: route.key, viewport: viewportName });
         }
+
+        const clippedInteractive = await page.evaluate(() => {
+          const vw = document.documentElement.clientWidth;
+          const vh = window.innerHeight;
+          return [...document.querySelectorAll('#site-nav a[href], .menu-btn')]
+            .filter((el) => {
+              const style = getComputedStyle(el);
+              if (style.display === 'none' || style.visibility === 'hidden') return false;
+              const r = el.getBoundingClientRect();
+              return r.width > 0 && r.height > 0 && (r.left < -1 || r.right > vw + 1 || r.top < -1 || r.bottom > vh + 1);
+            })
+            .map((el) => {
+              const r = el.getBoundingClientRect();
+              return {
+                element: `${el.tagName.toLowerCase()}${el.className ? `.${String(el.className).trim().replace(/\s+/g, '.')}` : ''}`,
+                left: Math.round(r.left),
+                right: Math.round(r.right),
+                top: Math.round(r.top),
+                bottom: Math.round(r.bottom),
+                viewportWidth: vw,
+                viewportHeight: vh
+              };
+            });
+        });
+
+        if (clippedInteractive.length) {
+          addFailure('interaction', 'Interaktive Elemente im mobilen Menü liegen außerhalb des Viewports', {
+            route: route.key,
+            viewport: viewportName,
+            elements: clippedInteractive
+          });
+        }
+
         await page.screenshot({ path: path.join(shotDir, 'home-mobile390-menu-open.png'), fullPage: false });
         await page.keyboard.press('Escape');
         if ((await menuButton.getAttribute('aria-expanded')) !== 'false') {
