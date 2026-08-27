@@ -96,32 +96,38 @@ try {
     });
 
     const structure = await page.evaluate(() => {
-      const vw = document.documentElement.clientWidth;
+      const root = document.documentElement;
+      const vw = root.clientWidth;
+      const docScrollWidth = Math.max(root.scrollWidth, document.body.scrollWidth);
+      const hasOverflow = docScrollWidth > vw + 2;
       const h1Count = document.querySelectorAll('h1').length;
       const brokenImages = [...document.images]
         .filter((img) => img.complete && img.naturalWidth === 0)
         .map((img) => img.currentSrc || img.src || img.alt || '<image>');
-      const overflow = [...document.body.querySelectorAll('*')]
-        .filter((el) => {
-          const style = getComputedStyle(el);
-          if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
-          const r = el.getBoundingClientRect();
-          if (r.width === 0 || r.height === 0) return false;
-          return r.right > vw + 2 || r.left < -2;
-        })
-        .slice(0, 12)
-        .map((el) => {
-          const r = el.getBoundingClientRect();
-          return {
-            element: `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ''}${el.classList.length ? `.${[...el.classList].slice(0, 3).join('.')}` : ''}`,
-            left: Math.round(r.left),
-            right: Math.round(r.right),
-            width: Math.round(r.width),
-            viewportWidth: vw
-          };
-        });
+      const overflow = hasOverflow
+        ? [...document.body.querySelectorAll('*')]
+          .filter((el) => {
+            if (el.closest('.hp, [aria-hidden="true"]')) return false;
+            const style = getComputedStyle(el);
+            if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
+            const r = el.getBoundingClientRect();
+            if (r.width === 0 || r.height === 0) return false;
+            return r.right > vw + 2 || r.left < -2;
+          })
+          .slice(0, 12)
+          .map((el) => {
+            const r = el.getBoundingClientRect();
+            return {
+              element: `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ''}${el.classList.length ? `.${[...el.classList].slice(0, 3).join('.')}` : ''}`,
+              left: Math.round(r.left),
+              right: Math.round(r.right),
+              width: Math.round(r.width),
+              viewportWidth: vw
+            };
+          })
+        : [];
       const links = [...document.querySelectorAll('a[href]')].map((a) => a.href);
-      return { h1Count, brokenImages, overflow, links };
+      return { h1Count, brokenImages, hasOverflow, docScrollWidth, viewportWidth: vw, overflow, links };
     });
 
     if (structure.h1Count !== 1) {
@@ -130,8 +136,12 @@ try {
     if (structure.brokenImages.length) {
       addFailure('images', `Defekte Bilder: ${structure.brokenImages.join(', ')}`, { route: route.key, viewport: viewportName });
     }
-    if (structure.overflow.length) {
-      addFailure('overflow', 'Horizontales Layout-Overflow erkannt', { route: route.key, viewport: viewportName, elements: structure.overflow });
+    if (structure.hasOverflow) {
+      addFailure('overflow', `Dokument ist ${structure.docScrollWidth - structure.viewportWidth}px breiter als der Viewport`, {
+        route: route.key,
+        viewport: viewportName,
+        elements: structure.overflow
+      });
     }
     if (browserErrors.length) {
       addFailure('browser', 'Browser-/Konsolenfehler erkannt', { route: route.key, viewport: viewportName, errors: browserErrors });
@@ -196,6 +206,11 @@ try {
         addFailure('interaction', 'Mobile Menü-Schaltfläche fehlt', { route: route.key, viewport: viewportName });
       }
     }
+
+    await page.evaluate(() => {
+      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+      window.scrollTo(0, 0);
+    });
 
     const screenshotPath = path.join(shotDir, `${route.key}-${viewportName}.png`);
     await page.screenshot({ path: screenshotPath, fullPage: true, animations: 'disabled' });

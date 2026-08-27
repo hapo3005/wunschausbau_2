@@ -233,9 +233,11 @@ button, input, textarea, select { font: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .skip-link, .btn, .js .reveal {
+  .skip-link,
+  .btn,
+  .js .reveal { transition: none; }
+  .js .reveal {
     opacity: 1;
     transform: none;
-    transition: none;
   }
 }
