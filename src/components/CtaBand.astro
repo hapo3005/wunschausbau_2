@@ -30,10 +30,10 @@ const {
 
 <style>
   .cta-section {
-    padding-block: clamp(4.8rem, 7.5vw, 7rem) !important;
-    background: #f4f0e8 !important;
-    border-top: 1px solid rgba(28,29,31,.09) !important;
-    border-bottom: 0 !important;
+    padding-block: clamp(4.8rem, 7.5vw, 7rem);
+    background: #f4f0e8;
+    border-top: 1px solid rgba(28,29,31,.09);
+    border-bottom: 0;
   }
 
   .cta-band {
@@ -43,9 +43,7 @@ const {
     gap: clamp(4rem, 10vw, 10rem);
   }
 
-  .cta-copy {
-    max-width: 48rem;
-  }
+  .cta-copy { max-width: 48rem; }
 
   .cta-copy .eyebrow {
     margin-bottom: 1.2rem;
@@ -53,15 +51,15 @@ const {
   }
 
   .cta-band h2 {
-    max-width: 13ch !important;
+    max-width: 13ch;
     margin: 0;
     color: #17181b;
-    font-family: var(--font-text) !important;
-    font-size: clamp(3rem, 5.25vw, 5rem) !important;
-    font-weight: 650 !important;
-    font-variation-settings: 'wght' 650 !important;
-    letter-spacing: -.048em !important;
-    line-height: .98 !important;
+    font-family: var(--font-text);
+    font-size: clamp(3rem, 5.25vw, 5rem);
+    font-weight: 650;
+    font-variation-settings: 'wght' 650;
+    letter-spacing: -.048em;
+    line-height: .98;
     text-wrap: balance;
   }
 
@@ -123,55 +121,30 @@ const {
       transform: translateY(-1px);
     }
 
-    .cta-link:hover .cta-link__icon svg {
-      transform: translateX(.16rem);
-    }
+    .cta-link:hover .cta-link__icon svg { transform: translateX(.16rem); }
   }
 
   @media (max-width: 56rem) {
-    .cta-band {
-      grid-template-columns: 1fr;
-      gap: 2.4rem;
-    }
-
+    .cta-band { grid-template-columns: 1fr; gap: 2.4rem; }
     .cta-copy,
     .cta-side,
-    .cta-side p {
-      max-width: 42rem;
-    }
-
-    .cta-link {
-      width: min(100%, 34rem);
-    }
+    .cta-side p { max-width: 42rem; }
+    .cta-link { width: min(100%, 34rem); }
   }
 
   @media (max-width: 36rem) {
-    .cta-section {
-      padding-block: 4rem !important;
-    }
-
-    .cta-copy .eyebrow {
-      margin-bottom: .9rem;
-    }
-
+    .cta-section { padding-block: 4rem; }
+    .cta-copy .eyebrow { margin-bottom: .9rem; }
     .cta-band h2 {
-      max-width: 14ch !important;
-      font-size: clamp(2.45rem, 11vw, 3.35rem) !important;
+      max-width: 14ch;
+      font-size: clamp(2.45rem, 11vw, 3.35rem);
     }
-
-    .cta-side {
-      gap: 1.7rem;
-    }
-
-    .cta-link {
-      width: 100%;
-    }
+    .cta-side { gap: 1.7rem; }
+    .cta-link { width: 100%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .cta-link,
-    .cta-link__icon svg {
-      transition: none;
-    }
+    .cta-link__icon svg { transition: none; }
   }
 </style>
