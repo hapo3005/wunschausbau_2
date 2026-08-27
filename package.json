@@ -11,7 +11,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && node scripts/prune-originals.mjs",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "qa:visual": "node scripts/visual-qa.mjs",
+    "qa:lighthouse": "node scripts/lighthouse-gate.mjs qa-artifacts/lighthouse"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.3.0",
