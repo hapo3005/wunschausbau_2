@@ -18,7 +18,11 @@ const {
       <p>{text}</p>
       <a class="cta-link" href={withBase('/kontakt/')}>
         <span>Anfrage senden</span>
-        <span aria-hidden="true">→</span>
+        <span class="cta-link__icon" aria-hidden="true">
+          <svg viewBox="0 0 18 18">
+            <path d="M4.75 9h8.5M9.75 5.5 13.25 9l-3.5 3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45" />
+          </svg>
+        </span>
       </a>
     </div>
   </div>
@@ -26,68 +30,148 @@ const {
 
 <style>
   .cta-section {
-    background: var(--sand);
-    border-top: 1px solid var(--line);
+    padding-block: clamp(4.8rem, 7.5vw, 7rem) !important;
+    background: #f4f0e8 !important;
+    border-top: 1px solid rgba(28,29,31,.09) !important;
+    border-bottom: 0 !important;
   }
 
   .cta-band {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .75fr);
-    align-items: end;
-    gap: clamp(3rem, 9vw, 9rem);
+    grid-template-columns: minmax(0, 1.22fr) minmax(19rem, .62fr);
+    align-items: center;
+    gap: clamp(4rem, 10vw, 10rem);
   }
 
-  .cta-copy { max-width: 50rem; }
+  .cta-copy {
+    max-width: 48rem;
+  }
+
+  .cta-copy .eyebrow {
+    margin-bottom: 1.2rem;
+    color: var(--brass-deep);
+  }
 
   .cta-band h2 {
-    max-width: 16ch;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 520;
-    letter-spacing: -.02em;
-    line-height: 1.055;
+    max-width: 13ch !important;
+    margin: 0;
+    color: #17181b;
+    font-family: var(--font-text) !important;
+    font-size: clamp(3rem, 5.25vw, 5rem) !important;
+    font-weight: 650 !important;
+    font-variation-settings: 'wght' 650 !important;
+    letter-spacing: -.048em !important;
+    line-height: .98 !important;
+    text-wrap: balance;
   }
 
   .cta-side {
     display: grid;
-    gap: clamp(2rem, 4vw, 3rem);
-    align-self: end;
+    align-self: center;
+    gap: clamp(2rem, 3.5vw, 2.8rem);
   }
 
   .cta-side p {
-    max-width: 34rem;
-    color: var(--ink-soft);
-    line-height: 1.72;
+    max-width: 29rem;
+    margin: 0;
+    color: #5a5d62;
+    font-size: clamp(.98rem, 1.2vw, 1.08rem);
+    line-height: 1.75;
   }
 
   .cta-link {
-    display: inline-flex;
-    width: fit-content;
+    display: flex;
+    width: min(100%, 29rem);
+    min-height: 3.65rem;
     align-items: center;
-    gap: .8rem;
-    padding-bottom: .45rem;
-    border-bottom: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: .96rem;
-    font-weight: 650;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem .8rem .8rem 1.15rem;
+    color: #2a2b2e;
+    background: rgba(255,255,255,.22);
+    border: 1px solid rgba(118,80,29,.42);
+    box-shadow: 0 .45rem 1.2rem rgba(48,38,24,.035);
+    font-size: .94rem;
+    font-weight: 580;
     letter-spacing: -.01em;
     text-decoration: none;
-    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease), gap var(--dur) var(--ease-move);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .cta-link__icon {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: 0 0 auto;
+    place-items: center;
+    color: #8a6024;
+    border-left: 1px solid rgba(118,80,29,.22);
+  }
+
+  .cta-link__icon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    transition: transform 220ms var(--ease-move);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .cta-link:hover {
-      gap: 1.05rem;
-      color: var(--brass-deep);
-      border-color: var(--brass-deep);
+      color: #17181b;
+      background: rgba(255,255,255,.48);
+      border-color: rgba(118,80,29,.68);
+      box-shadow: 0 .7rem 1.7rem rgba(48,38,24,.065);
+      transform: translateY(-1px);
+    }
+
+    .cta-link:hover .cta-link__icon svg {
+      transform: translateX(.16rem);
     }
   }
 
   @media (max-width: 56rem) {
-    .cta-band { grid-template-columns: 1fr; gap: var(--space-5); }
-    .cta-side { max-width: 38rem; }
+    .cta-band {
+      grid-template-columns: 1fr;
+      gap: 2.4rem;
+    }
+
+    .cta-copy,
+    .cta-side,
+    .cta-side p {
+      max-width: 42rem;
+    }
+
+    .cta-link {
+      width: min(100%, 34rem);
+    }
   }
 
   @media (max-width: 36rem) {
-    .cta-band h2 { font-size: clamp(2.3rem, 10vw, 3.25rem); }
+    .cta-section {
+      padding-block: 4rem !important;
+    }
+
+    .cta-copy .eyebrow {
+      margin-bottom: .9rem;
+    }
+
+    .cta-band h2 {
+      max-width: 14ch !important;
+      font-size: clamp(2.45rem, 11vw, 3.35rem) !important;
+    }
+
+    .cta-side {
+      gap: 1.7rem;
+    }
+
+    .cta-link {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-link,
+    .cta-link__icon svg {
+      transition: none;
+    }
   }
 </style>
