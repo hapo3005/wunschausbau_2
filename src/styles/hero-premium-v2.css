@@ -1,0 +1,435 @@
+/*
+  Premium homepage hero v2
+  Immersive architecture-first composition for KS-Innenausbau.
+  This deliberately overrides the page-local hero layout without touching the rest of the homepage.
+*/
+
+main > section.ks-hero.ks-hero {
+  position: relative;
+  display: grid;
+  min-height: clamp(43rem, calc(100svh - 5.2rem), 58rem);
+  align-items: center;
+  overflow: hidden;
+  color: #f8f5ee;
+  background: #171717;
+  isolation: isolate;
+}
+
+main > section.ks-hero.ks-hero::before {
+  position: absolute;
+  z-index: 3;
+  inset: clamp(1rem, 1.7vw, 1.55rem);
+  border: 1px solid rgba(255,255,255,.16);
+  content: '';
+  pointer-events: none;
+}
+
+main > section.ks-hero.ks-hero .ks-hero__media,
+main > section.ks-hero.ks-hero .ks-hero__media::after,
+main > section.ks-hero.ks-hero .ks-hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+main > section.ks-hero.ks-hero .ks-hero__media img {
+  object-fit: cover;
+  object-position: 67% 52%;
+  filter: saturate(.88) contrast(1.045) brightness(.88);
+  transform: scale(1.018);
+}
+
+main > section.ks-hero.ks-hero .ks-hero__media::after {
+  z-index: 1;
+  background:
+    linear-gradient(90deg,
+      rgba(17,17,17,.90) 0%,
+      rgba(17,17,17,.78) 25%,
+      rgba(17,17,17,.48) 43%,
+      rgba(17,17,17,.15) 61%,
+      rgba(17,17,17,.04) 78%),
+    linear-gradient(0deg,
+      rgba(12,12,12,.62) 0%,
+      rgba(12,12,12,.12) 34%,
+      rgba(12,12,12,.04) 68%);
+  content: '';
+}
+
+main > section.ks-hero.ks-hero .ks-hero__inner {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  width: 100%;
+  min-height: inherit;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-top: clamp(5.2rem, 9vw, 8rem);
+  padding-bottom: clamp(6.8rem, 10vw, 9rem);
+}
+
+main > section.ks-hero.ks-hero .ks-hero__copy {
+  position: relative;
+  max-width: 43rem;
+  padding-left: clamp(1.15rem, 2vw, 1.7rem);
+}
+
+main > section.ks-hero.ks-hero .ks-hero__copy::before {
+  position: absolute;
+  top: .2rem;
+  bottom: .15rem;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(180deg, #d2ab65 0%, rgba(210,171,101,.12) 74%, transparent 100%);
+  content: '';
+}
+
+main > section.ks-hero.ks-hero .eyebrow {
+  margin: 0 0 clamp(1.5rem, 2.6vw, 2.1rem);
+  color: #d9b66f;
+  font-family: var(--font-text);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+main > section.ks-hero.ks-hero .eyebrow::before {
+  display: none;
+}
+
+main > section.ks-hero.ks-hero h1 {
+  display: grid;
+  width: fit-content;
+  max-width: 11ch;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-brand);
+  font-size: clamp(3.9rem, 6.25vw, 6.35rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: .88;
+  text-wrap: balance;
+}
+
+main > section.ks-hero.ks-hero h1 span,
+main > section.ks-hero.ks-hero h1 strong {
+  display: block;
+}
+
+main > section.ks-hero.ks-hero h1 span {
+  color: rgba(255,255,255,.92);
+  font-weight: 500;
+}
+
+main > section.ks-hero.ks-hero h1 strong {
+  color: #fff;
+  font-weight: 650;
+}
+
+main > section.ks-hero.ks-hero h1 small {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 22rem);
+  margin-top: clamp(1rem, 1.7vw, 1.35rem);
+  color: #d9b66f;
+  font-family: var(--font-text);
+  font-size: clamp(.78rem, .95vw, .9rem);
+  font-weight: 600;
+  letter-spacing: .09em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+main > section.ks-hero.ks-hero h1 small::after {
+  width: clamp(3.5rem, 7vw, 6rem);
+  height: 1px;
+  flex: 0 1 auto;
+  background: rgba(217,182,111,.58);
+  content: '';
+}
+
+main > section.ks-hero.ks-hero .ks-hero__lead {
+  max-width: 31rem;
+  margin-top: clamp(1.6rem, 2.5vw, 2rem);
+  color: rgba(248,245,238,.73);
+  font-size: clamp(.98rem, 1.15vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.72;
+}
+
+main > section.ks-hero.ks-hero .ks-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1.15rem, 2vw, 1.7rem);
+  margin-top: clamp(2rem, 3.2vw, 2.6rem);
+}
+
+main > section.ks-hero.ks-hero .ks-button {
+  display: inline-flex;
+  min-height: 3.55rem;
+  align-items: center;
+  padding: .85rem 1.55rem;
+  color: #1c1d1f;
+  background: #f7f3eb;
+  border: 1px solid #f7f3eb;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+main > section.ks-hero.ks-hero .ks-textlink {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: .55rem;
+  padding-bottom: .3rem;
+  color: rgba(255,255,255,.86);
+  border-bottom: 1px solid rgba(255,255,255,.42);
+  font-size: .88rem;
+  font-weight: 550;
+  text-decoration: none;
+  transition: gap 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+main > section.ks-hero.ks-hero .ks-hero__location {
+  position: absolute;
+  right: clamp(2rem, 3.5vw, 3.5rem);
+  bottom: clamp(2.3rem, 4vw, 3.6rem);
+  display: grid;
+  min-width: 15rem;
+  justify-items: end;
+  gap: .34rem;
+  padding-top: .75rem;
+  border-top: 1px solid rgba(217,182,111,.46);
+  color: rgba(255,255,255,.54);
+  font-size: .62rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  line-height: 1.5;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+main > section.ks-hero.ks-hero .ks-hero__location strong {
+  color: rgba(255,255,255,.92);
+  font-weight: 600;
+}
+
+/* The proof rail becomes a deliberate bridge between image and content. */
+main > section.proof-rail.proof-rail {
+  position: relative;
+  z-index: 7;
+  margin-top: clamp(-3.35rem, -4vw, -2.65rem);
+  padding-bottom: clamp(1.2rem, 2vw, 1.7rem);
+  background: transparent;
+  border: 0;
+}
+
+main > section.proof-rail.proof-rail .proof-rail__grid {
+  grid-template-columns: 1.05fr .95fr 1.2fr .8fr;
+  border: 1px solid rgba(28,29,31,.09);
+  background: rgba(253,252,249,.985);
+  box-shadow: 0 1.35rem 3.2rem rgba(28,29,31,.10);
+}
+
+main > section.proof-rail.proof-rail .proof-rail__grid > div {
+  min-height: 6.2rem;
+  justify-content: center;
+  padding: 1.25rem clamp(1.15rem, 2.2vw, 1.8rem);
+  border-right: 1px solid var(--line);
+}
+
+main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child {
+  padding-left: clamp(1.15rem, 2.2vw, 1.8rem);
+}
+
+main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
+  padding-right: clamp(1.15rem, 2.2vw, 1.8rem);
+  border-right: 0;
+}
+
+main > section.proof-rail.proof-rail strong {
+  color: var(--ink);
+  font-family: var(--font-brand);
+  font-size: clamp(1.16rem, 1.45vw, 1.38rem);
+  font-weight: 600;
+  letter-spacing: -.018em;
+  line-height: 1.05;
+}
+
+main > section.proof-rail.proof-rail span {
+  color: var(--ink-muted);
+  font-size: .7rem;
+  line-height: 1.45;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  main > section.ks-hero.ks-hero .ks-button:hover {
+    background: #fff;
+    border-color: #fff;
+    transform: translateY(-1px);
+  }
+
+  main > section.ks-hero.ks-hero .ks-textlink:hover {
+    gap: .8rem;
+    color: #d9b66f;
+    border-color: #d9b66f;
+  }
+}
+
+@media (max-width: 64rem) {
+  main > section.ks-hero.ks-hero {
+    min-height: clamp(42rem, 86svh, 51rem);
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__media img {
+    object-position: 64% center;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__media::after {
+    background:
+      linear-gradient(90deg,
+        rgba(17,17,17,.91) 0%,
+        rgba(17,17,17,.78) 34%,
+        rgba(17,17,17,.43) 59%,
+        rgba(17,17,17,.10) 82%),
+      linear-gradient(0deg, rgba(12,12,12,.58), rgba(12,12,12,.03) 48%);
+  }
+}
+
+@media (max-width: 56rem) {
+  main > section.ks-hero.ks-hero {
+    min-height: 47rem;
+    align-items: end;
+  }
+
+  main > section.ks-hero.ks-hero::before {
+    inset: .75rem;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__inner {
+    grid-template-columns: 1fr;
+    align-items: end;
+    padding-top: 7rem;
+    padding-bottom: 6rem;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__copy {
+    max-width: 39rem;
+  }
+
+  main > section.ks-hero.ks-hero h1 {
+    font-size: clamp(3.7rem, 10.5vw, 5.6rem);
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__location {
+    display: none;
+  }
+
+  main > section.proof-rail.proof-rail {
+    margin-top: -2rem;
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid > div,
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child,
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
+    min-height: 5.4rem;
+    padding: 1rem 1.15rem;
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:nth-child(-n+2) {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 40rem) {
+  main > section.ks-hero.ks-hero {
+    min-height: 44rem;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__media img {
+    object-position: 70% center;
+    filter: saturate(.86) contrast(1.045) brightness(.78);
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__media::after {
+    background:
+      linear-gradient(180deg,
+        rgba(17,17,17,.26) 0%,
+        rgba(17,17,17,.44) 35%,
+        rgba(17,17,17,.88) 76%,
+        rgba(17,17,17,.95) 100%);
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__inner {
+    padding-top: 12rem;
+    padding-bottom: 4.7rem;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__copy {
+    align-self: end;
+    max-width: none;
+    padding-left: 1rem;
+  }
+
+  main > section.ks-hero.ks-hero h1 {
+    max-width: 9ch;
+    font-size: clamp(3rem, 13.2vw, 4.25rem);
+    line-height: .89;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__lead {
+    max-width: 29rem;
+    font-size: .96rem;
+  }
+
+  main > section.ks-hero.ks-hero .ks-hero__actions {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  main > section.proof-rail.proof-rail {
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid {
+    grid-template-columns: 1fr;
+    border-inline: 0;
+    box-shadow: none;
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid > div,
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:first-child,
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
+    min-height: 0;
+    padding: 1rem 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  main > section.proof-rail.proof-rail .proof-rail__grid > div:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main > section.ks-hero.ks-hero .ks-button,
+  main > section.ks-hero.ks-hero .ks-textlink {
+    transition: none;
+  }
+}
