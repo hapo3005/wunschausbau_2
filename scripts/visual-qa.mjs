@@ -24,12 +24,14 @@ const viewports = {
   wide1920: { width: 1920, height: 1080 }
 };
 
-const matrix = [];
-for (const route of routes) {
-  for (const viewportName of ['mobile390', 'tablet768', 'desktop1440']) {
-    matrix.push({ route, viewportName, viewport: viewports[viewportName] });
-  }
-}
+const matrix = routes.flatMap((route) =>
+  ['mobile390', 'tablet768', 'desktop1440'].map((viewportName) => ({
+    route,
+    viewportName,
+    viewport: viewports[viewportName]
+  }))
+);
+
 for (const viewportName of ['mobile430', 'desktop1024', 'wide1920']) {
   matrix.push({ route: routes[0], viewportName, viewport: viewports[viewportName] });
 }
@@ -42,14 +44,43 @@ const internalLinks = new Set();
 await fs.rm(outDir, { recursive: true, force: true });
 await fs.mkdir(shotDir, { recursive: true });
 
-const browser = await chromium.launch({ headless: true });
-
 const addFailure = (kind, message, meta = {}) => failures.push({ kind, message, ...meta });
 const addWarning = (kind, message, meta = {}) => warnings.push({ kind, message, ...meta });
+const browser = await chromium.launch({ headless: true });
+
+async function settlePage(page) {
+  await page.evaluate(() => {
+    for (const img of document.images) img.loading = 'eager';
+  });
+
+  await page.waitForLoadState('networkidle', { timeout: 6_000 }).catch(() => {});
+
+  await page.evaluate(async () => {
+    if (document.fonts?.ready) await document.fonts.ready;
+
+    const waitForImage = async (img) => {
+      if (img.complete) {
+        try { await img.decode?.(); } catch {}
+        return;
+      }
+
+      await Promise.race([
+        new Promise((resolve) => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        }),
+        new Promise((resolve) => setTimeout(resolve, 3_000))
+      ]);
+
+      try { await img.decode?.(); } catch {}
+    };
+
+    await Promise.all([...document.images].map(waitForImage));
+  });
+}
 
 try {
-  for (const entry of matrix) {
-    const { route, viewportName, viewport } = entry;
+  for (const { route, viewportName, viewport } of matrix) {
     const url = `${baseUrl}${route.path}`;
     const context = await browser.newContext({
       viewport,
@@ -76,24 +107,16 @@ try {
     });
 
     const started = Date.now();
-    const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30_000 });
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 });
     if (!response || response.status() >= 400) {
-      addFailure('navigation', `Seite nicht erreichbar: ${url}`, { route: route.key, viewport: viewportName, status: response?.status() });
+      addFailure('navigation', `Seite nicht erreichbar: ${url}`, {
+        route: route.key,
+        viewport: viewportName,
+        status: response?.status()
+      });
     }
 
-    await page.evaluate(async () => {
-      if (document.fonts?.ready) await document.fonts.ready;
-      const images = [...document.images];
-      await Promise.all(images.map(async (img) => {
-        if (!img.complete) {
-          await new Promise((resolve) => {
-            img.addEventListener('load', resolve, { once: true });
-            img.addEventListener('error', resolve, { once: true });
-          });
-        }
-        try { await img.decode?.(); } catch {}
-      }));
-    });
+    await settlePage(page);
 
     const structure = await page.evaluate(() => {
       const root = document.documentElement;
@@ -104,30 +127,39 @@ try {
       const brokenImages = [...document.images]
         .filter((img) => img.complete && img.naturalWidth === 0)
         .map((img) => img.currentSrc || img.src || img.alt || '<image>');
+
       const overflow = hasOverflow
         ? [...document.body.querySelectorAll('*')]
           .filter((el) => {
             if (el.closest('.hp, [aria-hidden="true"]')) return false;
             const style = getComputedStyle(el);
             if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
-            const r = el.getBoundingClientRect();
-            if (r.width === 0 || r.height === 0) return false;
-            return r.right > vw + 2 || r.left < -2;
+            const rect = el.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return false;
+            return rect.right > vw + 2 || rect.left < -2;
           })
           .slice(0, 12)
           .map((el) => {
-            const r = el.getBoundingClientRect();
+            const rect = el.getBoundingClientRect();
             return {
               element: `${el.tagName.toLowerCase()}${el.id ? `#${el.id}` : ''}${el.classList.length ? `.${[...el.classList].slice(0, 3).join('.')}` : ''}`,
-              left: Math.round(r.left),
-              right: Math.round(r.right),
-              width: Math.round(r.width),
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
               viewportWidth: vw
             };
           })
         : [];
-      const links = [...document.querySelectorAll('a[href]')].map((a) => a.href);
-      return { h1Count, brokenImages, hasOverflow, docScrollWidth, viewportWidth: vw, overflow, links };
+
+      return {
+        h1Count,
+        brokenImages,
+        hasOverflow,
+        docScrollWidth,
+        viewportWidth: vw,
+        overflow,
+        links: [...document.querySelectorAll('a[href]')].map((a) => a.href)
+      };
     });
 
     if (structure.h1Count !== 1) {
@@ -165,25 +197,27 @@ try {
       const axe = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();
+
       const serious = axe.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact));
       if (serious.length) {
         addFailure('accessibility', 'Schwere Axe-Verstöße erkannt', {
           route: route.key,
           viewport: viewportName,
-          violations: serious.map((v) => ({
-            id: v.id,
-            impact: v.impact,
-            help: v.help,
-            targets: v.nodes.slice(0, 5).flatMap((n) => n.target)
+          violations: serious.map((violation) => ({
+            id: violation.id,
+            impact: violation.impact,
+            help: violation.help,
+            targets: violation.nodes.slice(0, 5).flatMap((node) => node.target)
           }))
         });
       }
+
       const moderate = axe.violations.filter((violation) => violation.impact === 'moderate');
       if (moderate.length) {
         addWarning('accessibility', 'Moderate Axe-Hinweise', {
           route: route.key,
           viewport: viewportName,
-          violations: moderate.map((v) => v.id)
+          violations: moderate.map((violation) => violation.id)
         });
       }
     }
@@ -205,17 +239,19 @@ try {
             .filter((el) => {
               const style = getComputedStyle(el);
               if (style.display === 'none' || style.visibility === 'hidden') return false;
-              const r = el.getBoundingClientRect();
-              return r.width > 0 && r.height > 0 && (r.left < -1 || r.right > vw + 1 || r.top < -1 || r.bottom > vh + 1);
+              const rect = el.getBoundingClientRect();
+              return rect.width > 0 && rect.height > 0 && (
+                rect.left < -1 || rect.right > vw + 1 || rect.top < -1 || rect.bottom > vh + 1
+              );
             })
             .map((el) => {
-              const r = el.getBoundingClientRect();
+              const rect = el.getBoundingClientRect();
               return {
                 element: `${el.tagName.toLowerCase()}${el.className ? `.${String(el.className).trim().replace(/\s+/g, '.')}` : ''}`,
-                left: Math.round(r.left),
-                right: Math.round(r.right),
-                top: Math.round(r.top),
-                bottom: Math.round(r.bottom),
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                top: Math.round(rect.top),
+                bottom: Math.round(rect.bottom),
                 viewportWidth: vw,
                 viewportHeight: vh
               };
@@ -257,7 +293,10 @@ try {
       ]) {
         const locator = page.locator(selector).first();
         if (await locator.count()) {
-          await locator.screenshot({ path: path.join(shotDir, `home-${viewportName}-${name}.png`), animations: 'disabled' });
+          await locator.screenshot({
+            path: path.join(shotDir, `home-${viewportName}-${name}.png`),
+            animations: 'disabled'
+          });
         }
       }
     }
@@ -278,9 +317,7 @@ try {
   for (const link of [...internalLinks].sort()) {
     try {
       const result = await api.get(link, { maxRedirects: 5, timeout: 15_000 });
-      if (result.status() >= 400) {
-        addFailure('links', `Interner Link liefert HTTP ${result.status()}: ${link}`);
-      }
+      if (result.status() >= 400) addFailure('links', `Interner Link liefert HTTP ${result.status()}: ${link}`);
     } catch (error) {
       addFailure('links', `Interner Link konnte nicht geprüft werden: ${link}`, { error: String(error) });
     }
@@ -310,8 +347,12 @@ const summary = [
   `- Hinweise: **${warnings.length}**`,
   '',
   failures.length ? '## Fehler' : '## Ergebnis',
-  failures.length ? failures.map((f) => `- **${f.kind}**: ${f.message}${f.route ? ` (${f.route}/${f.viewport || ''})` : ''}`).join('\n') : 'Alle visuellen und funktionalen Browser-Gates bestanden.',
-  warnings.length ? `\n## Hinweise\n${warnings.map((w) => `- **${w.kind}**: ${w.message}${w.route ? ` (${w.route}/${w.viewport || ''})` : ''}`).join('\n')}` : ''
+  failures.length
+    ? failures.map((failure) => `- **${failure.kind}**: ${failure.message}${failure.route ? ` (${failure.route}/${failure.viewport || ''})` : ''}`).join('\n')
+    : 'Alle visuellen und funktionalen Browser-Gates bestanden.',
+  warnings.length
+    ? `\n## Hinweise\n${warnings.map((warning) => `- **${warning.kind}**: ${warning.message}${warning.route ? ` (${warning.route}/${warning.viewport || ''})` : ''}`).join('\n')}`
+    : ''
 ].filter(Boolean).join('\n');
 
 await fs.writeFile(path.join(outDir, 'visual-qa.md'), `${summary}\n`);
