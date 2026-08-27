@@ -247,26 +247,50 @@ const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
   }
 
   @media (max-width: 56rem) {
-    .proof-head,
-    .proof-stage {
-      grid-template-columns: 1fr;
-    }
+    .testimonials { padding-block: 4rem; }
+    .testimonials-inner { gap: 2.35rem; }
 
-    .proof-head { align-items: start; gap: 1.5rem; }
+    .proof-head,
+    .proof-stage { grid-template-columns: 1fr; }
+
+    .proof-head { align-items: start; gap: 1.35rem; }
     .proof-stage { min-height: 0; }
 
     .score-card {
-      padding: 2.4rem 0;
+      padding: 2rem 0;
       border-right: 0;
       border-bottom: 1px solid rgba(28,29,31,.14);
     }
 
-    .review-card { padding: clamp(2.4rem, 7vw, 4.5rem) 0; }
+    .review-card { padding: 2.35rem 0; }
   }
 
   @media (max-width: 40rem) {
-    .proof-principles { grid-template-columns: 1fr; gap: 1.5rem; }
-    .review-card__mark { right: 0; }
-    blockquote { font-size: clamp(1.55rem, 7vw, 2rem); }
+    .testimonials { padding-block: 3.4rem; }
+    .testimonials-inner { gap: 1.9rem; }
+    .proof-head { gap: 1.1rem; }
+    .proof-head h2 {
+      max-width: 12ch;
+      font-size: clamp(2.15rem, 9.5vw, 2.75rem);
+      line-height: .98;
+    }
+    .proof-intro { font-size: .96rem; line-height: 1.62; }
+    .proof-source { font-size: .8rem; }
+
+    .score-card { padding: 1.65rem 0 1.8rem; }
+    .score-card__value { margin-top: .8rem; }
+    .score-card__value strong { font-size: clamp(3.6rem, 16vw, 4.4rem); }
+    .score-card__stars { margin-top: .9rem; }
+    .score-card p { margin-top: .9rem; }
+
+    .review-card {
+      gap: 1.25rem;
+      padding: 1.9rem 0 2rem;
+    }
+    .review-card__mark { top: 1.2rem; right: 0; font-size: 5.5rem; }
+    blockquote { max-width: 30ch; font-size: clamp(1.42rem, 6.5vw, 1.82rem); line-height: 1.16; }
+
+    .proof-principles { grid-template-columns: 1fr; gap: 1rem; }
+    .proof-principles p { gap: .3rem; padding-top: .85rem; }
   }
 </style>
