@@ -265,7 +265,8 @@ const path = Astro.url.pathname;
       left: 0;
       z-index: 3;
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
       gap: 2rem;
       padding: clamp(2.1rem, 7vw, 3rem) var(--pad-inline) calc(1.6rem + env(safe-area-inset-bottom));
       overflow-y: auto;
@@ -280,7 +281,9 @@ const path = Astro.url.pathname;
     .site-nav.open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 
     .nav-links {
+      grid-column: 1;
       display: grid;
+      width: 100%;
       min-height: 0;
       align-content: start;
       gap: 0;
@@ -300,10 +303,17 @@ const path = Astro.url.pathname;
     .nav-links > a::after { right: 0; bottom: 50%; left: auto; transform: translateY(50%) scale(.65); }
     .nav-links > a[aria-current="page"]::after { opacity: 1; transform: translateY(50%) scale(1); }
 
-    .nav-actions { display: grid; gap: 1rem; }
+    .nav-actions {
+      grid-column: 1;
+      display: grid;
+      width: 100%;
+      align-self: end;
+      gap: .85rem;
+    }
 
     .nav-phone {
       display: inline-flex;
+      width: 100%;
       min-height: 3.2rem;
       align-items: center;
       gap: .7rem;
@@ -317,6 +327,7 @@ const path = Astro.url.pathname;
 
     .nav-cta {
       display: flex;
+      width: 100%;
       min-height: 4rem;
       justify-content: space-between;
       padding: .75rem .8rem .75rem 1rem;
