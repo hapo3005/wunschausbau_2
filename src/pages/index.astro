@@ -15,38 +15,37 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
 
 const process = [
   {
-    title: 'Beratung & Aufmaß',
+    title: 'Verstehen',
+    label: 'Beratung & Aufmaß',
     meta: 'Vor Ort · Aufmaß · Wünsche',
-    text: 'Wir schauen uns den Bestand vor Ort an, messen sauber auf und klären, was der Raum leisten soll.'
+    text: 'Wir schauen uns den Bestand an, messen sauber auf und klären, was der Raum am Ende leisten soll.'
   },
   {
-    title: 'Planung & Abstimmung',
+    title: 'Planen',
+    label: 'Planung & Abstimmung',
     meta: 'Material · Details · Termin',
-    text: 'Material, Anschlüsse, Reihenfolge und Termin werden abgestimmt, bevor die Ausführung beginnt.'
+    text: 'Material, Anschlüsse, Reihenfolge und Termin stehen fest, bevor die eigentliche Ausführung beginnt.'
   },
   {
-    title: 'Ausführung & Übergabe',
+    title: 'Umsetzen',
+    label: 'Ausführung & Übergabe',
     meta: 'Ausführung · Kontrolle · Übergabe',
     text: 'Wir setzen präzise um, kontrollieren die Details und übergeben einen Raum, der als Ganzes funktioniert.'
   }
 ];
 
-const benefits = [
+const principles = [
   {
-    title: 'Ein Ansprechpartner',
-    text: 'Sie wissen, wer Ihr Projekt kennt, Entscheidungen mit Ihnen abstimmt und erreichbar bleibt.'
+    title: 'Direkt',
+    text: 'Ein Ansprechpartner, der Ihr Projekt kennt und Entscheidungen mit Ihnen abstimmt.'
   },
   {
-    title: 'Details vor Beginn',
-    text: 'Material, Maße und Anschlüsse stehen fest, bevor die eigentliche Arbeit startet.'
+    title: 'Vorher geklärt',
+    text: 'Maße, Material und Anschlüsse stehen fest, bevor die eigentliche Arbeit startet.'
   },
   {
-    title: 'Gewerke im Takt',
+    title: 'Im Takt',
     text: 'Die einzelnen Arbeiten greifen sinnvoll ineinander – ohne unnötige Schleifen.'
-  },
-  {
-    title: 'Der Raum zählt',
-    text: 'Tür, Boden und Wand sind kein Einzelprojekt. Entscheidend ist das Gesamtbild.'
   }
 ];
 
@@ -103,85 +102,99 @@ const schema = {
   </section>
 
   <section class="proof-rail" aria-label="Vertrauen und Fachidentität">
-    <div class="wrap proof-rail__grid">
-      <div><strong>5,0 / 5</strong><span>öffentliches Feedback auf MyHammer</span></div>
-      <div><strong>Bauschreiner</strong><span>Fachwissen aus dem Handwerk</span></div>
-      <div><strong>{settings.region}</strong><span>vor Ort in der Region</span></div>
-      <div><strong>Direkt</strong><span>ein Ansprechpartner</span></div>
+    <div class="wrap proof-rail__line">
+      <p class="proof-rail__lead">Handwerk aus Wittlich. Für Räume, die als Ganzes funktionieren.</p>
+      <div class="proof-rail__facts">
+        <span><strong>5,0 / 5</strong><small>MyHammer</small></span>
+        <span><strong>Bauschreiner</strong><small>Fachidentität</small></span>
+        <span><strong>{settings.region}</strong><small>regional im Einsatz</small></span>
+        <span><strong>Direkt</strong><small>ein Ansprechpartner</small></span>
+      </div>
     </div>
   </section>
 
   <section class="selected-work" aria-labelledby="selected-work-title">
     <div class="wrap">
-      <header class="section-intro-grid reveal">
-        <div>
+      <header class="work-intro reveal">
+        <div class="work-intro__title">
           <p class="eyebrow">Raum & Material</p>
-          <h2 id="selected-work-title">Innenausbau, der als Ganzes wirkt.</h2>
+          <h2 id="selected-work-title">Material wird Raum.</h2>
         </div>
-        <div class="section-intro-side">
-          <p>Die aktuelle Vorschau nutzt Beispielmotive, um Materialität und Raumwirkung zu zeigen. Zum Launch folgen ausschließlich freigegebene Originalprojekte von KS-Innenausbau.</p>
+        <div class="work-intro__side">
+          <p>Die Motive definieren aktuell unsere Bildsprache. Zum Launch ersetzen wir sie durch freigegebene Originalprojekte von KS-Innenausbau.</p>
           <a class="ks-textlink ks-textlink--dark" href={withBase('/referenzen/')}>Referenzen ansehen <span aria-hidden="true">→</span></a>
         </div>
       </header>
 
-      <div class="work-editorial">
+      <div class="work-stage">
         <a class="work-shot work-shot--main reveal" href={withBase('/referenzen/')}>
-          <Image src={interior} alt="Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 66vw" quality={84} format="webp" loading="lazy" />
+          <Image src={interior} alt="Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 68vw" quality={84} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Innenausbau</small><strong>Wohnraum</strong></span>
         </a>
 
-        <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 55ms">
-          <Image src={floors} alt="Hochwertig verlegter Eichenparkettboden" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={82} format="webp" loading="lazy" />
+        <a class="work-shot work-shot--top reveal" href={withBase('/referenzen/')} style="--reveal-delay: 55ms">
+          <Image src={floors} alt="Hochwertig verlegter Eichenparkettboden" widths={[480, 720, 960]} sizes="(max-width: 56rem) 50vw, 31vw" quality={82} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Böden</small><strong>Eichenparkett</strong></span>
         </a>
 
-        <a class="work-shot work-shot--detail reveal" href={withBase('/referenzen/')} style="--reveal-delay: 90ms">
-          <Image src={doors} alt="Moderne Innentür und Fensterfront nach der Montage" widths={[480, 720, 960]} sizes="(max-width: 56rem) 100vw, 34vw" quality={82} format="webp" loading="lazy" />
+        <a class="work-shot work-shot--overlap reveal" href={withBase('/referenzen/')} style="--reveal-delay: 90ms">
+          <Image src={doors} alt="Moderne Innentür und Fensterfront nach der Montage" widths={[480, 720, 960]} sizes="(max-width: 56rem) 50vw, 34vw" quality={82} format="webp" loading="lazy" />
           <span class="work-shot__caption"><small>Türen & Fenster</small><strong>Montage</strong></span>
         </a>
+      </div>
+
+      <div class="work-note reveal" style="--reveal-delay: 110ms">
+        <span>Ein Raum ist kein Sammelsurium einzelner Leistungen.</span>
+        <strong>Proportion, Material und Ausführung müssen miteinander sprechen.</strong>
       </div>
     </div>
   </section>
 
   <section class="customer-value" aria-labelledby="customer-value-title">
     <div class="wrap customer-value__inner">
-      <header class="customer-value__head reveal">
-        <p class="eyebrow">Vor der Baustelle</p>
-        <h2 id="customer-value-title">Gute Arbeit beginnt, bevor das Werkzeug läuft.</h2>
-        <p>Maße, Material, Anschlüsse und Reihenfolge klären wir vor Beginn. So wird aus vielen Einzelarbeiten ein sauberer Ablauf.</p>
+      <header class="value-manifest reveal">
+        <p class="eyebrow">Zusammenarbeit</p>
+        <h2 id="customer-value-title">Bevor gebaut wird, muss alles klar sein.</h2>
+        <p>Gute Ausführung beginnt nicht mit Werkzeug, sondern mit Entscheidungen. Deshalb klären wir die wichtigen Dinge, bevor auf der Baustelle Tempo entsteht.</p>
       </header>
 
-      <div class="benefit-grid">
-        {benefits.map((benefit, index) => (
-          <article class={`benefit benefit--${index + 1} reveal`} style={`--reveal-delay: ${index * 45}ms`}>
-            <span class="benefit__icon" aria-hidden="true"></span>
-            <h3>{benefit.title}</h3>
-            <p>{benefit.text}</p>
-          </article>
-        ))}
+      <div class="value-system">
+        <div class="value-rail" aria-label="Was gute Zusammenarbeit ausmacht">
+          {principles.map((principle, index) => (
+            <article class={`principle principle--${index + 1} reveal`} style={`--reveal-delay: ${index * 50}ms`}>
+              <span class="principle__icon" aria-hidden="true"></span>
+              <div>
+                <h3>{principle.title}</h3>
+                <p>{principle.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="value-conclusion reveal" style="--reveal-delay: 120ms">
+          <span>Der Maßstab</span>
+          <strong>Am Ende zählt nicht die einzelne Tür, der Boden oder die Wand.</strong>
+          <p>Entscheidend ist, ob der ganze Raum selbstverständlich zusammenpasst.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="capabilities" aria-labelledby="capabilities-title">
-    <div class="wrap">
-      <header class="section-intro-grid section-intro-grid--compact reveal">
-        <div>
-          <p class="eyebrow">Was wir ausbauen</p>
-          <h2 id="capabilities-title">Vom Boden bis zum fertigen Raum.</h2>
-        </div>
-        <p class="section-intro-copy">Einzelne Arbeiten oder komplette Renovierung: Wir verbinden die Leistungen so, dass technisch und optisch alles zusammenpasst.</p>
+    <div class="wrap capability-layout">
+      <header class="capability-intro reveal">
+        <p class="eyebrow">Leistungen</p>
+        <h2 id="capabilities-title">Alles, was ein Raum braucht.</h2>
+        <p>Einzelne Arbeiten oder komplette Renovierung: Wir denken nicht in isolierten Gewerken, sondern in einem stimmigen Ergebnis.</p>
+        <a class="ks-textlink ks-textlink--dark" href={withBase('/leistungen/')}>Alle Leistungen ansehen <span aria-hidden="true">→</span></a>
       </header>
 
-      <div class="capability-list">
-        {leistungen.map((leistung, index) => (
-          <a class={`capability capability--${index + 1}`} href={withBase(`/leistungen/${leistung.id}/`)}>
-            <span class="capability__icon" aria-hidden="true"></span>
-            <span class="capability__copy">
-              <strong>{leistung.data.title}</strong>
-              <small>{leistung.data.kurztext}</small>
-            </span>
-            <span class="capability__arrow" aria-hidden="true">→</span>
+      <div class="service-index">
+        {leistungen.map((leistung) => (
+          <a class="service-row" href={withBase(`/leistungen/${leistung.id}/`)}>
+            <span class="service-row__title">{leistung.data.title}</span>
+            <span class="service-row__text">{leistung.data.kurztext}</span>
+            <span class="service-row__arrow" aria-hidden="true">→</span>
           </a>
         ))}
       </div>
@@ -189,23 +202,26 @@ const schema = {
   </section>
 
   <section class="project-flow" aria-labelledby="project-flow-title">
-    <div class="wrap project-flow__grid">
-      <header class="project-flow__head reveal">
-        <p class="eyebrow">Vom ersten Termin bis zur Übergabe</p>
-        <h2 id="project-flow-title">Vom Aufmaß bis zur Übergabe.</h2>
-        <p>Erst verstehen, dann planen, dann ausführen. Sie wissen jederzeit, was als Nächstes passiert und warum.</p>
-        <a class="ks-textlink" href={withBase('/kontakt/')}>Projekt besprechen <span aria-hidden="true">→</span></a>
+    <div class="wrap">
+      <header class="flow-head reveal">
+        <div>
+          <p class="eyebrow">Ablauf</p>
+          <h2 id="project-flow-title">Verstehen. Planen. Umsetzen.</h2>
+        </div>
+        <div class="flow-head__side">
+          <p>Ein guter Ablauf fühlt sich nicht kompliziert an. Sie wissen, was passiert, was entschieden ist und was als Nächstes kommt.</p>
+          <a class="ks-textlink" href={withBase('/kontakt/')}>Projekt besprechen <span aria-hidden="true">→</span></a>
+        </div>
       </header>
 
-      <div class="flow-steps">
+      <div class="flow-path">
         {process.map((step, index) => (
-          <article class={`flow-step flow-step--${index + 1} reveal`} style={`--reveal-delay: ${index * 55}ms`}>
-            <span class="flow-step__icon" aria-hidden="true"></span>
-            <div>
-              <p class="flow-step__meta">{step.meta}</p>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </div>
+          <article class={`flow-step flow-step--${index + 1} reveal`} style={`--reveal-delay: ${index * 65}ms`}>
+            <span class="flow-step__marker" aria-hidden="true"></span>
+            <p class="flow-step__meta">{step.meta}</p>
+            <h3>{step.title}</h3>
+            <strong>{step.label}</strong>
+            <p class="flow-step__text">{step.text}</p>
           </article>
         ))}
       </div>
@@ -267,10 +283,7 @@ const schema = {
     padding-block: clamp(5rem, 8vw, 7rem);
   }
 
-  .ks-hero__copy {
-    width: min(100%, 41rem);
-    color: #fff;
-  }
+  .ks-hero__copy { width: min(100%, 41rem); color: #fff; }
 
   .ks-hero .eyebrow {
     margin-bottom: clamp(1.25rem, 2vw, 1.65rem);
@@ -296,11 +309,7 @@ const schema = {
   }
 
   .ks-hero h1 span,
-  .ks-hero h1 strong {
-    display: block;
-    white-space: nowrap;
-  }
-
+  .ks-hero h1 strong { display: block; white-space: nowrap; }
   .ks-hero h1 strong { font-weight: 650; }
 
   .ks-hero__lead {
@@ -351,85 +360,106 @@ const schema = {
     transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
   }
 
-  .ks-hero .ks-textlink {
-    color: rgba(255,255,255,.96);
-    border-bottom-color: rgba(255,255,255,.62);
-  }
+  .ks-hero .ks-textlink { color: rgba(255,255,255,.96); border-bottom-color: rgba(255,255,255,.62); }
 
   .proof-rail {
     background: var(--paper);
     border-bottom: 1px solid var(--line);
   }
 
-  .proof-rail__grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .proof-rail__line {
+    display: flex;
+    min-height: 5.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
   }
 
-  .proof-rail__grid > div {
-    display: grid;
-    min-height: 5.2rem;
-    align-content: center;
-    gap: .34rem;
-    padding: 1rem clamp(1rem, 2vw, 1.5rem);
-    border-right: 1px solid var(--line);
-  }
-
-  .proof-rail__grid > div:first-child { padding-left: 0; }
-  .proof-rail__grid > div:last-child { padding-right: 0; border-right: 0; }
-
-  .proof-rail strong {
+  .proof-rail__lead {
+    max-width: 26rem;
+    margin: 0;
+    color: var(--ink);
     font-family: var(--font-brand);
-    font-size: clamp(1.08rem, 1.35vw, 1.28rem);
+    font-size: .95rem;
     font-weight: 600;
-    line-height: 1.05;
+    line-height: 1.35;
   }
 
-  .proof-rail span {
+  .proof-rail__facts {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .proof-rail__facts > span {
+    display: grid;
+    gap: .22rem;
+    min-width: 9.5rem;
+    padding-inline: clamp(1rem, 2vw, 1.7rem);
+    border-left: 1px solid var(--line);
+  }
+
+  .proof-rail__facts > span:last-child { padding-right: 0; }
+
+  .proof-rail__facts strong {
+    color: var(--ink);
+    font-size: .82rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .proof-rail__facts small {
     color: var(--ink-muted);
-    font-size: .7rem;
-    line-height: 1.45;
+    font-size: .64rem;
+    line-height: 1.35;
   }
 
   .selected-work,
   .capabilities {
-    padding-block: clamp(5rem, 8vw, 7.5rem);
+    padding-block: clamp(5.5rem, 8vw, 8rem);
     background: var(--paper);
   }
 
-  .section-intro-grid {
+  .work-intro {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .65fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .62fr);
     align-items: end;
     gap: clamp(2.5rem, 8vw, 8rem);
-    margin-bottom: clamp(2.75rem, 5vw, 4.25rem);
+    margin-bottom: clamp(3rem, 5vw, 4.7rem);
   }
 
-  .section-intro-grid h2,
-  .customer-value h2,
-  .project-flow h2 {
-    max-width: 15ch;
+  .work-intro h2,
+  .value-manifest h2,
+  .capability-intro h2,
+  .flow-head h2 {
+    max-width: 14ch;
     margin: 0;
-    font-size: clamp(2.45rem, 4.4vw, 4rem);
+    color: var(--ink);
+    font-family: var(--font-brand);
+    font-size: clamp(2.7rem, 4.8vw, 4.35rem);
     font-weight: 600;
-    line-height: .99;
-    letter-spacing: -.035em;
+    line-height: .94;
+    letter-spacing: -.04em;
   }
 
-  .section-intro-side,
-  .section-intro-copy {
-    color: var(--ink-soft);
-    line-height: 1.7;
-  }
-
-  .section-intro-side { display: grid; gap: 1.6rem; }
-
-  .work-editorial {
+  .work-intro__side {
     display: grid;
-    grid-template-columns: minmax(0, 1.75fr) minmax(18rem, .75fr);
-    grid-template-rows: repeat(2, minmax(15rem, 1fr));
-    gap: clamp(.8rem, 1.5vw, 1.2rem);
-    min-height: clamp(38rem, 56vw, 52rem);
+    gap: 1.5rem;
+  }
+
+  .work-intro__side p,
+  .capability-intro > p:last-of-type {
+    margin: 0;
+    color: var(--ink-soft);
+    line-height: 1.72;
+  }
+
+  .work-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: minmax(18rem, 30vw) minmax(14rem, 22vw);
+    gap: clamp(.8rem, 1.35vw, 1.15rem);
   }
 
   .work-shot {
@@ -442,7 +472,15 @@ const schema = {
     text-decoration: none;
   }
 
-  .work-shot--main { grid-row: 1 / 3; }
+  .work-shot--main { grid-column: 1 / 9; grid-row: 1 / 3; }
+  .work-shot--top { grid-column: 9 / 13; grid-row: 1; }
+  .work-shot--overlap {
+    z-index: 2;
+    grid-column: 8 / 13;
+    grid-row: 2;
+    margin: 1.4rem 0 0 1.4rem;
+    border: .7rem solid var(--paper);
+  }
 
   .work-shot :global(img) {
     width: 100%;
@@ -452,21 +490,21 @@ const schema = {
   }
 
   .work-shot--main :global(img) { object-position: center 52%; }
-  .work-shot--detail:first-of-type :global(img) { object-position: center 50%; }
+  .work-shot--top :global(img) { object-position: center 48%; }
 
   .work-shot::after {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 60%, rgba(18,18,18,.42));
+    background: linear-gradient(180deg, transparent 54%, rgba(18,18,18,.48));
     content: '';
   }
 
   .work-shot__caption {
     position: absolute;
     z-index: 2;
-    right: 1.35rem;
-    bottom: 1.25rem;
-    left: 1.35rem;
+    right: 1.3rem;
+    bottom: 1.2rem;
+    left: 1.3rem;
     display: flex;
     align-items: end;
     justify-content: space-between;
@@ -475,222 +513,319 @@ const schema = {
   }
 
   .work-shot__caption small {
-    font-size: .67rem;
-    font-weight: 600;
-    letter-spacing: .1em;
+    font-size: .65rem;
+    font-weight: 650;
+    letter-spacing: .11em;
     text-transform: uppercase;
   }
 
-  .work-shot__caption strong {
-    font-size: .86rem;
-    font-weight: 600;
-    text-align: right;
+  .work-shot__caption strong { font-size: .88rem; font-weight: 600; text-align: right; }
+
+  .work-note {
+    display: grid;
+    grid-template-columns: minmax(14rem, .55fr) minmax(0, 1.45fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    margin-top: clamp(2rem, 3.5vw, 3rem);
+    padding-top: 1.3rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .work-note span {
+    max-width: 21rem;
+    color: var(--ink-muted);
+    font-size: .74rem;
+    line-height: 1.55;
+  }
+
+  .work-note strong {
+    max-width: 34ch;
+    color: var(--ink);
+    font-family: var(--font-brand);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 550;
+    line-height: 1.3;
+    letter-spacing: -.018em;
   }
 
   .customer-value {
-    padding-block: clamp(5rem, 8vw, 7.25rem);
-    background: #f4efe7;
-    border-block: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(5.5rem, 8vw, 8rem);
+    color: #f5f1e9;
+    background: #1b1c1e;
+  }
+
+  .customer-value::after {
+    position: absolute;
+    top: -18rem;
+    right: -12rem;
+    width: 38rem;
+    height: 38rem;
+    border: 1px solid rgba(209,168,95,.12);
+    border-radius: 50%;
+    content: '';
+    pointer-events: none;
   }
 
   .customer-value__inner {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
-    gap: clamp(3rem, 8vw, 8rem);
+    grid-template-columns: minmax(19rem, .72fr) minmax(0, 1.28fr);
+    gap: clamp(3.5rem, 8vw, 8rem);
   }
 
-  .customer-value__head { align-self: start; }
+  .value-manifest { align-self: start; }
+  .customer-value .eyebrow { color: #d4ad68; }
+  .value-manifest h2 { color: #fffdf9; max-width: 11ch; }
 
-  .customer-value__head > p:last-child {
-    max-width: 31rem;
-    margin-top: 1.35rem;
-    color: var(--ink-soft);
-    line-height: 1.7;
+  .value-manifest > p:last-child {
+    max-width: 29rem;
+    margin-top: 1.5rem;
+    color: rgba(245,241,233,.68);
+    line-height: 1.72;
   }
 
-  .benefit-grid {
+  .value-system { display: grid; }
+
+  .value-rail { border-top: 1px solid rgba(245,241,233,.18); }
+
+  .principle {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-self: start;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: clamp(1.3rem, 3vw, 2.3rem);
+    padding-block: clamp(1.65rem, 2.8vw, 2.25rem);
+    border-bottom: 1px solid rgba(245,241,233,.14);
   }
 
-  .benefit {
-    min-height: 14rem;
-    padding: 1.65rem clamp(1.3rem, 2.5vw, 2rem) 1.7rem 0;
-    border-top: 1px solid rgba(28,29,31,.18);
-  }
-
-  .benefit:nth-child(even) {
-    padding-left: clamp(1.3rem, 2.5vw, 2rem);
-    border-left: 1px solid rgba(28,29,31,.12);
-  }
-
-  .benefit__icon,
-  .capability__icon,
-  .flow-step__icon {
+  .principle__icon {
     display: block;
-    background: var(--brass-deep);
-    -webkit-mask: var(--benefit-icon) center / contain no-repeat;
-    mask: var(--benefit-icon) center / contain no-repeat;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-top: .15rem;
+    background: #d4ad68;
+    -webkit-mask: var(--principle-icon) center / contain no-repeat;
+    mask: var(--principle-icon) center / contain no-repeat;
   }
 
-  .benefit__icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-bottom: 2.4rem;
-  }
+  .principle--1 { --principle-icon: var(--ks-icon-talk); }
+  .principle--2 { --principle-icon: var(--ks-icon-plan); }
+  .principle--3 { --principle-icon: var(--ks-icon-build); }
 
-  .benefit--1 { --benefit-icon: var(--ks-icon-talk); }
-  .benefit--2 { --benefit-icon: var(--ks-icon-plan); }
-  .benefit--3 { --benefit-icon: var(--ks-icon-build); }
-  .benefit--4 { --benefit-icon: var(--ks-icon-renovation); }
-
-  .benefit h3 {
+  .principle h3 {
     margin: 0;
-    font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -.02em;
+  }
+
+  .principle p {
+    max-width: 46rem;
+    margin-top: .55rem;
+    color: rgba(245,241,233,.65);
+    font-size: .86rem;
+    line-height: 1.65;
+  }
+
+  .value-conclusion {
+    display: grid;
+    grid-template-columns: minmax(8rem, .32fr) minmax(0, 1fr);
+    gap: 1rem 2rem;
+    padding-top: clamp(2.4rem, 4vw, 3.5rem);
+  }
+
+  .value-conclusion > span {
+    grid-row: 1 / 3;
+    color: #d4ad68;
+    font-size: .67rem;
+    font-weight: 650;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .value-conclusion strong {
+    max-width: 29ch;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+    font-weight: 520;
+    line-height: 1.2;
+    letter-spacing: -.022em;
+  }
+
+  .value-conclusion p {
+    max-width: 35rem;
+    margin: 0;
+    color: rgba(245,241,233,.62);
+    font-size: .82rem;
+    line-height: 1.6;
+  }
+
+  .capability-layout {
+    display: grid;
+    grid-template-columns: minmax(18rem, .62fr) minmax(0, 1.38fr);
+    align-items: start;
+    gap: clamp(3.5rem, 9vw, 9rem);
+  }
+
+  .capability-intro {
+    position: sticky;
+    top: 8.5rem;
+    display: grid;
+    align-self: start;
+    gap: 1.4rem;
+  }
+
+  .capability-intro .eyebrow { margin-bottom: -.15rem; }
+  .capability-intro h2 { max-width: 10ch; }
+  .capability-intro > p:last-of-type { max-width: 27rem; }
+
+  .service-index { border-top: 1px solid var(--line); }
+
+  .service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(9rem, .58fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    min-height: 6.7rem;
+    padding-block: 1.25rem;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .service-row::before {
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    left: -.9rem;
+    width: .18rem;
+    background: var(--brass);
+    content: '';
+    opacity: 0;
+    transform: scaleY(.35);
+    transform-origin: center;
+    transition: opacity var(--dur) var(--ease), transform 220ms var(--ease-move);
+  }
+
+  .service-row__title {
+    font-family: var(--font-brand);
+    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
     font-weight: 600;
     letter-spacing: -.018em;
   }
 
-  .benefit p {
-    max-width: 28ch;
-    margin-top: .8rem;
+  .service-row__text {
+    max-width: 43rem;
     color: var(--ink-soft);
-    font-size: .88rem;
-    line-height: 1.65;
+    font-size: .8rem;
+    line-height: 1.58;
   }
 
-  .section-intro-grid--compact { align-items: end; }
-
-  .capability-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
-  }
-
-  .capability {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 1.2rem;
-    min-height: 7.75rem;
-    padding: 1.3rem clamp(1.25rem, 2.5vw, 2rem) 1.3rem 0;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  .capability:nth-child(even) {
-    padding-left: clamp(1.25rem, 2.5vw, 2rem);
-    border-left: 1px solid var(--line);
-  }
-
-  .capability__icon {
-    width: 1.15rem;
-    height: 1.15rem;
-    --benefit-icon: var(--ks-icon-renovation);
-  }
-
-  .capability--1 .capability__icon { --benefit-icon: var(--ks-icon-floor); }
-  .capability--2 .capability__icon { --benefit-icon: var(--ks-icon-door); }
-  .capability--3 .capability__icon { --benefit-icon: var(--ks-icon-window); }
-  .capability--4 .capability__icon { --benefit-icon: var(--ks-icon-shade); }
-  .capability--5 .capability__icon { --benefit-icon: var(--ks-icon-drywall); }
-  .capability--6 .capability__icon { --benefit-icon: var(--ks-icon-terrace); }
-  .capability--7 .capability__icon { --benefit-icon: var(--ks-icon-renovation); }
-
-  .capability__copy { display: grid; gap: .35rem; }
-
-  .capability__copy strong {
-    font-size: clamp(1.04rem, 1.35vw, 1.2rem);
-    font-weight: 600;
-    letter-spacing: -.012em;
-  }
-
-  .capability__copy small {
-    max-width: 48ch;
-    color: var(--ink-soft);
-    font-size: .78rem;
-    line-height: 1.55;
-  }
-
-  .capability__arrow {
+  .service-row__arrow {
     color: var(--brass-deep);
-    font-size: .95rem;
+    font-size: 1rem;
     transition: transform 220ms var(--ease-move);
   }
 
   .project-flow {
-    padding-block: clamp(5rem, 8vw, 7.5rem);
-    background: #1c1d1f;
+    padding-block: clamp(5.5rem, 8vw, 8rem);
+    background: #202124;
     color: #f7f4ee;
   }
 
-  .project-flow__grid {
+  .flow-head {
     display: grid;
-    grid-template-columns: minmax(18rem, .7fr) minmax(0, 1.3fr);
-    gap: clamp(3.5rem, 9vw, 9rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .62fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+    margin-bottom: clamp(4rem, 7vw, 6.5rem);
   }
 
-  .project-flow .eyebrow { color: #d2ab65; }
+  .project-flow .eyebrow { color: #d4ad68; }
+  .flow-head h2 { max-width: 12ch; color: #fffdf9; }
 
-  .project-flow__head > p:not(.eyebrow) {
-    max-width: 31rem;
-    margin-top: 1.5rem;
-    color: rgba(247,244,238,.72);
+  .flow-head__side {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .flow-head__side p {
+    margin: 0;
+    color: rgba(247,244,238,.68);
     line-height: 1.7;
   }
 
-  .project-flow .ks-textlink {
-    margin-top: 1.8rem;
-    color: #f7f4ee;
-    border-bottom-color: rgba(247,244,238,.48);
-  }
+  .project-flow .ks-textlink { color: #f7f4ee; border-bottom-color: rgba(247,244,238,.42); }
 
-  .flow-steps { border-top: 1px solid rgba(247,244,238,.18); }
-
-  .flow-step {
+  .flow-path {
+    position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-    padding-block: clamp(1.65rem, 2.7vw, 2.25rem);
-    border-bottom: 1px solid rgba(247,244,238,.14);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-top: 2.2rem;
+    border-top: 1px solid rgba(247,244,238,.2);
   }
 
-  .flow-step__icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-top: .15rem;
-    background: #d2ab65;
+  .flow-path::before {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 34%;
+    height: 2px;
+    background: #d4ad68;
+    content: '';
   }
 
-  .flow-step--1 .flow-step__icon { --benefit-icon: var(--ks-icon-talk); }
-  .flow-step--2 .flow-step__icon { --benefit-icon: var(--ks-icon-plan); }
-  .flow-step--3 .flow-step__icon { --benefit-icon: var(--ks-icon-build); }
+  .flow-step { position: relative; padding-top: 1rem; }
+
+  .flow-step__marker {
+    position: absolute;
+    top: -2.62rem;
+    left: 0;
+    width: .78rem;
+    height: .78rem;
+    background: #202124;
+    border: 2px solid #d4ad68;
+    border-radius: 50%;
+  }
 
   .flow-step__meta {
-    margin-bottom: .5rem;
-    color: rgba(247,244,238,.55);
-    font-size: .64rem;
-    font-weight: 600;
-    letter-spacing: .08em;
+    margin: 0 0 1.3rem;
+    color: rgba(247,244,238,.5);
+    font-size: .62rem;
+    font-weight: 650;
+    letter-spacing: .09em;
     text-transform: uppercase;
   }
 
   .flow-step h3 {
     margin: 0;
-    color: #fff;
-    font-size: clamp(1.35rem, 2vw, 1.75rem);
-    font-weight: 600;
-    letter-spacing: -.018em;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(2.4rem, 4vw, 3.65rem);
+    font-weight: 520;
+    line-height: .95;
+    letter-spacing: -.035em;
   }
 
-  .flow-step p:last-child {
-    max-width: 48rem;
-    margin-top: .7rem;
-    color: rgba(247,244,238,.72);
-    font-size: .9rem;
-    line-height: 1.68;
+  .flow-step > strong {
+    display: block;
+    margin-top: .75rem;
+    color: #d4ad68;
+    font-size: .74rem;
+    font-weight: 650;
+  }
+
+  .flow-step__text {
+    max-width: 27rem;
+    margin-top: 1.15rem;
+    color: rgba(247,244,238,.67);
+    font-size: .84rem;
+    line-height: 1.67;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -698,14 +833,11 @@ const schema = {
     .ks-textlink:hover { gap: .78rem; color: var(--brass-deep); border-color: var(--brass-deep); }
     .ks-hero .ks-textlink:hover { color: #e0bd7a; border-color: #e0bd7a; }
     .work-shot:hover :global(img) { transform: scale(1.012); }
-    .capability:hover .capability__arrow { transform: translateX(.18rem); }
+    .service-row:hover::before { opacity: 1; transform: scaleY(1); }
+    .service-row:hover .service-row__arrow { transform: translateX(.2rem); }
   }
 
   @media (max-width: 64rem) {
-    .section-intro-grid,
-    .customer-value__inner,
-    .project-flow__grid { gap: 3.5rem; }
-
     .ks-hero__media::after {
       background:
         linear-gradient(90deg,
@@ -716,6 +848,13 @@ const schema = {
           rgba(18,17,16,0) 88%),
         linear-gradient(0deg, rgba(15,14,13,.10), rgba(15,14,13,0) 52%);
     }
+
+    .proof-rail__lead { display: none; }
+    .proof-rail__facts { justify-content: stretch; }
+    .proof-rail__facts > span { flex: 1; }
+
+    .customer-value__inner,
+    .capability-layout { gap: 4rem; }
   }
 
   @media (max-width: 56rem) {
@@ -725,42 +864,39 @@ const schema = {
     .ks-hero__copy { max-width: 37rem; }
     .ks-hero h1 { font-size: clamp(3.35rem, 10vw, 5rem); }
 
-    .section-intro-grid,
+    .work-intro,
     .customer-value__inner,
-    .project-flow__grid {
+    .capability-layout,
+    .flow-head {
       grid-template-columns: 1fr;
       gap: 2.5rem;
     }
 
-    .section-intro-grid { align-items: start; }
-
-    .work-editorial {
+    .work-stage {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: clamp(24rem, 70vw, 34rem) 16rem;
-      min-height: 0;
     }
 
     .work-shot--main { grid-column: 1 / -1; grid-row: 1; }
-    .work-shot--detail { grid-row: 2; }
-
-    .benefit-grid,
-    .capability-list { grid-template-columns: 1fr; }
-
-    .benefit,
-    .benefit:nth-child(even) {
-      min-height: 0;
-      padding: 1.6rem 0;
-      border-left: 0;
+    .work-shot--top { grid-column: 1; grid-row: 2; }
+    .work-shot--overlap {
+      grid-column: 2;
+      grid-row: 2;
+      margin: 0;
+      border: 0;
     }
 
-    .benefit__icon { margin-bottom: 1.5rem; }
+    .work-note { grid-template-columns: 1fr 1.5fr; gap: 2rem; }
 
-    .capability,
-    .capability:nth-child(even) {
-      min-height: 6.8rem;
-      padding: 1.25rem 0;
-      border-left: 0;
-    }
+    .value-manifest h2 { max-width: 13ch; }
+    .value-conclusion { grid-template-columns: 8rem 1fr; }
+
+    .capability-intro { position: static; }
+    .capability-intro h2 { max-width: 12ch; }
+
+    .flow-head { margin-bottom: 4.5rem; }
+    .flow-path { gap: 2rem; }
+    .flow-step h3 { font-size: clamp(2.15rem, 6vw, 3rem); }
   }
 
   @media (max-width: 40rem) {
@@ -787,47 +923,95 @@ const schema = {
     .ks-hero__lead { font-size: .97rem; line-height: 1.65; }
     .ks-hero__actions { align-items: flex-start; gap: 1rem; }
 
-    .work-editorial {
-      grid-template-columns: 1fr;
-      grid-template-rows: 20rem 14rem 14rem;
-    }
-
-    .work-shot--main,
-    .work-shot--detail { grid-column: 1; grid-row: auto; }
-  }
-
-  @media (max-width: 36rem) {
-    .proof-rail__grid { grid-template-columns: 1fr 1fr; }
-
-    .proof-rail__grid > div,
-    .proof-rail__grid > div:first-child,
-    .proof-rail__grid > div:last-child {
-      min-height: 0;
-      padding: 1rem .75rem 1rem 0;
+    .proof-rail__line { min-height: 0; }
+    .proof-rail__facts { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+    .proof-rail__facts > span {
+      min-width: 0;
+      padding: .9rem .7rem .9rem 0;
+      border-left: 0;
       border-bottom: 1px solid var(--line);
     }
-
-    .proof-rail__grid > div:nth-child(even) { padding-right: 0; padding-left: .75rem; border-right: 0; }
-    .proof-rail__grid > div:nth-last-child(-n + 2) { border-bottom: 0; }
+    .proof-rail__facts > span:nth-child(even) { padding-left: .7rem; border-left: 1px solid var(--line); }
+    .proof-rail__facts > span:nth-last-child(-n + 2) { border-bottom: 0; }
 
     .selected-work,
     .customer-value,
     .capabilities,
     .project-flow { padding-block: 4rem; }
 
-    .section-intro-grid h2,
-    .customer-value h2,
-    .project-flow h2 { font-size: clamp(2.2rem, 10vw, 3rem); }
+    .work-intro h2,
+    .value-manifest h2,
+    .capability-intro h2,
+    .flow-head h2 { font-size: clamp(2.25rem, 10vw, 3rem); }
+
+    .work-stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: 22rem 14rem 14rem;
+    }
+
+    .work-shot--main,
+    .work-shot--top,
+    .work-shot--overlap { grid-column: 1; grid-row: auto; }
 
     .work-shot__caption { display: grid; justify-content: start; gap: .25rem; }
     .work-shot__caption strong { text-align: left; }
-    .capability { gap: .9rem; }
+
+    .work-note { grid-template-columns: 1fr; gap: .7rem; }
+    .work-note strong { font-size: 1.25rem; }
+
+    .principle { grid-template-columns: 2.6rem 1fr; gap: 1rem; padding-block: 1.4rem; }
+    .principle h3 { font-size: 1.25rem; }
+
+    .value-conclusion {
+      grid-template-columns: 1fr;
+      gap: .7rem;
+      padding-top: 2rem;
+    }
+    .value-conclusion > span { grid-row: auto; }
+    .value-conclusion strong { font-size: 1.45rem; }
+
+    .service-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .35rem 1rem;
+      min-height: 0;
+      padding-block: 1.2rem;
+    }
+    .service-row__title { font-size: 1.25rem; }
+    .service-row__text { grid-column: 1; font-size: .76rem; }
+    .service-row__arrow { grid-column: 2; grid-row: 1 / 3; }
+
+    .flow-head { margin-bottom: 3.7rem; }
+    .flow-path {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-top: 0;
+      border-top: 0;
+      border-left: 1px solid rgba(247,244,238,.2);
+    }
+    .flow-path::before {
+      top: 0;
+      bottom: auto;
+      left: -1px;
+      width: 2px;
+      height: 34%;
+    }
+    .flow-step {
+      padding: 0 0 2.8rem 1.5rem;
+    }
+    .flow-step:last-child { padding-bottom: 0; }
+    .flow-step__marker {
+      top: .15rem;
+      left: -.45rem;
+    }
+    .flow-step__meta { margin-bottom: .8rem; }
+    .flow-step h3 { font-size: 2.45rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ks-button,
     .ks-textlink,
     .work-shot :global(img),
-    .capability__arrow { transition: none; }
+    .service-row::before,
+    .service-row__arrow { transition: none; }
   }
 </style>
