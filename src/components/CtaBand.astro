@@ -84,13 +84,14 @@ const {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: .8rem .8rem .8rem 1.15rem;
+    padding: 0 0 0 1.15rem;
+    overflow: hidden;
     color: #2a2b2e;
     background: rgba(255,255,255,.22);
     border: 1px solid rgba(118,80,29,.42);
     box-shadow: 0 .45rem 1.2rem rgba(48,38,24,.035);
     font-size: .94rem;
-    font-weight: 580;
+    font-weight: 600;
     letter-spacing: -.01em;
     text-decoration: none;
     transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
@@ -98,12 +99,14 @@ const {
 
   .cta-link__icon {
     display: grid;
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 3.65rem;
+    align-self: stretch;
     flex: 0 0 auto;
     place-items: center;
-    color: #8a6024;
-    border-left: 1px solid rgba(118,80,29,.22);
+    color: #fff;
+    background: var(--brass-deep);
+    border-left: 0;
+    transition: background-color 180ms ease;
   }
 
   .cta-link__icon svg {
@@ -115,12 +118,13 @@ const {
   @media (hover: hover) and (pointer: fine) {
     .cta-link:hover {
       color: #17181b;
-      background: rgba(255,255,255,.48);
+      background: rgba(255,255,255,.52);
       border-color: rgba(118,80,29,.68);
       box-shadow: 0 .7rem 1.7rem rgba(48,38,24,.065);
       transform: translateY(-1px);
     }
 
+    .cta-link:hover .cta-link__icon { background: var(--brass); }
     .cta-link:hover .cta-link__icon svg { transform: translateX(.16rem); }
   }
 
@@ -134,6 +138,7 @@ const {
     .cta-side { gap: 1.55rem; }
     .cta-side p { line-height: 1.65; }
     .cta-link { width: min(100%, 34rem); min-height: 3.35rem; }
+    .cta-link__icon { width: 3.35rem; }
   }
 
   @media (max-width: 36rem) {
@@ -148,10 +153,12 @@ const {
     .cta-side { gap: 1.35rem; }
     .cta-side p { font-size: .96rem; line-height: 1.62; }
     .cta-link { width: 100%; min-height: 3.15rem; }
+    .cta-link__icon { width: 3.15rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .cta-link,
+    .cta-link__icon,
     .cta-link__icon svg { transition: none; }
   }
 </style>
