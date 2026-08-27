@@ -68,8 +68,11 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
 
   .services-hero h1 {
     max-width: 12ch;
+    min-width: 0;
     font-size: clamp(3.3rem, 6vw, 5.8rem);
     line-height: .92;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .services-hero__copy {
@@ -223,13 +226,25 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
   }
 
   @media (max-width: 36rem) {
-    .services-hero { padding-block: 4.5rem 3.5rem; }
-    .services-hero h1 { font-size: clamp(3rem, 13vw, 4.2rem); }
+    .services-hero { padding-block: 4.25rem 3.35rem; }
+    .services-hero h1 {
+      max-width: 100%;
+      font-size: clamp(2.62rem, 11vw, 3.55rem);
+      line-height: .94;
+      letter-spacing: -.038em;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: auto;
+    }
     .services-editorial { padding-block: 3.5rem 4.25rem; }
     .services-list { gap: 4.5rem; }
     .service-story { gap: 1.6rem; }
     .service-story__media { min-height: 18rem; }
     .service-story h2 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
+  }
+
+  @media (max-width: 22rem) {
+    .services-hero h1 { font-size: 2.45rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
