@@ -1,0 +1,59 @@
+/* Mobile/WebKit stability layer.
+   Keep the visual language, but avoid expensive continuously composited effects
+   on touch devices and make Safari fall back to static, fully visible content. */
+
+@media (max-width: 56rem) and (hover: none) and (pointer: coarse) {
+  .site-header,
+  .site-header.is-scrolled {
+    background: #fdfcf9 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 .35rem 1.25rem rgba(28, 29, 31, .045) !important;
+  }
+
+  .mobile-cta {
+    background: #fdfcf9 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 .45rem 1.35rem rgba(23, 24, 27, .11) !important;
+  }
+
+  .ks-hero__media img {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .site-nav {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* iOS Safari receives an explicit class from Base.astro.
+   Complex entrance choreography is intentionally flattened there: motion must
+   never be able to hide or strand content on a phone. */
+html.ios-safari .proof-motion-ready .proof-score::after,
+html.ios-safari .proof-motion-ready .proof-quote__rail {
+  transform: none !important;
+  transition: none !important;
+}
+
+html.ios-safari .proof-motion-ready .proof-score__rating,
+html.ios-safari .proof-motion-ready .proof-score__bottom,
+html.ios-safari .proof-motion-ready .proof-quote__topline,
+html.ios-safari .proof-motion-ready .proof-quote blockquote,
+html.ios-safari .proof-motion-ready .proof-quote figcaption,
+html.ios-safari .proof-motion-ready .proof-score__stars i {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html.ios-safari .reveal,
+html.ios-safari .reveal.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
