@@ -20,8 +20,8 @@
     "@astrojs/sitemap": "^3.3.0",
     "@fontsource-variable/ibm-plex-sans": "^5.3.0",
     "@fontsource/ibm-plex-sans-condensed": "^5.3.0",
-    "astro": "^5.7.0",
-    "nodemailer": "^9.0.3"
+    "astro": "^7.2.5",
+    "nodemailer": "^9.0.5"
   },
   "license": "UNLICENSED"
 }
