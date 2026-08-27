@@ -5,10 +5,10 @@ import CtaBand from '../components/CtaBand.astro';
 import settings from '../data/settings.json';
 
 const werte = [
-  { title: 'Ehrliche Beratung', text: 'Transparent, verständlich und immer passend zu Ihrem Zuhause. Vertrauen von Anfang an.' },
-  { title: 'Klare Kommunikation', text: 'Sie behalten während des gesamten Projekts den Überblick und wissen immer, wo Sie stehen.' },
-  { title: 'Präzise Umsetzung', text: 'Saubere handwerkliche Arbeit statt schneller Kompromisslösungen. Qualität, die bleibt.' },
-  { title: 'Unser Anspruch', text: 'Wir setzen jedes Projekt so um, als wäre es unser eigenes – bis zum letzten Abschluss.' }
+  { title: 'Ehrliche Beratung', text: 'Wir sagen, was sinnvoll ist – und auch, was sich nicht lohnt.' },
+  { title: 'Klare Abstimmung', text: 'Material, Maße, Anschlüsse und Termine werden vor der Ausführung geklärt.' },
+  { title: 'Präzise Ausführung', text: 'Saubere Anschlüsse, stimmige Details und ein ordentliches Ergebnis stehen im Mittelpunkt.' },
+  { title: 'Blick fürs Ganze', text: 'Boden, Türen, Trockenbau und Übergänge sollen am Ende selbstverständlich zusammenpassen.' }
 ];
 ---
 <Base
@@ -22,16 +22,16 @@ const werte = [
         <h1>Innenausbau, der wirklich passt.</h1>
       </div>
       <p class="lead">
-        Hinter {settings.marke} steht Kevin Schmieding, Bauschreiner aus Wittlich. Es geht nicht nur darum,
-        etwas einzubauen – sondern darum, dass am Ende alles sauber passt, langlebig ist und optisch überzeugt.
+        Hinter {settings.marke} steht Kevin Schmieding, Bauschreiner aus Wittlich. Entscheidend ist nicht nur,
+        dass etwas eingebaut wird – sondern dass Materialien, Anschlüsse und Details am Ende sauber zusammenpassen.
       </p>
     </div>
   </section>
 
   <section class="section section--sand" aria-labelledby="werte-titel">
     <div class="wrap">
-      <p class="eyebrow">Was uns ausmacht</p>
-      <h2 id="werte-titel">Vier Grundsätze, jede Baustelle.</h2>
+      <p class="eyebrow">Zusammenarbeit</p>
+      <h2 id="werte-titel">Was auf jeder Baustelle zählt.</h2>
       <div class="werte">
         {werte.map((wert, index) => (
           <div class="wert reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
