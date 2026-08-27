@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -16,33 +14,40 @@ concurrency:
 
 jobs:
   build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Repository auschecken
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Astro bauen und Artefakt hochladen
-        uses: withastro/action@v6
+        uses: withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b280853 # v6
         with:
           node-version: 24
 
   quality:
     name: Visual & Quality QA
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     env:
       QA_BASE_URL: http://127.0.0.1:4321/wunschausbau_2
     steps:
       - name: Repository auschecken
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Node einrichten
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
 
       - name: Projekt installieren
         run: npm ci
+
+      - name: Produktionsabhängigkeiten prüfen
+        run: npm audit --omit=dev --audit-level=high
 
       - name: QA-Build erzeugen
         run: npm run build
@@ -107,7 +112,7 @@ jobs:
 
       - name: Screenshots und Reports hochladen
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: visual-qa-${{ github.sha }}
           path: qa-artifacts/
@@ -127,6 +132,9 @@ jobs:
 
   deploy:
     needs: [build, quality]
+    permissions:
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -134,4 +142,4 @@ jobs:
     steps:
       - name: GitHub Pages veröffentlichen
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
