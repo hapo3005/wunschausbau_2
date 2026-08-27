@@ -35,6 +35,11 @@
 /* iOS Safari receives an explicit class from Base.astro.
    Complex entrance choreography is intentionally flattened there: motion must
    never be able to hide or strand content on a phone. */
+html.ios-safari .site-nav,
+html.ios-safari .menu-btn span {
+  transition: none !important;
+}
+
 html.ios-safari .proof-motion-ready .proof-score::after,
 html.ios-safari .proof-motion-ready .proof-quote__rail {
   transform: none !important;
