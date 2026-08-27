@@ -36,24 +36,24 @@ html body main#inhalt > section.ks-hero .ks-hero__media {
 html body main#inhalt > section.ks-hero .ks-hero__media img {
   object-fit: cover !important;
   object-position: 66% 52% !important;
-  filter: saturate(.94) contrast(1.035) brightness(.86) !important;
-  transform: scale(1.012) !important;
+  filter: saturate(.99) contrast(1.02) brightness(1.03) !important;
+  transform: scale(1.008) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__media::after {
   z-index: 1 !important;
   background:
     linear-gradient(90deg,
-      rgba(18,17,16,.86) 0%,
-      rgba(18,17,16,.74) 24%,
-      rgba(18,17,16,.50) 40%,
-      rgba(18,17,16,.20) 56%,
-      rgba(18,17,16,.04) 74%,
-      rgba(18,17,16,0) 100%),
+      rgba(18,17,16,.50) 0%,
+      rgba(18,17,16,.36) 25%,
+      rgba(18,17,16,.20) 43%,
+      rgba(18,17,16,.08) 59%,
+      rgba(18,17,16,.02) 72%,
+      rgba(18,17,16,0) 82%),
     linear-gradient(0deg,
-      rgba(15,14,13,.34) 0%,
-      rgba(15,14,13,.06) 36%,
-      rgba(15,14,13,0) 70%) !important;
+      rgba(15,14,13,.18) 0%,
+      rgba(15,14,13,.04) 34%,
+      rgba(15,14,13,0) 68%) !important;
   content: '' !important;
 }
 
@@ -68,8 +68,8 @@ html body main#inhalt > section.ks-hero .ks-hero__inner {
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__copy {
-  width: min(100%, 41rem) !important;
-  max-width: 41rem !important;
+  width: min(100%, 39rem) !important;
+  max-width: 39rem !important;
   margin: 0 !important;
   padding: 0 !important;
   color: #fff !important;
@@ -90,10 +90,10 @@ html body main#inhalt > section.ks-hero .eyebrow {
   gap: .85rem !important;
   margin: 0 0 clamp(1.35rem, 2.2vw, 1.75rem) !important;
   padding: 0 !important;
-  color: #d7b16c !important;
+  color: #e0bd7a !important;
   font-family: var(--font-text) !important;
   font-size: .67rem !important;
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   letter-spacing: .14em !important;
   line-height: 1.5 !important;
   text-transform: uppercase !important;
@@ -104,7 +104,7 @@ html body main#inhalt > section.ks-hero .eyebrow::before {
   width: 2.8rem !important;
   height: 1px !important;
   flex: 0 0 2.8rem !important;
-  background: rgba(215,177,108,.72) !important;
+  background: rgba(224,189,122,.82) !important;
   content: '' !important;
 }
 
@@ -120,6 +120,7 @@ html body main#inhalt > section.ks-hero h1 {
   letter-spacing: -.042em !important;
   line-height: .9 !important;
   text-wrap: balance !important;
+  text-shadow: 0 1px 18px rgba(0,0,0,.10) !important;
 }
 
 html body main#inhalt > section.ks-hero h1 span,
@@ -143,11 +144,12 @@ html body main#inhalt > section.ks-hero h1 small {
 html body main#inhalt > section.ks-hero .ks-hero__lead {
   max-width: 32rem !important;
   margin: clamp(1.45rem, 2.3vw, 1.9rem) 0 0 !important;
-  color: rgba(255,255,255,.76) !important;
+  color: rgba(255,255,255,.90) !important;
   font-family: var(--font-text) !important;
   font-size: clamp(1rem, 1.15vw, 1.08rem) !important;
-  font-weight: 400 !important;
+  font-weight: 450 !important;
   line-height: 1.7 !important;
+  text-shadow: 0 1px 14px rgba(0,0,0,.12) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__actions {
@@ -184,15 +186,15 @@ html body main#inhalt > section.ks-hero .ks-textlink {
   align-items: center !important;
   gap: .5rem !important;
   padding: .38rem 0 !important;
-  color: rgba(255,255,255,.88) !important;
+  color: rgba(255,255,255,.94) !important;
   background: transparent !important;
   border: 0 !important;
-  border-bottom: 1px solid rgba(255,255,255,.42) !important;
+  border-bottom: 1px solid rgba(255,255,255,.58) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   font-family: var(--font-text) !important;
   font-size: .88rem !important;
-  font-weight: 550 !important;
+  font-weight: 600 !important;
   text-decoration: none !important;
   transition: color 180ms ease, border-color 180ms ease, gap 180ms ease !important;
 }
@@ -265,8 +267,8 @@ html body main#inhalt > section.proof-rail span {
 
   html body main#inhalt > section.ks-hero .ks-textlink:hover {
     gap: .75rem !important;
-    color: #d7b16c !important;
-    border-bottom-color: #d7b16c !important;
+    color: #e0bd7a !important;
+    border-bottom-color: #e0bd7a !important;
   }
 }
 
@@ -278,11 +280,11 @@ html body main#inhalt > section.proof-rail span {
   html body main#inhalt > section.ks-hero .ks-hero__media::after {
     background:
       linear-gradient(90deg,
-        rgba(18,17,16,.88) 0%,
-        rgba(18,17,16,.75) 34%,
-        rgba(18,17,16,.48) 55%,
-        rgba(18,17,16,.10) 80%),
-      linear-gradient(0deg, rgba(15,14,13,.34), rgba(15,14,13,0) 52%) !important;
+        rgba(18,17,16,.56) 0%,
+        rgba(18,17,16,.40) 34%,
+        rgba(18,17,16,.22) 55%,
+        rgba(18,17,16,.05) 80%),
+      linear-gradient(0deg, rgba(15,14,13,.18), rgba(15,14,13,0) 52%) !important;
   }
 }
 
@@ -332,16 +334,16 @@ html body main#inhalt > section.proof-rail span {
 
   html body main#inhalt > section.ks-hero .ks-hero__media img {
     object-position: 68% center !important;
-    filter: saturate(.92) contrast(1.035) brightness(.78) !important;
+    filter: saturate(.98) contrast(1.02) brightness(.95) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__media::after {
     background:
       linear-gradient(180deg,
-        rgba(18,17,16,.16) 0%,
-        rgba(18,17,16,.34) 34%,
-        rgba(18,17,16,.82) 72%,
-        rgba(18,17,16,.94) 100%) !important;
+        rgba(18,17,16,.06) 0%,
+        rgba(18,17,16,.14) 34%,
+        rgba(18,17,16,.46) 72%,
+        rgba(18,17,16,.68) 100%) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__inner {
