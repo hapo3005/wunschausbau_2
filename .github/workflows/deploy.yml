@@ -55,7 +55,7 @@ jobs:
       - name: Browser-QA Werkzeuge installieren
         run: |
           npm install --no-save --package-lock=false playwright@1.55.0 @axe-core/playwright@4.10.2 lighthouse@12.8.2
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
 
       - name: Lokale Preview starten
         run: |
@@ -81,6 +81,11 @@ jobs:
         continue-on-error: true
         run: node scripts/motion-qa.mjs
 
+      - name: WebKit iPhone QA
+        id: webkit
+        continue-on-error: true
+        run: node scripts/webkit-qa.mjs
+
       - name: Lighthouse Audit
         id: lighthouse
         continue-on-error: true
@@ -105,6 +110,10 @@ jobs:
           if [ -f qa-artifacts/motion-qa.md ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"
             cat qa-artifacts/motion-qa.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f qa-artifacts/webkit/webkit-qa.md ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat qa-artifacts/webkit/webkit-qa.md >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ -f qa-artifacts/lighthouse/lighthouse-summary.json ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -133,8 +142,9 @@ jobs:
         run: |
           echo "Visual QA: ${{ steps.visual.outcome }}"
           echo "Motion QA: ${{ steps.motion.outcome }}"
+          echo "WebKit iPhone QA: ${{ steps.webkit.outcome }}"
           echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
-          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
+          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
             echo "Quality Gate fehlgeschlagen – Deployment wird gestoppt."
             exit 1
           fi
