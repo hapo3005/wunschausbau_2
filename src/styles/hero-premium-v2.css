@@ -1,27 +1,22 @@
 /*
-  KS homepage hero — premium editorial overlay
-  Purpose: isolate the homepage hero from older global styling passes and create
-  a calm, architecture-led composition instead of a generic 50/50 split.
+  KS homepage hero — calm full-bleed composition
+  One photograph, one clear message, one primary action.
+  This file intentionally wins against older hero styling layers.
 */
 
 html body main#inhalt > section.ks-hero {
   position: relative !important;
   display: grid !important;
-  min-height: clamp(44rem, calc(100svh - 5.25rem), 56rem) !important;
-  align-items: stretch !important;
+  min-height: clamp(42rem, calc(100svh - 5.25rem), 54rem) !important;
+  align-items: center !important;
   overflow: hidden !important;
-  color: var(--ink) !important;
-  background: #cbc1b4 !important;
+  color: #fff !important;
+  background: #191817 !important;
   isolation: isolate;
 }
 
 html body main#inhalt > section.ks-hero::before {
-  position: absolute;
-  z-index: 3;
-  inset: clamp(.75rem, 1.25vw, 1.1rem);
-  border: 1px solid rgba(255,255,255,.22);
-  content: '';
-  pointer-events: none;
+  display: none !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__media,
@@ -40,83 +35,89 @@ html body main#inhalt > section.ks-hero .ks-hero__media {
 
 html body main#inhalt > section.ks-hero .ks-hero__media img {
   object-fit: cover !important;
-  object-position: 64% 52% !important;
-  filter: saturate(.94) contrast(1.025) brightness(1.03) !important;
-  transform: scale(1.018) !important;
+  object-position: 66% 52% !important;
+  filter: saturate(.94) contrast(1.035) brightness(.86) !important;
+  transform: scale(1.012) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__media::after {
   z-index: 1 !important;
   background:
-    linear-gradient(180deg, rgba(20,20,18,.04) 0%, rgba(20,20,18,.00) 46%, rgba(20,20,18,.12) 100%),
-    linear-gradient(90deg, rgba(20,20,18,.16) 0%, rgba(20,20,18,.03) 36%, rgba(20,20,18,0) 68%) !important;
+    linear-gradient(90deg,
+      rgba(18,17,16,.86) 0%,
+      rgba(18,17,16,.74) 24%,
+      rgba(18,17,16,.50) 40%,
+      rgba(18,17,16,.20) 56%,
+      rgba(18,17,16,.04) 74%,
+      rgba(18,17,16,0) 100%),
+    linear-gradient(0deg,
+      rgba(15,14,13,.34) 0%,
+      rgba(15,14,13,.06) 36%,
+      rgba(15,14,13,0) 70%) !important;
   content: '' !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__inner {
   position: relative !important;
-  z-index: 4 !important;
-  display: grid !important;
+  z-index: 2 !important;
+  display: block !important;
   width: 100% !important;
-  min-height: inherit !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  align-items: end !important;
-  gap: clamp(2rem, 5vw, 5rem) !important;
-  padding-top: clamp(5rem, 9vw, 7.5rem) !important;
-  padding-bottom: clamp(4.25rem, 7vw, 6rem) !important;
+  min-height: 0 !important;
+  padding-top: clamp(5rem, 8vw, 7rem) !important;
+  padding-bottom: clamp(5rem, 8vw, 7rem) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__copy {
-  position: relative !important;
-  width: min(44rem, 52vw) !important;
-  max-width: none !important;
+  width: min(100%, 41rem) !important;
+  max-width: 41rem !important;
   margin: 0 !important;
-  padding: clamp(2.35rem, 4vw, 3.75rem) clamp(2.35rem, 4vw, 4rem) clamp(2.25rem, 3.6vw, 3.35rem) !important;
-  color: var(--ink) !important;
-  background: rgba(253,252,249,.955) !important;
-  border: 1px solid rgba(255,255,255,.68) !important;
-  box-shadow: 0 1.6rem 4rem rgba(25,22,18,.13) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(.9) !important;
-  backdrop-filter: blur(10px) saturate(.9) !important;
+  padding: 0 !important;
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__copy::before {
-  position: absolute;
-  top: 0;
-  left: clamp(2.35rem, 4vw, 4rem);
-  width: clamp(4.5rem, 8vw, 7rem);
-  height: 3px;
-  background: var(--brass) !important;
-  content: '';
+  display: none !important;
 }
 
 html body main#inhalt > section.ks-hero .eyebrow {
-  display: block !important;
-  margin: 0 0 clamp(1.2rem, 2vw, 1.65rem) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: .85rem !important;
+  margin: 0 0 clamp(1.35rem, 2.2vw, 1.75rem) !important;
   padding: 0 !important;
-  color: var(--brass-deep) !important;
+  color: #d7b16c !important;
   font-family: var(--font-text) !important;
-  font-size: .66rem !important;
+  font-size: .67rem !important;
   font-weight: 600 !important;
-  letter-spacing: .145em !important;
+  letter-spacing: .14em !important;
   line-height: 1.5 !important;
   text-transform: uppercase !important;
 }
 
 html body main#inhalt > section.ks-hero .eyebrow::before {
-  display: none !important;
+  display: block !important;
+  width: 2.8rem !important;
+  height: 1px !important;
+  flex: 0 0 2.8rem !important;
+  background: rgba(215,177,108,.72) !important;
+  content: '' !important;
 }
 
 html body main#inhalt > section.ks-hero h1 {
   display: grid !important;
   width: fit-content !important;
-  max-width: 10.5ch !important;
+  max-width: 9.3ch !important;
   margin: 0 !important;
-  color: var(--ink) !important;
+  color: #fff !important;
   font-family: var(--font-brand) !important;
-  font-size: clamp(3.7rem, 5.45vw, 5.55rem) !important;
+  font-size: clamp(3.7rem, 5.9vw, 6rem) !important;
   font-weight: 500 !important;
-  letter-spacing: -.044em !important;
+  letter-spacing: -.042em !important;
   line-height: .9 !important;
   text-wrap: balance !important;
 }
@@ -124,7 +125,7 @@ html body main#inhalt > section.ks-hero h1 {
 html body main#inhalt > section.ks-hero h1 span,
 html body main#inhalt > section.ks-hero h1 strong {
   display: block !important;
-  color: var(--ink) !important;
+  color: #fff !important;
 }
 
 html body main#inhalt > section.ks-hero h1 span {
@@ -136,44 +137,25 @@ html body main#inhalt > section.ks-hero h1 strong {
 }
 
 html body main#inhalt > section.ks-hero h1 small {
-  display: flex !important;
-  align-items: center !important;
-  gap: .9rem !important;
-  width: min(100%, 19rem) !important;
-  margin-top: clamp(.9rem, 1.5vw, 1.15rem) !important;
-  color: var(--brass-deep) !important;
-  font-family: var(--font-text) !important;
-  font-size: clamp(.72rem, .82vw, .82rem) !important;
-  font-weight: 650 !important;
-  letter-spacing: .11em !important;
-  line-height: 1.2 !important;
-  text-transform: uppercase !important;
-}
-
-html body main#inhalt > section.ks-hero h1 small::after {
-  width: clamp(3rem, 5vw, 4.8rem) !important;
-  height: 1px !important;
-  flex: 0 1 auto !important;
-  background: rgba(118,80,29,.38) !important;
-  content: '' !important;
+  display: none !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__lead {
-  max-width: 34rem !important;
-  margin: clamp(1.5rem, 2.35vw, 1.95rem) 0 0 !important;
-  color: #555a5f !important;
+  max-width: 32rem !important;
+  margin: clamp(1.45rem, 2.3vw, 1.9rem) 0 0 !important;
+  color: rgba(255,255,255,.76) !important;
   font-family: var(--font-text) !important;
-  font-size: clamp(.98rem, 1.08vw, 1.06rem) !important;
+  font-size: clamp(1rem, 1.15vw, 1.08rem) !important;
   font-weight: 400 !important;
-  line-height: 1.72 !important;
+  line-height: 1.7 !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__actions {
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: center !important;
-  gap: clamp(1.2rem, 2vw, 1.65rem) !important;
-  margin-top: clamp(1.8rem, 2.8vw, 2.3rem) !important;
+  gap: clamp(1.2rem, 2vw, 1.7rem) !important;
+  margin-top: clamp(1.9rem, 3vw, 2.45rem) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-button {
@@ -181,10 +163,10 @@ html body main#inhalt > section.ks-hero .ks-button {
   min-height: 3.45rem !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: .82rem 1.45rem !important;
-  color: #fff !important;
-  background: #1c1d1f !important;
-  border: 1px solid #1c1d1f !important;
+  padding: .82rem 1.5rem !important;
+  color: #1c1d1f !important;
+  background: #f8f5ee !important;
+  border: 1px solid #f8f5ee !important;
   box-shadow: none !important;
   font-family: var(--font-text) !important;
   font-size: .9rem !important;
@@ -192,6 +174,7 @@ html body main#inhalt > section.ks-hero .ks-button {
   letter-spacing: 0 !important;
   line-height: 1.2 !important;
   text-decoration: none !important;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-textlink {
@@ -199,51 +182,29 @@ html body main#inhalt > section.ks-hero .ks-textlink {
   width: fit-content !important;
   min-height: 0 !important;
   align-items: center !important;
-  gap: .55rem !important;
-  padding: .4rem 0 !important;
-  color: var(--ink) !important;
+  gap: .5rem !important;
+  padding: .38rem 0 !important;
+  color: rgba(255,255,255,.88) !important;
   background: transparent !important;
   border: 0 !important;
-  border-bottom: 1px solid rgba(28,29,31,.36) !important;
+  border-bottom: 1px solid rgba(255,255,255,.42) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   font-family: var(--font-text) !important;
   font-size: .88rem !important;
   font-weight: 550 !important;
   text-decoration: none !important;
+  transition: color 180ms ease, border-color 180ms ease, gap 180ms ease !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__location {
-  position: absolute !important;
-  right: clamp(1.8rem, 3vw, 3rem) !important;
-  bottom: clamp(2rem, 3.4vw, 3rem) !important;
-  display: grid !important;
-  min-width: 15.5rem !important;
-  justify-items: end !important;
-  gap: .35rem !important;
-  padding: .9rem 1rem .9rem 1.2rem !important;
-  color: rgba(255,255,255,.68) !important;
-  background: rgba(18,18,18,.56) !important;
-  border: 1px solid rgba(255,255,255,.14) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  backdrop-filter: blur(8px) !important;
-  font-size: .61rem !important;
-  font-weight: 500 !important;
-  letter-spacing: .095em !important;
-  line-height: 1.5 !important;
-  text-align: right !important;
-  text-transform: uppercase !important;
+  display: none !important;
 }
 
-html body main#inhalt > section.ks-hero .ks-hero__location strong {
-  color: #fff !important;
-  font-weight: 650 !important;
-}
-
-/* Slim, quiet proof band. It should support the hero, not compete with it. */
+/* Quiet trust rail below the hero. No floating cards, no overlap. */
 html body main#inhalt > section.proof-rail {
   position: relative !important;
-  z-index: 5 !important;
+  z-index: 1 !important;
   margin: 0 !important;
   padding: 0 !important;
   background: var(--paper) !important;
@@ -253,9 +214,8 @@ html body main#inhalt > section.proof-rail {
 
 html body main#inhalt > section.proof-rail .proof-rail__grid {
   display: grid !important;
-  grid-template-columns: 1fr 1fr 1.25fr .85fr !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   border: 0 !important;
-  border-top: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -264,10 +224,10 @@ html body main#inhalt > section.proof-rail .proof-rail__grid > div,
 html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child,
 html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
   display: grid !important;
-  min-height: 5.3rem !important;
+  min-height: 5.2rem !important;
   align-content: center !important;
   gap: .28rem !important;
-  padding: 1rem clamp(1rem, 2vw, 1.65rem) !important;
+  padding: 1rem clamp(1rem, 2vw, 1.5rem) !important;
   border-right: 1px solid var(--line) !important;
   border-bottom: 0 !important;
 }
@@ -284,9 +244,9 @@ html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
 html body main#inhalt > section.proof-rail strong {
   color: var(--ink) !important;
   font-family: var(--font-brand) !important;
-  font-size: clamp(1.08rem, 1.35vw, 1.28rem) !important;
+  font-size: clamp(1.05rem, 1.3vw, 1.24rem) !important;
   font-weight: 600 !important;
-  letter-spacing: -.015em !important;
+  letter-spacing: -.014em !important;
   line-height: 1.05 !important;
 }
 
@@ -298,54 +258,51 @@ html body main#inhalt > section.proof-rail span {
 
 @media (hover: hover) and (pointer: fine) {
   html body main#inhalt > section.ks-hero .ks-button:hover {
-    color: #fff !important;
-    background: var(--brass-deep) !important;
-    border-color: var(--brass-deep) !important;
+    background: #fff !important;
+    border-color: #fff !important;
+    transform: translateY(-1px) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-textlink:hover {
-    gap: .78rem !important;
-    color: var(--brass-deep) !important;
-    border-bottom-color: var(--brass-deep) !important;
+    gap: .75rem !important;
+    color: #d7b16c !important;
+    border-bottom-color: #d7b16c !important;
   }
 }
 
-@media (max-width: 68rem) {
-  html body main#inhalt > section.ks-hero .ks-hero__copy {
-    width: min(41rem, 61vw) !important;
+@media (max-width: 64rem) {
+  html body main#inhalt > section.ks-hero .ks-hero__media img {
+    object-position: 65% center !important;
   }
 
-  html body main#inhalt > section.ks-hero h1 {
-    font-size: clamp(3.45rem, 6vw, 5rem) !important;
+  html body main#inhalt > section.ks-hero .ks-hero__media::after {
+    background:
+      linear-gradient(90deg,
+        rgba(18,17,16,.88) 0%,
+        rgba(18,17,16,.75) 34%,
+        rgba(18,17,16,.48) 55%,
+        rgba(18,17,16,.10) 80%),
+      linear-gradient(0deg, rgba(15,14,13,.34), rgba(15,14,13,0) 52%) !important;
   }
 }
 
 @media (max-width: 56rem) {
   html body main#inhalt > section.ks-hero {
-    min-height: 46rem !important;
-  }
-
-  html body main#inhalt > section.ks-hero::before {
-    inset: .65rem !important;
-  }
-
-  html body main#inhalt > section.ks-hero .ks-hero__media img {
-    object-position: 67% center !important;
+    min-height: 44rem !important;
+    align-items: end !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__inner {
-    grid-template-columns: 1fr !important;
-    align-items: end !important;
     padding-top: 8rem !important;
-    padding-bottom: 2.5rem !important;
+    padding-bottom: 4rem !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__copy {
-    width: min(39rem, 92vw) !important;
+    max-width: 37rem !important;
   }
 
-  html body main#inhalt > section.ks-hero .ks-hero__location {
-    display: none !important;
+  html body main#inhalt > section.ks-hero h1 {
+    font-size: clamp(3.4rem, 10vw, 5rem) !important;
   }
 
   html body main#inhalt > section.proof-rail .proof-rail__grid {
@@ -370,53 +327,52 @@ html body main#inhalt > section.proof-rail span {
 
 @media (max-width: 40rem) {
   html body main#inhalt > section.ks-hero {
-    min-height: 43rem !important;
+    min-height: 41rem !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__media img {
-    object-position: 73% center !important;
-    filter: saturate(.92) contrast(1.02) brightness(.9) !important;
+    object-position: 68% center !important;
+    filter: saturate(.92) contrast(1.035) brightness(.78) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__media::after {
-    background: linear-gradient(180deg, rgba(20,20,18,.06) 0%, rgba(20,20,18,.14) 52%, rgba(20,20,18,.34) 100%) !important;
+    background:
+      linear-gradient(180deg,
+        rgba(18,17,16,.16) 0%,
+        rgba(18,17,16,.34) 34%,
+        rgba(18,17,16,.82) 72%,
+        rgba(18,17,16,.94) 100%) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__inner {
-    padding-top: 10rem !important;
-    padding-bottom: 1.25rem !important;
+    padding-top: 12rem !important;
+    padding-bottom: 3.4rem !important;
   }
 
-  html body main#inhalt > section.ks-hero .ks-hero__copy {
-    width: 100% !important;
-    padding: 1.75rem 1.45rem 1.65rem !important;
-    background: rgba(253,252,249,.965) !important;
-    box-shadow: 0 1rem 2.8rem rgba(25,22,18,.16) !important;
+  html body main#inhalt > section.ks-hero .eyebrow {
+    font-size: .61rem !important;
   }
 
-  html body main#inhalt > section.ks-hero .ks-hero__copy::before {
-    left: 1.45rem !important;
+  html body main#inhalt > section.ks-hero .eyebrow::before {
+    width: 2rem !important;
+    flex-basis: 2rem !important;
   }
 
   html body main#inhalt > section.ks-hero h1 {
-    max-width: 9.5ch !important;
-    font-size: clamp(2.85rem, 12vw, 3.8rem) !important;
-    line-height: .92 !important;
+    max-width: 8.5ch !important;
+    font-size: clamp(3rem, 13vw, 4.2rem) !important;
+    line-height: .91 !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__lead {
-    font-size: .94rem !important;
+    max-width: 29rem !important;
+    font-size: .96rem !important;
     line-height: 1.65 !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__actions {
     align-items: flex-start !important;
-    gap: .85rem !important;
-  }
-
-  html body main#inhalt > section.ks-hero .ks-button {
-    min-height: 3.2rem !important;
-    padding-inline: 1.15rem !important;
+    gap: 1rem !important;
   }
 
   html body main#inhalt > section.proof-rail .proof-rail__grid {
@@ -426,8 +382,8 @@ html body main#inhalt > section.proof-rail span {
   html body main#inhalt > section.proof-rail .proof-rail__grid > div,
   html body main#inhalt > section.proof-rail .proof-rail__grid > div:first-child,
   html body main#inhalt > section.proof-rail .proof-rail__grid > div:last-child {
-    min-height: 4.4rem !important;
-    padding: .8rem 0 !important;
+    min-height: 0 !important;
+    padding: .9rem 0 !important;
     border-right: 0 !important;
     border-bottom: 1px solid var(--line) !important;
   }
