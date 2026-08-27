@@ -29,11 +29,36 @@ function fail(kind, message, meta = {}) {
 }
 
 async function settle(page) {
-  await page.waitForLoadState('networkidle', { timeout: 6_000 }).catch(() => {});
+  await page.evaluate(() => {
+    for (const img of document.images) img.loading = 'eager';
+  });
+
+  await page.waitForLoadState('networkidle', { timeout: 7_000 }).catch(() => {});
+
   await page.evaluate(async () => {
     if (document.fonts?.ready) await document.fonts.ready;
+
+    const waitForImage = async (img) => {
+      if (img.complete) {
+        try { await img.decode?.(); } catch {}
+        return;
+      }
+
+      await Promise.race([
+        new Promise((resolve) => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        }),
+        new Promise((resolve) => setTimeout(resolve, 4_000))
+      ]);
+
+      try { await img.decode?.(); } catch {}
+    };
+
+    await Promise.all([...document.images].map(waitForImage));
   });
-  await page.waitForTimeout(180);
+
+  await page.waitForTimeout(120);
 }
 
 try {
@@ -81,12 +106,17 @@ try {
           const style = getComputedStyle(el);
           return style.visibility === 'hidden' || Number(style.opacity) < 0.85;
         }).length;
+        const brokenImages = [...document.images]
+          .filter((img) => img.complete && img.naturalWidth === 0)
+          .map((img) => img.currentSrc || img.src || img.alt || '<image>');
+
         return {
           iosClass: root.classList.contains('ios-safari'),
           h1Count,
           viewportWidth: root.clientWidth,
           scrollWidth: Math.max(root.scrollWidth, document.body.scrollWidth),
-          hiddenReveal
+          hiddenReveal,
+          brokenImages
         };
       });
 
@@ -102,6 +132,9 @@ try {
       if (initial.hiddenReveal > 0) {
         fail('visibility', `${initial.hiddenReveal} Reveal-Elemente sind auf iPhone nicht vollständig sichtbar`, { profile: profile.key, route: route.key });
       }
+      if (initial.brokenImages.length) {
+        fail('images', `Defekte Bilder nach vollständigem Laden: ${initial.brokenImages.join(', ')}`, { profile: profile.key, route: route.key });
+      }
 
       await page.screenshot({ path: path.join(outDir, `${route.key}-${profile.key}-top.png`), fullPage: false });
 
@@ -113,7 +146,7 @@ try {
       for (const checkpoint of checkpoints) {
         const y = Math.round(maxScroll * checkpoint);
         await page.evaluate((scrollY) => window.scrollTo(0, scrollY), y);
-        await page.waitForTimeout(160);
+        await page.waitForTimeout(180);
 
         const state = await page.evaluate(() => {
           const root = document.documentElement;
@@ -125,18 +158,11 @@ try {
             const style = getComputedStyle(el);
             return style.visibility === 'hidden' || Number(style.opacity) < 0.85;
           }).length;
-          const brokenVisibleImages = [...document.images]
-            .filter((img) => {
-              const rect = img.getBoundingClientRect();
-              return rect.bottom >= -200 && rect.top <= innerHeight + 200 && img.complete && img.naturalWidth === 0;
-            })
-            .map((img) => img.currentSrc || img.src || img.alt || '<image>');
 
           return {
             scrollWidth: Math.max(root.scrollWidth, document.body.scrollWidth),
             viewportWidth: root.clientWidth,
             hiddenReveal,
-            brokenVisibleImages,
             headerTop: headerRect?.top ?? null,
             headerBottom: headerRect?.bottom ?? null
           };
@@ -147,9 +173,6 @@ try {
         }
         if (state.hiddenReveal > 0) {
           fail('visibility-scroll', `${state.hiddenReveal} sichtbare Elemente hängen in einem transparenten Zustand`, { profile: profile.key, route: route.key, checkpoint });
-        }
-        if (state.brokenVisibleImages.length) {
-          fail('images', `Defekte sichtbare Bilder: ${state.brokenVisibleImages.join(', ')}`, { profile: profile.key, route: route.key, checkpoint });
         }
         if (state.headerTop !== null && (state.headerTop < -2 || state.headerBottom <= 0)) {
           fail('sticky-header', 'Sticky Header ist beim iPhone-Scrollen aus dem sichtbaren Bereich geraten', { profile: profile.key, route: route.key, checkpoint, headerTop: state.headerTop });
@@ -189,10 +212,10 @@ try {
       }
 
       if (browserErrors.length) {
-        fail('browser', 'WebKit Browser-/Konsolenfehler erkannt', { profile: profile.key, route: route.key, errors: browserErrors });
+        fail('browser', 'WebKit Browser-/Konsolenfehler erkannt', { profile: profile.key, route: route.key, errors: [...new Set(browserErrors)] });
       }
       if (badResponses.length) {
-        fail('network', 'Fehlerhafte lokale Responses in WebKit erkannt', { profile: profile.key, route: route.key, responses: badResponses });
+        fail('network', 'Fehlerhafte lokale Responses in WebKit erkannt', { profile: profile.key, route: route.key, responses: [...new Set(badResponses)] });
       }
       if (crashed) {
         fail('crash', 'WebKit-Seite ist während des Tests abgestürzt', { profile: profile.key, route: route.key });
@@ -240,7 +263,7 @@ const lines = [
 if (failures.length) {
   for (const entry of failures) lines.push(`- **${entry.kind}** – ${entry.message} (${entry.profile || '-'} / ${entry.route || '-'})`);
 } else {
-  lines.push('WebKit blieb stabil: kein Crash, kein horizontaler Überlauf, keine unsichtbaren Reveal-Inhalte und keine Browser-/Netzwerkfehler in den getesteten iPhone-Profilen.');
+  lines.push('WebKit blieb stabil: kein Crash, kein horizontaler Überlauf, keine unsichtbaren Inhalte, keine defekten Bilder und keine Browser-/Netzwerkfehler in den getesteten iPhone-Profilen.');
 }
 
 await fs.writeFile(path.join(outDir, 'webkit-qa.md'), `${lines.join('\n')}\n`);
