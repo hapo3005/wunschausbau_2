@@ -4,7 +4,7 @@
   Goal: work first, proof second, interface last.
 */
 
-/* Hero: reduce billboard behaviour and give the room more authority. */
+/* Legacy hero selectors retained for older pages/components only. */
 main .hero {
   min-height: clamp(39rem, 82svh, 50rem) !important;
   align-items: center !important;
@@ -250,11 +250,7 @@ main .process article p {
   line-height: 1.65 !important;
 }
 
-/* Social proof should remain image-led and bright. */
-main .testimonials {
-  background: var(--paper) !important;
-  border-top: 0 !important;
-}
+/* Current Testimonials component owns its own visual treatment. */
 
 /* Finish with a clear, compact invitation rather than another poster. */
 main .cta-section {
