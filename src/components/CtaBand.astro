@@ -125,22 +125,29 @@ const {
   }
 
   @media (max-width: 56rem) {
-    .cta-band { grid-template-columns: 1fr; gap: 2.4rem; }
+    .cta-section { padding-block: 3.75rem; }
+    .cta-band { grid-template-columns: 1fr; gap: 1.9rem; }
     .cta-copy,
     .cta-side,
     .cta-side p { max-width: 42rem; }
-    .cta-link { width: min(100%, 34rem); }
+    .cta-band h2 { max-width: 15ch; font-size: clamp(2.7rem, 8vw, 3.7rem); }
+    .cta-side { gap: 1.55rem; }
+    .cta-side p { line-height: 1.65; }
+    .cta-link { width: min(100%, 34rem); min-height: 3.35rem; }
   }
 
   @media (max-width: 36rem) {
-    .cta-section { padding-block: 4rem; }
-    .cta-copy .eyebrow { margin-bottom: .9rem; }
+    .cta-section { padding-block: 3.25rem; }
+    .cta-copy .eyebrow { margin-bottom: .8rem; }
+    .cta-band { gap: 1.55rem; }
     .cta-band h2 {
-      max-width: 14ch;
-      font-size: clamp(2.45rem, 11vw, 3.35rem);
+      max-width: 13ch;
+      font-size: clamp(2.18rem, 9.5vw, 2.8rem);
+      line-height: .98;
     }
-    .cta-side { gap: 1.7rem; }
-    .cta-link { width: 100%; }
+    .cta-side { gap: 1.35rem; }
+    .cta-side p { font-size: .96rem; line-height: 1.62; }
+    .cta-link { width: 100%; min-height: 3.15rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
