@@ -76,6 +76,11 @@ jobs:
         continue-on-error: true
         run: npm run qa:visual
 
+      - name: Motion & No-JS QA
+        id: motion
+        continue-on-error: true
+        run: node scripts/motion-qa.mjs
+
       - name: Lighthouse Audit
         id: lighthouse
         continue-on-error: true
@@ -96,6 +101,10 @@ jobs:
         run: |
           if [ -f qa-artifacts/visual-qa.md ]; then
             cat qa-artifacts/visual-qa.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f qa-artifacts/motion-qa.md ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat qa-artifacts/motion-qa.md >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ -f qa-artifacts/lighthouse/lighthouse-summary.json ]; then
             echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -123,8 +132,9 @@ jobs:
         if: always()
         run: |
           echo "Visual QA: ${{ steps.visual.outcome }}"
+          echo "Motion QA: ${{ steps.motion.outcome }}"
           echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
-          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
+          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
             echo "Quality Gate fehlgeschlagen – Deployment wird gestoppt."
             exit 1
           fi
