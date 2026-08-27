@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/legal-launch-gate.mjs",
     "build": "astro build && node scripts/prune-originals.mjs",
     "preview": "astro preview",
     "qa:visual": "node scripts/visual-qa.mjs",
