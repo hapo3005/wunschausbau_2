@@ -1,19 +1,154 @@
 ---
 import Base from '../layouts/Base.astro';
+import legal from '../data/legal.json';
+
+const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
 ---
-<Base title="Datenschutzerklärung | wunschausbau.de" description="Datenschutzerklärung von wunschausbau.de.">
-  <section class="section">
-    <div class="wrap legal">
-      <h1>Datenschutzerklärung</h1>
-      <p class="platzhalter">
-        [PLATZHALTER: Anwaltlich erstellte Datenschutzerklärung. Inhaltlich abzudecken sind mindestens:
-        Verantwortlicher, Hosting/Server-Logs, Kontaktformular (Zweck, Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO,
-        Speicherdauer), E-Mail-/Telefon-/WhatsApp-Kontakt, Instagram-Verlinkung, Betroffenenrechte.
-        Hinweis: Schriftarten werden lokal gehostet, es werden keine Cookies gesetzt und keine Tracking-Dienste eingebunden.]
-      </p>
-      <div class="warnbox" role="note">
-        Dieser Text ist ein Platzhalter und rechtlich nicht geprüft. Vor Veröffentlichung ersetzen.
+<Base title="Datenschutzerklärung | wunschausbau.de" description="Datenschutzerklärung von wunschausbau.de – Informationen zur Verarbeitung personenbezogener Daten.">
+  <section class="legal-stage">
+    <div class="wrap legal-layout">
+      <header class="legal-head">
+        <p class="eyebrow">Datenschutz</p>
+        <h1>Datenschutz&shy;erklärung</h1>
+        <p>Informationen nach Art. 13 und 14 Datenschutz-Grundverordnung (DSGVO). Stand: 27. August 2026.</p>
+      </header>
+
+      <div class="legal-content">
+        <section>
+          <h2>Verantwortlicher</h2>
+          <div>
+            <p><strong>{legal.unternehmen}</strong><br />Inhaber: {legal.inhaber}<br />{legal.strasse}<br />{legal.plz} {legal.ort}<br />{legal.land}</p>
+            <p>Telefon: <a href={`tel:+49${legal.telefon.replace(/\s/g, '').replace(/^0/, '')}`}>{legal.telefon}</a><br />E-Mail: <a href={`mailto:${legal.email}`}>{legal.email}</a></p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Grundsätze</h2>
+          <div>
+            <p>Wir verarbeiten personenbezogene Daten nur, soweit dies für den Betrieb dieser Website, die Bearbeitung von Anfragen, die Kommunikation mit Interessenten und Kunden oder die Erfüllung gesetzlicher Pflichten erforderlich ist.</p>
+            <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling findet über diese Website nicht statt.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Hosting</h2>
+          <div>
+            <p>Die Produktionswebsite ist für das Hosting bei <strong>{legal.hostingProvider}</strong>, {legal.hostingAddress}, vorgesehen. Beim Aufruf der Website werden technisch notwendige Verbindungsdaten verarbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene URL, Referrer, Browser-/Geräteinformationen und HTTP-Status gehören.</p>
+            <p>Zweck der Verarbeitung ist die sichere, stabile und effiziente Bereitstellung der Website sowie die Erkennung und Abwehr von Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im sicheren und zuverlässigen Betrieb unseres Internetangebots.</p>
+            <p>Netlify verarbeitet Daten als Dienstleister auf Grundlage vertraglicher Datenschutzregelungen. Netlify, Inc. ist nach eigener Angabe unter dem EU-U.S. Data Privacy Framework zertifiziert; für internationale Übermittlungen können zusätzlich die Standardvertragsklauseln der EU-Kommission eingesetzt werden.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Transportverschlüsselung</h2>
+          <div>
+            <p>Die Website wird verschlüsselt über HTTPS übertragen. Dadurch werden Inhalte, die zwischen Browser und Webserver übertragen werden, nach dem Stand der Technik vor dem einfachen Mitlesen auf dem Transportweg geschützt.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Kontaktformular</h2>
+          <div>
+            <p>Wenn Sie das Projektformular verwenden, verarbeiten wir die von Ihnen eingegebenen Daten zur Prüfung und Bearbeitung Ihrer Anfrage. Pflichtangaben sind derzeit Leistung, Name, Telefonnummer, Ort/PLZ und Projektbeschreibung. Weitere Angaben wie E-Mail-Adresse, Objektart, gewünschter Zeitraum und Budgetrahmen sind freiwillig.</p>
+            <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage der Anbahnung oder Durchführung eines Vertrags dient. Soweit eine Anfrage keinen vorvertraglichen Bezug hat, erfolgt die Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in der sachgerechten Bearbeitung eingehender Anfragen.</p>
+            <p>Die Formulardaten werden serverseitig validiert und anschließend per E-Mail an KS-Innenausbau übermittelt. Formulardaten werden von der Website nicht zu Werbe- oder Profilingzwecken verwendet und nicht in einer eigenen Kundendatenbank der Website gespeichert.</p>
+            {legal.mailProvider ? (
+              <p>Für den technischen E-Mail-Versand wird <strong>{legal.mailProvider}</strong> als Dienstleister eingesetzt.</p>
+            ) : isPreview ? (
+              <p class="review-inline"><strong>Noch vor Produktionsfreigabe:</strong> Den tatsächlich verwendeten SMTP-/E-Mail-Anbieter in der Datenschutzerklärung ergänzen, sobald das Versandkonto feststeht.</p>
+            ) : null}
+            <p>Anfragen, aus denen kein Vertragsverhältnis entsteht, löschen wir grundsätzlich spätestens sechs Monate nach Abschluss der Kommunikation, soweit keine gesetzlichen Aufbewahrungspflichten oder berechtigten Gründe zur Rechtsverteidigung entgegenstehen. Entsteht ein Vertragsverhältnis, können geschäftliche Unterlagen entsprechend den gesetzlichen Aufbewahrungsfristen länger gespeichert werden.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>E-Mail & Telefon</h2>
+          <div>
+            <p>Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir die von Ihnen mitgeteilten Daten, um Ihr Anliegen zu bearbeiten. Rechtsgrundlage ist bei vertragsbezogenen oder vorvertraglichen Anfragen Art. 6 Abs. 1 lit. b DSGVO, im Übrigen Art. 6 Abs. 1 lit. f DSGVO.</p>
+            <p>Für die Aufbewahrung gelten dieselben Grundsätze wie für Anfragen über das Kontaktformular.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>WhatsApp</h2>
+          <div>
+            <p>Auf der Website ist ein Link zu WhatsApp vorhanden. Erst wenn Sie diesen Link aufrufen oder WhatsApp ausdrücklich als gewünschten Kontaktweg wählen und anschließend über WhatsApp kommunizieren, werden Daten im Rahmen dieses Dienstes verarbeitet. Anbieter des Dienstes ist ein Unternehmen der Meta-Unternehmensgruppe.</p>
+            <p>Bei einer von Ihnen gewünschten Kommunikation über WhatsApp verarbeiten wir die dort übermittelten Inhalte zur Bearbeitung Ihrer Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO. Für die Verarbeitung durch WhatsApp/Meta gelten zusätzlich deren eigene Datenschutzbestimmungen. Dabei kann eine Verarbeitung außerhalb der Europäischen Union stattfinden.</p>
+            <p>Sie können uns jederzeit alternativ per Telefon oder E-Mail kontaktieren.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Externe Links</h2>
+          <div>
+            <p>Diese Website enthält ausschließlich einfache Links zu externen Angeboten, insbesondere zu MyHammer und gegebenenfalls Instagram. Inhalte dieser Anbieter sind nicht in die Website eingebettet. Beim bloßen Besuch von wunschausbau.de werden deshalb über diese Links noch keine Daten an diese Anbieter übertragen. Erst beim Anklicken eines externen Links stellt Ihr Browser eine Verbindung zum jeweiligen Anbieter her.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Cookies & Tracking</h2>
+          <div>
+            <p>Auf der Website werden aktuell keine Analyse-, Marketing- oder Tracking-Dienste eingesetzt. Es werden keine technisch nicht erforderlichen Cookies gesetzt und keine externen Webfonts geladen. Die verwendeten Schriftarten werden lokal von der Website ausgeliefert.</p>
+            <p>Solange dies so bleibt, ist für den aktuellen technischen Stand kein Einwilligungsbanner für Analyse- oder Marketingcookies erforderlich. Sollte künftig Tracking, eingebetteter Drittanbieterinhalt oder andere einwilligungspflichtige Technik ergänzt werden, wird diese Datenschutzerklärung vor der Aktivierung angepasst und erforderlichenfalls eine Einwilligungslösung vorgeschaltet.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Empfänger</h2>
+          <div>
+            <p>Personenbezogene Daten erhalten nur Stellen, die sie zur Bereitstellung der Website oder zur Bearbeitung Ihrer Anfrage benötigen. Hierzu können Hosting- und E-Mail-Dienstleister gehören. Eine darüber hinausgehende Weitergabe erfolgt nur, wenn sie gesetzlich erlaubt oder vorgeschrieben ist oder Sie diese ausdrücklich veranlasst haben.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Ihre Rechte</h2>
+          <div>
+            <p>Sie haben nach Maßgabe der gesetzlichen Voraussetzungen insbesondere das Recht auf Auskunft nach Art. 15 DSGVO, Berichtigung nach Art. 16 DSGVO, Löschung nach Art. 17 DSGVO, Einschränkung der Verarbeitung nach Art. 18 DSGVO sowie Datenübertragbarkeit nach Art. 20 DSGVO.</p>
+            <p>Soweit wir Daten auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO verarbeiten, können Sie aus Gründen, die sich aus Ihrer besonderen Situation ergeben, nach Art. 21 DSGVO Widerspruch gegen die Verarbeitung einlegen.</p>
+            <p>Zur Ausübung Ihrer Rechte genügt eine Nachricht an <a href={`mailto:${legal.email}`}>{legal.email}</a>.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Beschwerderecht</h2>
+          <div>
+            <p>Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Für Rheinland-Pfalz ist insbesondere zuständig:</p>
+            <p><strong>Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz</strong><br />Hintere Bleiche 34<br />55116 Mainz<br />Telefon: +49 (0) 6131 8920-0<br />E-Mail: poststelle@datenschutz.rlp.de</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Änderungen</h2>
+          <div>
+            <p>Wir passen diese Datenschutzerklärung an, wenn sich die Website, die eingesetzten Dienstleister oder die rechtlichen Anforderungen ändern. Maßgeblich ist die jeweils auf dieser Seite veröffentlichte Fassung.</p>
+          </div>
+        </section>
       </div>
     </div>
   </section>
 </Base>
+
+<style>
+  .legal-stage { padding-block:clamp(5rem,8vw,8rem); background:#f7f3ec; }
+  .legal-layout { display:grid; grid-template-columns:minmax(16rem,.72fr) minmax(0,1.28fr); gap:clamp(3rem,8vw,8rem); align-items:start; }
+  .legal-head { position:sticky; top:calc(var(--header-height) + 2rem); }
+  .legal-head h1 { max-width:10ch; overflow-wrap:anywhere; font-size:clamp(3.35rem,5.5vw,5.4rem); line-height:.91; letter-spacing:-.045em; }
+  .legal-head > p:last-child { max-width:31rem; margin-top:1.35rem; color:var(--ink-soft); line-height:1.7; }
+  .legal-content { display:grid; gap:0; border-top:1px solid rgba(28,29,31,.2); }
+  .legal-content > section { display:grid; grid-template-columns:minmax(10rem,.42fr) minmax(0,1fr); gap:2rem; padding-block:1.75rem; border-bottom:1px solid rgba(28,29,31,.14); }
+  .legal-content h2 { margin:0; font-family:var(--font-text); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--brass-deep); }
+  .legal-content section > div { display:grid; gap:.8rem; }
+  .legal-content p { margin:0; color:var(--ink-soft); line-height:1.75; }
+  .legal-content strong { color:var(--ink); }
+  .legal-content a { color:var(--ink); text-underline-offset:.22em; overflow-wrap:anywhere; }
+  .review-inline { padding:1rem 1.1rem; border-left:3px solid var(--brass); background:#efe6d8; }
+  @media (max-width:56rem) {
+    .legal-layout { grid-template-columns:1fr; gap:2.5rem; }
+    .legal-head { position:static; }
+    .legal-head h1 { max-width:12ch; font-size:clamp(3rem,10vw,4.4rem); }
+  }
+  @media (max-width:40rem) {
+    .legal-stage { padding-block:3.75rem; }
+    .legal-content > section { grid-template-columns:1fr; gap:.65rem; padding-block:1.4rem; }
+  }
+</style>
