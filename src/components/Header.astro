@@ -12,7 +12,7 @@ const nav = [
 const path = Astro.url.pathname;
 ---
 <header class="site-header">
-  <div class="wrap header-inner">
+  <div class="header-shell">
     <a class="brand" href={withBase('/')} aria-label={`${settings.marke} – Startseite`}>
       <img class="brand-mark" src={logoUrl} width="449" height="452" alt="" />
       <span class="brand-copy">
@@ -32,16 +32,14 @@ const path = Astro.url.pathname;
 
       <div class="nav-actions">
         <a class="nav-phone" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
-          </svg>
+          <span class="nav-phone-mark" aria-hidden="true"></span>
           <span>{settings.telefon}</span>
         </a>
 
         <a class="nav-cta" href={withBase('/kontakt/')}>
           <span>Projekt anfragen</span>
-          <svg aria-hidden="true" viewBox="0 0 16 16">
-            <path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <svg aria-hidden="true" viewBox="0 0 18 18">
+            <path d="M5 13 13 5M7 5h6v6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
           </svg>
         </a>
       </div>
@@ -58,112 +56,114 @@ const path = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 100;
-    min-height: 5.5rem;
-    background: rgba(253, 252, 249, .98);
-    border-bottom: 1px solid rgba(28, 29, 31, .11);
-    backdrop-filter: blur(16px) saturate(110%);
-    -webkit-backdrop-filter: blur(16px) saturate(110%);
-    transition: box-shadow 200ms ease, background-color 200ms ease;
+    color: #f7f3eb;
+    background: #171716;
+    border-bottom: 1px solid rgba(255,255,255,.09);
+    transition: background-color 180ms ease, box-shadow 180ms ease;
   }
 
   .site-header.is-scrolled {
-    background: rgba(253, 252, 249, .995);
-    box-shadow: 0 .7rem 2.4rem rgba(28, 29, 31, .07);
+    background: rgba(23,23,22,.985);
+    box-shadow: 0 .8rem 2.4rem rgba(0,0,0,.18);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
-  .header-inner {
-    position: relative;
-    display: flex;
-    min-height: 5.5rem;
+  .header-shell {
+    display: grid;
+    width: min(calc(100% - clamp(2rem, 5vw, 5rem)), 92rem);
+    min-height: 5.75rem;
+    margin-inline: auto;
+    grid-template-columns: minmax(15rem, 1fr) auto minmax(15rem, 1fr);
     align-items: center;
-    gap: clamp(1.5rem, 2.8vw, 3rem);
+    gap: clamp(1.6rem, 3vw, 3.6rem);
   }
 
   .brand {
     display: inline-flex;
-    flex: 0 0 auto;
+    width: fit-content;
     align-items: center;
-    gap: .85rem;
-    color: var(--ink);
+    gap: .9rem;
+    color: #f7f3eb;
     text-decoration: none;
   }
 
   .brand-mark {
-    width: 3.15rem;
-    height: 3.15rem;
+    width: 3.35rem;
+    height: 3.35rem;
     flex: 0 0 auto;
     object-fit: contain;
-    transition: transform 220ms var(--ease-move);
+    filter: brightness(0) invert(1);
+    opacity: .93;
+    transition: opacity 180ms ease, transform 220ms var(--ease-move);
   }
 
   .brand-copy {
     display: grid;
-    gap: .24rem;
+    gap: .28rem;
     min-width: 0;
   }
 
   .brand-name {
-    color: #17181b;
+    color: #fff;
     font-family: var(--font-brand);
-    font-size: 1.28rem;
+    font-size: 1.38rem;
     font-weight: 680;
-    letter-spacing: -.03em;
-    line-height: 1;
+    letter-spacing: -.035em;
+    line-height: .98;
   }
 
   .brand-claim {
-    color: var(--brass-deep);
+    color: #d9b66f;
     font-family: var(--font-text);
-    font-size: .66rem;
+    font-size: .68rem;
     font-weight: 650;
-    letter-spacing: .12em;
+    letter-spacing: .13em;
     line-height: 1.2;
     text-transform: uppercase;
   }
 
   .site-nav {
-    display: flex;
-    min-width: 0;
-    flex: 1 1 auto;
-    align-items: center;
-    justify-content: flex-end;
-    gap: clamp(1.5rem, 2.5vw, 2.8rem);
+    display: contents;
   }
 
   .nav-links {
+    grid-column: 2;
     display: flex;
     align-items: center;
-    gap: clamp(1.35rem, 2vw, 2.15rem);
+    justify-content: center;
+    gap: clamp(1.65rem, 2.4vw, 2.8rem);
+    min-height: 5.75rem;
   }
 
   .nav-links > a {
     position: relative;
     display: inline-flex;
-    min-height: 5.5rem;
+    min-height: 5.75rem;
     align-items: center;
-    color: #26282c;
+    color: rgba(255,255,255,.84);
     font-family: var(--font-text);
-    font-size: .98rem;
-    font-weight: 610;
-    letter-spacing: -.01em;
+    font-size: 1rem;
+    font-weight: 590;
+    letter-spacing: -.012em;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 170ms ease;
+    transition: color 160ms ease;
   }
 
   .nav-links > a::after {
     position: absolute;
     right: 50%;
-    bottom: -.5px;
+    bottom: 0;
     left: 50%;
     height: 2px;
-    background: var(--brass);
+    background: #d0a65e;
     content: '';
-    transition: right 200ms var(--ease-move), left 200ms var(--ease-move);
+    transition: right 190ms var(--ease-move), left 190ms var(--ease-move);
   }
 
   .nav-links > a[aria-current="page"] {
-    color: #111214;
+    color: #fff;
   }
 
   .nav-links > a[aria-current="page"]::after {
@@ -172,113 +172,119 @@ const path = Astro.url.pathname;
   }
 
   .nav-actions {
+    grid-column: 3;
     display: flex;
-    flex: 0 0 auto;
     align-items: center;
-    gap: 1.15rem;
-    padding-left: clamp(1.15rem, 1.8vw, 1.6rem);
-    border-left: 1px solid rgba(28, 29, 31, .13);
+    justify-content: flex-end;
+    gap: clamp(1rem, 1.7vw, 1.45rem);
   }
 
   .nav-phone {
     display: inline-flex;
     align-items: center;
-    gap: .55rem;
-    color: #26282c;
+    gap: .65rem;
+    color: rgba(255,255,255,.9);
     font-family: var(--font-text);
-    font-size: .95rem;
-    font-weight: 620;
+    font-size: .98rem;
+    font-weight: 610;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -.01em;
+    letter-spacing: -.012em;
     text-decoration: none;
     white-space: nowrap;
-    transition: color 170ms ease;
+    transition: color 160ms ease;
   }
 
-  .nav-phone svg {
-    width: 1.08rem;
-    height: 1.08rem;
-    color: var(--brass-deep);
+  .nav-phone-mark {
+    width: 1.6rem;
+    height: 1px;
     flex: 0 0 auto;
+    background: #d0a65e;
+    transition: width 180ms var(--ease-move);
   }
 
   .nav-cta {
     display: inline-flex;
-    min-height: 3.2rem;
+    min-height: 3.45rem;
     align-items: center;
     justify-content: center;
-    gap: .7rem;
-    padding: .82rem 1.25rem .82rem 1.35rem;
-    color: #fff;
-    background: #191a1d;
-    border: 1px solid #191a1d;
+    gap: .8rem;
+    padding: .9rem 1.3rem .9rem 1.45rem;
+    color: #171716;
+    background: #f4f0e8;
+    border: 1px solid #f4f0e8;
     font-family: var(--font-text);
-    font-size: .95rem;
-    font-weight: 650;
-    letter-spacing: -.01em;
+    font-size: .96rem;
+    font-weight: 660;
+    letter-spacing: -.012em;
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 170ms ease, border-color 170ms ease, transform 170ms var(--ease-move);
+    transition: background-color 170ms ease, border-color 170ms ease, color 170ms ease, transform 170ms var(--ease-move);
   }
 
   .nav-cta svg {
-    width: .9rem;
-    height: .9rem;
-    color: #d9b66f;
+    width: 1rem;
+    height: 1rem;
+    color: #8f641f;
     transition: transform 200ms var(--ease-move);
   }
 
   .menu-btn { display: none; }
 
   @media (hover: hover) and (pointer: fine) {
-    .brand:hover .brand-mark { transform: scale(1.02); }
-    .nav-links > a:hover { color: #111214; }
+    .brand:hover .brand-mark { opacity: 1; transform: scale(1.025); }
+    .nav-links > a:hover { color: #fff; }
     .nav-links > a:hover::after { right: 0; left: 0; }
-    .nav-phone:hover { color: var(--brass-deep); }
+    .nav-phone:hover { color: #fff; }
+    .nav-phone:hover .nav-phone-mark { width: 2.1rem; }
     .nav-cta:hover {
-      background: var(--brass-deep);
-      border-color: var(--brass-deep);
+      color: #171716;
+      background: #d9b66f;
+      border-color: #d9b66f;
       transform: translateY(-1px);
     }
     .nav-cta:hover svg { transform: translate(.12rem, -.12rem); }
   }
 
-  @media (max-width: 74rem) {
-    .header-inner { gap: 1.5rem; }
-    .brand-mark { width: 2.9rem; height: 2.9rem; }
-    .brand-name { font-size: 1.18rem; }
-    .brand-claim { font-size: .61rem; }
-    .nav-links { gap: 1.2rem; }
-    .nav-links > a { font-size: .92rem; }
-    .nav-actions { gap: .85rem; padding-left: 1rem; }
-    .nav-phone { font-size: .88rem; }
-    .nav-cta { padding-inline: 1.05rem; font-size: .9rem; }
+  @media (max-width: 78rem) {
+    .header-shell {
+      width: min(calc(100% - 2.5rem), 88rem);
+      grid-template-columns: minmax(13rem, 1fr) auto minmax(12rem, 1fr);
+      gap: 1.5rem;
+    }
+
+    .brand-mark { width: 3rem; height: 3rem; }
+    .brand-name { font-size: 1.25rem; }
+    .brand-claim { font-size: .62rem; }
+    .nav-links { gap: 1.4rem; }
+    .nav-links > a { font-size: .95rem; }
+    .nav-phone-mark { display: none; }
+    .nav-phone { font-size: .91rem; }
+    .nav-cta { padding-inline: 1.05rem 1.15rem; font-size: .91rem; }
   }
 
-  @media (max-width: 64rem) {
-    .nav-phone span { display: none; }
-    .nav-phone svg { width: 1.2rem; height: 1.2rem; }
-    .nav-actions { padding-left: .9rem; }
+  @media (max-width: 66rem) {
+    .nav-phone { display: none; }
+    .nav-links { gap: 1.15rem; }
   }
 
   @media (max-width: 56rem) {
-    .site-header,
-    .header-inner {
-      min-height: 4.75rem;
-    }
+    .site-header { min-height: 4.8rem; }
 
-    .header-inner {
+    .header-shell {
+      display: flex;
+      width: calc(100% - 2rem);
+      min-height: 4.8rem;
       gap: 1rem;
     }
 
     .brand { gap: .7rem; }
-    .brand-mark { width: 2.65rem; height: 2.65rem; }
-    .brand-name { font-size: 1.08rem; }
+    .brand-mark { width: 2.7rem; height: 2.7rem; }
+    .brand-name { font-size: 1.1rem; }
     .brand-claim { font-size: .56rem; letter-spacing: .1em; }
 
     .site-nav {
       position: fixed;
-      top: 4.75rem;
+      top: 4.8rem;
       right: 0;
       bottom: 0;
       left: 0;
@@ -286,12 +292,13 @@ const path = Astro.url.pathname;
       display: grid;
       grid-template-rows: 1fr auto;
       gap: 2rem;
-      padding: clamp(2rem, 7vw, 3rem) var(--pad-inline) calc(1.5rem + env(safe-area-inset-bottom));
+      padding: clamp(2rem, 7vw, 3rem) var(--pad-inline) calc(1.6rem + env(safe-area-inset-bottom));
       overflow-y: auto;
-      background: #fdfcf9;
+      color: var(--ink);
+      background: #f8f5ee;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(-.4rem);
+      transform: translateY(-.45rem);
       transition: opacity 200ms ease, transform 240ms var(--ease-move), visibility 0s linear 240ms;
     }
 
@@ -304,64 +311,68 @@ const path = Astro.url.pathname;
 
     .nav-links {
       display: grid;
+      min-height: 0;
       align-content: start;
       gap: 0;
     }
 
     .nav-links > a {
-      min-height: 4.8rem;
+      min-height: 4.9rem;
       color: #17181b;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(28,29,31,.13);
       font-family: var(--font-brand);
-      font-size: clamp(1.55rem, 6vw, 2rem);
+      font-size: clamp(1.6rem, 6vw, 2rem);
       font-weight: 620;
       letter-spacing: -.03em;
     }
 
-    .nav-links > a:first-child { border-top: 1px solid var(--line); }
-
+    .nav-links > a:first-child { border-top: 1px solid rgba(28,29,31,.13); }
     .nav-links > a::after {
       right: auto;
       bottom: 0;
       left: 0;
       width: 0;
       height: 2px;
-      transition: width 200ms var(--ease-move);
+      transition: width 190ms var(--ease-move);
     }
-
-    .nav-links > a[aria-current="page"]::after { width: 3rem; }
+    .nav-links > a[aria-current="page"] { color: #17181b; }
+    .nav-links > a[aria-current="page"]::after { width: 3.25rem; }
 
     .nav-actions {
       display: grid;
       gap: 1rem;
-      padding: 0;
-      border: 0;
     }
 
     .nav-phone {
-      min-height: 3.5rem;
+      display: inline-flex;
+      min-height: 3.2rem;
+      color: #17181b;
       font-size: 1rem;
     }
 
-    .nav-phone span { display: inline; }
+    .nav-phone-mark { display: block; }
 
     .nav-cta {
-      min-height: 3.8rem;
+      min-height: 3.9rem;
       justify-content: space-between;
-      padding-inline: 1.25rem;
+      color: #fff;
+      background: #17181b;
+      border-color: #17181b;
       font-size: 1rem;
     }
+
+    .nav-cta svg { color: #d9b66f; }
 
     .menu-btn {
       display: grid;
-      width: 2.9rem;
-      height: 2.9rem;
+      width: 2.95rem;
+      height: 2.95rem;
       margin-left: auto;
       padding: 0;
       place-content: center;
-      gap: 6px;
-      border: 1px solid rgba(28,29,31,.14);
-      color: var(--ink);
+      gap: 7px;
+      border: 1px solid rgba(255,255,255,.18);
+      color: #fff;
       background: transparent;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -375,8 +386,8 @@ const path = Astro.url.pathname;
       transition: transform 210ms var(--ease-move);
     }
 
-    .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
-    .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+    .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
+    .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
   }
 
   @media (max-width: 30rem) {
@@ -387,6 +398,7 @@ const path = Astro.url.pathname;
     .site-header,
     .brand-mark,
     .nav-links > a::after,
+    .nav-phone-mark,
     .nav-cta,
     .nav-cta svg,
     .site-nav,
