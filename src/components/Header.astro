@@ -175,8 +175,9 @@ const path = Astro.url.pathname;
     display: inline-flex;
     min-height: 3.2rem;
     align-items: center;
-    gap: .8rem;
-    padding: .68rem .7rem .68rem 1rem;
+    gap: .95rem;
+    padding: 0 0 0 1rem;
+    overflow: hidden;
     color: var(--ink);
     background: transparent;
     border: 1px solid rgba(28,29,31,.25);
@@ -192,12 +193,13 @@ const path = Astro.url.pathname;
 
   .nav-cta__icon {
     display: grid;
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 3.2rem;
+    align-self: stretch;
     flex: 0 0 auto;
     place-items: center;
-    color: var(--brass-deep);
-    border-left: 1px solid rgba(118,80,29,.22);
+    color: #fff;
+    background: var(--brass-deep);
+    transition: background-color 170ms ease;
   }
 
   .nav-cta__icon svg { width: 1rem; height: 1rem; transition: transform 200ms var(--ease-move); }
@@ -214,6 +216,7 @@ const path = Astro.url.pathname;
       border-color: rgba(118,80,29,.55);
       transform: translateY(-1px);
     }
+    .nav-cta:hover .nav-cta__icon { background: var(--brass); }
     .nav-cta:hover .nav-cta__icon svg { transform: translateX(.14rem); }
   }
 
@@ -236,8 +239,8 @@ const path = Astro.url.pathname;
     .nav-links { gap: 1.2rem; }
     .nav-links > a { font-size: .9rem; }
     .nav-cta > span:first-child { display: none; }
-    .nav-cta { padding: .62rem; }
-    .nav-cta__icon { width: 1.95rem; border-left: 0; }
+    .nav-cta { min-width: 3.2rem; padding: 0; }
+    .nav-cta__icon { width: 3.2rem; }
   }
 
   @media (max-width: 56rem) {
@@ -330,11 +333,12 @@ const path = Astro.url.pathname;
       width: 100%;
       min-height: 4rem;
       justify-content: space-between;
-      padding: .75rem .8rem .75rem 1rem;
+      gap: 1rem;
+      padding: 0 0 0 1rem;
       font-size: 1rem;
     }
     .nav-cta > span:first-child { display: inline; }
-    .nav-cta__icon { width: 2.4rem; height: 2.4rem; border-left: 1px solid rgba(118,80,29,.22); }
+    .nav-cta__icon { width: 4rem; align-self: stretch; }
 
     .menu-btn {
       display: grid;
@@ -371,6 +375,7 @@ const path = Astro.url.pathname;
     .brand-mark,
     .nav-links > a::after,
     .nav-cta,
+    .nav-cta__icon,
     .nav-cta__icon svg,
     .site-nav,
     .menu-btn span { transition: none; }
