@@ -199,15 +199,59 @@ try {
         }
 
         await page.evaluate(() => window.scrollTo(0, 0));
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(120);
         const menu = page.locator('.menu-btn');
         if (await menu.count()) {
           await menu.click();
-          await page.waitForTimeout(120);
-          const navVisible = await page.locator('#site-nav').isVisible();
-          if (!navVisible) fail('mobile-menu', 'Mobiles Menü ist in WebKit nicht sichtbar', { profile: profile.key });
+          await page.waitForTimeout(80);
+
+          const menuState = await page.evaluate(() => {
+            const button = document.querySelector('.menu-btn');
+            const nav = document.querySelector('#site-nav');
+            const style = nav ? getComputedStyle(nav) : null;
+            return {
+              expanded: button?.getAttribute('aria-expanded') === 'true',
+              navOpenClass: nav?.classList.contains('open') ?? false,
+              headerOpenClass: document.querySelector('.site-header')?.classList.contains('menu-open') ?? false,
+              bodyLocked: document.body.classList.contains('nav-open'),
+              visibility: style?.visibility ?? null,
+              opacity: style ? Number(style.opacity) : 0,
+              display: style?.display ?? null,
+              firstLinkVisible: (() => {
+                const first = nav?.querySelector('a[href]');
+                if (!first) return false;
+                const rect = first.getBoundingClientRect();
+                const firstStyle = getComputedStyle(first);
+                return firstStyle.visibility !== 'hidden' && Number(firstStyle.opacity) > 0.9 && rect.width > 0 && rect.height > 0;
+              })()
+            };
+          });
+
+          const openCorrectly = menuState.expanded
+            && menuState.navOpenClass
+            && menuState.headerOpenClass
+            && menuState.bodyLocked
+            && menuState.visibility === 'visible'
+            && menuState.opacity >= 0.95
+            && menuState.display !== 'none'
+            && menuState.firstLinkVisible;
+
+          if (!openCorrectly) {
+            fail('mobile-menu', 'Mobiles Menü erreicht in WebKit keinen vollständig geöffneten Zustand', { profile: profile.key, route: route.key, menuState });
+          }
+
           await page.screenshot({ path: path.join(outDir, `${route.key}-${profile.key}-menu.png`), fullPage: false });
+
           await menu.click();
+          await page.waitForTimeout(80);
+          const closedState = await page.evaluate(() => ({
+            expanded: document.querySelector('.menu-btn')?.getAttribute('aria-expanded') === 'true',
+            navOpenClass: document.querySelector('#site-nav')?.classList.contains('open') ?? false,
+            bodyLocked: document.body.classList.contains('nav-open')
+          }));
+          if (closedState.expanded || closedState.navOpenClass || closedState.bodyLocked) {
+            fail('mobile-menu-close', 'Mobiles Menü schließt in WebKit nicht vollständig', { profile: profile.key, route: route.key, closedState });
+          }
         }
       }
 
@@ -263,7 +307,7 @@ const lines = [
 if (failures.length) {
   for (const entry of failures) lines.push(`- **${entry.kind}** – ${entry.message} (${entry.profile || '-'} / ${entry.route || '-'})`);
 } else {
-  lines.push('WebKit blieb stabil: kein Crash, kein horizontaler Überlauf, keine unsichtbaren Inhalte, keine defekten Bilder und keine Browser-/Netzwerkfehler in den getesteten iPhone-Profilen.');
+  lines.push('WebKit blieb stabil: kein Crash, kein horizontaler Überlauf, keine unsichtbaren Inhalte, keine defekten Bilder, keine Browser-/Netzwerkfehler und ein vollständig verifiziertes mobiles Menü in den getesteten iPhone-Profilen.');
 }
 
 await fs.writeFile(path.join(outDir, 'webkit-qa.md'), `${lines.join('\n')}\n`);
