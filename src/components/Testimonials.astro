@@ -1,450 +1,236 @@
 ---
-import { Image } from 'astro:assets';
-import stimmen from '../data/kundenstimmen.json';
-import settings from '../data/settings.json';
-import { withBase } from '../lib/paths';
-import interior from '../assets/service-interior.png';
-import floors from '../assets/service-floors.png';
-
-const [leitstimme, ...weitereStimmen] = stimmen;
-const bewertung = settings.stats.bewertung.replace('★', '').trim();
+const score = '5,0';
+const reviewCount = '13';
 ---
 <section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
     <header class="proof-head">
-      <div class="proof-heading">
-        <p class="eyebrow">Kundenstimmen</p>
-        <h2 id="stimmen-titel">Was Kunden über uns sagen.</h2>
+      <div>
+        <p class="eyebrow">Bewertungen</p>
+        <h2 id="stimmen-titel">Vertrauen entsteht nicht durch Versprechen.</h2>
       </div>
-
-      <div class="proof-head__side">
-        <p class="proof-intro">Pünktlich sein, sauber arbeiten und Absprachen einhalten – darauf kommt es für uns an.</p>
-        <div class="proof-score" aria-label={`Google-Bewertung ${bewertung} von 5`}>
-          <strong>{bewertung}</strong>
-          <span aria-hidden="true">★</span>
-          <small>Google-Bewertung</small>
-        </div>
-      </div>
+      <p class="proof-intro">
+        Entscheidend ist, wie ein Handwerker arbeitet, kommuniziert und eine Baustelle hinterlässt.
+        Dafür gibt es bereits öffentliches Feedback, das nicht von uns formuliert wurde.
+      </p>
     </header>
 
-    <div class="editorial-proof">
-      <figure class="project-image project-image--main">
-        <Image
-          src={interior}
-          alt="Hochwertig ausgeführter Wohnraum mit maßgefertigter Holzvertäfelung und Einbauregal"
-          widths={[720, 1080, 1600]}
-          sizes="(max-width: 56rem) 100vw, 68vw"
-          quality={85}
-          format="webp"
-          loading="lazy"
-        />
-        <figcaption><span>Innenausbau & Renovierung</span><strong>Wohnraum</strong></figcaption>
-      </figure>
+    <div class="proof-stage">
+      <div class="score-card" aria-label={`${score} von 5 bei ${reviewCount} Bewertungen auf MyHammer`}>
+        <span class="score-card__source">MyHammer</span>
+        <div class="score-card__value"><strong>{score}</strong><span>/ 5</span></div>
+        <div class="score-card__stars" aria-hidden="true">★★★★★</div>
+        <p><strong>{reviewCount} Bewertungen</strong><span>öffentlich einsehbarer Stand · August 2026</span></p>
+      </div>
 
-      <figure class="project-image project-image--detail">
-        <Image
-          src={floors}
-          alt="Hochwertig verlegter Eichenparkettboden"
-          widths={[480, 720, 960]}
-          sizes="(max-width: 56rem) 50vw, 28vw"
-          quality={84}
-          format="webp"
-          loading="lazy"
-        />
-        <figcaption><span>Bodenarbeiten</span><strong>Eichenparkett</strong></figcaption>
-      </figure>
-
-      <figure class="lead-review reveal">
-        <p class="review-label">Kundenstimme</p>
-        <blockquote>„{leitstimme.text}“</blockquote>
+      <figure class="review-card reveal">
+        <span class="review-card__mark" aria-hidden="true">“</span>
+        <blockquote>
+          Sehr schnelle Rückmeldung und Terminvereinbarung. Zuverlässig und super Hilfe bei der Reparatur unserer Jalousien.
+        </blockquote>
         <figcaption>
-          <strong>{leitstimme.name}</strong>
-          <span>{leitstimme.ort}</span>
+          <strong>Verifizierte Kundenbewertung</strong>
+          <span>MyHammer · 15. Juli 2026</span>
         </figcaption>
-        <a href={withBase('/referenzen/')} class="reference-link">
-          Weitere Arbeiten <span aria-hidden="true">→</span>
-        </a>
       </figure>
     </div>
 
-    <div class="supporting-proof" aria-label="Weitere Kundenstimmen">
-      {weitereStimmen.map((stimme, index) => (
-        <figure class="supporting-review reveal" style={`--reveal-delay: ${(index + 1) * 55}ms`}>
-          <blockquote>„{stimme.text}“</blockquote>
-          <figcaption>
-            <strong>{stimme.name}</strong>
-            <span>{stimme.ort}</span>
-          </figcaption>
-        </figure>
-      ))}
+    <div class="proof-principles" aria-label="Unser Anspruch in der Zusammenarbeit">
+      <p><strong>Persönlich</strong><span>Direkte Abstimmung statt anonymer Projektkette.</span></p>
+      <p><strong>Nachvollziehbar</strong><span>Details und Ablauf werden vor Beginn geklärt.</span></p>
+      <p><strong>Sauber</strong><span>Das Ergebnis zählt – genauso wie der Weg dorthin.</span></p>
     </div>
   </div>
 </section>
 
 <style>
   .testimonials {
-    padding-block: clamp(4.5rem, 7vw, 6.5rem);
-    color: var(--ink);
-    background: var(--paper);
-    border-block: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(5rem, 8vw, 7.5rem);
+    color: #f7f4ee;
+    background: #1c1d1f;
+  }
+
+  .testimonials::before {
+    position: absolute;
+    top: -16rem;
+    right: -10rem;
+    width: 34rem;
+    height: 34rem;
+    border: 1px solid rgba(210,171,101,.12);
+    border-radius: 50%;
+    content: '';
+    pointer-events: none;
   }
 
   .testimonials-inner {
+    position: relative;
     display: grid;
     gap: clamp(2.75rem, 5vw, 4.5rem);
   }
 
   .proof-head {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(20rem, .72fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .72fr);
     align-items: end;
     gap: clamp(2.5rem, 8vw, 8rem);
   }
 
-  .proof-heading h2 {
-    max-width: 17ch;
-    margin: 0;
-    font-size: clamp(2.15rem, 3.7vw, 3.55rem);
-    font-weight: 600;
-    line-height: 1.01;
-    letter-spacing: -.025em;
-  }
+  .testimonials .eyebrow { color: #d2ab65; }
 
-  .proof-head__side {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-    padding-bottom: .15rem;
+  .proof-head h2 {
+    max-width: 15ch;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.45rem, 4.4vw, 4rem);
+    font-weight: 600;
+    line-height: .99;
+    letter-spacing: -.035em;
   }
 
   .proof-intro {
-    max-width: 29rem;
-    color: var(--ink-soft);
-    font-size: .96rem;
-    line-height: 1.68;
+    max-width: 31rem;
+    color: rgba(247,244,238,.67);
+    line-height: 1.72;
   }
 
-  .proof-score {
+  .proof-stage {
     display: grid;
-    grid-template-columns: auto auto;
-    align-items: baseline;
-    justify-content: end;
-    column-gap: .42rem;
-    white-space: nowrap;
+    grid-template-columns: minmax(17rem, .62fr) minmax(0, 1.38fr);
+    min-height: clamp(24rem, 34vw, 32rem);
+    border-top: 1px solid rgba(247,244,238,.18);
+    border-bottom: 1px solid rgba(247,244,238,.18);
   }
 
-  .proof-score strong {
+  .score-card {
+    display: grid;
+    align-content: center;
+    padding: clamp(2rem, 4vw, 3.4rem) clamp(2rem, 4vw, 3.5rem) clamp(2rem, 4vw, 3.4rem) 0;
+    border-right: 1px solid rgba(247,244,238,.14);
+  }
+
+  .score-card__source {
+    color: #d2ab65;
+    font-size: .68rem;
+    font-weight: 650;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .score-card__value {
+    display: flex;
+    align-items: baseline;
+    gap: .45rem;
+    margin-top: 1.2rem;
+  }
+
+  .score-card__value strong {
     font-family: var(--font-brand);
-    font-size: clamp(1.8rem, 2.7vw, 2.45rem);
+    font-size: clamp(4.4rem, 8vw, 7.4rem);
     font-weight: 600;
-    line-height: .9;
+    line-height: .82;
+    letter-spacing: -.055em;
+  }
+
+  .score-card__value span { color: rgba(247,244,238,.48); font-size: .9rem; }
+
+  .score-card__stars {
+    margin-top: 1.35rem;
+    color: #d2ab65;
+    font-size: .8rem;
+    letter-spacing: .24em;
+  }
+
+  .score-card p {
+    display: grid;
+    gap: .25rem;
+    margin-top: 1.25rem;
+    font-size: .82rem;
+  }
+
+  .score-card p strong { font-weight: 600; }
+  .score-card p span { color: rgba(247,244,238,.46); font-size: .7rem; }
+
+  .review-card {
+    position: relative;
+    display: grid;
+    align-content: center;
+    gap: clamp(1.5rem, 3vw, 2.2rem);
+    min-width: 0;
+    margin: 0;
+    padding: clamp(2.5rem, 6vw, 5.5rem);
+  }
+
+  .review-card__mark {
+    position: absolute;
+    top: clamp(1.7rem, 4vw, 3rem);
+    right: clamp(2rem, 5vw, 4rem);
+    color: rgba(210,171,101,.22);
+    font-family: var(--font-brand);
+    font-size: clamp(6rem, 11vw, 10rem);
+    line-height: .7;
+  }
+
+  blockquote {
+    position: relative;
+    z-index: 1;
+    max-width: 28ch;
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-brand);
+    font-size: clamp(1.7rem, 3.1vw, 2.9rem);
+    font-weight: 500;
+    line-height: 1.18;
     letter-spacing: -.025em;
   }
 
-  .proof-score > span {
-    color: var(--brass-deep);
-    font-size: .9rem;
-  }
-
-  .proof-score small {
-    grid-column: 1 / -1;
-    margin-top: .48rem;
-    color: var(--ink-muted);
-    font-size: .63rem;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-
-  .editorial-proof {
+  figcaption {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: minmax(14rem, 1fr) minmax(14rem, .92fr);
-    gap: clamp(.75rem, 1.25vw, 1.15rem);
-    min-height: clamp(34rem, 49vw, 43rem);
+    gap: .25rem;
+    color: rgba(247,244,238,.48);
+    font-size: .72rem;
   }
 
-  .project-image,
-  .lead-review {
-    min-width: 0;
-    margin: 0;
-  }
+  figcaption strong { color: #d2ab65; font-weight: 600; }
 
-  .project-image {
-    position: relative;
-    overflow: hidden;
-    background: var(--sand-deep);
-  }
-
-  .project-image--main {
-    grid-column: 1 / span 8;
-    grid-row: 1 / span 2;
-  }
-
-  .project-image--detail {
-    grid-column: 9 / span 4;
-    grid-row: 1;
-  }
-
-  .project-image :global(img) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(.99) contrast(1.01) brightness(1.025);
-  }
-
-  .project-image--main :global(img) {
-    object-position: center 52%;
-  }
-
-  .project-image--detail :global(img) {
-    object-position: center 58%;
-  }
-
-  .project-image::after {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 68%, rgba(18,18,18,.26));
-    content: '';
-    pointer-events: none;
-  }
-
-  .project-image > figcaption {
-    position: absolute;
-    z-index: 2;
-    right: clamp(1rem, 2vw, 1.6rem);
-    bottom: clamp(.95rem, 2vw, 1.45rem);
-    left: clamp(1rem, 2vw, 1.6rem);
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1rem;
-    color: #fff;
-    text-shadow: 0 1px 12px rgba(0,0,0,.22);
-  }
-
-  .project-image > figcaption span {
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: .09em;
-    text-transform: uppercase;
-  }
-
-  .project-image > figcaption strong {
-    font-size: .76rem;
-    font-weight: 600;
-  }
-
-  .lead-review {
-    grid-column: 9 / span 4;
-    grid-row: 2;
+  .proof-principles {
     display: grid;
-    align-content: center;
-    gap: clamp(1rem, 2vw, 1.55rem);
-    padding: clamp(1.7rem, 3vw, 2.6rem);
-    background: #f2eee6;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 4rem);
   }
 
-  .review-label {
-    width: fit-content;
-    padding-top: .65rem;
-    border-top: 1px solid var(--brass);
-    color: var(--brass-deep);
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-
-  .lead-review blockquote {
-    max-width: 24ch;
-    margin: 0;
-    font-family: var(--font-text);
-    font-size: clamp(1.3rem, 1.8vw, 1.68rem);
-    font-weight: 430;
-    line-height: 1.48;
-    letter-spacing: -.012em;
-  }
-
-  .lead-review figcaption,
-  .supporting-review figcaption {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: .35rem .6rem;
-    color: var(--ink-soft);
-    font-size: .78rem;
-  }
-
-  .lead-review figcaption strong,
-  .supporting-review figcaption strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .lead-review figcaption span::before,
-  .supporting-review figcaption span::before {
-    margin-right: .6rem;
-    color: var(--brass);
-    content: '·';
-  }
-
-  .reference-link {
-    display: inline-flex;
-    width: fit-content;
-    align-items: center;
-    gap: .5rem;
-    margin-top: .25rem;
-    padding-bottom: .25rem;
-    border-bottom: 1px solid rgba(28,29,31,.52);
-    color: var(--ink);
-    font-size: .84rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-  }
-
-  .supporting-proof {
+  .proof-principles p {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2.5rem, 7vw, 7rem);
+    gap: .45rem;
+    max-width: 24rem;
   }
 
-  .supporting-review {
-    display: grid;
-    gap: 1.15rem;
-    margin: 0;
-    padding-top: clamp(1.4rem, 2.2vw, 1.9rem);
-    border-top: 1px solid rgba(28,29,31,.18);
-  }
-
-  .supporting-review blockquote {
-    max-width: 42ch;
-    margin: 0;
-    color: var(--ink-soft);
-    font-family: var(--font-text);
-    font-size: clamp(.98rem, 1.14vw, 1.08rem);
-    font-weight: 430;
-    line-height: 1.62;
-    letter-spacing: -.004em;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .reference-link:hover {
-      gap: .75rem;
-      color: var(--brass-deep);
-      border-color: var(--brass-deep);
-    }
-  }
-
-  @media (max-width: 64rem) {
-    .proof-head {
-      grid-template-columns: minmax(0, 1fr) minmax(18rem, .8fr);
-      gap: 3rem;
-    }
-
-    .proof-head__side {
-      grid-template-columns: 1fr;
-      gap: 1.2rem;
-    }
-
-    .proof-score { justify-content: start; }
-  }
+  .proof-principles strong { color: #fff; font-size: .95rem; font-weight: 600; }
+  .proof-principles span { color: rgba(247,244,238,.55); font-size: .78rem; line-height: 1.6; }
 
   @media (max-width: 56rem) {
-    .proof-head {
+    .proof-head,
+    .proof-stage {
       grid-template-columns: 1fr;
-      align-items: start;
-      gap: 1.5rem;
     }
 
-    .proof-head__side {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      gap: 1.5rem;
+    .proof-head { align-items: start; gap: 1.5rem; }
+
+    .proof-stage { min-height: 0; }
+
+    .score-card {
+      padding: 2.4rem 0;
+      border-right: 0;
+      border-bottom: 1px solid rgba(247,244,238,.14);
     }
 
-    .editorial-proof {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: clamp(22rem, 62vw, 30rem) minmax(15rem, auto);
-      min-height: 0;
-    }
-
-    .project-image--main {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-
-    .project-image--detail {
-      grid-column: 1;
-      grid-row: 2;
-      min-height: 16rem;
-    }
-
-    .lead-review {
-      grid-column: 2;
-      grid-row: 2;
-      min-height: 16rem;
-    }
+    .review-card { padding: clamp(2.4rem, 7vw, 4.5rem) 0; }
   }
 
   @media (max-width: 40rem) {
-    .proof-head__side {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-
-    .editorial-proof {
-      grid-template-columns: 1fr;
-      grid-template-rows: 18rem auto 13rem;
-      gap: .75rem;
-    }
-
-    .project-image--main {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .lead-review {
-      grid-column: 1;
-      grid-row: 2;
-      min-height: 0;
-      padding: 1.6rem;
-    }
-
-    .project-image--detail {
-      grid-column: 1;
-      grid-row: 3;
-      min-height: 13rem;
-    }
-
-    .supporting-proof {
-      grid-template-columns: 1fr;
-      gap: 1.6rem;
-    }
-
-    .project-image > figcaption {
-      display: grid;
-      justify-content: start;
-      gap: .25rem;
-    }
-  }
-
-  @media (max-width: 36rem) {
-    .testimonials {
-      padding-block: 3.75rem;
-    }
-
-    .proof-heading h2 {
-      max-width: 15ch;
-      font-size: clamp(2rem, 9vw, 2.7rem);
-    }
-
-    .lead-review blockquote {
-      font-size: 1.22rem;
-    }
+    .proof-principles { grid-template-columns: 1fr; gap: 1.5rem; }
+    .review-card__mark { right: 0; }
+    blockquote { font-size: clamp(1.55rem, 7vw, 2rem); }
   }
 </style>
