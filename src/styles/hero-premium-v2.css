@@ -35,25 +35,25 @@ html body main#inhalt > section.ks-hero .ks-hero__media {
 
 html body main#inhalt > section.ks-hero .ks-hero__media img {
   object-fit: cover !important;
-  object-position: 66% 52% !important;
-  filter: saturate(.99) contrast(1.02) brightness(1.03) !important;
-  transform: scale(1.008) !important;
+  object-position: 66% 50% !important;
+  filter: saturate(1) contrast(1.01) brightness(1.10) !important;
+  transform: scale(1.006) !important;
 }
 
 html body main#inhalt > section.ks-hero .ks-hero__media::after {
   z-index: 1 !important;
   background:
     linear-gradient(90deg,
-      rgba(18,17,16,.50) 0%,
-      rgba(18,17,16,.36) 25%,
-      rgba(18,17,16,.20) 43%,
-      rgba(18,17,16,.08) 59%,
-      rgba(18,17,16,.02) 72%,
-      rgba(18,17,16,0) 82%),
+      rgba(18,17,16,.26) 0%,
+      rgba(18,17,16,.18) 18%,
+      rgba(18,17,16,.10) 32%,
+      rgba(18,17,16,.04) 48%,
+      rgba(18,17,16,.01) 62%,
+      rgba(18,17,16,0) 74%),
     linear-gradient(0deg,
-      rgba(15,14,13,.18) 0%,
-      rgba(15,14,13,.04) 34%,
-      rgba(15,14,13,0) 68%) !important;
+      rgba(15,14,13,.10) 0%,
+      rgba(15,14,13,.03) 30%,
+      rgba(15,14,13,0) 62%) !important;
   content: '' !important;
 }
 
@@ -275,16 +275,20 @@ html body main#inhalt > section.proof-rail span {
 @media (max-width: 64rem) {
   html body main#inhalt > section.ks-hero .ks-hero__media img {
     object-position: 65% center !important;
+    filter: saturate(1) contrast(1.01) brightness(1.08) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__media::after {
     background:
       linear-gradient(90deg,
-        rgba(18,17,16,.56) 0%,
-        rgba(18,17,16,.40) 34%,
-        rgba(18,17,16,.22) 55%,
-        rgba(18,17,16,.05) 80%),
-      linear-gradient(0deg, rgba(15,14,13,.18), rgba(15,14,13,0) 52%) !important;
+        rgba(18,17,16,.30) 0%,
+        rgba(18,17,16,.20) 26%,
+        rgba(18,17,16,.11) 46%,
+        rgba(18,17,16,.03) 72%,
+        rgba(18,17,16,0) 84%),
+      linear-gradient(0deg,
+        rgba(15,14,13,.10),
+        rgba(15,14,13,0) 56%) !important;
   }
 }
 
@@ -334,16 +338,16 @@ html body main#inhalt > section.proof-rail span {
 
   html body main#inhalt > section.ks-hero .ks-hero__media img {
     object-position: 68% center !important;
-    filter: saturate(.98) contrast(1.02) brightness(.95) !important;
+    filter: saturate(1) contrast(1.01) brightness(1.02) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__media::after {
     background:
       linear-gradient(180deg,
-        rgba(18,17,16,.06) 0%,
-        rgba(18,17,16,.14) 34%,
-        rgba(18,17,16,.46) 72%,
-        rgba(18,17,16,.68) 100%) !important;
+        rgba(18,17,16,.03) 0%,
+        rgba(18,17,16,.08) 26%,
+        rgba(18,17,16,.24) 64%,
+        rgba(18,17,16,.42) 100%) !important;
   }
 
   html body main#inhalt > section.ks-hero .ks-hero__inner {
