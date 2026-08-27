@@ -7,12 +7,18 @@ const baseUrl = (process.env.QA_BASE_URL || 'http://127.0.0.1:4321/wunschausbau_
 const outDir = path.resolve('qa-artifacts');
 const shotDir = path.join(outDir, 'screenshots');
 
-const routes = [
+const primaryRoutes = [
   { key: 'home', path: '/' },
   { key: 'leistungen', path: '/leistungen/' },
   { key: 'referenzen', path: '/referenzen/' },
   { key: 'ueber-uns', path: '/ueber-uns/' },
   { key: 'kontakt', path: '/kontakt/' }
+];
+
+const detailRoutes = [
+  { key: 'detail-boeden', path: '/leistungen/boeden/' },
+  { key: 'detail-fenster-aussentueren', path: '/leistungen/fenster-aussentueren/' },
+  { key: 'detail-komplettrenovierung', path: '/leistungen/komplettrenovierung/' }
 ];
 
 const viewports = {
@@ -24,7 +30,7 @@ const viewports = {
   wide1920: { width: 1920, height: 1080 }
 };
 
-const matrix = routes.flatMap((route) =>
+const matrix = primaryRoutes.flatMap((route) =>
   ['mobile390', 'tablet768', 'desktop1440'].map((viewportName) => ({
     route,
     viewportName,
@@ -32,8 +38,14 @@ const matrix = routes.flatMap((route) =>
   }))
 );
 
+for (const route of detailRoutes) {
+  for (const viewportName of ['mobile390', 'desktop1440']) {
+    matrix.push({ route, viewportName, viewport: viewports[viewportName] });
+  }
+}
+
 for (const viewportName of ['mobile430', 'desktop1024', 'wide1920']) {
-  matrix.push({ route: routes[0], viewportName, viewport: viewports[viewportName] });
+  matrix.push({ route: primaryRoutes[0], viewportName, viewport: viewports[viewportName] });
 }
 
 const failures = [];
