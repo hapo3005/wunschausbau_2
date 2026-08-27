@@ -1,23 +1,111 @@
 ---
 import Base from '../layouts/Base.astro';
-import settings from '../data/settings.json';
+import legal from '../data/legal.json';
+
+const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
+const offenePunkte = [
+  !legal.ustId && !legal.wirtschaftsId ? 'USt-IdNr. / Wirtschafts-IdNr. nur falls vorhanden' : '',
+  !legal.register && !legal.registernummer ? 'Registereintrag nur falls vorhanden' : '',
+  !legal.kammer && !legal.berufsbezeichnung ? 'Kammer / Berufsbezeichnung nur falls für die konkrete Tätigkeit rechtlich einschlägig' : '',
+  legal.vsbgStatus === 'pending' ? 'Status zur Verbraucherstreitbeilegung final bestätigen' : ''
+].filter(Boolean);
 ---
-<Base title="Impressum | wunschausbau.de" description="Impressum von wunschausbau.de – KS - Innenausbau Kevin Schmieding.">
-  <section class="section">
-    <div class="wrap legal">
-      <h1>Impressum</h1>
-      <p><strong>{settings.firma}</strong></p>
-      <p class="platzhalter">[PLATZHALTER: Straße und Hausnummer]<br />[PLATZHALTER: PLZ und Ort]</p>
-      <p>Telefon: {settings.telefon}<br />E-Mail: {settings.email}</p>
-      <p class="platzhalter">
-        [PLATZHALTER: Rechtsform-Angaben, sofern zutreffend]<br />
-        [PLATZHALTER: Umsatzsteuer-ID oder Hinweis auf Kleinunternehmerregelung]<br />
-        [PLATZHALTER: zuständige Handwerkskammer / Berufsbezeichnung, sofern zutreffend]
-      </p>
-      <div class="warnbox" role="note">
-        Dieser Text ist unvollständig und rechtlich nicht geprüft. Vor Veröffentlichung durch
-        anwaltlich erstellte bzw. geprüfte Angaben ersetzen.
+<Base title="Impressum | wunschausbau.de" description="Impressum von wunschausbau.de – KS-Innenausbau, Inhaber Kevin Schmieding.">
+  <section class="legal-stage">
+    <div class="wrap legal-layout">
+      <header class="legal-head">
+        <p class="eyebrow">Rechtliches</p>
+        <h1>Impressum</h1>
+        <p>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
+      </header>
+
+      <div class="legal-content">
+        <section aria-labelledby="anbieter">
+          <h2 id="anbieter">Diensteanbieter</h2>
+          <p><strong>{legal.unternehmen}</strong><br />Inhaber: {legal.inhaber}</p>
+          <address>
+            {legal.strasse}<br />
+            {legal.plz} {legal.ort}<br />
+            {legal.land}
+          </address>
+        </section>
+
+        <section aria-labelledby="kontakt">
+          <h2 id="kontakt">Kontakt</h2>
+          <p>
+            Telefon: <a href={`tel:+49${legal.telefon.replace(/\s/g, '').replace(/^0/, '')}`}>{legal.telefon}</a><br />
+            E-Mail: <a href={`mailto:${legal.email}`}>{legal.email}</a><br />
+            Internet: <a href={legal.website}>{legal.website}</a>
+          </p>
+        </section>
+
+        {(legal.ustId || legal.wirtschaftsId) && (
+          <section aria-labelledby="steuer">
+            <h2 id="steuer">Steuerliche Kennzeichnungen</h2>
+            {legal.ustId && <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: {legal.ustId}</p>}
+            {legal.wirtschaftsId && <p>Wirtschafts-Identifikationsnummer gemäß § 139c AO: {legal.wirtschaftsId}</p>}
+          </section>
+        )}
+
+        {(legal.register || legal.registernummer) && (
+          <section aria-labelledby="register">
+            <h2 id="register">Registereintrag</h2>
+            <p>{legal.register}{legal.registernummer ? ` · ${legal.registernummer}` : ''}</p>
+          </section>
+        )}
+
+        {(legal.kammer || legal.berufsbezeichnung || legal.berufsrecht) && (
+          <section aria-labelledby="beruf">
+            <h2 id="beruf">Berufsrechtliche Angaben</h2>
+            {legal.kammer && <p>Zuständige Kammer: {legal.kammer}</p>}
+            {legal.berufsbezeichnung && <p>Berufsbezeichnung: {legal.berufsbezeichnung}{legal.berufsbezeichnungStaat ? `, verliehen in ${legal.berufsbezeichnungStaat}` : ''}</p>}
+            {legal.berufsrecht && <p>Berufsrechtliche Regelungen: {legal.berufsrecht}</p>}
+          </section>
+        )}
+
+        {legal.vsbgStatus === 'not_participating' && (
+          <section aria-labelledby="streitbeilegung">
+            <h2 id="streitbeilegung">Verbraucherstreitbeilegung</h2>
+            <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+          </section>
+        )}
+
+        {isPreview && offenePunkte.length > 0 && (
+          <aside class="review-note" aria-label="Noch vor Produktionsfreigabe zu bestätigen">
+            <strong>Produktionscheck</strong>
+            <p>Die bereits öffentlich verifizierten Betreiber- und Kontaktdaten sind eingetragen. Vor dem Domain-Cutover werden nur noch folgende fallabhängigen Angaben bestätigt:</p>
+            <ul>{offenePunkte.map((punkt) => <li>{punkt}</li>)}</ul>
+          </aside>
+        )}
       </div>
     </div>
   </section>
 </Base>
+
+<style>
+  .legal-stage { padding-block: clamp(5rem, 8vw, 8rem); background: #f7f3ec; }
+  .legal-layout { display:grid; grid-template-columns:minmax(16rem,.72fr) minmax(0,1.28fr); gap:clamp(3rem,8vw,8rem); align-items:start; }
+  .legal-head { position:sticky; top:calc(var(--header-height) + 2rem); }
+  .legal-head h1 { max-width:8ch; font-size:clamp(3.5rem,6vw,5.8rem); line-height:.9; letter-spacing:-.045em; }
+  .legal-head > p:last-child { max-width:28rem; margin-top:1.35rem; color:var(--ink-soft); line-height:1.7; }
+  .legal-content { display:grid; gap:0; border-top:1px solid rgba(28,29,31,.2); }
+  .legal-content > section { display:grid; grid-template-columns:minmax(10rem,.42fr) minmax(0,1fr); gap:2rem; padding-block:1.65rem; border-bottom:1px solid rgba(28,29,31,.14); }
+  .legal-content h2 { margin:0; font-family:var(--font-text); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--brass-deep); }
+  .legal-content p, .legal-content address { margin:0; color:var(--ink-soft); font-style:normal; line-height:1.75; }
+  .legal-content strong { color:var(--ink); }
+  .legal-content a { color:var(--ink); text-underline-offset:.22em; }
+  .review-note { margin-top:2rem; padding:1.25rem 1.35rem; border-left:3px solid var(--brass); background:#efe6d8; color:var(--ink-soft); }
+  .review-note strong { color:var(--ink); }
+  .review-note p { margin:.5rem 0 .75rem; line-height:1.6; }
+  .review-note ul { margin:0; padding-left:1.1rem; }
+  .review-note li + li { margin-top:.35rem; }
+  @media (max-width:56rem) {
+    .legal-layout { grid-template-columns:1fr; gap:2.5rem; }
+    .legal-head { position:static; }
+    .legal-head h1 { font-size:clamp(3.1rem,11vw,4.5rem); }
+  }
+  @media (max-width:40rem) {
+    .legal-stage { padding-block:3.75rem; }
+    .legal-content > section { grid-template-columns:1fr; gap:.65rem; padding-block:1.35rem; }
+  }
+</style>
