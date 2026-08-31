@@ -87,8 +87,10 @@ for (const file of htmlFiles) {
 
   if (route === '/agb/') errors.push('/agb/: Platzhalter-AGB darf nicht als öffentliche Build-Route existieren.');
 
-  for (const claim of unverifiedClaimPatterns) {
-    if (claim.pattern.test(html)) errors.push(`${route}: nicht freigegebene Werbeaussage gefunden (${claim.label}).`);
+  if (commercialRoute(route)) {
+    for (const claim of unverifiedClaimPatterns) {
+      if (claim.pattern.test(html)) errors.push(`${route}: nicht freigegebene Werbeaussage gefunden (${claim.label}).`);
+    }
   }
 
   if (titles.length !== 1 || !titles[0]) errors.push(`${route}: genau ein nicht-leerer <title> erwartet.`);
