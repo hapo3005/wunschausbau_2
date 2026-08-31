@@ -7,7 +7,7 @@ bildAlt: "Heller Wohnraum mit großen Fenster- und Türflächen"
 metaDescription: "Fenster- und Außentürenmontage in Wittlich, Trier und der Moselregion: dauerhaft dicht, sicher und energieeffizient eingebaut."
 ---
 
-Fenster und Außentüren sind die Schnittstelle zwischen innen und außen. Entscheidend ist die Montage: dauerhaft dicht, mechanisch stabil und sauber an die Wand angeschlossen – für Wärmeschutz, Sicherheit und Ruhe.
+Fenster und Außentüren sind die Schnittstelle zwischen innen und außen. Bei Montage- und Austauschprojekten in Wittlich, Trier und der Moselregion kommt es deshalb nicht nur auf das Bauteil selbst an, sondern besonders auf Befestigung, Ausrichtung und Anschluss an den Bestand.
 
 ## Unsere Leistungen
 
@@ -18,4 +18,18 @@ Fenster und Außentüren sind die Schnittstelle zwischen innen und außen. Entsc
 
 ## Warum die Montage entscheidet
 
-Auch das beste Fenster verliert seine Wirkung, wenn der Anschluss zur Wand nicht stimmt. Wir arbeiten nach dem Grundsatz: innen dichter als außen – damit Feuchtigkeit draußen bleibt und Wärme drinnen.
+Auch ein hochwertiges Fenster kann seine Aufgabe nur erfüllen, wenn der Anschluss zur Wand sauber geplant und ausgeführt ist. Befestigung, Fugen und Abdichtung müssen zusammenpassen, damit das Element stabil sitzt und der Anschluss dauerhaft funktioniert.
+
+Vor der Montage prüfen wir deshalb Öffnung, Einbausituation und angrenzende Bauteile. Gerade im Bestand können Laibungen, Rollladenkästen, Fensterbänke oder vorhandene Oberflächen Einfluss auf die sinnvolle Ausführung haben.
+
+## Fenster im Bestand austauschen
+
+Beim Fenstertausch geht es nicht nur darum, ein altes Element herauszunehmen und ein neues einzusetzen. Die bestehende Einbausituation bestimmt, wie Demontage, Anschluss und spätere Oberflächen geplant werden sollten.
+
+Wir stimmen vor Beginn ab, welche Bereiche betroffen sind und welche Arbeiten am Anschluss erforderlich werden. So bleiben Überraschungen nach dem Ausbau möglichst gering und die neue Lösung fügt sich technisch wie optisch in den Bestand ein.
+
+## Außentüren: Funktion und Anschluss zusammendenken
+
+Haus- und Nebeneingangstüren werden täglich stark beansprucht. Neben sicherer Befestigung sind deshalb saubere Ausrichtung, leichtgängige Bedienung und passende Anschlüsse an Boden und Wand wichtig.
+
+Nach der Montage kontrollieren wir Funktion und Einstellungen. Wenn sich bestehende Fenster oder Türen nicht mehr sauber bedienen lassen, kann je nach Zustand auch eine Justierung oder Nachbesserung sinnvoll sein, bevor ein kompletter Austausch geplant wird.

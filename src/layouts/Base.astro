@@ -11,6 +11,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCta from '../components/MobileCta.astro';
 import settings from '../data/settings.json';
+import seo from '../data/seo.json';
 import legal from '../data/legal.json';
 import release from '../data/release.json';
 import { withBase } from '../lib/paths';
@@ -18,7 +19,7 @@ import { withBase } from '../lib/paths';
 interface Props {
   title: string;
   description: string;
-  schema?: object;
+  schema?: Record<string, unknown>;
   noindex?: boolean;
 }
 
@@ -31,6 +32,103 @@ const releaseReady = legal.launchApproved === true
   && release.projectMediaApproved === true
   && release.smtpDeliveryTestPassed === true;
 const shouldNoindex = noindex || isPreview || !releaseReady;
+
+const basePath = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
+let normalizedPath = Astro.url.pathname;
+if (basePath && normalizedPath.startsWith(basePath)) {
+  normalizedPath = normalizedPath.slice(basePath.length) || '/';
+}
+if (!normalizedPath.startsWith('/')) normalizedPath = `/${normalizedPath}`;
+if (!normalizedPath.endsWith('/') && !normalizedPath.split('/').at(-1)?.includes('.')) normalizedPath += '/';
+
+const titleOverrides = seo.titleOverrides as Record<string, string>;
+const breadcrumbLabels = seo.breadcrumbLabels as Record<string, string>;
+const resolvedTitle = titleOverrides[normalizedPath] || title;
+const sameAs = [settings.instagram, settings.myHammer].filter(Boolean);
+const ogImage = new URL(withBase('/og-image.jpg'), Astro.site).href;
+const logo = new URL(withBase('/favicon.svg'), Astro.site).href;
+const hasBusinessAddress = [legal.strasse, legal.plz, legal.ort, legal.land]
+  .every((value) => String(value || '').trim());
+const businessAddress = hasBusinessAddress
+  ? {
+      '@type': 'PostalAddress',
+      streetAddress: legal.strasse,
+      postalCode: legal.plz,
+      addressLocality: legal.ort,
+      addressCountry: 'DE'
+    }
+  : null;
+
+const defaultBusiness: Record<string, unknown> = {
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': 'https://wunschausbau.de/#business',
+  name: settings.firma,
+  alternateName: settings.marke,
+  description: `${settings.claim} aus Wittlich`,
+  url: 'https://wunschausbau.de/',
+  telephone: settings.telefonLink,
+  email: settings.email,
+  image: ogImage,
+  logo,
+  areaServed: settings.regionen,
+  sameAs,
+  ...(businessAddress ? { address: businessAddress } : {})
+};
+
+const suppliedSchema = schema ? { ...schema } : null;
+if (suppliedSchema && '@context' in suppliedSchema) delete suppliedSchema['@context'];
+
+let businessNode = defaultBusiness;
+const pageNodes: Record<string, unknown>[] = [];
+if (suppliedSchema) {
+  if (suppliedSchema['@type'] === 'HomeAndConstructionBusiness') {
+    businessNode = { ...defaultBusiness, ...suppliedSchema, sameAs, ...(businessAddress ? { address: businessAddress } : {}) };
+  } else {
+    pageNodes.push(suppliedSchema);
+  }
+}
+
+const websiteNode: Record<string, unknown> = {
+  '@type': 'WebSite',
+  '@id': 'https://wunschausbau.de/#website',
+  url: 'https://wunschausbau.de/',
+  name: settings.marke,
+  alternateName: settings.firma,
+  inLanguage: 'de-DE',
+  publisher: { '@id': 'https://wunschausbau.de/#business' }
+};
+
+const segments = normalizedPath.split('/').filter(Boolean);
+const breadcrumbNode = segments.length
+  ? {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical.href}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Startseite',
+          item: new URL(withBase('/'), Astro.site).href
+        },
+        ...segments.map((segment, index) => {
+          const path = `/${segments.slice(0, index + 1).join('/')}/`;
+          const isCurrent = index === segments.length - 1;
+          const fallbackLabel = isCurrent ? resolvedTitle.split('|')[0].trim() : segment.replace(/-/g, ' ');
+          return {
+            '@type': 'ListItem',
+            position: index + 2,
+            name: breadcrumbLabels[segment] || fallbackLabel,
+            item: new URL(withBase(path), Astro.site).href
+          };
+        })
+      ]
+    }
+  : null;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [websiteNode, businessNode, ...pageNodes, ...(breadcrumbNode ? [breadcrumbNode] : [])]
+};
 ---
 <!DOCTYPE html>
 <html lang="de">
@@ -43,7 +141,7 @@ const shouldNoindex = noindex || isPreview || !releaseReady;
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="color-scheme" content="light" />
-    <title>{title}</title>
+    <title>{resolvedTitle}</title>
     <meta name="description" content={description} />
     {shouldNoindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
@@ -52,12 +150,15 @@ const shouldNoindex = noindex || isPreview || !releaseReady;
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={settings.marke} />
     <meta property="og:locale" content="de_DE" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(withBase('/og-image.jpg'), Astro.site)} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${settings.marke} – ${settings.claim}`} />
     <meta name="twitter:card" content="summary_large_image" />
-    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <meta name="twitter:title" content={resolvedTitle} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
