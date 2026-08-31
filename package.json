@@ -17,7 +17,8 @@
     "qa:static": "node scripts/static-site-qa.mjs",
     "qa:static:production": "node scripts/static-site-qa.mjs --production",
     "qa:visual": "node scripts/visual-qa.mjs",
-    "qa:lighthouse": "node scripts/lighthouse-gate.mjs qa-artifacts/lighthouse"
+    "qa:lighthouse": "node scripts/lighthouse-gate.mjs qa-artifacts/lighthouse",
+    "qa:monitor": "node scripts/production-monitor.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.3.0",
