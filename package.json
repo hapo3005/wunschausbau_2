@@ -14,6 +14,8 @@
     "build": "astro build && node scripts/prune-originals.mjs",
     "preview": "astro preview",
     "qa:release": "node scripts/legal-launch-gate.mjs --production",
+    "qa:static": "node scripts/static-site-qa.mjs",
+    "qa:static:production": "node scripts/static-site-qa.mjs --production",
     "qa:visual": "node scripts/visual-qa.mjs",
     "qa:lighthouse": "node scripts/lighthouse-gate.mjs qa-artifacts/lighthouse"
   },
