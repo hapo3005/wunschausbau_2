@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
     </div>
 
     <nav class="footer-contact" aria-label="Kontakt">
-      <h4>Kontakt</h4>
+      <p class="footer-heading">Kontakt</p>
       <ul>
         <li>
           <a href={`tel:${settings.telefonLink}`}>
@@ -36,7 +36,7 @@ const year = new Date().getFullYear();
     </nav>
 
     <nav aria-label="Seiten">
-      <h4>Seiten</h4>
+      <p class="footer-heading">Seiten</p>
       <ul>
         <li><a href={withBase('/leistungen/')}>Leistungen</a></li>
         <li><a href={withBase('/referenzen/')}>Referenzen</a></li>
@@ -46,7 +46,7 @@ const year = new Date().getFullYear();
     </nav>
 
     <nav aria-label="Rechtliches">
-      <h4>Rechtliches</h4>
+      <p class="footer-heading">Rechtliches</p>
       <ul>
         <li><a href={withBase('/impressum/')}>Impressum</a></li>
         <li><a href={withBase('/datenschutz/')}>Datenschutz</a></li>
@@ -100,7 +100,7 @@ const year = new Date().getFullYear();
     line-height: 1.5;
   }
 
-  h4 {
+  .footer-heading {
     margin: .1rem 0 1.35rem;
     color: rgba(244,240,233,.52);
     font-family: var(--font-text);
@@ -204,7 +204,7 @@ const year = new Date().getFullYear();
     .footer-firm,
     .footer-region { margin-top: 0; }
 
-    h4 { margin-bottom: .8rem; }
+    .footer-heading { margin-bottom: .8rem; }
     ul { gap: .12rem; }
     a { min-height: 2.15rem; font-size: .86rem; }
 
