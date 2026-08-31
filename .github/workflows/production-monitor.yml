@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      MONITOR_BASE_URL: https://wunschausbau.de
+      MONITOR_BASE_URL: https://www.wunschausbau.de
       INCIDENT_TITLE: '[Monitoring] wunschausbau.de production incident'
     steps:
       - name: Repository auschecken
