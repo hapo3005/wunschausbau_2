@@ -12,6 +12,7 @@ import Footer from '../components/Footer.astro';
 import MobileCta from '../components/MobileCta.astro';
 import settings from '../data/settings.json';
 import legal from '../data/legal.json';
+import release from '../data/release.json';
 import { withBase } from '../lib/paths';
 
 interface Props {
@@ -24,7 +25,12 @@ interface Props {
 const { title, description, schema, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
-const shouldNoindex = noindex || isPreview || legal.launchApproved !== true;
+const releaseReady = legal.launchApproved === true
+  && release.serviceCatalogApproved === true
+  && release.serviceAreaApproved === true
+  && release.projectMediaApproved === true
+  && release.smtpDeliveryTestPassed === true;
+const shouldNoindex = noindex || isPreview || !releaseReady;
 ---
 <!DOCTYPE html>
 <html lang="de">
