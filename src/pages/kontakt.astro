@@ -186,10 +186,17 @@ const faqSchema = {
 
   .kontakt-grid {
     display: grid;
-    grid-template-columns: minmax(18rem, .78fr) minmax(0, 1.22fr);
+    grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
     align-items: start;
     gap: clamp(4rem, 9vw, 9rem);
   }
+
+  .kontakt-grid > *,
+  .kontakt-intro,
+  .anfrage,
+  .faq-layout > *,
+  .faq-head,
+  .faq { min-width: 0; }
 
   .kontakt-intro {
     position: sticky;
@@ -202,6 +209,8 @@ const faqSchema = {
     font-size: clamp(3.6rem, 5.8vw, 5.7rem);
     line-height: .91;
     letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .contact-lead {
@@ -234,11 +243,13 @@ const faqSchema = {
 
   .direkt li {
     display: grid;
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr);
     align-items: baseline;
     padding-block: .9rem;
     border-bottom: 1px solid rgba(28,29,31,.14);
   }
+
+  .direkt li > * { min-width: 0; }
 
   .direkt span {
     color: var(--ink-muted);
@@ -249,7 +260,7 @@ const faqSchema = {
   }
 
   .direkt a { overflow-wrap: anywhere; font-weight: 600; }
-  .direkt b { font-weight: 600; }
+  .direkt b { font-weight: 600; overflow-wrap: anywhere; }
 
   .foto-hinweis {
     max-width: 36ch;
@@ -281,12 +292,15 @@ const faqSchema = {
 
   .form-head {
     display: flex;
+    min-width: 0;
     align-items: end;
     justify-content: space-between;
     gap: 2rem;
     padding-bottom: 1.6rem;
     border-bottom: 1px solid var(--line);
   }
+
+  .form-head > * { min-width: 0; }
 
   .form-head p {
     margin-bottom: .55rem;
@@ -301,6 +315,8 @@ const faqSchema = {
     max-width: 15ch;
     font-size: clamp(2rem, 3vw, 2.8rem);
     line-height: .95;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .form-head > span {
@@ -310,17 +326,20 @@ const faqSchema = {
     font-weight: 650;
     letter-spacing: .08em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
-  fieldset { padding: 0; border: 0; }
+  fieldset { min-width: 0; padding: 0; border: 0; }
   legend, label { font-size: var(--text-sm); font-weight: 650; }
   legend { margin-bottom: .7rem; }
-  label { display: grid; gap: .45rem; }
+  label { display: grid; min-width: 0; gap: .45rem; }
   label b { color: var(--error); }
   .conditional-required[hidden] { display: none; }
 
   input:not([type="radio"]):not([type="checkbox"]), select, textarea {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     min-height: 3.15rem;
     padding: .72rem .85rem;
     border: 1px solid #d9d1c5;
@@ -342,19 +361,22 @@ const faqSchema = {
   }
 
   input:user-invalid, textarea:user-invalid { border-color: var(--error); }
-  .feld-grid, .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
-  .choice-row { display: flex; flex-wrap: wrap; gap: .5rem; }
-  .choice { position: relative; display: block; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .feld-grid, .choice-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .85rem; }
+  .feld-grid > *, .choice-grid > * { min-width: 0; }
+  .choice-row { display: flex; min-width: 0; flex-wrap: wrap; gap: .5rem; }
+  .choice { position: relative; display: block; min-width: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 
   .choice span {
     display: flex;
+    min-width: 0;
     align-items: center;
     min-height: 3rem;
     padding: .55rem .9rem;
     border: 1px solid #d9d1c5;
     background: #fff;
     font-weight: 550;
+    overflow-wrap: anywhere;
     transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease), transform var(--dur-fast) var(--ease);
   }
 
@@ -371,6 +393,7 @@ const faqSchema = {
     background: #f5efe5;
     font-size: .79rem;
     line-height: 1.62;
+    overflow-wrap: anywhere;
   }
 
   .privacy-note a {
@@ -382,6 +405,8 @@ const faqSchema = {
   .submit {
     display: flex;
     width: min(100%, 27rem);
+    max-width: 100%;
+    min-width: 0;
     min-height: 3.65rem;
     align-items: center;
     justify-content: space-between;
@@ -397,6 +422,8 @@ const faqSchema = {
     transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
   }
 
+  .submit > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+
   .submit__icon {
     display: grid;
     width: 3.65rem;
@@ -409,7 +436,7 @@ const faqSchema = {
     transition: transform var(--dur) var(--ease-move), background-color var(--dur) var(--ease);
   }
 
-  .form-note, .form-status { color: var(--ink-muted); font-size: .77rem; }
+  .form-note, .form-status { color: var(--ink-muted); font-size: .77rem; overflow-wrap: anywhere; }
   .form-status { margin-top: calc(var(--space-2) * -1); }
 
   .faq-stage {
@@ -420,7 +447,7 @@ const faqSchema = {
 
   .faq-layout {
     display: grid;
-    grid-template-columns: minmax(18rem, .68fr) minmax(0, 1.32fr);
+    grid-template-columns: minmax(0, .68fr) minmax(0, 1.32fr);
     align-items: start;
     gap: clamp(4rem, 9vw, 9rem);
   }
@@ -432,6 +459,7 @@ const faqSchema = {
     color: #fff;
     font-size: clamp(3rem, 5vw, 4.7rem);
     line-height: .92;
+    overflow-wrap: anywhere;
   }
 
   .faq-head > p:last-child {
@@ -446,6 +474,7 @@ const faqSchema = {
 
   summary {
     display: flex;
+    min-width: 0;
     min-height: 4.5rem;
     align-items: center;
     justify-content: space-between;
@@ -459,6 +488,7 @@ const faqSchema = {
     list-style: none;
   }
 
+  summary > span:first-child { min-width: 0; overflow-wrap: anywhere; }
   summary::-webkit-details-marker { display: none; }
 
   .faq-icon {
@@ -504,7 +534,7 @@ const faqSchema = {
     .kontakt-intro h1 { font-size: clamp(2.9rem, 12vw, 3.65rem); }
     .contact-lead { font-size: .98rem; }
     .contact-principle { margin-top: 1.8rem; font-size: 1.35rem; }
-    .direkt li { grid-template-columns: 5.4rem minmax(0, 1fr); }
+    .direkt li { grid-template-columns: minmax(0, 5.4rem) minmax(0, 1fr); }
     .anfrage { gap: 1.65rem; padding: 1.35rem; }
     .form-head { display: grid; gap: .7rem; padding-bottom: 1.3rem; }
     .form-head h2 { font-size: 2rem; }
