@@ -1,0 +1,83 @@
+name: Production Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_id:
+        description: 'Netlify Deploy ID, die wieder live geschaltet werden soll'
+        required: true
+        type: string
+      confirm:
+        description: 'Für den Rollback exakt ROLLBACK eingeben'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wunschausbau-production
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    name: Restore Previous Atomic Deploy
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: https://wunschausbau.de
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    steps:
+      - name: Rollback-Bestätigung prüfen
+        run: |
+          if [ "${{ inputs.confirm }}" != "ROLLBACK" ]; then
+            echo "Rollback abgebrochen: Bestätigung muss exakt ROLLBACK lauten."
+            exit 1
+          fi
+          if [ -z "${{ inputs.deploy_id }}" ]; then
+            echo "Deploy ID fehlt."
+            exit 1
+          fi
+
+      - name: Netlify-Zugang prüfen
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "NETLIFY_AUTH_TOKEN oder NETLIFY_SITE_ID fehlt im GitHub-Environment production."
+            exit 1
+          fi
+
+      - name: Vorherigen Deploy wiederherstellen
+        id: restore
+        env:
+          DEPLOY_ID: ${{ inputs.deploy_id }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Authorization: Bearer ${NETLIFY_AUTH_TOKEN}" \
+            --header "Content-Type: application/json" \
+            "https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys/${DEPLOY_ID}/restore" \
+            > /tmp/netlify-restore.json
+
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const deploy = JSON.parse(fs.readFileSync('/tmp/netlify-restore.json', 'utf8'));
+          const liveUrl = deploy.url || 'https://wunschausbau.de';
+          const deployUrl = deploy.deploy_url || '';
+          const deployId = deploy.id || process.env.DEPLOY_ID;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `live_url=${liveUrl}\ndeploy_url=${deployUrl}\ndeploy_id=${deployId}\n`);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Production Rollback\n\n- Wiederhergestellte Deploy ID: ${deployId}\n- Live: ${liveUrl}\n- Atomic Deploy: ${deployUrl || 'nicht geliefert'}\n`);
+          NODE
+
+      - name: Live-Smoke-Test nach Rollback
+        env:
+          LIVE_URL: ${{ steps.restore.outputs.live_url }}
+        run: |
+          base="${LIVE_URL%/}"
+          for path in / /leistungen/ /kontakt/ /robots.txt; do
+            echo "Prüfe ${base}${path}"
+            curl --fail --silent --show-error --location --max-time 20 "${base}${path}" > /dev/null
+          done
