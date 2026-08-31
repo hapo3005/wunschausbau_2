@@ -1,0 +1,32 @@
+{
+  "primaryMarket": "Wittlich",
+  "titleOverrides": {
+    "/": "Innenausbau Wittlich | KS-Innenausbau & Renovierung",
+    "/leistungen/": "Innenausbau & Renovierung Wittlich | Leistungen",
+    "/leistungen/boeden/": "Bodenverlegung Wittlich | Parkett, Vinyl & Laminat",
+    "/leistungen/innentueren/": "Innentüren Wittlich | Montage & Austausch",
+    "/leistungen/fenster-aussentueren/": "Fenster & Außentüren Wittlich | Montage",
+    "/leistungen/sonnenschutz/": "Sonnenschutz Wittlich | Rollläden, Plissees & Markisen",
+    "/leistungen/trockenbau/": "Trockenbau Wittlich | Wände, Decken & Innenausbau",
+    "/leistungen/holzterrassen/": "Holzterrassen Wittlich | Planung, Bau & Reparatur",
+    "/leistungen/komplettrenovierung/": "Renovierung Wittlich | Innenausbau aus einer Hand",
+    "/referenzen/": "Referenzen Innenausbau Wittlich | KS-Innenausbau",
+    "/ueber-uns/": "KS-Innenausbau Wittlich | Kevin Schmieding",
+    "/kontakt/": "KS-Innenausbau Wittlich kontaktieren | Projekt anfragen"
+  },
+  "breadcrumbLabels": {
+    "leistungen": "Leistungen",
+    "boeden": "Bodenverlegung",
+    "innentueren": "Innentüren",
+    "fenster-aussentueren": "Fenster & Außentüren",
+    "sonnenschutz": "Sonnenschutz",
+    "trockenbau": "Trockenbau",
+    "holzterrassen": "Holzterrassen",
+    "komplettrenovierung": "Komplette Renovierung",
+    "referenzen": "Referenzen",
+    "ueber-uns": "Über uns",
+    "kontakt": "Kontakt",
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz"
+  }
+}
