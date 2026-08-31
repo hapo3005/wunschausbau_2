@@ -12,7 +12,7 @@
  */
 import nodemailer from 'nodemailer';
 
-const PFLICHT = ['leistung', 'name', 'telefon', 'ort', 'beschreibung', 'kontaktweg'];
+const PFLICHT = ['leistung', 'name', 'ort', 'beschreibung', 'kontaktweg'];
 const MAX = {
   leistung: 120,
   name: 120,
@@ -27,6 +27,15 @@ const MAX = {
   firma: 200,
   ts: 32
 };
+const LEISTUNGEN = new Set([
+  'Böden',
+  'Fenster & Außentüren',
+  'Holzterrassen',
+  'Innentüren',
+  'Komplette Renovierung',
+  'Sonnenschutz',
+  'Trockenbau'
+]);
 const KONTAKTWEGE = new Set(['Telefon', 'E-Mail', 'WhatsApp']);
 const OBJEKTARTEN = new Set(['', 'Wohnung', 'Haus', 'Gewerbeobjekt', 'Außenbereich']);
 const ZEITRAEUME = new Set(['', 'So bald wie möglich', 'In den nächsten 3 Monaten', 'In den nächsten 6 Monaten', 'Noch offen']);
@@ -71,13 +80,8 @@ function sameOrigin(request) {
 }
 
 export default async (request) => {
-  if (request.method !== 'POST') {
-    return textResponse('Method Not Allowed', 405);
-  }
-
-  if (!sameOrigin(request)) {
-    return textResponse('Forbidden', 403);
-  }
+  if (request.method !== 'POST') return textResponse('Method Not Allowed', 405);
+  if (!sameOrigin(request)) return textResponse('Forbidden', 403);
 
   const contentType = request.headers.get('content-type') || '';
   if (!contentType.startsWith('application/x-www-form-urlencoded') && !contentType.startsWith('multipart/form-data')) {
@@ -85,9 +89,7 @@ export default async (request) => {
   }
 
   const declaredLength = Number(request.headers.get('content-length') || 0);
-  if (Number.isFinite(declaredLength) && declaredLength > MAX_REQUEST_BYTES) {
-    return textResponse('Request Too Large', 413);
-  }
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_REQUEST_BYTES) return textResponse('Request Too Large', 413);
 
   let formData;
   try {
@@ -108,24 +110,22 @@ export default async (request) => {
   }
 
   const alter = Date.now() - Number(daten.ts || 0);
-  if (daten.firma || !Number.isFinite(alter) || alter < MIN_FORM_AGE) {
-    return redirectTo(request, '/danke/');
-  }
-  if (alter > MAX_FORM_AGE) {
-    return textResponse('Das Formular war zu lange geöffnet. Bitte laden Sie die Seite neu und versuchen Sie es erneut.', 400);
-  }
+  if (daten.firma || !Number.isFinite(alter) || alter < MIN_FORM_AGE) return redirectTo(request, '/danke/');
+  if (alter > MAX_FORM_AGE) return textResponse('Das Formular war zu lange geöffnet. Bitte laden Sie die Seite neu und versuchen Sie es erneut.', 400);
 
-  const fehler = [];
-  for (const feld of PFLICHT) if (!clean(daten[feld])) fehler.push(feld);
-  if (daten.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(daten.email)) fehler.push('email');
-  if (!KONTAKTWEGE.has(daten.kontaktweg)) fehler.push('kontaktweg');
-  if (!OBJEKTARTEN.has(daten.objektart || '')) fehler.push('objektart');
-  if (!ZEITRAEUME.has(daten.zeitraum || '')) fehler.push('zeitraum');
-  if (!BUDGETS.has(daten.budget || '')) fehler.push('budget');
+  const fehler = new Set();
+  for (const feld of PFLICHT) if (!clean(daten[feld])) fehler.add(feld);
+  if (!LEISTUNGEN.has(daten.leistung)) fehler.add('leistung');
+  if (!KONTAKTWEGE.has(daten.kontaktweg)) fehler.add('kontaktweg');
 
-  if (fehler.length) {
-    return textResponse('Bitte prüfen Sie Ihre Angaben und versuchen Sie es erneut.', 400);
-  }
+  if (daten.kontaktweg === 'E-Mail' && !clean(daten.email)) fehler.add('email');
+  if ((daten.kontaktweg === 'Telefon' || daten.kontaktweg === 'WhatsApp') && !clean(daten.telefon)) fehler.add('telefon');
+  if (daten.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(daten.email)) fehler.add('email');
+  if (!OBJEKTARTEN.has(daten.objektart || '')) fehler.add('objektart');
+  if (!ZEITRAEUME.has(daten.zeitraum || '')) fehler.add('zeitraum');
+  if (!BUDGETS.has(daten.budget || '')) fehler.add('budget');
+
+  if (fehler.size) return textResponse('Bitte prüfen Sie Ihre Angaben und versuchen Sie es erneut.', 400);
 
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_TO, MAIL_FROM } = process.env;
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !MAIL_TO || !MAIL_FROM) {
@@ -136,7 +136,7 @@ export default async (request) => {
   const zeilen = [
     ['Leistung', daten.leistung],
     ['Name', daten.name],
-    ['Telefon', daten.telefon],
+    ['Telefon', daten.telefon || '–'],
     ['E-Mail', daten.email || '–'],
     ['Ort/PLZ', daten.ort],
     ['Objektart', daten.objektart || '–'],

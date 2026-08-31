@@ -1,0 +1,232 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const referenzen = (await getCollection('referenzen')).filter((projekt) => projekt.data.published === true);
+  return referenzen.map((projekt) => ({ params: { slug: projekt.id }, props: { projekt } }));
+}
+
+const { projekt } = Astro.props;
+const { Content } = await render(projekt);
+const alleLeistungen = await getCollection('leistungen');
+const verwandteLeistungen = projekt.data.leistungen
+  .map((slug) => alleLeistungen.find((leistung) => leistung.id === slug))
+  .filter(Boolean);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: projekt.data.title,
+  description: projekt.data.metaDescription,
+  spatialCoverage: {
+    '@type': 'Place',
+    name: projekt.data.ort
+  },
+  about: verwandteLeistungen.map((leistung) => ({
+    '@type': 'Service',
+    name: leistung.data.title
+  })),
+  publisher: {
+    '@type': 'HomeAndConstructionBusiness',
+    '@id': 'https://www.wunschausbau.de/#business'
+  }
+};
+---
+<Base
+  title={`${projekt.data.title} | Referenz ${projekt.data.ort} – KS-Innenausbau`}
+  description={projekt.data.metaDescription}
+  schema={schema}
+>
+  <article class="case-study">
+    <header class="case-hero">
+      <div class="wrap case-hero__intro">
+        <div>
+          <p class="eyebrow"><a href={withBase('/referenzen/')}>Referenzen</a> · {projekt.data.ort}</p>
+          <h1>{projekt.data.title}</h1>
+        </div>
+        <p class="case-hero__lead">{projekt.data.kurztext}</p>
+      </div>
+
+      <div class="wrap case-hero__media">
+        <Image
+          src={projekt.data.hero}
+          alt={projekt.data.heroAlt}
+          widths={[640, 960, 1440, 1920]}
+          sizes="(max-width: 64rem) 100vw, 86vw"
+          quality={84}
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </header>
+
+    <section class="case-body" aria-labelledby="case-details-title">
+      <div class="wrap case-body__grid">
+        <aside class="case-facts" aria-label="Projektdaten">
+          <p class="eyebrow" id="case-details-title">Projekt</p>
+          <dl>
+            <div>
+              <dt>Ort</dt>
+              <dd>{projekt.data.ort}</dd>
+            </div>
+            {projekt.data.jahr && (
+              <div>
+                <dt>Zeitraum</dt>
+                <dd>{projekt.data.jahr}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Leistungen</dt>
+              <dd>{verwandteLeistungen.map((leistung) => leistung.data.title).join(' · ')}</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <div class="case-prose prose">
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    {projekt.data.galerie.length > 0 && (
+      <section class="case-gallery" aria-labelledby="case-gallery-title">
+        <div class="wrap">
+          <header class="case-gallery__head">
+            <p class="eyebrow">Details</p>
+            <h2 id="case-gallery-title">Das Projekt im Blick.</h2>
+          </header>
+          <div class="case-gallery__grid">
+            {projekt.data.galerie.map((motiv, index) => (
+              <figure class:list={['case-gallery__item', index % 3 === 0 && 'case-gallery__item--wide']}>
+                <Image
+                  src={motiv.bild}
+                  alt={motiv.alt}
+                  widths={[480, 720, 1080, 1440]}
+                  sizes={index % 3 === 0 ? '(max-width: 48rem) 100vw, 66vw' : '(max-width: 48rem) 100vw, 33vw'}
+                  quality={82}
+                  format="webp"
+                  loading="lazy"
+                />
+                {motiv.caption && <figcaption>{motiv.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {verwandteLeistungen.length > 0 && (
+      <section class="case-services" aria-labelledby="case-services-title">
+        <div class="wrap case-services__grid">
+          <header>
+            <p class="eyebrow">Passende Leistungen</p>
+            <h2 id="case-services-title">Was hier zusammenkam.</h2>
+          </header>
+          <ul>
+            {verwandteLeistungen.map((leistung) => (
+              <li>
+                <a href={withBase(`/leistungen/${leistung.id}/`)}>
+                  <span>{leistung.data.title}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </article>
+
+  <CtaBand title="Sie planen ein ähnliches Projekt?" />
+</Base>
+
+<style>
+  .case-hero { padding-block: clamp(4.5rem, 8vw, 7.5rem); background: var(--paper); }
+
+  .case-hero__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .65fr);
+    align-items: end;
+    gap: clamp(2.5rem, 8vw, 8rem);
+  }
+
+  .case-hero .eyebrow a { color: inherit; text-decoration: none; }
+  .case-hero h1 { max-width: 13ch; font-size: clamp(3.5rem, 6vw, 6rem); line-height: .92; }
+
+  .case-hero__lead {
+    max-width: 40rem;
+    padding-bottom: .35rem;
+    color: var(--ink-soft);
+    font-size: clamp(1.05rem, 1.45vw, 1.2rem);
+    line-height: 1.72;
+  }
+
+  .case-hero__media {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    background: var(--sand);
+  }
+
+  .case-hero__media :global(img) {
+    display: block;
+    width: 100%;
+    max-height: 48rem;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .case-body { padding-block: clamp(5rem, 8vw, 7.5rem); background: #f4efe7; border-block: 1px solid var(--line); }
+  .case-body__grid { display: grid; grid-template-columns: minmax(15rem, .48fr) minmax(0, 1.15fr); gap: clamp(3rem, 9vw, 9rem); }
+  .case-facts { position: sticky; top: calc(var(--header-height) + 2rem); align-self: start; }
+  .case-facts dl { margin: 1.5rem 0 0; border-top: 1px solid rgba(28,29,31,.18); }
+  .case-facts dl > div { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem; padding-block: .9rem; border-bottom: 1px solid rgba(28,29,31,.14); }
+  .case-facts dt { color: var(--ink-muted); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .case-facts dd { margin: 0; color: var(--ink); font-weight: 600; line-height: 1.5; }
+
+  .prose { max-width: 51rem; }
+  .prose :global(> p:first-child) { color: var(--ink); font-size: clamp(1.15rem, 1.8vw, 1.45rem); line-height: 1.65; }
+  .prose :global(h2) { margin: clamp(2.8rem, 5vw, 4rem) 0 1.1rem; padding-top: 1.25rem; border-top: 1px solid rgba(28,29,31,.16); font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1; }
+  .prose :global(p) { margin-bottom: 1.15rem; color: var(--ink-soft); line-height: 1.75; }
+  .prose :global(ul) { display: grid; gap: .7rem; margin: 0 0 1.5rem; padding: 0; color: var(--ink-soft); list-style: none; }
+  .prose :global(li) { position: relative; padding-left: 1.5rem; line-height: 1.65; }
+  .prose :global(li::before) { position: absolute; top: .72em; left: 0; width: .6rem; height: 1px; background: var(--brass); content: ''; }
+
+  .case-gallery { padding-block: clamp(5rem, 8vw, 7rem); background: var(--paper); }
+  .case-gallery__head { display: grid; grid-template-columns: minmax(15rem, .45fr) minmax(0, 1fr); align-items: end; gap: 3rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .case-gallery__head h2 { max-width: 12ch; font-size: clamp(2.7rem, 4.5vw, 4.3rem); line-height: .96; }
+  .case-gallery__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); }
+  .case-gallery__item { margin: 0; }
+  .case-gallery__item--wide { grid-column: 1 / -1; }
+  .case-gallery__item :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .case-gallery__item--wide :global(img) { aspect-ratio: 16 / 8.5; }
+  .case-gallery figcaption { margin-top: .65rem; color: var(--ink-muted); font-size: .76rem; line-height: 1.55; }
+
+  .case-services { padding-block: clamp(5rem, 8vw, 7rem); color: var(--paper-inverse); background: #202124; }
+  .case-services__grid { display: grid; grid-template-columns: minmax(18rem, .7fr) minmax(0, 1.3fr); gap: clamp(3rem, 8vw, 8rem); }
+  .case-services .eyebrow { color: #d7b06b; }
+  .case-services h2 { max-width: 12ch; color: #fff; font-size: clamp(2.5rem, 4vw, 4rem); line-height: .97; }
+  .case-services ul { margin: 0; padding: 0; border-top: 1px solid rgba(247,244,238,.2); list-style: none; }
+  .case-services a { display: flex; min-height: 4.7rem; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .9rem; border-bottom: 1px solid rgba(247,244,238,.16); color: #fff; font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; text-decoration: none; }
+  .case-services a span:last-child { color: #d7b06b; font-family: var(--font-text); }
+
+  @media (max-width: 56rem) {
+    .case-hero__intro, .case-body__grid, .case-services__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .case-facts { position: static; }
+  }
+
+  @media (max-width: 40rem) {
+    .case-hero { padding-block: 3.75rem; }
+    .case-hero h1 { font-size: clamp(3rem, 13vw, 4.4rem); }
+    .case-hero__media { width: calc(100% + 2.25rem); margin-left: -1.125rem; }
+    .case-hero__media :global(img) { aspect-ratio: 4 / 3; }
+    .case-body, .case-gallery, .case-services { padding-block: 4.25rem; }
+    .case-gallery__head, .case-gallery__grid { grid-template-columns: 1fr; }
+    .case-gallery__item--wide { grid-column: auto; }
+    .case-gallery__item--wide :global(img), .case-gallery__item :global(img) { aspect-ratio: 4 / 3; }
+  }
+</style>

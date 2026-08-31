@@ -9,10 +9,13 @@
     "/leistungen/sonnenschutz/": "Sonnenschutz Wittlich | Rollläden, Plissees & Markisen",
     "/leistungen/trockenbau/": "Trockenbau Wittlich | Wände, Decken & Innenausbau",
     "/leistungen/holzterrassen/": "Holzterrassen Wittlich | Planung, Bau & Reparatur",
-    "/leistungen/komplettrenovierung/": "Renovierung Wittlich | Innenausbau aus einer Hand",
+    "/leistungen/komplettrenovierung/": "Renovierung Wittlich | Ausbauarbeiten sinnvoll abstimmen",
     "/referenzen/": "Referenzen Innenausbau Wittlich | KS-Innenausbau",
     "/ueber-uns/": "KS-Innenausbau Wittlich | Kevin Schmieding",
     "/kontakt/": "KS-Innenausbau Wittlich kontaktieren | Projekt anfragen"
+  },
+  "descriptionOverrides": {
+    "/kontakt/": "Projekt für Innenausbau oder Renovierung in Wittlich und Umgebung anfragen. Eckdaten senden und den nächsten sinnvollen Schritt persönlich abstimmen."
   },
   "breadcrumbLabels": {
     "leistungen": "Leistungen",

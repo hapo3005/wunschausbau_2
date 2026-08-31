@@ -23,6 +23,11 @@ const werte = [
       </div>
       <div class="about-hero__copy">
         <p>Hinter {settings.marke} steht Kevin Schmieding, Bauschreiner aus Wittlich. Entscheidend ist nicht nur, dass etwas eingebaut wird – sondern dass Materialien, Anschlüsse und Details am Ende sauber zusammenpassen.</p>
+        <div class="about-identity" aria-label="Unternehmer und Fachidentität">
+          <span>KS-Innenausbau</span>
+          <strong>Kevin Schmieding</strong>
+          <small>Bauschreiner · Wittlich</small>
+        </div>
         <p class="about-hero__signature">Persönlich abgestimmt. Handwerklich sauber. Regional erreichbar.</p>
       </div>
     </div>
@@ -79,7 +84,7 @@ const werte = [
       <div>
         <p class="eyebrow">Einsatzgebiet</p>
         <h2 id="region-titel">Regional verwurzelt.</h2>
-        <p>Wir arbeiten in {settings.regionen.join(', ')} und Umgebung. Bei größeren Projekten übernehmen wir auch weitere Strecken – sprechen Sie uns an.</p>
+        <p>Der regionale Schwerpunkt liegt in {settings.regionen.join(', ')}. Ob ein konkreter Standort sinnvoll abgedeckt werden kann, klären wir anhand des Projekts.</p>
       </div>
       <p class="region-band__mark" aria-hidden="true">{settings.region}</p>
     </div>
@@ -114,6 +119,38 @@ const werte = [
     color: var(--ink-soft);
     font-size: clamp(1.02rem, 1.35vw, 1.16rem);
     line-height: 1.72;
+  }
+
+  .about-identity {
+    display: grid;
+    gap: .18rem;
+    padding: 1.2rem 1.25rem 1.25rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brass-deep);
+    background: #f4efe7;
+  }
+
+  .about-identity span {
+    color: var(--brass-deep);
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  .about-identity strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 2.5vw, 2.1rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .about-identity small {
+    margin-top: .18rem;
+    color: var(--ink-muted);
+    font-size: .78rem;
+    font-weight: 600;
   }
 
   .about-hero__signature {

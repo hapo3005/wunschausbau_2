@@ -12,12 +12,18 @@ if (!files.length) {
   process.exit(1);
 }
 
-const thresholds = {
-  performance: 0.75,
-  accessibility: 0.90,
-  'best-practices': 0.90,
-  ...(isProduction ? { seo: 0.95 } : {})
-};
+const thresholds = isProduction
+  ? {
+      performance: 0.90,
+      accessibility: 0.95,
+      'best-practices': 0.95,
+      seo: 0.95
+    }
+  : {
+      performance: 0.75,
+      accessibility: 0.90,
+      'best-practices': 0.90
+    };
 
 const reports = [];
 const failures = [];
@@ -47,7 +53,7 @@ const summary = {
   reports,
   failures,
   note: isProduction
-    ? 'SEO ist im Produktionsrelease Teil des Quality Gates (Minimum 95).'
+    ? 'Production verlangt mindestens 90 Performance sowie 95 Accessibility, Best Practices und SEO.'
     : 'SEO wird in Preview-Builds reportet, aber wegen der absichtlichen noindex-Sperre nicht gegated.'
 };
 

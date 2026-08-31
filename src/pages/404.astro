@@ -7,12 +7,31 @@ import { withBase } from '../lib/paths';
     <div class="wrap status-page__inner">
       <p class="eyebrow">Fehler 404</p>
       <h1>Diese Seite gibt es nicht.</h1>
-      <p class="lead">Die Adresse ist veraltet oder wurde falsch eingegeben.</p>
-      <a class="btn" href={withBase('/')}>Zur Startseite</a>
+      <p class="lead">Die Adresse ist veraltet oder wurde falsch eingegeben. Von hier kommen Sie direkt zurück zu den wichtigsten Bereichen.</p>
+      <div class="status-actions" aria-label="Weiterführende Seiten">
+        <a class="btn" href={withBase('/')}>Zur Startseite</a>
+        <a class="text-link" href={withBase('/leistungen/')}>Leistungen ansehen</a>
+        <a class="text-link" href={withBase('/kontakt/')}>Projekt anfragen</a>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
   .eyebrow { justify-content: center; }
+  .status-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 1.4rem;
+  }
+  .text-link {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    border-bottom: 1px solid currentColor;
+    font-weight: 650;
+    text-decoration: none;
+  }
 </style>

@@ -27,12 +27,13 @@ jobs:
     timeout-minutes: 10
     environment:
       name: production
-      url: https://wunschausbau.de
+      url: https://www.wunschausbau.de
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       ROLLBACK_CONFIRM: ${{ inputs.confirm }}
       DEPLOY_ID: ${{ inputs.deploy_id }}
+      CANONICAL_LIVE_URL: https://www.wunschausbau.de
     steps:
       - name: Rollback-Bestätigung prüfen
         run: |
@@ -65,7 +66,7 @@ jobs:
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
           const deploy = JSON.parse(fs.readFileSync('/tmp/netlify-restore.json', 'utf8'));
-          const liveUrl = deploy.url || 'https://wunschausbau.de';
+          const liveUrl = process.env.CANONICAL_LIVE_URL;
           const deployUrl = deploy.deploy_url || '';
           const deployId = deploy.id || process.env.DEPLOY_ID;
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `live_url=${liveUrl}\ndeploy_url=${deployUrl}\ndeploy_id=${deployId}\n`);
@@ -73,11 +74,15 @@ jobs:
           NODE
 
       - name: Live-Smoke-Test nach Rollback
-        env:
-          LIVE_URL: ${{ steps.restore.outputs.live_url }}
         run: |
-          base="${LIVE_URL%/}"
+          set -euo pipefail
+          base="${CANONICAL_LIVE_URL%/}"
           for path in / /leistungen/ /kontakt/ /robots.txt; do
             echo "Prüfe ${base}${path}"
             curl --fail --silent --show-error --location --max-time 20 "${base}${path}" > /dev/null
           done
+          final_url="$(curl --fail --silent --show-error --location --output /dev/null --write-out '%{url_effective}' --max-time 20 'https://wunschausbau.de/')"
+          case "$final_url" in
+            https://www.wunschausbau.de/*) ;;
+            *) echo "Apex-Redirect endet nach Rollback nicht auf www: $final_url"; exit 1 ;;
+          esac

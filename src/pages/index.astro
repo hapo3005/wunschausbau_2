@@ -369,6 +369,7 @@ const schema = {
 
   .proof-rail__line {
     display: flex;
+    min-width: 0;
     min-height: 5.4rem;
     align-items: center;
     justify-content: space-between;
@@ -376,6 +377,7 @@ const schema = {
   }
 
   .proof-rail__lead {
+    min-width: 0;
     max-width: 26rem;
     margin: 0;
     color: var(--ink);
@@ -383,18 +385,20 @@ const schema = {
     font-size: .95rem;
     font-weight: 600;
     line-height: 1.35;
+    overflow-wrap: anywhere;
   }
 
   .proof-rail__facts {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-width: 0;
     flex: 1;
-    justify-content: flex-end;
   }
 
   .proof-rail__facts > span {
     display: grid;
+    min-width: 0;
     gap: .22rem;
-    min-width: 9.5rem;
     padding-inline: clamp(1rem, 2vw, 1.7rem);
     border-left: 1px solid var(--line);
   }
@@ -402,16 +406,20 @@ const schema = {
   .proof-rail__facts > span:last-child { padding-right: 0; }
 
   .proof-rail__facts strong {
+    min-width: 0;
     color: var(--ink);
     font-size: .82rem;
     font-weight: 650;
     line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 
   .proof-rail__facts small {
+    min-width: 0;
     color: var(--ink-muted);
     font-size: .64rem;
     line-height: 1.35;
+    overflow-wrap: anywhere;
   }
 
   .selected-work,
@@ -422,11 +430,20 @@ const schema = {
 
   .work-intro {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .62fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, .62fr);
     align-items: end;
     gap: clamp(2.5rem, 8vw, 8rem);
     margin-bottom: clamp(3rem, 5vw, 4.7rem);
   }
+
+  .work-intro > *,
+  .work-note > *,
+  .customer-value__inner > *,
+  .value-conclusion > *,
+  .capability-layout > *,
+  .service-row > *,
+  .flow-head > *,
+  .flow-path > * { min-width: 0; }
 
   .work-intro h2,
   .value-manifest h2,
@@ -440,10 +457,13 @@ const schema = {
     font-weight: 600;
     line-height: .94;
     letter-spacing: -.04em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .work-intro__side {
     display: grid;
+    min-width: 0;
     gap: 1.5rem;
   }
 
@@ -452,6 +472,7 @@ const schema = {
     margin: 0;
     color: var(--ink-soft);
     line-height: 1.72;
+    overflow-wrap: anywhere;
   }
 
   .work-stage {
@@ -506,6 +527,7 @@ const schema = {
     bottom: 1.2rem;
     left: 1.3rem;
     display: flex;
+    min-width: 0;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
@@ -517,13 +539,14 @@ const schema = {
     font-weight: 650;
     letter-spacing: .11em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
-  .work-shot__caption strong { font-size: .88rem; font-weight: 600; text-align: right; }
+  .work-shot__caption strong { min-width: 0; font-size: .88rem; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
 
   .work-note {
     display: grid;
-    grid-template-columns: minmax(14rem, .55fr) minmax(0, 1.45fr);
+    grid-template-columns: minmax(0, .55fr) minmax(0, 1.45fr);
     gap: clamp(2rem, 6vw, 6rem);
     margin-top: clamp(2rem, 3.5vw, 3rem);
     padding-top: 1.3rem;
@@ -535,6 +558,7 @@ const schema = {
     color: var(--ink-muted);
     font-size: .74rem;
     line-height: 1.55;
+    overflow-wrap: anywhere;
   }
 
   .work-note strong {
@@ -545,6 +569,7 @@ const schema = {
     font-weight: 550;
     line-height: 1.3;
     letter-spacing: -.018em;
+    overflow-wrap: anywhere;
   }
 
   .customer-value {
@@ -571,11 +596,11 @@ const schema = {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(19rem, .72fr) minmax(0, 1.28fr);
+    grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr);
     gap: clamp(3.5rem, 8vw, 8rem);
   }
 
-  .value-manifest { align-self: start; }
+  .value-manifest { min-width: 0; align-self: start; }
   .customer-value .eyebrow { color: #d4ad68; }
   .value-manifest h2 { color: #fffdf9; max-width: 11ch; }
 
@@ -584,19 +609,23 @@ const schema = {
     margin-top: 1.5rem;
     color: rgba(245,241,233,.68);
     line-height: 1.72;
+    overflow-wrap: anywhere;
   }
 
-  .value-system { display: grid; }
+  .value-system { display: grid; min-width: 0; }
 
-  .value-rail { border-top: 1px solid rgba(245,241,233,.18); }
+  .value-rail { min-width: 0; border-top: 1px solid rgba(245,241,233,.18); }
 
   .principle {
     display: grid;
     grid-template-columns: 3.25rem minmax(0, 1fr);
+    min-width: 0;
     gap: clamp(1.3rem, 3vw, 2.3rem);
     padding-block: clamp(1.65rem, 2.8vw, 2.25rem);
     border-bottom: 1px solid rgba(245,241,233,.14);
   }
+
+  .principle > div { min-width: 0; }
 
   .principle__icon {
     display: block;
@@ -619,6 +648,7 @@ const schema = {
     font-size: clamp(1.35rem, 2vw, 1.7rem);
     font-weight: 600;
     letter-spacing: -.02em;
+    overflow-wrap: anywhere;
   }
 
   .principle p {
@@ -627,11 +657,12 @@ const schema = {
     color: rgba(245,241,233,.65);
     font-size: .86rem;
     line-height: 1.65;
+    overflow-wrap: anywhere;
   }
 
   .value-conclusion {
     display: grid;
-    grid-template-columns: minmax(8rem, .32fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, .32fr) minmax(0, 1fr);
     gap: 1rem 2rem;
     padding-top: clamp(2.4rem, 4vw, 3.5rem);
   }
@@ -643,6 +674,7 @@ const schema = {
     font-weight: 650;
     letter-spacing: .12em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
   .value-conclusion strong {
@@ -653,6 +685,7 @@ const schema = {
     font-weight: 520;
     line-height: 1.2;
     letter-spacing: -.022em;
+    overflow-wrap: anywhere;
   }
 
   .value-conclusion p {
@@ -661,11 +694,12 @@ const schema = {
     color: rgba(245,241,233,.62);
     font-size: .82rem;
     line-height: 1.6;
+    overflow-wrap: anywhere;
   }
 
   .capability-layout {
     display: grid;
-    grid-template-columns: minmax(18rem, .62fr) minmax(0, 1.38fr);
+    grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr);
     align-items: start;
     gap: clamp(3.5rem, 9vw, 9rem);
   }
@@ -674,6 +708,7 @@ const schema = {
     position: sticky;
     top: 8.5rem;
     display: grid;
+    min-width: 0;
     align-self: start;
     gap: 1.4rem;
   }
@@ -682,14 +717,15 @@ const schema = {
   .capability-intro h2 { max-width: 10ch; }
   .capability-intro > p:last-of-type { max-width: 27rem; }
 
-  .service-index { border-top: 1px solid var(--line); }
+  .service-index { min-width: 0; border-top: 1px solid var(--line); }
 
   .service-row {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(9rem, .58fr) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, .58fr) minmax(0, 1fr) auto;
     align-items: center;
     gap: clamp(1rem, 2.5vw, 2.2rem);
+    min-width: 0;
     min-height: 6.7rem;
     padding-block: 1.25rem;
     color: var(--ink);
@@ -716,6 +752,8 @@ const schema = {
     font-size: clamp(1.2rem, 1.8vw, 1.55rem);
     font-weight: 600;
     letter-spacing: -.018em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .service-row__text {
@@ -723,6 +761,7 @@ const schema = {
     color: var(--ink-soft);
     font-size: .8rem;
     line-height: 1.58;
+    overflow-wrap: anywhere;
   }
 
   .service-row__arrow {
@@ -739,7 +778,7 @@ const schema = {
 
   .flow-head {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .62fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .62fr);
     align-items: end;
     gap: clamp(3rem, 8vw, 8rem);
     margin-bottom: clamp(4rem, 7vw, 6.5rem);
@@ -750,6 +789,7 @@ const schema = {
 
   .flow-head__side {
     display: grid;
+    min-width: 0;
     gap: 1.5rem;
   }
 
@@ -757,6 +797,7 @@ const schema = {
     margin: 0;
     color: rgba(247,244,238,.68);
     line-height: 1.7;
+    overflow-wrap: anywhere;
   }
 
   .project-flow .ks-textlink { color: #f7f4ee; border-bottom-color: rgba(247,244,238,.42); }
@@ -780,7 +821,7 @@ const schema = {
     content: '';
   }
 
-  .flow-step { position: relative; padding-top: 1rem; }
+  .flow-step { position: relative; min-width: 0; padding-top: 1rem; }
 
   .flow-step__marker {
     position: absolute;
@@ -800,6 +841,7 @@ const schema = {
     font-weight: 650;
     letter-spacing: .09em;
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
   .flow-step h3 {
@@ -810,6 +852,8 @@ const schema = {
     font-weight: 520;
     line-height: .95;
     letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   .flow-step > strong {
@@ -818,6 +862,7 @@ const schema = {
     color: #d4ad68;
     font-size: .74rem;
     font-weight: 650;
+    overflow-wrap: anywhere;
   }
 
   .flow-step__text {
@@ -826,6 +871,7 @@ const schema = {
     color: rgba(247,244,238,.67);
     font-size: .84rem;
     line-height: 1.67;
+    overflow-wrap: anywhere;
   }
 
   @media (hover: hover) and (pointer: fine) {

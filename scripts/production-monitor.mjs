@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import tls from 'node:tls';
 
-const baseUrl = new URL(process.env.MONITOR_BASE_URL || 'https://wunschausbau.de');
+const baseUrl = new URL(process.env.MONITOR_BASE_URL || 'https://www.wunschausbau.de');
 const timeoutMs = Number(process.env.MONITOR_TIMEOUT_MS || 15_000);
 const slowWarningMs = Number(process.env.MONITOR_SLOW_WARNING_MS || 3_000);
 const minCertificateDays = Number(process.env.MONITOR_MIN_CERT_DAYS || 14);
@@ -46,6 +46,9 @@ async function requestCheck(name, pathname, options = {}) {
     }
     if (finalUrl.protocol !== 'https:') {
       addFailure(name, `Finale URL ist nicht HTTPS: ${response.url}`, item);
+    }
+    if (finalUrl.hostname !== baseUrl.hostname) {
+      addFailure(name, `Finaler Host ${finalUrl.hostname} weicht vom Canonical-Host ${baseUrl.hostname} ab.`, item);
     }
     if (durationMs > slowWarningMs) {
       addWarning(name, `Antwortzeit ${durationMs} ms > ${slowWarningMs} ms.`, item);
@@ -118,8 +121,8 @@ await requestCheck('Startseite', '/', {
     if (/<meta\s+name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(body)) {
       addFailure('Startseite', 'Produktionsseite enthält noindex.', item);
     }
-    if (!/<link\s+rel=["']canonical["'][^>]*href=["']https:\/\/(?:www\.)?wunschausbau\.de\//i.test(body)) {
-      addFailure('Startseite', 'Canonical auf die Produktionsdomain fehlt.', item);
+    if (!/<link\s+rel=["']canonical["'][^>]*href=["']https:\/\/www\.wunschausbau\.de\//i.test(body)) {
+      addFailure('Startseite', 'Canonical auf https://www.wunschausbau.de/ fehlt.', item);
     }
     if (!/application\/ld\+json/i.test(body)) {
       addFailure('Startseite', 'JSON-LD Structured Data fehlt.', item);
@@ -134,15 +137,18 @@ await requestCheck('robots.txt', '/robots.txt', {
     if (/^\s*Disallow:\s*\/\s*$/im.test(body)) {
       addFailure('robots.txt', 'robots.txt sperrt die gesamte Website.', item);
     }
-    if (!/sitemap:/i.test(body)) {
-      addWarning('robots.txt', 'Kein Sitemap-Hinweis in robots.txt gefunden.', item);
+    if (!/Sitemap:\s*https:\/\/www\.wunschausbau\.de\/sitemap-index\.xml/i.test(body)) {
+      addFailure('robots.txt', 'Canonical-Sitemap-Hinweis fehlt oder zeigt auf einen anderen Host.', item);
     }
   }
 });
 await requestCheck('Sitemap', '/sitemap-index.xml', {
   validate: ({ body, item }) => {
-    if (!/wunschausbau\.de/i.test(body)) {
-      addFailure('Sitemap', 'Produktionsdomain fehlt in der Sitemap.', item);
+    if (!/https:\/\/www\.wunschausbau\.de\//i.test(body)) {
+      addFailure('Sitemap', 'Canonical-Produktionsdomain fehlt in der Sitemap.', item);
+    }
+    if (/https:\/\/wunschausbau\.de\//i.test(body)) {
+      addFailure('Sitemap', 'Apex-URLs statt Canonical-www-URLs in der Sitemap gefunden.', item);
     }
   }
 });
