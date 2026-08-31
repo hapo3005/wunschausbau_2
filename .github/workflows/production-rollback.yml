@@ -31,14 +31,16 @@ jobs:
     env:
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      ROLLBACK_CONFIRM: ${{ inputs.confirm }}
+      DEPLOY_ID: ${{ inputs.deploy_id }}
     steps:
       - name: Rollback-Bestätigung prüfen
         run: |
-          if [ "${{ inputs.confirm }}" != "ROLLBACK" ]; then
+          if [ "$ROLLBACK_CONFIRM" != "ROLLBACK" ]; then
             echo "Rollback abgebrochen: Bestätigung muss exakt ROLLBACK lauten."
             exit 1
           fi
-          if [ -z "${{ inputs.deploy_id }}" ]; then
+          if [ -z "$DEPLOY_ID" ]; then
             echo "Deploy ID fehlt."
             exit 1
           fi
@@ -52,8 +54,6 @@ jobs:
 
       - name: Vorherigen Deploy wiederherstellen
         id: restore
-        env:
-          DEPLOY_ID: ${{ inputs.deploy_id }}
         run: |
           curl --fail-with-body --silent --show-error \
             --request POST \
