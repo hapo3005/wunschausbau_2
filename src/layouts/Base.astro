@@ -45,6 +45,19 @@ const titleOverrides = seo.titleOverrides as Record<string, string>;
 const breadcrumbLabels = seo.breadcrumbLabels as Record<string, string>;
 const resolvedTitle = titleOverrides[normalizedPath] || title;
 const sameAs = [settings.instagram, settings.myHammer].filter(Boolean);
+const ogImage = new URL(withBase('/og-image.jpg'), Astro.site).href;
+const logo = new URL(withBase('/favicon.svg'), Astro.site).href;
+const hasBusinessAddress = [legal.strasse, legal.plz, legal.ort, legal.land]
+  .every((value) => String(value || '').trim());
+const businessAddress = hasBusinessAddress
+  ? {
+      '@type': 'PostalAddress',
+      streetAddress: legal.strasse,
+      postalCode: legal.plz,
+      addressLocality: legal.ort,
+      addressCountry: 'DE'
+    }
+  : null;
 
 const defaultBusiness: Record<string, unknown> = {
   '@type': 'HomeAndConstructionBusiness',
@@ -55,8 +68,11 @@ const defaultBusiness: Record<string, unknown> = {
   url: 'https://wunschausbau.de/',
   telephone: settings.telefonLink,
   email: settings.email,
+  image: ogImage,
+  logo,
   areaServed: settings.regionen,
-  sameAs
+  sameAs,
+  ...(businessAddress ? { address: businessAddress } : {})
 };
 
 const suppliedSchema = schema ? { ...schema } : null;
@@ -66,7 +82,7 @@ let businessNode = defaultBusiness;
 const pageNodes: Record<string, unknown>[] = [];
 if (suppliedSchema) {
   if (suppliedSchema['@type'] === 'HomeAndConstructionBusiness') {
-    businessNode = { ...defaultBusiness, ...suppliedSchema, sameAs };
+    businessNode = { ...defaultBusiness, ...suppliedSchema, sameAs, ...(businessAddress ? { address: businessAddress } : {}) };
   } else {
     pageNodes.push(suppliedSchema);
   }
@@ -137,7 +153,7 @@ const structuredData = {
     <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(withBase('/og-image.jpg'), Astro.site)} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:image:alt" content={`${settings.marke} – ${settings.claim}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={resolvedTitle} />
