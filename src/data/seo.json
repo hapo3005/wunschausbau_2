@@ -14,6 +14,9 @@
     "/ueber-uns/": "KS-Innenausbau Wittlich | Kevin Schmieding",
     "/kontakt/": "KS-Innenausbau Wittlich kontaktieren | Projekt anfragen"
   },
+  "descriptionOverrides": {
+    "/kontakt/": "Projekt für Innenausbau oder Renovierung in Wittlich und Umgebung anfragen. Eckdaten senden und den nächsten sinnvollen Schritt persönlich abstimmen."
+  },
   "breadcrumbLabels": {
     "leistungen": "Leistungen",
     "boeden": "Bodenverlegung",
