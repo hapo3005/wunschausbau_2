@@ -1,0 +1,117 @@
+name: Production Monitoring
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: wunschausbau-production-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    name: Production Health Check
+    if: github.event_name == 'workflow_dispatch' || vars.PRODUCTION_MONITORING_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MONITOR_BASE_URL: https://wunschausbau.de
+      INCIDENT_TITLE: '[Monitoring] wunschausbau.de production incident'
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Node einrichten
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+
+      - name: Live-System prüfen
+        id: monitor
+        continue-on-error: true
+        run: node scripts/production-monitor.mjs
+
+      - name: Monitoring-Report hochladen
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: production-monitor-${{ github.run_id }}
+          path: qa-artifacts/monitoring/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Incident anlegen oder aktualisieren
+        if: steps.monitor.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          auth=(-H "Authorization: Bearer ${GH_TOKEN}" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28")
+
+          open_issues="$(curl --fail --silent --show-error "${auth[@]}" "${api}/issues?state=open&per_page=100")"
+          issue_number="$(printf '%s' "$open_issues" | jq -r --arg title "$INCIDENT_TITLE" '.[] | select(has("pull_request") | not) | select(.title == $title) | .number' | head -n1)"
+
+          summary="Production Monitoring fehlgeschlagen in Run ${GITHUB_RUN_ID}. Commit: ${GITHUB_SHA}."
+          report='Kein Report erzeugt.'
+          if [ -f qa-artifacts/monitoring/production-monitor.md ]; then
+            report="$(cat qa-artifacts/monitoring/production-monitor.md)"
+          fi
+          body="${summary}
+
+          ${report}
+
+          Actions-Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            payload="$(jq -n --arg body "$body" '{body: $body}')"
+            curl --fail --silent --show-error "${auth[@]}" \
+              -X POST "${api}/issues/${issue_number}/comments" \
+              -d "$payload" > /dev/null
+            echo "Bestehenden Incident #${issue_number} aktualisiert."
+          else
+            payload="$(jq -n --arg title "$INCIDENT_TITLE" --arg body "$body" '{title: $title, body: $body}')"
+            created="$(curl --fail --silent --show-error "${auth[@]}" -X POST "${api}/issues" -d "$payload")"
+            echo "Incident #$(printf '%s' "$created" | jq -r '.number') angelegt."
+          fi
+
+      - name: Offenen Incident nach Erholung schließen
+        if: steps.monitor.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          auth=(-H "Authorization: Bearer ${GH_TOKEN}" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28")
+
+          open_issues="$(curl --fail --silent --show-error "${auth[@]}" "${api}/issues?state=open&per_page=100")"
+          issue_number="$(printf '%s' "$open_issues" | jq -r --arg title "$INCIDENT_TITLE" '.[] | select(has("pull_request") | not) | select(.title == $title) | .number' | head -n1)"
+
+          if [ -n "$issue_number" ] && [ "$issue_number" != "null" ]; then
+            comment="$(jq -n --arg body "Monitoring wieder grün in Run ${GITHUB_RUN_ID}. Der Incident wird automatisch geschlossen." '{body: $body}')"
+            curl --fail --silent --show-error "${auth[@]}" \
+              -X POST "${api}/issues/${issue_number}/comments" \
+              -d "$comment" > /dev/null
+            curl --fail --silent --show-error "${auth[@]}" \
+              -X PATCH "${api}/issues/${issue_number}" \
+              -d '{"state":"closed","state_reason":"completed"}' > /dev/null
+            echo "Incident #${issue_number} nach erfolgreichem Check geschlossen."
+          else
+            echo "Kein offener Monitoring-Incident vorhanden."
+          fi
+
+      - name: Monitoring Gate
+        if: always()
+        run: |
+          if [ "${{ steps.monitor.outcome }}" != "success" ]; then
+            echo "Production Monitoring fehlgeschlagen."
+            exit 1
+          fi
+          echo "Production Monitoring erfolgreich."
