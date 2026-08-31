@@ -106,10 +106,26 @@ for (const file of htmlFiles) {
     try {
       const structured = JSON.parse(jsonLdBlocks[0]);
       const graph = Array.isArray(structured?.['@graph']) ? structured['@graph'] : [];
-      const types = new Set(graph.flatMap((node) => Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']]).filter(Boolean));
+      const typesFor = (node) => Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']];
+      const types = new Set(graph.flatMap(typesFor).filter(Boolean));
+      const business = graph.find((node) => typesFor(node).includes('HomeAndConstructionBusiness'));
+
       if (!types.has('WebSite')) errors.push(`${route}: WebSite-Schema fehlt im JSON-LD-Graph.`);
-      if (!types.has('HomeAndConstructionBusiness')) errors.push(`${route}: HomeAndConstructionBusiness-Schema fehlt im JSON-LD-Graph.`);
+      if (!business) errors.push(`${route}: HomeAndConstructionBusiness-Schema fehlt im JSON-LD-Graph.`);
       if (route !== '/' && !types.has('BreadcrumbList')) errors.push(`${route}: BreadcrumbList-Schema fehlt.`);
+
+      if (isProduction && business) {
+        const address = business.address;
+        if (!address || typeof address !== 'object') {
+          errors.push(`${route}: LocalBusiness-Adresse fehlt im Produktionsschema.`);
+        } else {
+          for (const field of ['streetAddress', 'postalCode', 'addressLocality', 'addressCountry']) {
+            if (!String(address[field] || '').trim()) errors.push(`${route}: LocalBusiness-Adresse unvollständig (${field}).`);
+          }
+        }
+        if (!String(business.telephone || '').trim()) errors.push(`${route}: LocalBusiness-Telefonnummer fehlt im Produktionsschema.`);
+        if (!String(business.url || '').trim()) errors.push(`${route}: LocalBusiness-URL fehlt im Produktionsschema.`);
+      }
     } catch (error) {
       errors.push(`${route}: JSON-LD ist nicht valide JSON (${String(error)}).`);
     }
