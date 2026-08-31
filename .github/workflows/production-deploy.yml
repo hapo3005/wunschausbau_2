@@ -27,9 +27,10 @@ jobs:
     timeout-minutes: 25
     environment:
       name: production
-      url: https://wunschausbau.de
+      url: https://www.wunschausbau.de
     env:
       QA_BASE_URL: http://127.0.0.1:4321
+      CANONICAL_LIVE_URL: https://www.wunschausbau.de
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       PRODUCTION_LAUNCH: 'true'
@@ -163,22 +164,41 @@ jobs:
           import fs from 'node:fs';
           const deploy = JSON.parse(fs.readFileSync('/tmp/netlify-deploy.json', 'utf8'));
           const deployUrl = deploy.deploy_url || deploy.deployUrl || '';
-          const liveUrl = deploy.url || 'https://wunschausbau.de';
           const deployId = deploy.deploy_id || deploy.deployId || deploy.id || '';
+          const liveUrl = process.env.CANONICAL_LIVE_URL;
           if (!deployUrl) throw new Error('Netlify Deploy URL fehlt in der CLI-Antwort.');
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `deploy_url=${deployUrl}\nlive_url=${liveUrl}\ndeploy_id=${deployId}\n`);
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Production Deploy\n\n- Live: ${liveUrl}\n- Atomic Deploy: ${deployUrl}\n- Deploy ID: ${deployId || 'nicht geliefert'}\n- Commit: ${process.env.GITHUB_SHA}\n`);
           NODE
 
       - name: Live-Smoke-Test
-        env:
-          LIVE_URL: ${{ steps.netlify.outputs.live_url }}
         run: |
-          base="${LIVE_URL%/}"
-          for path in / /leistungen/ /kontakt/ /robots.txt; do
+          set -euo pipefail
+          base="${CANONICAL_LIVE_URL%/}"
+          for path in / /leistungen/ /kontakt/ /robots.txt /sitemap-index.xml; do
             echo "Prüfe ${base}${path}"
             curl --fail --silent --show-error --location --max-time 20 "${base}${path}" > /dev/null
           done
+
+          final_url="$(curl --fail --silent --show-error --location --output /dev/null --write-out '%{url_effective}' --max-time 20 'https://wunschausbau.de/')"
+          case "$final_url" in
+            https://www.wunschausbau.de/*) ;;
+            *) echo "Apex-Redirect endet nicht auf dem Canonical-www-Host: $final_url"; exit 1 ;;
+          esac
+
+          headers="$(curl --fail --silent --show-error --head --max-time 20 "${base}/")"
+          printf '%s\n' "$headers" | grep -qi '^strict-transport-security:'
+          printf '%s\n' "$headers" | grep -qi '^content-security-policy:'
+          printf '%s\n' "$headers" | grep -qi '^x-content-type-options:[[:space:]]*nosniff'
+          printf '%s\n' "$headers" | grep -qi '^referrer-policy:'
+
+          form_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 20 "${base}/api/anfrage")"
+          test "$form_status" = '405'
+
+      - name: Vollständiges Production Monitoring nach Deploy
+        env:
+          MONITOR_BASE_URL: https://www.wunschausbau.de
+        run: npm run qa:monitor
 
       - name: QA-Artefakte hochladen
         if: always()
