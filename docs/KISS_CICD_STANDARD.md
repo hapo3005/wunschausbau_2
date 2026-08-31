@@ -84,6 +84,8 @@ Die Statuswerte liegen in `src/data/legal.json` und `src/data/release.json`.
 
 ## GitHub-Setup vor dem ersten Livegang
 
+### Environment `production`
+
 Im Repository ein Environment `production` verwenden und dort hinterlegen:
 
 - `NETLIFY_AUTH_TOKEN`
@@ -94,6 +96,24 @@ Empfohlen:
 - Required Reviewer für das Environment `production`
 - Deployment nur von `main`
 - Secrets ausschließlich im GitHub-Environment, niemals im Repository
+
+### Branch Protection für `main`
+
+Status bei Erstellung dieses Dokuments: `main` ist noch **nicht geschützt**. Das muss vor dem ersten regulären Kundenbetrieb geändert werden.
+
+Empfohlene Regeln:
+
+- Require a pull request before merging
+- Require status checks to pass before merging
+- Pflichtcheck: `KISS Quality Gate`
+- Require branches to be up to date before merging
+- Block force pushes
+- Block branch deletion
+- Regeln auch für Administratoren anwenden, soweit für den persönlichen Workflow praktikabel
+
+Danach gilt der gewünschte Weg verbindlich:
+
+`Feature Branch → Pull Request → KISS Quality Gate → Merge → Preview → manueller Production Deploy`
 
 ## Netlify-Setup
 
