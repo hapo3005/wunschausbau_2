@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const isProductionLaunch = process.env.PRODUCTION_LAUNCH === 'true';
+const isProductionLaunch = process.env.PRODUCTION_LAUNCH === 'true' || process.argv.includes('--production');
 if (!isProductionLaunch) {
   console.log('Launch gate: preview/local build – production gate skipped.');
   process.exit(0);
