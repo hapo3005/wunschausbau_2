@@ -48,6 +48,15 @@ jobs:
       - name: Projekt installieren
         run: npm ci
 
+      - name: Node- und Netlify-Skripte syntaktisch prüfen
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            echo "Prüfe ${file}"
+            node --check "$file"
+          done < <(find scripts netlify/functions -type f -name '*.mjs' -print0)
+
       - name: Produktionsabhängigkeiten prüfen
         run: npm audit --omit=dev --audit-level=high
 
@@ -59,7 +68,7 @@ jobs:
 
       - name: Browser-QA Werkzeuge installieren
         run: |
-          npm install --no-save --package-lock=false playwright@1.55.0 @axe-core/playwright@4.10.2 lighthouse@12.8.2
+          npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.13.0 lighthouse@13.4.1
           npx playwright install --with-deps chromium webkit
 
       - name: Lokale Preview starten
@@ -132,7 +141,7 @@ jobs:
       - name: QA-Zusammenfassung anzeigen
         if: always()
         run: |
-          for report in qa-artifacts/static-site-qa.md qa-artifacts/visual-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
+          for report in qa-artifacts/static-site-qa.md qa-artifacts/visual-qa.md qa-artifacts/responsive-accessibility-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
             if [ -f "$report" ]; then
               echo '' >> "$GITHUB_STEP_SUMMARY"
               cat "$report" >> "$GITHUB_STEP_SUMMARY"
