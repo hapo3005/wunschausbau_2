@@ -4,7 +4,7 @@ Stand: 31.08.2026
 
 ## Ziel
 
-Änderungen sollen früh geprüft, reproduzierbar gebaut und kontrolliert veröffentlicht werden. Ein normaler Commit darf die Produktionsdomain niemals ungeprüft verändern.
+Änderungen sollen früh geprüft, reproduzierbar gebaut und kontrolliert veröffentlicht werden. Ein normaler Commit darf die Produktionsdomain niemals ungeprüft verändern. Nach dem Livegang muss der produktive Zustand außerdem automatisch überwacht werden.
 
 ## Pipeline
 
@@ -15,6 +15,7 @@ Workflow: `.github/workflows/pr-quality.yml`
 Vor dem Merge nach `main` laufen:
 
 - `npm ci`
+- Syntaxprüfung der Node-/Netlify-Skripte
 - Audit der Produktionsabhängigkeiten
 - Astro-Preview-Build
 - statischer HTML-/SEO-/Link-Gate
@@ -50,12 +51,37 @@ Vor dem Netlify-Deploy müssen bestehen:
 - Chromium Visual QA
 - Motion-/No-JS-QA
 - WebKit/iPhone-QA
-- Lighthouse
+- Lighthouse; im Produktionsmodus ist SEO mit mindestens 95/100 Teil des Gates
 - vorhandene Netlify-Zugangsdaten
 
 Der Netlify-Deploy verwendet einen bereits geprüften Build (`--no-build`). Dadurch baut Netlify nicht stillschweigend einen anderen Stand als den zuvor geprüften Kandidaten.
 
 Nach dem Deploy laufen Smoke Tests gegen Startseite, Leistungen, Kontakt und `robots.txt`.
+
+### 4. Production Monitoring – Betrieb nach dem Relaunch
+
+Workflow: `.github/workflows/production-monitor.yml`
+
+Das Monitoring ist vor dem Relaunch absichtlich deaktiviert. Geplante Runs werden nur ausgeführt, wenn die Repository Variable `PRODUCTION_MONITORING_ENABLED` exakt auf `true` gesetzt wurde. Manuelle Runs bleiben unabhängig davon möglich.
+
+Nach Aktivierung prüft GitHub Actions stündlich:
+
+- Startseite, Leistungen und Kontakt sind erreichbar
+- Redirect-Ziel bleibt HTTPS
+- Startseite enthält kein versehentliches `noindex`
+- Canonical zeigt auf `wunschausbau.de`
+- JSON-LD Structured Data ist vorhanden
+- `robots.txt` sperrt nicht die gesamte Website und verweist auf die Sitemap
+- `sitemap-index.xml` ist erreichbar und enthält die Produktionsdomain
+- `GET /api/anfrage` liefert erwartungsgemäß HTTP 405; dadurch wird die Netlify Function geprüft, ohne eine echte Anfrage oder E-Mail zu erzeugen
+- TLS-Zertifikat ist gültig und hat mindestens 14 Tage Restlaufzeit
+- langsame Antworten werden als Warnhinweis dokumentiert
+
+Bei einem Fehler wird ein GitHub-Issue mit dem festen Monitoring-Titel angelegt. Weitere Fehlläufe kommentieren denselben Incident, statt neue Issues zu erzeugen. Sobald das Monitoring wieder grün ist, wird der Incident dokumentiert und automatisch geschlossen.
+
+Monitoring-Reports werden als Actions-Artefakte 30 Tage aufbewahrt.
+
+Das GitHub-Monitoring ist der kostenfreie technische Basis-Schutz. Für garantierte externe Uptime-Prüfung oder SLA-Betrieb kann später zusätzlich ein unabhängiger Monitoring-Dienst eingesetzt werden; dieser ist für den ersten Launch nicht erforderlich.
 
 ## Doppelter Schutz vor unbeabsichtigtem Livegang
 
@@ -115,6 +141,17 @@ Danach gilt der gewünschte Weg verbindlich:
 
 `Feature Branch → Pull Request → KISS Quality Gate → Merge → Preview → manueller Production Deploy`
 
+### Monitoring nach erfolgreichem Livegang aktivieren
+
+Erst wenn Domain, HTTPS, Formular, robots.txt und Sitemap auf der neuen Produktionsseite erfolgreich geprüft sind:
+
+1. Repository Variable `PRODUCTION_MONITORING_ENABLED` mit Wert `true` anlegen.
+2. Workflow `Production Monitoring` einmal manuell ausführen.
+3. Prüfen, dass der Run grün ist und ein Monitoring-Artefakt erzeugt wurde.
+4. Danach übernimmt der stündliche Schedule die Basisüberwachung.
+
+Vor dem Relaunch darf die Variable nicht auf `true` gesetzt werden, weil die alte Produktionsseite die neuen technischen Erwartungen noch nicht erfüllen muss.
+
 ## Netlify-Setup
 
 Für das produktive Anfrageformular werden auf Netlify zusätzlich benötigt:
@@ -152,10 +189,13 @@ npm ci
 npm run build
 npm run qa:static
 npm run qa:release
+npm run qa:monitor
 ```
 
 `npm run qa:release` prüft die Produktionsfreigaben, veröffentlicht aber nichts.
 
+`npm run qa:monitor` prüft standardmäßig `https://wunschausbau.de`. Vor dem Relaunch ist ein Fehlschlag daher erwartbar und kein Freigabesignal für die neue Preview.
+
 ## Grundsatz
 
-Preview darf schnell sein. Produktion darf nur langweilig sein: reproduzierbar, geprüft, freigegeben und rollback-fähig.
+Preview darf schnell sein. Produktion darf nur langweilig sein: reproduzierbar, geprüft, freigegeben, überwacht und rollback-fähig.
