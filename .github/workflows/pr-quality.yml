@@ -31,6 +31,15 @@ jobs:
       - name: Projekt installieren
         run: npm ci
 
+      - name: Node- und Netlify-Skripte syntaktisch prüfen
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            echo "Prüfe ${file}"
+            node --check "$file"
+          done < <(find scripts netlify/functions -type f -name '*.mjs' -print0)
+
       - name: Produktionsabhängigkeiten prüfen
         run: npm audit --omit=dev --audit-level=high
 
