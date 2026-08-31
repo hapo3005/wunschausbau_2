@@ -1,0 +1,53 @@
+name: Pull Request Quality
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & Dependency Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Node einrichten
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Projekt installieren
+        run: npm ci
+
+      - name: Produktionsabhängigkeiten prüfen
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Preview-Build erzeugen
+        run: npm run build
+
+      - name: Release-Status dokumentieren
+        shell: bash
+        run: |
+          set +e
+          npm run qa:release > /tmp/release-gate.log 2>&1
+          status=$?
+          set -e
+          echo '## Release Gate' >> "$GITHUB_STEP_SUMMARY"
+          echo '' >> "$GITHUB_STEP_SUMMARY"
+          if [ "$status" -eq 0 ]; then
+            echo 'Produktionsfreigaben vollständig.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Produktionsfreigaben noch offen (für Preview-PRs zulässig):' >> "$GITHUB_STEP_SUMMARY"
+            echo '```text' >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/release-gate.log >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
