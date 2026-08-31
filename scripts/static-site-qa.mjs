@@ -60,7 +60,16 @@ const titleRoutes = new Map();
 const descriptionRoutes = new Map();
 let checkedLinks = 0;
 
-const commercialRoute = (route) =>
+const publicCommercialRoute = (route) =>
+  route === '/'
+  || route === '/leistungen/'
+  || route.startsWith('/leistungen/')
+  || route === '/referenzen/'
+  || route.startsWith('/referenzen/')
+  || route === '/ueber-uns/'
+  || route === '/kontakt/';
+
+const primaryLocalSeoRoute = (route) =>
   route === '/'
   || route === '/leistungen/'
   || route.startsWith('/leistungen/')
@@ -71,6 +80,10 @@ const commercialRoute = (route) =>
 const noindexAllowed = new Set(['/danke/', '/freigabe/', '/404.html']);
 const unverifiedClaimPatterns = [
   { label: 'kostenlose Erstberatung', pattern: /kostenlose\s+Erstberatung/i },
+  { label: 'unverbindlich', pattern: /\bunverbindlich\b/i },
+  { label: 'keine Verpflichtung', pattern: /keine\s+Verpflichtung/i },
+  { label: 'aus einer Hand', pattern: /aus\s+einer\s+Hand/i },
+  { label: 'alle Gewerke', pattern: /alle\s+(?:beteiligten\s+)?Gewerke/i },
   { label: '500+ Projekte', pattern: /\b500\+\s*(?:realisierte\s+)?Projekte\b/i },
   { label: '24-h-Reaktionszeit', pattern: /\b24\s*h(?:\.|\b)/i }
 ];
@@ -87,7 +100,7 @@ for (const file of htmlFiles) {
 
   if (route === '/agb/') errors.push('/agb/: Platzhalter-AGB darf nicht als öffentliche Build-Route existieren.');
 
-  if (commercialRoute(route)) {
+  if (publicCommercialRoute(route)) {
     for (const claim of unverifiedClaimPatterns) {
       if (claim.pattern.test(html)) errors.push(`${route}: nicht freigegebene Werbeaussage gefunden (${claim.label}).`);
     }
@@ -99,27 +112,27 @@ for (const file of htmlFiles) {
   if (h1s.length !== 1) errors.push(`${route}: genau eine H1 erwartet, gefunden ${h1s.length}.`);
 
   if (titles[0]) {
-    if (titles[0].length > 68) warnings.push(`${route}: Title ist mit ${titles[0].length} Zeichen lang.`);
+    if (!noindex && titles[0].length > 68) warnings.push(`${route}: Title ist mit ${titles[0].length} Zeichen lang.`);
     if (!titleRoutes.has(titles[0])) titleRoutes.set(titles[0], []);
     titleRoutes.get(titles[0]).push(route);
   }
 
   if (descriptions[0]) {
-    if (descriptions[0].length < 90 || descriptions[0].length > 180) warnings.push(`${route}: Meta-Description hat ${descriptions[0].length} Zeichen.`);
+    if (!noindex && (descriptions[0].length < 90 || descriptions[0].length > 180)) {
+      warnings.push(`${route}: Meta-Description hat ${descriptions[0].length} Zeichen.`);
+    }
     if (!descriptionRoutes.has(descriptions[0])) descriptionRoutes.set(descriptions[0], []);
     descriptionRoutes.get(descriptions[0]).push(route);
   }
 
-  if (commercialRoute(route) && titles[0] && !titles[0].includes('Wittlich')) {
+  if (primaryLocalSeoRoute(route) && titles[0] && !titles[0].includes('Wittlich')) {
     errors.push(`${route}: kommerzieller Title verliert den primären Local-SEO-Fokus Wittlich.`);
   }
 
   if (isProduction && canonicals[0]) {
     try {
       const canonical = new URL(canonicals[0]);
-      if (canonical.origin !== canonicalOrigin) {
-        errors.push(`${route}: Production-Canonical nutzt ${canonical.origin} statt ${canonicalOrigin}.`);
-      }
+      if (canonical.origin !== canonicalOrigin) errors.push(`${route}: Production-Canonical nutzt ${canonical.origin} statt ${canonicalOrigin}.`);
     } catch {
       errors.push(`${route}: Canonical ist keine valide absolute URL.`);
     }
