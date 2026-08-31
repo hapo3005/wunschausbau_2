@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Preview Deploy (GitHub Pages)
 
 on:
   push:
@@ -9,11 +9,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: wunschausbau-preview
   cancel-in-progress: true
 
 jobs:
   build:
+    name: Build Preview Artifact
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -27,10 +28,11 @@ jobs:
           node-version: 24
 
   quality:
-    name: Visual & Quality QA
+    name: KISS Preview Quality Gate
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       QA_BASE_URL: http://127.0.0.1:4321/wunschausbau_2
     steps:
@@ -51,6 +53,9 @@ jobs:
 
       - name: QA-Build erzeugen
         run: npm run build
+
+      - name: HTML, SEO-Basis und interne Links prüfen
+        run: npm run qa:static
 
       - name: Browser-QA Werkzeuge installieren
         run: |
@@ -101,23 +106,41 @@ jobs:
             --output-path=qa-artifacts/lighthouse/home
           npm run qa:lighthouse
 
+      - name: Static QA Report erneuern
+        if: always()
+        run: npm run qa:static
+
+      - name: Release-Status dokumentieren
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          npm run qa:release > /tmp/release-gate.log 2>&1
+          status=$?
+          set -e
+          echo '## Release Gate' >> "$GITHUB_STEP_SUMMARY"
+          echo '' >> "$GITHUB_STEP_SUMMARY"
+          if [ "$status" -eq 0 ]; then
+            echo 'Produktionsfreigaben vollständig.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Produktionsfreigaben noch offen – Preview bleibt erlaubt:' >> "$GITHUB_STEP_SUMMARY"
+            echo '```text' >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/release-gate.log >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: QA-Zusammenfassung anzeigen
         if: always()
         run: |
-          if [ -f qa-artifacts/visual-qa.md ]; then
-            cat qa-artifacts/visual-qa.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-          if [ -f qa-artifacts/motion-qa.md ]; then
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            cat qa-artifacts/motion-qa.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-          if [ -f qa-artifacts/webkit/webkit-qa.md ]; then
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            cat qa-artifacts/webkit/webkit-qa.md >> "$GITHUB_STEP_SUMMARY"
-          fi
+          for report in qa-artifacts/static-site-qa.md qa-artifacts/visual-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
+            if [ -f "$report" ]; then
+              echo '' >> "$GITHUB_STEP_SUMMARY"
+              cat "$report" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
           if [ -f qa-artifacts/lighthouse/lighthouse-summary.json ]; then
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "## Lighthouse" >> "$GITHUB_STEP_SUMMARY"
+            echo '' >> "$GITHUB_STEP_SUMMARY"
+            echo '## Lighthouse' >> "$GITHUB_STEP_SUMMARY"
             node --input-type=module - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
           import fs from 'node:fs';
           const data = JSON.parse(fs.readFileSync('qa-artifacts/lighthouse/lighthouse-summary.json', 'utf8'));
@@ -132,7 +155,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: visual-qa-${{ github.sha }}
+          name: preview-qa-${{ github.sha }}
           path: qa-artifacts/
           if-no-files-found: warn
           retention-days: 14
@@ -145,12 +168,13 @@ jobs:
           echo "WebKit iPhone QA: ${{ steps.webkit.outcome }}"
           echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
           if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
-            echo "Quality Gate fehlgeschlagen – Deployment wird gestoppt."
+            echo "Quality Gate fehlgeschlagen – Preview-Deployment wird gestoppt."
             exit 1
           fi
-          echo "Quality Gate bestanden."
+          echo "KISS Preview Quality Gate bestanden."
 
   deploy:
+    name: Publish Preview
     needs: [build, quality]
     permissions:
       pages: write
