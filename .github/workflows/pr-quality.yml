@@ -12,9 +12,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build & Dependency Gate
+  quality:
+    name: KISS Quality Gate
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      QA_BASE_URL: http://127.0.0.1:4321/wunschausbau_2
     steps:
       - name: Repository auschecken
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -34,7 +37,60 @@ jobs:
       - name: Preview-Build erzeugen
         run: npm run build
 
+      - name: HTML, SEO-Basis und interne Links prüfen
+        run: npm run qa:static
+
+      - name: Browser-QA Werkzeuge installieren
+        run: |
+          npm install --no-save --package-lock=false playwright@1.55.0 @axe-core/playwright@4.10.2 lighthouse@12.8.2
+          npx playwright install --with-deps chromium webkit
+
+      - name: Lokale Preview starten
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4321 > /tmp/wunschausbau-preview.log 2>&1 &
+          echo $! > /tmp/wunschausbau-preview.pid
+          for i in {1..30}; do
+            if curl -fsS "$QA_BASE_URL/" > /dev/null; then
+              echo "Preview erreichbar."
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/wunschausbau-preview.log
+          exit 1
+
+      - name: Chromium Visual QA
+        id: visual
+        continue-on-error: true
+        run: npm run qa:visual
+
+      - name: Motion & No-JS QA
+        id: motion
+        continue-on-error: true
+        run: node scripts/motion-qa.mjs
+
+      - name: WebKit iPhone QA
+        id: webkit
+        continue-on-error: true
+        run: node scripts/webkit-qa.mjs
+
+      - name: Lighthouse Audit
+        id: lighthouse
+        continue-on-error: true
+        run: |
+          mkdir -p qa-artifacts/lighthouse
+          export CHROME_PATH="$(node --input-type=module -e "import { chromium } from 'playwright'; console.log(chromium.executablePath())")"
+          npx lighthouse "$QA_BASE_URL/" \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --output=json \
+            --output=html \
+            --output-path=qa-artifacts/lighthouse/home
+          npm run qa:lighthouse
+
       - name: Release-Status dokumentieren
+        if: always()
         shell: bash
         run: |
           set +e
@@ -51,3 +107,47 @@ jobs:
             cat /tmp/release-gate.log >> "$GITHUB_STEP_SUMMARY"
             echo '```' >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: QA-Zusammenfassung anzeigen
+        if: always()
+        run: |
+          for report in qa-artifacts/static-site-qa.md qa-artifacts/visual-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
+            if [ -f "$report" ]; then
+              echo '' >> "$GITHUB_STEP_SUMMARY"
+              cat "$report" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+          if [ -f qa-artifacts/lighthouse/lighthouse-summary.json ]; then
+            echo '' >> "$GITHUB_STEP_SUMMARY"
+            echo '## Lighthouse' >> "$GITHUB_STEP_SUMMARY"
+            node --input-type=module - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import fs from 'node:fs';
+          const data = JSON.parse(fs.readFileSync('qa-artifacts/lighthouse/lighthouse-summary.json', 'utf8'));
+          for (const report of data.reports) {
+            const scores = Object.entries(report.scores).map(([k,v]) => `${k}: ${typeof v === 'number' ? Math.round(v * 100) : 'n/a'}`).join(' · ');
+            console.log(`- ${scores}`);
+          }
+          NODE
+          fi
+
+      - name: QA-Artefakte hochladen
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pr-quality-${{ github.event.pull_request.number }}-${{ github.sha }}
+          path: qa-artifacts/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Quality Gate
+        if: always()
+        run: |
+          echo "Visual QA: ${{ steps.visual.outcome }}"
+          echo "Motion QA: ${{ steps.motion.outcome }}"
+          echo "WebKit iPhone QA: ${{ steps.webkit.outcome }}"
+          echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
+          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
+            echo "Quality Gate fehlgeschlagen – Merge ist nicht freigabefähig."
+            exit 1
+          fi
+          echo "KISS Quality Gate bestanden."
