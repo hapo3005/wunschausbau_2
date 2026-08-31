@@ -50,11 +50,11 @@ const inspectLayout = async () => page.evaluate(() => {
     });
 
   const importantTargets = [...document.querySelectorAll(
-    'button, input:not([type="hidden"]), select, textarea, summary, .btn, .ks-button, .submit, .menu-btn, .choice span, .mobile-contact a'
+    'button, input:not([type="hidden"]):not([type="radio"]):not([type="checkbox"]), select, textarea, summary, .btn, .ks-button, .submit, .menu-btn, .choice span, .mobile-contact a'
   )].filter((element) => {
     const style = getComputedStyle(element);
     const rect = element.getBoundingClientRect();
-    return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+    return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) !== 0 && rect.width > 0 && rect.height > 0;
   });
 
   const tinyTargets = importantTargets
