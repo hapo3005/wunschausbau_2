@@ -34,10 +34,12 @@ jobs:
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       PRODUCTION_LAUNCH: 'true'
       MANUAL_PRODUCTION_DEPLOY: 'true'
+      DEPLOY_CONFIRM: ${{ inputs.confirm }}
+      RELEASE_NOTE: ${{ inputs.note }}
     steps:
       - name: Live-Bestätigung prüfen
         run: |
-          if [ "${{ inputs.confirm }}" != "LIVE" ]; then
+          if [ "$DEPLOY_CONFIRM" != "LIVE" ]; then
             echo "Livegang abgebrochen: Bestätigung muss exakt LIVE lauten."
             exit 1
           fi
@@ -45,7 +47,12 @@ jobs:
       - name: Repository auschecken
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: main
+          ref: ${{ github.sha }}
+
+      - name: Ausgecheckten Commit verifizieren
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          echo "Produktionskandidat: $GITHUB_SHA"
 
       - name: Node einrichten
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -149,7 +156,7 @@ jobs:
             --no-build \
             --dir=dist \
             --functions=netlify/functions \
-            --message="GitHub ${GITHUB_SHA} ${{ inputs.note }}" \
+            --message="GitHub ${GITHUB_SHA} ${RELEASE_NOTE}" \
             --json > /tmp/netlify-deploy.json
 
           node --input-type=module - <<'NODE'
