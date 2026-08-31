@@ -55,7 +55,19 @@ const targetExists = (pathname) => {
 
 const errors = [];
 const warnings = [];
+const titleRoutes = new Map();
+const descriptionRoutes = new Map();
 let checkedLinks = 0;
+
+const commercialRoute = (route) =>
+  route === '/'
+  || route === '/leistungen/'
+  || route.startsWith('/leistungen/')
+  || route === '/referenzen/'
+  || route === '/ueber-uns/'
+  || route === '/kontakt/';
+
+const noindexAllowed = new Set(['/agb/', '/danke/', '/freigabe/', '/404.html']);
 
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');
@@ -65,14 +77,47 @@ for (const file of htmlFiles) {
   const canonicals = [...html.matchAll(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/gi)].map((m) => m[1].trim());
   const h1s = [...html.matchAll(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/gi)];
   const noindex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
+  const jsonLdBlocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1].trim());
 
   if (titles.length !== 1 || !titles[0]) errors.push(`${route}: genau ein nicht-leerer <title> erwartet.`);
   if (descriptions.length !== 1 || !descriptions[0]) errors.push(`${route}: genau eine Meta-Description erwartet.`);
   if (canonicals.length !== 1 || !canonicals[0]) errors.push(`${route}: genau ein Canonical-Link erwartet.`);
   if (h1s.length !== 1) errors.push(`${route}: genau eine H1 erwartet, gefunden ${h1s.length}.`);
 
-  if (titles[0] && titles[0].length > 68) warnings.push(`${route}: Title ist mit ${titles[0].length} Zeichen lang.`);
-  if (descriptions[0] && (descriptions[0].length < 90 || descriptions[0].length > 180)) warnings.push(`${route}: Meta-Description hat ${descriptions[0].length} Zeichen.`);
+  if (titles[0]) {
+    if (titles[0].length > 68) warnings.push(`${route}: Title ist mit ${titles[0].length} Zeichen lang.`);
+    if (!titleRoutes.has(titles[0])) titleRoutes.set(titles[0], []);
+    titleRoutes.get(titles[0]).push(route);
+  }
+
+  if (descriptions[0]) {
+    if (descriptions[0].length < 90 || descriptions[0].length > 180) warnings.push(`${route}: Meta-Description hat ${descriptions[0].length} Zeichen.`);
+    if (!descriptionRoutes.has(descriptions[0])) descriptionRoutes.set(descriptions[0], []);
+    descriptionRoutes.get(descriptions[0]).push(route);
+  }
+
+  if (commercialRoute(route) && titles[0] && !titles[0].includes('Wittlich')) {
+    errors.push(`${route}: kommerzieller Title verliert den primären Local-SEO-Fokus Wittlich.`);
+  }
+
+  if (jsonLdBlocks.length !== 1) {
+    errors.push(`${route}: genau ein zusammengeführter JSON-LD-Block erwartet, gefunden ${jsonLdBlocks.length}.`);
+  } else {
+    try {
+      const structured = JSON.parse(jsonLdBlocks[0]);
+      const graph = Array.isArray(structured?.['@graph']) ? structured['@graph'] : [];
+      const types = new Set(graph.flatMap((node) => Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']]).filter(Boolean));
+      if (!types.has('WebSite')) errors.push(`${route}: WebSite-Schema fehlt im JSON-LD-Graph.`);
+      if (!types.has('HomeAndConstructionBusiness')) errors.push(`${route}: HomeAndConstructionBusiness-Schema fehlt im JSON-LD-Graph.`);
+      if (route !== '/' && !types.has('BreadcrumbList')) errors.push(`${route}: BreadcrumbList-Schema fehlt.`);
+    } catch (error) {
+      errors.push(`${route}: JSON-LD ist nicht valide JSON (${String(error)}).`);
+    }
+  }
+
+  if (isProduction && noindex && !noindexAllowed.has(route)) {
+    errors.push(`${route}: produktive, regulär indexierbare Seite enthält noindex.`);
+  }
 
   if (isProduction && !noindex && /\[(?:PLATZHALTER|TODO|TBD)\b/i.test(html)) {
     errors.push(`${route}: veröffentlichbarer HTML-Inhalt enthält einen Platzhalter.`);
@@ -87,6 +132,13 @@ for (const file of htmlFiles) {
   }
 }
 
+for (const [title, routes] of titleRoutes) {
+  if (routes.length > 1) errors.push(`Doppelter Title auf ${routes.join(', ')}: ${title}`);
+}
+for (const [description, routes] of descriptionRoutes) {
+  if (routes.length > 1) warnings.push(`Identische Meta-Description auf ${routes.join(', ')}: ${description}`);
+}
+
 const reportDir = path.join(root, 'qa-artifacts');
 fs.mkdirSync(reportDir, { recursive: true });
 const report = {
@@ -94,6 +146,8 @@ const report = {
   productionMode: isProduction,
   htmlFiles: htmlFiles.length,
   checkedLinks,
+  uniqueTitles: titleRoutes.size,
+  uniqueDescriptions: descriptionRoutes.size,
   errors,
   warnings
 };
@@ -105,6 +159,8 @@ fs.writeFileSync(
     '',
     `- HTML-Seiten: ${htmlFiles.length}`,
     `- interne Links geprüft: ${checkedLinks}`,
+    `- eindeutige Titles: ${titleRoutes.size}`,
+    `- eindeutige Descriptions: ${descriptionRoutes.size}`,
     `- Fehler: ${errors.length}`,
     `- Hinweise: ${warnings.length}`,
     '',
@@ -119,4 +175,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Static QA bestanden: ${htmlFiles.length} HTML-Seiten, ${checkedLinks} interne Links geprüft.`);
+console.log(`Static QA bestanden: ${htmlFiles.length} HTML-Seiten, ${checkedLinks} interne Links, ${titleRoutes.size} eindeutige Titles.`);
