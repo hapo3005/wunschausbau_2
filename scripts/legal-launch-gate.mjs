@@ -3,12 +3,12 @@ import path from 'node:path';
 
 const isProductionLaunch = process.env.PRODUCTION_LAUNCH === 'true';
 if (!isProductionLaunch) {
-  console.log('Legal launch gate: preview/local build – production gate skipped.');
+  console.log('Launch gate: preview/local build – production gate skipped.');
   process.exit(0);
 }
 
-const legalPath = path.resolve('src/data/legal.json');
-const legal = JSON.parse(fs.readFileSync(legalPath, 'utf8'));
+const legal = JSON.parse(fs.readFileSync(path.resolve('src/data/legal.json'), 'utf8'));
+const release = JSON.parse(fs.readFileSync(path.resolve('src/data/release.json'), 'utf8'));
 const errors = [];
 
 for (const field of ['unternehmen', 'inhaber', 'strasse', 'plz', 'ort', 'land', 'telefon', 'email']) {
@@ -24,14 +24,25 @@ if (legal.vsbgStatus === 'pending') {
 }
 
 if (legal.launchApproved !== true) {
-  errors.push('legal.launchApproved ist noch nicht auf true gesetzt.');
+  errors.push('Rechtliche Produktionsfreigabe fehlt: legal.launchApproved !== true.');
+}
+
+const releaseChecks = [
+  ['serviceCatalogApproved', 'Finaler Leistungskatalog ist noch nicht bestätigt.'],
+  ['serviceAreaApproved', 'Finales Einsatzgebiet ist noch nicht bestätigt.'],
+  ['projectMediaApproved', 'Freigegebene Original-Projektbilder sind noch nicht vollständig eingesetzt.'],
+  ['smtpDeliveryTestPassed', 'Reale Formularzustellung wurde noch nicht erfolgreich getestet.']
+];
+
+for (const [field, message] of releaseChecks) {
+  if (release[field] !== true) errors.push(message);
 }
 
 if (errors.length) {
-  console.error('\nPRODUKTIONSDEPLOY BLOCKIERT – Legal Gate nicht bestanden:\n');
+  console.error('\nPRODUKTIONSDEPLOY BLOCKIERT – Release Gate nicht bestanden:\n');
   for (const error of errors) console.error(`- ${error}`);
-  console.error('\nErst nach finaler Prüfung der Betreiberangaben und Datenschutzhinweise freigeben.\n');
+  console.error('\nPreview-Builds bleiben möglich. Produktion erst nach belegbarer Freigabe aller Punkte.\n');
   process.exit(1);
 }
 
-console.log('Legal launch gate bestanden.');
+console.log('Release Gate bestanden: Recht, Inhalte und Kontaktstrecke sind freigegeben.');
