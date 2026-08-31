@@ -5,6 +5,7 @@ const targetDir = process.argv[2] || 'qa-artifacts/lighthouse';
 const files = fs.existsSync(targetDir)
   ? fs.readdirSync(targetDir).filter((name) => name.endsWith('.json'))
   : [];
+const isProduction = process.env.PRODUCTION_LAUNCH === 'true';
 
 if (!files.length) {
   console.error(`Kein Lighthouse-JSON in ${targetDir} gefunden.`);
@@ -14,7 +15,8 @@ if (!files.length) {
 const thresholds = {
   performance: 0.75,
   accessibility: 0.90,
-  'best-practices': 0.90
+  'best-practices': 0.90,
+  ...(isProduction ? { seo: 0.95 } : {})
 };
 
 const reports = [];
@@ -40,10 +42,13 @@ for (const file of files) {
 
 const summary = {
   generatedAt: new Date().toISOString(),
+  productionMode: isProduction,
   thresholds,
   reports,
   failures,
-  note: 'SEO wird reportet, aber auf GitHub Pages nicht gegated, weil die Preview absichtlich noindex ist.'
+  note: isProduction
+    ? 'SEO ist im Produktionsrelease Teil des Quality Gates (Minimum 95).'
+    : 'SEO wird in Preview-Builds reportet, aber wegen der absichtlichen noindex-Sperre nicht gegated.'
 };
 
 fs.writeFileSync(path.join(targetDir, 'lighthouse-summary.json'), `${JSON.stringify(summary, null, 2)}\n`);
