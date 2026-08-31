@@ -117,6 +117,7 @@ export default async (request) => {
 
   const fehler = [];
   for (const feld of PFLICHT) if (!clean(daten[feld])) fehler.push(feld);
+  if (daten.kontaktweg === 'E-Mail' && !clean(daten.email)) fehler.push('email');
   if (daten.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(daten.email)) fehler.push('email');
   if (!KONTAKTWEGE.has(daten.kontaktweg)) fehler.push('kontaktweg');
   if (!OBJEKTARTEN.has(daten.objektart || '')) fehler.push('objektart');
