@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const isProduction = process.env.PRODUCTION_LAUNCH === 'true' || process.argv.includes('--production');
+const canonicalOrigin = 'https://www.wunschausbau.de';
 
 if (!fs.existsSync(dist)) {
   console.error('Static QA: dist/ fehlt. Bitte zuerst npm run build ausführen.');
@@ -67,7 +68,12 @@ const commercialRoute = (route) =>
   || route === '/ueber-uns/'
   || route === '/kontakt/';
 
-const noindexAllowed = new Set(['/agb/', '/danke/', '/freigabe/', '/404.html']);
+const noindexAllowed = new Set(['/danke/', '/freigabe/', '/404.html']);
+const unverifiedClaimPatterns = [
+  { label: 'kostenlose Erstberatung', pattern: /kostenlose\s+Erstberatung/i },
+  { label: '500+ Projekte', pattern: /\b500\+\s*(?:realisierte\s+)?Projekte\b/i },
+  { label: '24-h-Reaktionszeit', pattern: /\b24\s*h(?:\.|\b)/i }
+];
 
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');
@@ -78,6 +84,12 @@ for (const file of htmlFiles) {
   const h1s = [...html.matchAll(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/gi)];
   const noindex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
   const jsonLdBlocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1].trim());
+
+  if (route === '/agb/') errors.push('/agb/: Platzhalter-AGB darf nicht als öffentliche Build-Route existieren.');
+
+  for (const claim of unverifiedClaimPatterns) {
+    if (claim.pattern.test(html)) errors.push(`${route}: nicht freigegebene Werbeaussage gefunden (${claim.label}).`);
+  }
 
   if (titles.length !== 1 || !titles[0]) errors.push(`${route}: genau ein nicht-leerer <title> erwartet.`);
   if (descriptions.length !== 1 || !descriptions[0]) errors.push(`${route}: genau eine Meta-Description erwartet.`);
@@ -100,6 +112,17 @@ for (const file of htmlFiles) {
     errors.push(`${route}: kommerzieller Title verliert den primären Local-SEO-Fokus Wittlich.`);
   }
 
+  if (isProduction && canonicals[0]) {
+    try {
+      const canonical = new URL(canonicals[0]);
+      if (canonical.origin !== canonicalOrigin) {
+        errors.push(`${route}: Production-Canonical nutzt ${canonical.origin} statt ${canonicalOrigin}.`);
+      }
+    } catch {
+      errors.push(`${route}: Canonical ist keine valide absolute URL.`);
+    }
+  }
+
   if (jsonLdBlocks.length !== 1) {
     errors.push(`${route}: genau ein zusammengeführter JSON-LD-Block erwartet, gefunden ${jsonLdBlocks.length}.`);
   } else {
@@ -114,6 +137,10 @@ for (const file of htmlFiles) {
       if (!business) errors.push(`${route}: HomeAndConstructionBusiness-Schema fehlt im JSON-LD-Graph.`);
       if (route !== '/' && !types.has('BreadcrumbList')) errors.push(`${route}: BreadcrumbList-Schema fehlt.`);
 
+      if (isProduction && jsonLdBlocks[0].includes('https://wunschausbau.de')) {
+        errors.push(`${route}: Structured Data enthält noch den nicht-kanonischen Apex-Host.`);
+      }
+
       if (isProduction && business) {
         const address = business.address;
         if (!address || typeof address !== 'object') {
@@ -124,7 +151,8 @@ for (const file of htmlFiles) {
           }
         }
         if (!String(business.telephone || '').trim()) errors.push(`${route}: LocalBusiness-Telefonnummer fehlt im Produktionsschema.`);
-        if (!String(business.url || '').trim()) errors.push(`${route}: LocalBusiness-URL fehlt im Produktionsschema.`);
+        if (business.url !== `${canonicalOrigin}/`) errors.push(`${route}: LocalBusiness-URL ist nicht ${canonicalOrigin}/.`);
+        if (business['@id'] !== `${canonicalOrigin}/#business`) errors.push(`${route}: LocalBusiness-@id ist nicht kanonisch.`);
       }
     } catch (error) {
       errors.push(`${route}: JSON-LD ist nicht valide JSON (${String(error)}).`);
@@ -160,6 +188,7 @@ fs.mkdirSync(reportDir, { recursive: true });
 const report = {
   generatedAt: new Date().toISOString(),
   productionMode: isProduction,
+  canonicalOrigin,
   htmlFiles: htmlFiles.length,
   checkedLinks,
   uniqueTitles: titleRoutes.size,
@@ -177,6 +206,7 @@ fs.writeFileSync(
     `- interne Links geprüft: ${checkedLinks}`,
     `- eindeutige Titles: ${titleRoutes.size}`,
     `- eindeutige Descriptions: ${descriptionRoutes.size}`,
+    `- Canonical Production Host: ${canonicalOrigin}`,
     `- Fehler: ${errors.length}`,
     `- Hinweise: ${warnings.length}`,
     '',
