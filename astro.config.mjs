@@ -8,7 +8,7 @@ const isGitHubPages =
   process.env.GITHUB_REPOSITORY === 'hapo3005/wunschausbau_2';
 
 export default defineConfig({
-  site: isGitHubPages ? 'https://hapo3005.github.io' : 'https://wunschausbau.de',
+  site: isGitHubPages ? 'https://hapo3005.github.io' : 'https://www.wunschausbau.de',
   base: isGitHubPages ? '/wunschausbau_2' : '/',
   trailingSlash: 'always',
   integrations: [
