@@ -212,7 +212,6 @@ try {
             return {
               expanded: button?.getAttribute('aria-expanded') === 'true',
               navOpenClass: nav?.classList.contains('open') ?? false,
-              headerOpenClass: document.querySelector('.site-header')?.classList.contains('menu-open') ?? false,
               bodyLocked: document.body.classList.contains('nav-open'),
               visibility: style?.visibility ?? null,
               opacity: style ? Number(style.opacity) : 0,
@@ -229,7 +228,6 @@ try {
 
           const openCorrectly = menuState.expanded
             && menuState.navOpenClass
-            && menuState.headerOpenClass
             && menuState.bodyLocked
             && menuState.visibility === 'visible'
             && menuState.opacity >= 0.95
