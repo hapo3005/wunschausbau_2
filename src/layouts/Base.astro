@@ -183,12 +183,14 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     <script>
       const targets = [...document.querySelectorAll('.reveal')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const touchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches || navigator.maxTouchPoints > 0;
       const iOSLike = /iP(hone|ad|od)/i.test(navigator.userAgent)
         || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
       document.documentElement.classList.toggle('ios-safari', iOSLike);
 
       const canAnimate = !reduceMotion
+        && !touchLike
         && !iOSLike
         && 'IntersectionObserver' in window
         && typeof Element.prototype.animate === 'function';
@@ -207,7 +209,9 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
             observer.unobserve(target);
             target.classList.add('is-visible');
 
-            const delayValue = getComputedStyle(target).getPropertyValue('--reveal-delay').trim();
+            const delayValue = target instanceof HTMLElement
+              ? target.style.getPropertyValue('--reveal-delay').trim()
+              : '';
             const delay = Number.parseFloat(delayValue) || 0;
             const animation = target.animate(
               [
