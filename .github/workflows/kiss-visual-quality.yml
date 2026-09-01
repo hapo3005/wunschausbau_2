@@ -10,6 +10,7 @@ permissions:
   contents: read
 
 jobs:
+  # Central KISS gate: geometry-based visual QA across browser engines and operating systems.
   visual-quality:
     uses: hapo3005/kiss/.github/workflows/kiss-visual-quality.yml@main
     with:
