@@ -181,6 +181,20 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     <Footer />
     <MobileCta />
     <script>
+      // Internal links must always leave embedded preview/sidebar frames. In a normal
+      // top-level browser context `_top` is identical to the current page, so this
+      // does not change ordinary navigation behaviour.
+      document.querySelectorAll('a[href]').forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement) || link.target === '_blank') return;
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('javascript:')) return;
+
+        try {
+          const targetUrl = new URL(href, window.location.href);
+          if (targetUrl.origin === window.location.origin) link.target = '_top';
+        } catch {}
+      });
+
       const targets = [...document.querySelectorAll('.reveal')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const touchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches || navigator.maxTouchPoints > 0;
