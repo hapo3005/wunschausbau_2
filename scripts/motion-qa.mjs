@@ -82,6 +82,97 @@ try {
   if (browserErrors.length) fail(`Browserfehler im Motion-Pfad: ${browserErrors.join(' | ')}`);
   await motionContext.close();
 
+  // Touch scroll regression path: expensive reveal animations must never run on
+  // coarse-pointer devices, and scroll-linked UI may only mutate when its state changes.
+  const touchContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: 'no-preference',
+    colorScheme: 'light',
+    locale: 'de-DE',
+    userAgent: 'Mozilla/5.0 (Linux; Android 16; Mobile) AppleWebKit/537.36 Chrome/140.0.0.0 Mobile Safari/537.36'
+  });
+  const touchPage = await touchContext.newPage();
+
+  await touchPage.addInitScript(() => {
+    window.__revealAnimationCalls = 0;
+    const originalAnimate = Element.prototype.animate;
+    if (typeof originalAnimate === 'function') {
+      Element.prototype.animate = function (...args) {
+        if (this.classList?.contains('reveal')) window.__revealAnimationCalls += 1;
+        return originalAnimate.apply(this, args);
+      };
+    }
+  });
+
+  const touchResponse = await touchPage.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+  if (!touchResponse || touchResponse.status() >= 400) fail(`Touch-QA-Seite nicht erreichbar (${touchResponse?.status() ?? 'keine Response'}).`);
+  await touchPage.waitForLoadState('networkidle', { timeout: 6_000 }).catch(() => {});
+  await touchPage.evaluate(async () => { if (document.fonts?.ready) await document.fonts.ready; });
+
+  await touchPage.evaluate(() => {
+    window.__scrollMutationCount = 0;
+    const observed = [document.querySelector('.site-header'), document.querySelector('.mobile-cta')].filter(Boolean);
+    window.__scrollMutationObservers = observed.map((root) => {
+      const observer = new MutationObserver((records) => {
+        window.__scrollMutationCount += records.length;
+      });
+      observer.observe(root, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'aria-hidden', 'tabindex']
+      });
+      return observer;
+    });
+  });
+
+  await touchPage.evaluate(async () => {
+    const maxY = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    const step = Math.max(120, Math.round(innerHeight * 0.42));
+    for (let y = 0; y <= maxY; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    }
+    window.scrollTo(0, maxY);
+    await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    window.scrollTo(0, 0);
+    await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  });
+
+  const touchState = await touchPage.evaluate(() => {
+    window.__scrollMutationObservers?.forEach((observer) => observer.disconnect());
+    const hidden = [...document.querySelectorAll('.reveal')]
+      .map((el, index) => {
+        const style = getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+        return { index, opacity: Number(style.opacity), visibility: style.visibility, display: style.display, width: rect.width, height: rect.height };
+      })
+      .filter((item) => item.display === 'none' || item.visibility === 'hidden' || item.opacity < 0.92 || item.width === 0 || item.height === 0);
+    return {
+      revealAnimationCalls: window.__revealAnimationCalls || 0,
+      scrollMutationCount: window.__scrollMutationCount || 0,
+      hiddenRevealCount: hidden.length
+    };
+  });
+
+  if (touchState.revealAnimationCalls !== 0) {
+    fail(`Touch-QA: ${touchState.revealAnimationCalls} Reveal-Web-Animationen wurden beim mobilen Scrollen gestartet.`);
+  } else {
+    notes.push('Touch-QA: keine Reveal-Web-Animationen während des mobilen Scrollens.');
+  }
+
+  if (touchState.scrollMutationCount > 14) {
+    fail(`Touch-QA: ${touchState.scrollMutationCount} scrollgekoppelte DOM-Mutationen – Budget 14 überschritten.`);
+  } else {
+    notes.push(`Touch-QA: scrollgekoppelte DOM-Mutationen im Budget (${touchState.scrollMutationCount}/14).`);
+  }
+
+  if (touchState.hiddenRevealCount) {
+    fail(`Touch-QA: ${touchState.hiddenRevealCount} Reveal-Bereiche sind nach dem Scrolltest nicht vollständig sichtbar.`);
+  }
+  await touchContext.close();
+
   // No-JS path: content must remain readable even if scripts fail or are blocked.
   const noJsContext = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
@@ -115,7 +206,7 @@ const report = [
   `- Hinweise: **${notes.length}**`,
   '',
   ...(notes.length ? ['## Hinweise', ...notes.map((item) => `- ${item}`), ''] : []),
-  ...(failures.length ? ['## Fehler', ...failures.map((item) => `- ${item}`), ''] : ['Alle Motion- und No-JS-Gates bestanden.', ''])
+  ...(failures.length ? ['## Fehler', ...failures.map((item) => `- ${item}`), ''] : ['Alle Motion-, Touch-Scroll- und No-JS-Gates bestanden.', ''])
 ].join('\n');
 
 await fs.writeFile(path.join(outDir, 'motion-qa.md'), report, 'utf8');
