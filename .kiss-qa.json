@@ -1,0 +1,17 @@
+{
+  "routes": [
+    "/",
+    "/leistungen/",
+    "/referenzen/",
+    "/ueber-uns/",
+    "/kontakt/",
+    "/leistungen/boeden/",
+    "/leistungen/fenster-aussentueren/",
+    "/leistungen/komplettrenovierung/"
+  ],
+  "maxRoutes": 12,
+  "failOnWarnings": false,
+  "locale": "de-DE",
+  "allow": [],
+  "thresholds": {}
+}
