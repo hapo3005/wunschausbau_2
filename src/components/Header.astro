@@ -11,6 +11,7 @@ const nav = [
 const path = Astro.url.pathname;
 ---
 <header class="site-header">
+  <div class="header-scroll-sentinel" aria-hidden="true"></div>
   <div class="header-shell">
     <a class="brand" href={withBase('/')} aria-label={`${settings.marke} – Startseite`}>
       <img class="brand-mark" src={logoUrl} width="449" height="452" alt="" />
@@ -57,13 +58,21 @@ const path = Astro.url.pathname;
     background: rgba(253,252,249,.97);
     border-bottom: 1px solid rgba(28,29,31,.10);
     transition: background-color 200ms ease, box-shadow 200ms ease;
+    contain: paint;
+  }
+
+  .header-scroll-sentinel {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
   }
 
   .site-header.is-scrolled {
-    background: rgba(253,252,249,.985);
+    background: rgba(253,252,249,.992);
     box-shadow: 0 .55rem 1.8rem rgba(28,29,31,.055);
-    backdrop-filter: blur(16px) saturate(108%);
-    -webkit-backdrop-filter: blur(16px) saturate(108%);
   }
 
   .header-shell {
@@ -396,46 +405,41 @@ const path = Astro.url.pathname;
   const header = document.querySelector('.site-header');
   const button = header?.querySelector('.menu-btn');
   const navigation = header?.querySelector('#site-nav');
+  const sentinel = header?.querySelector('.header-scroll-sentinel');
   const mobile = window.matchMedia('(max-width: 56rem)');
   let lastFocused = null;
 
-  const focusables = () => navigation ? [...navigation.querySelectorAll('a[href], button:not([disabled])')] : [];
+  const focusables = () => navigation ? [...navigation.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')] : [];
 
   const setMenu = (open, returnFocus = false) => {
-    if (open) lastFocused = document.activeElement;
-    navigation?.classList.toggle('open', open);
-    header?.classList.toggle('menu-open', open);
-    button?.setAttribute('aria-expanded', String(open));
-    button?.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
-    document.body.classList.toggle('nav-open', open && mobile.matches);
+    if (!button || !navigation) return;
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    navigation.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
 
-    if (open && mobile.matches) {
+    if (open) {
+      lastFocused = document.activeElement;
       requestAnimationFrame(() => focusables()[0]?.focus());
     } else if (returnFocus && lastFocused instanceof HTMLElement) {
       lastFocused.focus();
     }
   };
 
-  const setScrolled = () => header?.classList.toggle('is-scrolled', window.scrollY > 20);
-
   button?.addEventListener('click', () => setMenu(button.getAttribute('aria-expanded') !== 'true'));
   navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
   document.addEventListener('keydown', (event) => {
-    if (!mobile.matches || button?.getAttribute('aria-expanded') !== 'true') return;
-
-    if (event.key === 'Escape') {
-      event.preventDefault();
+    if (event.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {
       setMenu(false, true);
       return;
     }
 
-    if (event.key !== 'Tab') return;
+    if (event.key !== 'Tab' || button?.getAttribute('aria-expanded') !== 'true') return;
     const items = focusables();
     if (!items.length) return;
     const first = items[0];
     const last = items[items.length - 1];
-
     if (event.shiftKey && document.activeElement === first) {
       event.preventDefault();
       last.focus();
@@ -448,8 +452,17 @@ const path = Astro.url.pathname;
   mobile.addEventListener('change', (event) => {
     if (!event.matches) setMenu(false);
   });
-  window.addEventListener('scroll', setScrolled, { passive: true });
-  setScrolled();
+
+  if (header && sentinel && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      header.classList.toggle('is-scrolled', !entry.isIntersecting);
+    }, { threshold: 0 });
+    observer.observe(sentinel);
+  } else if (header) {
+    const setScrolled = () => header.classList.toggle('is-scrolled', window.scrollY > 20);
+    window.addEventListener('scroll', setScrolled, { passive: true });
+    setScrolled();
+  }
 </script>
 
 <style is:global>
