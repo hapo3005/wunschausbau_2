@@ -30,6 +30,28 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
+
+  /* Touch scrolling has priority over entrance choreography. The same content
+     stays visually identical once visible, but no animation work is scheduled
+     while the user is actively scrolling. */
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .proof-motion-ready .proof-score::after,
+  .proof-motion-ready .proof-quote__rail,
+  .proof-motion-ready .proof-score__rating,
+  .proof-motion-ready .proof-score__bottom,
+  .proof-motion-ready .proof-quote__topline,
+  .proof-motion-ready .proof-quote blockquote,
+  .proof-motion-ready .proof-quote figcaption,
+  .proof-motion-ready .proof-score__stars i {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* iOS Safari receives an explicit class from Base.astro.
