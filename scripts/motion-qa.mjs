@@ -111,6 +111,27 @@ try {
   await touchPage.waitForLoadState('networkidle', { timeout: 6_000 }).catch(() => {});
   await touchPage.evaluate(async () => { if (document.fonts?.ready) await document.fonts.ready; });
 
+  const internalNavigation = await touchPage.evaluate(() => [...document.querySelectorAll('a[href]')]
+    .filter((link) => link instanceof HTMLAnchorElement && link.target !== '_blank')
+    .map((link) => {
+      const href = link.getAttribute('href') || '';
+      if (!href || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('javascript:')) return null;
+      try {
+        const targetUrl = new URL(href, window.location.href);
+        if (targetUrl.origin !== window.location.origin) return null;
+        return { href, target: link.target };
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean));
+  const unsafeInternalNavigation = internalNavigation.filter((link) => link.target !== '_top');
+  if (unsafeInternalNavigation.length) {
+    fail(`Touch-QA: ${unsafeInternalNavigation.length} interne Links verlassen eingebettete Preview-Kontexte nicht per _top.`);
+  } else {
+    notes.push(`Touch-QA: ${internalNavigation.length} interne Links sind gegen eingebettete Preview-Navigation abgesichert.`);
+  }
+
   await touchPage.evaluate(() => {
     window.__scrollMutationCount = 0;
     const observed = [document.querySelector('.site-header'), document.querySelector('.mobile-cta')].filter(Boolean);
