@@ -1,0 +1,22 @@
+name: KISS Visual Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-quality:
+    uses: hapo3005/kiss/.github/workflows/kiss-visual-quality.yml@main
+    with:
+      node-version: '22'
+      install-command: 'npm ci'
+      build-command: 'npm run build'
+      preview-command: 'npm run preview -- --host 127.0.0.1 --port 4321'
+      base-url: 'http://127.0.0.1:4321/wunschausbau_2'
+      config-path: '.kiss-qa.json'
+      extended-os: true
