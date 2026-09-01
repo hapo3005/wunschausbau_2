@@ -11,7 +11,6 @@ const nav = [
 const path = Astro.url.pathname;
 ---
 <header class="site-header">
-  <div class="header-scroll-sentinel" aria-hidden="true"></div>
   <div class="header-shell">
     <a class="brand" href={withBase('/')} aria-label={`${settings.marke} – Startseite`}>
       <img class="brand-mark" src={logoUrl} width="449" height="452" alt="" />
@@ -58,16 +57,6 @@ const path = Astro.url.pathname;
     background: rgba(253,252,249,.97);
     border-bottom: 1px solid rgba(28,29,31,.10);
     transition: background-color 200ms ease, box-shadow 200ms ease;
-    contain: paint;
-  }
-
-  .header-scroll-sentinel {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 1px;
-    height: 1px;
-    pointer-events: none;
   }
 
   .site-header.is-scrolled {
@@ -405,9 +394,10 @@ const path = Astro.url.pathname;
   const header = document.querySelector('.site-header');
   const button = header?.querySelector('.menu-btn');
   const navigation = header?.querySelector('#site-nav');
-  const sentinel = header?.querySelector('.header-scroll-sentinel');
   const mobile = window.matchMedia('(max-width: 56rem)');
   let lastFocused = null;
+  let scrollFrame = 0;
+  let scrolledState = null;
 
   const focusables = () => navigation ? [...navigation.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')] : [];
 
@@ -424,6 +414,20 @@ const path = Astro.url.pathname;
     } else if (returnFocus && lastFocused instanceof HTMLElement) {
       lastFocused.focus();
     }
+  };
+
+  const applyScrollState = () => {
+    scrollFrame = 0;
+    if (!header) return;
+    const nextState = window.scrollY > 20;
+    if (nextState === scrolledState) return;
+    scrolledState = nextState;
+    header.classList.toggle('is-scrolled', nextState);
+  };
+
+  const scheduleScrollState = () => {
+    if (scrollFrame) return;
+    scrollFrame = requestAnimationFrame(applyScrollState);
   };
 
   button?.addEventListener('click', () => setMenu(button.getAttribute('aria-expanded') !== 'true'));
@@ -453,16 +457,8 @@ const path = Astro.url.pathname;
     if (!event.matches) setMenu(false);
   });
 
-  if (header && sentinel && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(([entry]) => {
-      header.classList.toggle('is-scrolled', !entry.isIntersecting);
-    }, { threshold: 0 });
-    observer.observe(sentinel);
-  } else if (header) {
-    const setScrolled = () => header.classList.toggle('is-scrolled', window.scrollY > 20);
-    window.addEventListener('scroll', setScrolled, { passive: true });
-    setScrolled();
-  }
+  window.addEventListener('scroll', scheduleScrollState, { passive: true });
+  applyScrollState();
 </script>
 
 <style is:global>
