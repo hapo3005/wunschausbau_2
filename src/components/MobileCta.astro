@@ -43,6 +43,7 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       pointer-events: none;
       transform: translateX(-50%);
       transition: opacity 160ms ease, visibility 0s linear 160ms;
+      contain: layout paint;
     }
 
     .mobile-cta.is-visible {
@@ -87,6 +88,8 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
     const mobile = window.matchMedia('(max-width: 56rem)');
     const links = [...dock.querySelectorAll('a')];
     let blocked = false;
+    let currentShow = null;
+    let frame = 0;
 
     const setFocusable = (enabled) => {
       links.forEach((link) => {
@@ -95,12 +98,21 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       });
     };
 
-    const update = () => {
+    const applyState = () => {
+      frame = 0;
       const navOpen = document.body.classList.contains('nav-open');
       const show = mobile.matches && window.scrollY > 320 && !blocked && !navOpen;
+
+      if (show === currentShow) return;
+      currentShow = show;
       dock.classList.toggle('is-visible', show);
       dock.setAttribute('aria-hidden', String(!show));
       setFocusable(show);
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(applyState);
     };
 
     const blockers = document.querySelectorAll('.cta-section, .site-footer');
@@ -112,15 +124,15 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
           else visible.delete(entry.target);
         });
         blocked = visible.size > 0;
-        update();
+        scheduleUpdate();
       }, { threshold: 0.02 });
       blockers.forEach((target) => observer.observe(target));
     }
 
-    window.addEventListener('scroll', update, { passive: true });
-    mobile.addEventListener('change', update);
-    new MutationObserver(update).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    mobile.addEventListener('change', scheduleUpdate);
+    new MutationObserver(scheduleUpdate).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     setFocusable(false);
-    update();
+    applyState();
   }
 </script>
