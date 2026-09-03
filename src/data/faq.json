@@ -1,7 +1,12 @@
 [
-  { "frage": "Wie kann ich ein Projekt anfragen?", "antwort": "Telefonisch unter 06571 9518180, per E-Mail an kontakt@wunschausbau.de oder über das Anfrageformular. Wir melden uns schnellstmöglich bei Ihnen." },
+  { "frage": "Wie kann ich ein Projekt anfragen?", "antwort": "Telefonisch unter 0151 53264522, per E-Mail an kontakt@wunschausbau.de oder über das Anfrageformular. Wir melden uns schnellstmöglich bei Ihnen." },
   { "frage": "Wie schnell erhalte ich eine Rückmeldung?", "antwort": "In der Regel innerhalb von 24 Stunden. Bei komplexen Anfragen kann es etwas länger dauern." },
   { "frage": "Arbeiten Sie auch in meiner Nähe?", "antwort": "Wir sind in Wittlich, Trier und der Moselregion tätig. Bei größeren Projekten übernehmen wir auch weitere Strecken – sprechen Sie uns an." },
   { "frage": "Ist die Erstberatung kostenlos?", "antwort": "Ja. Nach einem Termin vor Ort erstellen wir Ihnen ein unverbindliches Angebot." },
-  { "frage": "Wie läuft ein Projekt ab?", "antwort": "In drei Phasen: Beratung, Planung und Umsetzung – vom ersten Gespräch bis zur sauberen Übergabe." }
+  { "frage": "Wie läuft ein Projekt ab?", "antwort": "In drei Phasen: Beratung, Planung und Umsetzung – vom ersten Gespräch bis zur sauberen Übergabe." },
+  { "frage": "Wie lange dauert ein durchschnittliches Projekt?", "antwort": "Das hängt vom Umfang stark ab. Eine einzelne Leistung (z. B. Türen montieren) dauert 1–3 Tage, ein kompletter Raum 2–4 Wochen, komplette Renovierungen 4–8 Wochen." },
+  { "frage": "Welche Garantie gibt es auf die Arbeit?", "antwort": "Zwei Jahre Gewährleistung auf alle Arbeiten nach §§ 633 ff. BGB. Darüber hinaus vereinbaren wir im Einzelfall – sprechen Sie uns an." },
+  { "frage": "Können Sie kurzfristig einsteigen?", "antwort": "Das hängt vom aktuellen Auftragsbestand ab. Dringende Reparaturen und Notfall-Arbeiten behandeln wir prioritär. Fragen Sie uns an." },
+  { "frage": "Was kostet ein Projekt ungefähr?", "antwort": "Die Kosten hängen stark von Material, Umfang und Besonderheiten ab. Nach dem Aufmaß erstellen wir ein unverbindliches, transparentes Angebot – ohne versteckte Kosten." },
+  { "frage": "Gibt es Finanzierungsoptionen?", "antwort": "Für größere Projekte vermitteln wir gerne den Kontakt zu Finanzierungspartnern. Fragen Sie uns, wir beraten Sie gerne." }
 ]

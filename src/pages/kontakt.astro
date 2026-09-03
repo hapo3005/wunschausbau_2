@@ -43,46 +43,46 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
         </fieldset>
 
         <div class="feld-grid">
-          <label>Name <b aria-hidden="true">*</b>
+          <label>Ihr Name <b aria-hidden="true">*</b>
             <input name="name" autocomplete="name" required maxlength="120" />
           </label>
-          <label>Telefon <b aria-hidden="true">*</b>
+          <label>Telefon zum Rückruf <b aria-hidden="true">*</b>
             <input name="telefon" type="tel" autocomplete="tel" required maxlength="40" />
           </label>
-          <label>E-Mail
+          <label>E-Mail (optional)
             <input name="email" type="email" autocomplete="email" maxlength="160" />
           </label>
           <label>Ort / PLZ <b aria-hidden="true">*</b>
             <input name="ort" autocomplete="postal-code" required maxlength="120" />
           </label>
-          <label>Objektart
+          <label>Objekttyp
             <select name="objektart">
-              <option value="">Bitte auswählen</option>
+              <option value="">Noch nicht sicher</option>
               <option>Wohnung</option>
               <option>Haus</option>
               <option>Gewerbeobjekt</option>
               <option>Außenbereich</option>
             </select>
           </label>
-          <label>Gewünschter Zeitraum
+          <label>Geplanter Zeitraum
             <select name="zeitraum">
-              <option value="">Bitte auswählen</option>
+              <option value="">Noch offen</option>
               <option>So bald wie möglich</option>
               <option>In den nächsten 3 Monaten</option>
               <option>In den nächsten 6 Monaten</option>
-              <option>Noch offen</option>
+              <option>Später</option>
             </select>
           </label>
         </div>
 
-        <label>Projektbeschreibung <b aria-hidden="true">*</b>
+        <label>Was muss gemacht werden? <b aria-hidden="true">*</b>
           <textarea name="beschreibung" required rows="5" maxlength="4000"
-            placeholder="Was soll gemacht werden? Gibt es Maße, Materialien oder Besonderheiten?"></textarea>
+            placeholder="z. B. Eichenparkett verlegen, Wände errichtet, Türen montiert, komplette Renovierung des Wohnzimmers…"></textarea>
         </label>
 
-        <label>Grober Budgetrahmen (optional)
+        <label>Ungefähres Budget (optional)
           <select name="budget">
-            <option value="">Noch offen</option>
+            <option value="">Noch nicht definiert</option>
             <option>Bis 5.000 €</option>
             <option>5.000 – 15.000 €</option>
             <option>15.000 – 30.000 €</option>
@@ -107,8 +107,7 @@ const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.rei
 
         <label class="privacy">
           <input type="checkbox" name="datenschutz" required />
-          <span>Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden.
-            Details in der <a href="/datenschutz/">Datenschutzerklärung</a>. <b aria-hidden="true">*</b></span>
+          <span>Ich akzeptiere die <a href="/datenschutz/">Datenschutzerklärung</a> und stimme zu, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden. <b aria-hidden="true">*</b></span>
         </label>
 
         <button class="btn" type="submit">Projekt unverbindlich anfragen</button>

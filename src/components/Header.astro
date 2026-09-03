@@ -10,7 +10,7 @@ const path = Astro.url.pathname;
 ---
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="/">
+    <a class="brand" href="/" aria-label="wunschausbau.de – Innenausbau & Renovierung">
       <span class="brand-name">{settings.marke}</span>
       <span class="brand-claim">{settings.claim}</span>
     </a>
@@ -20,6 +20,10 @@ const path = Astro.url.pathname;
         <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
       ))}
       <a class="nav-phone" href={`tel:${settings.telefonLink}`}>{settings.telefon}</a>
+      <a class="badge-link" href="https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3" target="_blank" rel="noopener noreferrer" aria-label="5,0 von 5 bei 13 Bewertungen auf MyHammer" title="Besuchen Sie unsere MyHammer-Bewertungen">
+        <span class="badge-stars">★★★★★</span>
+        <span class="badge-text"><strong>5,0</strong> · 13 Bewertungen</span>
+      </a>
       <a class="btn nav-cta" href="/kontakt/">Projekt anfragen</a>
     </nav>
 
@@ -48,6 +52,10 @@ const path = Astro.url.pathname;
   .site-nav a:not(.btn):hover { color: var(--brass-deep); }
   .site-nav a[aria-current="page"] { border-bottom-color: var(--brass); }
   .nav-phone { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+  .badge-link { display: flex; align-items: center; gap: .4rem; text-decoration: none; padding: .4rem .7rem; border-radius: var(--radius); background: rgba(167, 133, 94, .08); color: var(--brass-deep); font-weight: 500; font-size: .85rem; transition: background .15s; }
+  .badge-link:hover { background: rgba(167, 133, 94, .15); }
+  .badge-stars { letter-spacing: -.05em; font-size: .9em; }
+  .badge-text { display: flex; align-items: center; gap: .25rem; white-space: nowrap; }
   .menu-btn { display: none; }
   .nav-phone-mobile { display: none; }
 
@@ -68,6 +76,7 @@ const path = Astro.url.pathname;
     }
     .site-nav.open { display: flex; }
     .site-nav a:not(.btn) { padding: .9rem 0; border-bottom: 1px solid var(--line); }
+    .badge-link { justify-content: center; margin: var(--space-1) 0; background: rgba(167, 133, 94, .1); padding: .6rem; }
     .nav-cta { margin-top: var(--space-2); }
     .menu-btn {
       display: grid; gap: 5px; margin-left: auto;
