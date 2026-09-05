@@ -10,7 +10,7 @@ const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
       <header class="legal-head">
         <p class="eyebrow">Datenschutz</p>
         <h1>Datenschutz&shy;erklärung</h1>
-        <p>Informationen nach Art. 13 und 14 Datenschutz-Grundverordnung (DSGVO). Stand: 27. August 2026.</p>
+        <p>Informationen nach Art. 13 und 14 Datenschutz-Grundverordnung (DSGVO). Stand: 5. September 2026.</p>
       </header>
 
       <div class="legal-content">
@@ -25,37 +25,37 @@ const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
         <section>
           <h2>Grundsätze</h2>
           <div>
-            <p>Wir verarbeiten personenbezogene Daten nur, soweit dies für den Betrieb dieser Website, die Bearbeitung von Anfragen, die Kommunikation mit Interessenten und Kunden oder die Erfüllung gesetzlicher Pflichten erforderlich ist.</p>
+            <p>Wir verarbeiten personenbezogene Daten nur, soweit dies für den technischen Betrieb dieser Website, die Bearbeitung von Anfragen, die Kommunikation mit Interessenten und Kunden, die Anbahnung oder Durchführung von Verträgen oder die Erfüllung gesetzlicher Pflichten erforderlich ist.</p>
             <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling findet über diese Website nicht statt.</p>
           </div>
         </section>
 
         <section>
-          <h2>Hosting</h2>
+          <h2>Hosting & Server-Logs</h2>
           <div>
-            <p>Die Produktionswebsite ist für das Hosting bei <strong>{legal.hostingProvider}</strong>, {legal.hostingAddress}, vorgesehen. Beim Aufruf der Website werden technisch notwendige Verbindungsdaten verarbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene URL, Referrer, Browser-/Geräteinformationen und HTTP-Status gehören.</p>
+            <p>Die Produktionswebsite wird bei <strong>{legal.hostingProvider}</strong>, {legal.hostingAddress}, gehostet. Beim Aufruf der Website werden technisch notwendige Verbindungsdaten verarbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene URL, Referrer, Browser- und Geräteinformationen sowie HTTP-Status gehören.</p>
             <p>Zweck der Verarbeitung ist die sichere, stabile und effiziente Bereitstellung der Website sowie die Erkennung und Abwehr von Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im sicheren und zuverlässigen Betrieb unseres Internetangebots.</p>
-            <p>Netlify verarbeitet Daten als Dienstleister auf Grundlage vertraglicher Datenschutzregelungen. Netlify, Inc. ist nach eigener Angabe unter dem EU-U.S. Data Privacy Framework zertifiziert; für internationale Übermittlungen können zusätzlich die Standardvertragsklauseln der EU-Kommission eingesetzt werden.</p>
+            <p>Netlify verarbeitet Daten als Dienstleister. Soweit personenbezogene Daten in Drittländer übermittelt werden, erfolgt dies auf Grundlage der jeweils einschlägigen datenschutzrechtlichen Transfermechanismen.</p>
           </div>
         </section>
 
         <section>
           <h2>Transportverschlüsselung</h2>
           <div>
-            <p>Die Website wird verschlüsselt über HTTPS übertragen. Dadurch werden Inhalte, die zwischen Browser und Webserver übertragen werden, nach dem Stand der Technik vor dem einfachen Mitlesen auf dem Transportweg geschützt.</p>
+            <p>Die Website wird verschlüsselt über HTTPS übertragen. Dadurch werden Inhalte, die zwischen Browser und Webserver übertragen werden, nach dem Stand der Technik gegen ein einfaches Mitlesen auf dem Transportweg geschützt.</p>
           </div>
         </section>
 
         <section>
           <h2>Kontaktformular</h2>
           <div>
-            <p>Wenn Sie das Projektformular verwenden, verarbeiten wir die von Ihnen eingegebenen Daten zur Prüfung und Bearbeitung Ihrer Anfrage. Pflichtangaben sind derzeit Leistung, Name, Telefonnummer, Ort/PLZ und Projektbeschreibung. Weitere Angaben wie E-Mail-Adresse, Objektart, gewünschter Zeitraum und Budgetrahmen sind freiwillig.</p>
+            <p>Wenn Sie das Projektformular verwenden, verarbeiten wir die von Ihnen eingegebenen Daten zur Prüfung und Bearbeitung Ihrer Anfrage. Immer erforderlich sind Leistung, Name, Ort/PLZ, Projektbeschreibung und der gewünschte Kontaktweg. Bei Kontakt per Telefon oder WhatsApp ist zusätzlich die Telefonnummer erforderlich; bei Kontakt per E-Mail die E-Mail-Adresse. Angaben zu Objektart, gewünschtem Zeitraum und Budgetrahmen sind freiwillig.</p>
             <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage der Anbahnung oder Durchführung eines Vertrags dient. Soweit eine Anfrage keinen vorvertraglichen Bezug hat, erfolgt die Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in der sachgerechten Bearbeitung eingehender Anfragen.</p>
-            <p>Die Formulardaten werden serverseitig validiert und anschließend per E-Mail an KS-Innenausbau übermittelt. Formulardaten werden von der Website nicht zu Werbe- oder Profilingzwecken verwendet und nicht in einer eigenen Kundendatenbank der Website gespeichert.</p>
+            <p>Die Formulardaten werden serverseitig validiert und anschließend per E-Mail an KS-Innenausbau übermittelt. Die Website speichert die Formulardaten nicht in einer eigenen Kundendatenbank und nutzt sie nicht für Werbung oder Profiling.</p>
             {legal.mailProvider ? (
               <p>Für den technischen E-Mail-Versand wird <strong>{legal.mailProvider}</strong> als Dienstleister eingesetzt.</p>
             ) : isPreview ? (
-              <p class="review-inline"><strong>Noch vor Produktionsfreigabe:</strong> Den tatsächlich verwendeten SMTP-/E-Mail-Anbieter in der Datenschutzerklärung ergänzen, sobald das Versandkonto feststeht.</p>
+              <p class="review-inline"><strong>Launch-Gate:</strong> Der tatsächlich verwendete SMTP-/E-Mail-Dienstleister wird vor der Produktionsfreigabe in <code>legal.json</code> dokumentiert und hier automatisch ausgewiesen.</p>
             ) : null}
             <p>Anfragen, aus denen kein Vertragsverhältnis entsteht, löschen wir grundsätzlich spätestens sechs Monate nach Abschluss der Kommunikation, soweit keine gesetzlichen Aufbewahrungspflichten oder berechtigten Gründe zur Rechtsverteidigung entgegenstehen. Entsteht ein Vertragsverhältnis, können geschäftliche Unterlagen entsprechend den gesetzlichen Aufbewahrungsfristen länger gespeichert werden.</p>
           </div>
@@ -72,23 +72,24 @@ const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
         <section>
           <h2>WhatsApp</h2>
           <div>
-            <p>Auf der Website ist ein Link zu WhatsApp vorhanden. Erst wenn Sie diesen Link aufrufen oder WhatsApp ausdrücklich als gewünschten Kontaktweg wählen und anschließend über WhatsApp kommunizieren, werden Daten im Rahmen dieses Dienstes verarbeitet. Anbieter des Dienstes ist ein Unternehmen der Meta-Unternehmensgruppe.</p>
-            <p>Bei einer von Ihnen gewünschten Kommunikation über WhatsApp verarbeiten wir die dort übermittelten Inhalte zur Bearbeitung Ihrer Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO. Für die Verarbeitung durch WhatsApp/Meta gelten zusätzlich deren eigene Datenschutzbestimmungen. Dabei kann eine Verarbeitung außerhalb der Europäischen Union stattfinden.</p>
+            <p>Auf der Website ist ein einfacher Link zu WhatsApp vorhanden. Beim bloßen Besuch unserer Website wird dadurch noch keine Verbindung zu WhatsApp hergestellt. Erst wenn Sie den Link öffnen oder nach Auswahl von WhatsApp als gewünschtem Kontaktweg anschließend über WhatsApp mit uns kommunizieren, findet eine Verarbeitung im Rahmen dieses Dienstes statt.</p>
+            <p>Bei einer von Ihnen gewünschten Kommunikation über WhatsApp verarbeiten wir die dort übermittelten Inhalte zur Bearbeitung Ihrer Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO bzw. Art. 6 Abs. 1 lit. f DSGVO. Für die eigenständige Verarbeitung durch WhatsApp bzw. Unternehmen der Meta-Gruppe gelten deren Datenschutzbestimmungen; dabei kann eine Verarbeitung außerhalb der Europäischen Union stattfinden.</p>
             <p>Sie können uns jederzeit alternativ per Telefon oder E-Mail kontaktieren.</p>
           </div>
         </section>
 
         <section>
-          <h2>Externe Links</h2>
+          <h2>Instagram & MyHammer</h2>
           <div>
-            <p>Diese Website enthält ausschließlich einfache Links zu externen Angeboten, insbesondere zu MyHammer und gegebenenfalls Instagram. Inhalte dieser Anbieter sind nicht in die Website eingebettet. Beim bloßen Besuch von wunschausbau.de werden deshalb über diese Links noch keine Daten an diese Anbieter übertragen. Erst beim Anklicken eines externen Links stellt Ihr Browser eine Verbindung zum jeweiligen Anbieter her.</p>
+            <p>Diese Website kann einfache Links zum Instagram-Auftritt von KS-Innenausbau und zum öffentlichen MyHammer-Profil enthalten. Es werden derzeit keine Instagram-Posts, MyHammer-Bewertungen oder sonstigen Inhalte dieser Anbieter technisch in die Website eingebettet.</p>
+            <p>Beim bloßen Besuch von wunschausbau.de werden über diese Links keine Daten an Instagram, Meta oder MyHammer übertragen. Erst wenn Sie einen externen Link anklicken, stellt Ihr Browser eine Verbindung zum jeweiligen Anbieter her. Für die dortige Datenverarbeitung ist der jeweilige Anbieter verantwortlich.</p>
           </div>
         </section>
 
         <section>
           <h2>Cookies & Tracking</h2>
           <div>
-            <p>Auf der Website werden aktuell keine Analyse-, Marketing- oder Tracking-Dienste eingesetzt. Es werden keine technisch nicht erforderlichen Cookies gesetzt und keine externen Webfonts geladen. Die verwendeten Schriftarten werden lokal von der Website ausgeliefert.</p>
+            <p>Auf der Website werden aktuell keine Analyse-, Marketing- oder Tracking-Dienste eingesetzt. Es werden keine technisch nicht erforderlichen Cookies gesetzt und keine externen Webfonts geladen; die verwendeten Schriftarten werden lokal von der Website ausgeliefert.</p>
             <p>Solange dies so bleibt, ist für den aktuellen technischen Stand kein Einwilligungsbanner für Analyse- oder Marketingcookies erforderlich. Sollte künftig Tracking, eingebetteter Drittanbieterinhalt oder andere einwilligungspflichtige Technik ergänzt werden, wird diese Datenschutzerklärung vor der Aktivierung angepasst und erforderlichenfalls eine Einwilligungslösung vorgeschaltet.</p>
           </div>
         </section>
@@ -96,7 +97,7 @@ const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
         <section>
           <h2>Empfänger</h2>
           <div>
-            <p>Personenbezogene Daten erhalten nur Stellen, die sie zur Bereitstellung der Website oder zur Bearbeitung Ihrer Anfrage benötigen. Hierzu können Hosting- und E-Mail-Dienstleister gehören. Eine darüber hinausgehende Weitergabe erfolgt nur, wenn sie gesetzlich erlaubt oder vorgeschrieben ist oder Sie diese ausdrücklich veranlasst haben.</p>
+            <p>Personenbezogene Daten erhalten nur Stellen, die sie zur Bereitstellung der Website oder zur Bearbeitung Ihrer Anfrage benötigen. Hierzu gehören insbesondere Hosting- und – nach Aktivierung des Formularversands – E-Mail-Dienstleister. Eine darüber hinausgehende Weitergabe erfolgt nur, wenn sie gesetzlich erlaubt oder vorgeschrieben ist oder Sie diese ausdrücklich veranlasst haben.</p>
           </div>
         </section>
 
@@ -141,6 +142,7 @@ const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
   .legal-content p { margin:0; color:var(--ink-soft); line-height:1.75; }
   .legal-content strong { color:var(--ink); }
   .legal-content a { color:var(--ink); text-underline-offset:.22em; overflow-wrap:anywhere; }
+  .legal-content code { font:inherit; }
   .review-inline { padding:1rem 1.1rem; border-left:3px solid var(--brass); background:#efe6d8; }
   @media (max-width:56rem) {
     .legal-layout { grid-template-columns:1fr; gap:2.5rem; }
