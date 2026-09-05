@@ -1,116 +1,42 @@
 ---
-const score = '5,0';
-const reviewCount = '13';
 const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
 ---
-<section class="testimonials" aria-labelledby="stimmen-titel" data-proof-section>
+<section class="testimonials" aria-labelledby="stimmen-titel">
   <div class="wrap testimonials-inner">
     <header class="proof-head reveal">
       <div class="proof-head__label">
         <p class="eyebrow">Bewertungen</p>
-        <p class="proof-head__meta">MyHammer · {reviewCount} öffentliche Bewertungen</p>
+        <p class="proof-head__meta">Öffentlich einsehbar auf MyHammer</p>
       </div>
 
       <div class="proof-head__statement">
-        <h2 id="stimmen-titel">Vertrauen zeigt sich danach.</h2>
-        <p>Wenn Arbeit, Kommunikation und Übergabe stimmen.</p>
+        <h2 id="stimmen-titel">Erfahrungen aus realen Aufträgen.</h2>
+        <p>Aktuelle Kundenbewertungen werden direkt im öffentlichen MyHammer-Profil von KS-Innenausbau geführt.</p>
       </div>
     </header>
 
-    <div class="proof-stage reveal" style="--reveal-delay: 55ms" data-proof-stage>
-      <aside class="proof-score" aria-label={`${score} von 5 bei ${reviewCount} Bewertungen auf MyHammer`}>
-        <div class="proof-score__top">
-          <span class="proof-score__source">MyHammer</span>
-          <span class="proof-score__status">öffentlich einsehbar</span>
-        </div>
-
-        <div class="proof-score__rating">
-          <strong>{score}</strong>
-          <span>/ 5</span>
-        </div>
-
-        <div class="proof-score__bottom">
-          <span class="proof-score__stars" aria-hidden="true">
-            <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i>
-          </span>
-          <span class="proof-score__count"><strong>{reviewCount}</strong> Bewertungen</span>
-          <span class="proof-score__date">Stand · August 2026</span>
-        </div>
-      </aside>
-
-      <figure class="proof-quote">
-        <span class="proof-quote__rail" aria-hidden="true"></span>
-        <div class="proof-quote__topline">
-          <span>Kundenstimme</span>
-          <time datetime="2026-07-15">15. Juli 2026</time>
-        </div>
-
-        <blockquote>
-          „Sehr schnelle Rückmeldung und Terminvereinbarung. Zuverlässig und super Hilfe bei der Reparatur unserer Jalousien.“
-        </blockquote>
-
-        <figcaption>
-          <span>Öffentliche Bewertung auf MyHammer</span>
-          <a href={myHammerUrl} target="_blank" rel="noopener noreferrer">
-            Alle Bewertungen <span aria-hidden="true">↗</span>
-          </a>
-        </figcaption>
-      </figure>
-    </div>
-
-    <div class="proof-foot reveal" style="--reveal-delay: 90ms" aria-label="Unser Anspruch in der Zusammenarbeit">
-      <span class="proof-foot__label">Was dabei zählt</span>
-      <p><strong>Persönlich</strong><span>Direkte Abstimmung.</span></p>
-      <p><strong>Nachvollziehbar</strong><span>Details vor Beginn geklärt.</span></p>
-      <p><strong>Sauber</strong><span>Ausführung und Übergabe mit Anspruch.</span></p>
+    <div class="proof-link reveal" style="--reveal-delay: 55ms">
+      <div>
+        <span>Externe Quelle</span>
+        <strong>MyHammer</strong>
+        <p>Keine Bewertung, Bewertungsanzahl oder Kundenstimme wird auf dieser Website fest hinterlegt, solange sie nicht ausdrücklich für die Veröffentlichung auf wunschausbau.de freigegeben und aktuell belegt ist.</p>
+      </div>
+      <a href={myHammerUrl} target="_blank" rel="noopener noreferrer">
+        Bewertungen auf MyHammer ansehen <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </div>
 </section>
 
-<script>
-  const section = document.querySelector('[data-proof-section]');
-  const stage = section?.querySelector('[data-proof-stage]');
-
-  if (section && stage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    section.classList.add('proof-motion-ready');
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        stage.setAttribute('data-proof-visible', 'true');
-        observer.disconnect();
-      }
-    }, { threshold: 0.28 });
-    observer.observe(stage);
-  } else if (stage) {
-    stage.setAttribute('data-proof-visible', 'true');
-  }
-</script>
-
 <style>
   .testimonials {
-    position: relative;
-    overflow: hidden;
     padding-block: clamp(3.8rem, 5.4vw, 5.4rem);
     color: var(--ink);
     background: #f3eee5;
     border-block: 1px solid var(--line);
   }
 
-  .testimonials::after {
-    position: absolute;
-    top: 8%;
-    right: -7rem;
-    width: 20rem;
-    height: 20rem;
-    border: 1px solid rgba(185,133,56,.09);
-    border-radius: 50%;
-    content: '';
-    pointer-events: none;
-  }
-
   .testimonials-inner {
-    position: relative;
-    z-index: 1;
     display: grid;
     gap: clamp(1.8rem, 3vw, 2.8rem);
   }
@@ -150,9 +76,8 @@ const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
   }
 
   .proof-head h2 {
-    max-width: 13ch;
+    max-width: 14ch;
     margin: 0;
-    color: var(--ink);
     font-size: clamp(2.1rem, 3.2vw, 3rem);
     font-weight: 600;
     line-height: .98;
@@ -161,441 +86,46 @@ const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
   }
 
   .proof-head__statement > p {
-    max-width: 26rem;
+    max-width: 28rem;
     margin: 0 0 .1rem;
     color: var(--ink-soft);
     font-size: clamp(.88rem, 1.05vw, .98rem);
     line-height: 1.6;
   }
 
-  .proof-stage {
+  .proof-link {
     display: grid;
-    grid-template-columns: minmax(15rem, .62fr) minmax(0, 1.38fr);
-    align-items: stretch;
-    gap: clamp(1.4rem, 2.8vw, 2.8rem);
-  }
-
-  .proof-score {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-width: 0;
-    padding: clamp(1.35rem, 2.4vw, 2rem) 0 .35rem;
-  }
-
-  .proof-score::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 1px;
-    background: rgba(28,29,31,.16);
-    content: '';
-    transform-origin: left center;
-  }
-
-  .proof-score__top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: .45rem 1rem;
-  }
-
-  .proof-score__source {
-    color: var(--brass-deep);
-    font-size: .65rem;
-    font-weight: 680;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-
-  .proof-score__status {
-    color: var(--ink-muted);
-    font-size: .65rem;
-  }
-
-  .proof-score__rating {
-    display: flex;
-    align-self: center;
-    align-items: baseline;
-    gap: .45rem;
-    padding-block: clamp(1.2rem, 2.4vw, 2rem);
-  }
-
-  .proof-score__rating strong {
-    color: var(--ink);
-    font-family: var(--font-brand);
-    font-size: clamp(4.4rem, 7.2vw, 6.6rem);
-    font-weight: 520;
-    line-height: .78;
-    letter-spacing: -.065em;
-  }
-
-  .proof-score__rating span {
-    color: var(--ink-muted);
-    font-size: .82rem;
-  }
-
-  .proof-score__bottom {
-    display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 4rem);
     align-items: end;
-    justify-content: space-between;
-    gap: .4rem 1rem;
-    padding-top: .85rem;
-    border-top: 1px solid rgba(28,29,31,.11);
-  }
-
-  .proof-score__stars {
-    display: inline-flex;
-    gap: .16rem;
-    color: var(--brass);
-    font-size: .68rem;
-    letter-spacing: 0;
-  }
-
-  .proof-score__stars i {
-    font-style: normal;
-    transform-origin: center;
-  }
-
-  .proof-score__count {
-    justify-self: end;
-    color: var(--ink);
-    font-size: .72rem;
-  }
-
-  .proof-score__count strong { font-weight: 650; }
-
-  .proof-score__date {
-    grid-column: 1 / -1;
-    color: var(--ink-muted);
-    font-size: .64rem;
-  }
-
-  .proof-quote {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-width: 0;
-    margin: 0;
-    padding: clamp(1.65rem, 3vw, 2.6rem) clamp(1.65rem, 3.5vw, 3.25rem) clamp(1.45rem, 2.6vw, 2.25rem);
-    overflow: hidden;
-    color: #f6f1e8;
+    padding: clamp(1.5rem, 2.5vw, 2.2rem);
     background: #1b1c1e;
-    box-shadow: 0 1.1rem 3rem rgba(18,18,18,.10);
-    transition: transform 300ms var(--ease-move), box-shadow 300ms var(--ease);
+    color: #f6f1e8;
   }
 
-  .proof-quote__rail {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: .24rem;
-    height: 100%;
-    background: var(--brass);
-    transform-origin: top center;
-  }
+  .proof-link > div { display: grid; gap: .45rem; }
+  .proof-link span { color: #d7b06b; font-size: .65rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+  .proof-link strong { font-family: var(--font-brand); font-size: clamp(1.7rem, 2.4vw, 2.2rem); }
+  .proof-link p { max-width: 52rem; margin: 0; color: rgba(246,241,232,.7); font-size: .82rem; line-height: 1.65; }
 
-  .proof-quote__topline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    color: rgba(246,241,232,.55);
-    font-size: .63rem;
-    line-height: 1.3;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-
-  .proof-quote__topline > span {
-    color: #d7b06b;
-    font-weight: 650;
-  }
-
-  .proof-quote blockquote {
-    align-self: center;
-    max-width: 30ch;
-    margin: clamp(1.25rem, 2.3vw, 1.9rem) 0;
-    color: #fffdf9;
-    font-family: var(--font-brand);
-    font-size: clamp(1.5rem, 2.25vw, 2.05rem);
-    font-weight: 500;
-    line-height: 1.14;
-    letter-spacing: -.026em;
-  }
-
-  .proof-quote figcaption {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.2rem;
-    padding-top: .9rem;
-    border-top: 1px solid rgba(255,255,255,.13);
-    color: rgba(246,241,232,.56);
-    font-size: .66rem;
-    line-height: 1.4;
-  }
-
-  .proof-quote a {
+  .proof-link a {
     display: inline-flex;
-    flex: 0 0 auto;
     align-items: center;
-    gap: .42rem;
-    padding-bottom: .14rem;
+    gap: .45rem;
+    min-height: 2.75rem;
     color: #fffdf9;
     border-bottom: 1px solid rgba(255,255,255,.34);
-    font-size: .68rem;
+    font-size: .76rem;
     font-weight: 620;
     text-decoration: none;
-    transition: gap var(--dur) var(--ease-move), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    white-space: nowrap;
   }
 
-  .proof-foot {
-    display: grid;
-    grid-template-columns: minmax(8rem, .48fr) repeat(3, minmax(0, 1fr));
-    gap: clamp(1rem, 2.5vw, 2.2rem);
-    align-items: start;
-  }
-
-  .proof-foot__label {
-    padding-top: .78rem;
-    color: var(--brass-deep);
-    font-size: .64rem;
-    font-weight: 650;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-
-  .proof-foot p {
-    display: grid;
-    gap: .28rem;
-    margin: 0;
-    padding-top: .72rem;
-    border-top: 1px solid rgba(28,29,31,.13);
-  }
-
-  .proof-foot strong {
-    color: var(--ink);
-    font-size: .8rem;
-    font-weight: 620;
-  }
-
-  .proof-foot p span {
-    color: var(--ink-soft);
-    font-size: .7rem;
-    line-height: 1.45;
-  }
-
-  .proof-motion-ready .proof-score::after {
-    transform: scaleX(.12);
-    transition: transform 520ms var(--ease-move) 90ms;
-  }
-
-  .proof-motion-ready .proof-score__rating,
-  .proof-motion-ready .proof-score__bottom,
-  .proof-motion-ready .proof-quote blockquote,
-  .proof-motion-ready .proof-quote figcaption,
-  .proof-motion-ready .proof-quote__topline {
-    opacity: .001;
-    transform: translateY(.6rem);
-  }
-
-  .proof-motion-ready .proof-score__rating {
-    transition: opacity 420ms var(--ease) 80ms, transform 520ms var(--ease-move) 80ms;
-  }
-
-  .proof-motion-ready .proof-score__bottom {
-    transition: opacity 380ms var(--ease) 180ms, transform 480ms var(--ease-move) 180ms;
-  }
-
-  .proof-motion-ready .proof-quote__rail {
-    transform: scaleY(.08);
-    transition: transform 560ms var(--ease-move) 90ms;
-  }
-
-  .proof-motion-ready .proof-quote__topline {
-    transition: opacity 360ms var(--ease) 170ms, transform 460ms var(--ease-move) 170ms;
-  }
-
-  .proof-motion-ready .proof-quote blockquote {
-    transition: opacity 450ms var(--ease) 250ms, transform 560ms var(--ease-move) 250ms;
-  }
-
-  .proof-motion-ready .proof-quote figcaption {
-    transition: opacity 360ms var(--ease) 360ms, transform 480ms var(--ease-move) 360ms;
-  }
-
-  .proof-motion-ready .proof-score__stars i {
-    opacity: .15;
-    transform: translateY(.22rem) scale(.84);
-    transition: opacity 260ms var(--ease), transform 360ms var(--ease-move);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score::after { transform: scaleX(1); }
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote__rail { transform: scaleY(1); }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__rating,
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__bottom,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote__topline,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote blockquote,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote figcaption {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(1) { transition-delay: 230ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(2) { transition-delay: 285ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(3) { transition-delay: 340ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(4) { transition-delay: 395ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(5) { transition-delay: 450ms; }
-
-  @media (hover: hover) and (pointer: fine) {
-    .proof-quote:hover {
-      transform: translateY(-.18rem);
-      box-shadow: 0 1.5rem 3.5rem rgba(18,18,18,.13);
-    }
-
-    .proof-quote:hover .proof-quote__rail { background: #d9ac59; }
-
-    .proof-quote a:hover {
-      gap: .62rem;
-      color: #d7b06b;
-      border-color: #d7b06b;
-    }
-  }
-
-  @media (max-width: 56rem) {
-    .testimonials { padding-block: 3.75rem; }
-    .testimonials-inner { gap: 1.9rem; }
-
-    .proof-head {
-      grid-template-columns: 1fr;
-      gap: .9rem;
-    }
-
-    .proof-head__statement {
-      grid-template-columns: minmax(0, 1fr) minmax(13rem, .72fr);
-    }
-
-    .proof-stage {
-      grid-template-columns: minmax(12rem, .56fr) minmax(0, 1.44fr);
-      gap: 1.35rem;
-    }
-
-    .proof-score__rating strong { font-size: clamp(4.2rem, 10vw, 5.7rem); }
-    .proof-quote { padding-inline: 1.75rem; }
-    .proof-quote blockquote { font-size: clamp(1.4rem, 3.4vw, 1.8rem); }
-
-    .proof-foot {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .proof-foot__label { grid-column: 1 / -1; padding-top: 0; }
-  }
-
-  @media (max-width: 40rem) {
-    .testimonials { padding-block: 3rem; }
-    .testimonials::after { display: none; }
-    .testimonials-inner { gap: 1.55rem; }
-
-    .proof-head__label { gap: .42rem; }
-
-    .proof-head__statement {
-      grid-template-columns: 1fr;
-      gap: .65rem;
-      padding-bottom: .85rem;
-    }
-
-    .proof-head h2 {
-      max-width: 12ch;
-      font-size: clamp(2rem, 8.6vw, 2.45rem);
-    }
-
-    .proof-head__statement > p { font-size: .88rem; }
-
-    .proof-stage {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .proof-score {
-      min-height: 9.6rem;
-      padding: .9rem 0 .15rem;
-    }
-
-    .proof-score__rating { padding-block: .9rem; }
-    .proof-score__rating strong { font-size: clamp(4.2rem, 20vw, 5.3rem); }
-
-    .proof-score__bottom {
-      grid-template-columns: auto auto 1fr;
-      align-items: baseline;
-      gap: .55rem .85rem;
-    }
-
-    .proof-score__date {
-      grid-column: auto;
-      justify-self: end;
-      text-align: right;
-    }
-
-    .proof-quote {
-      padding: 1.4rem 1.25rem 1.25rem;
-      box-shadow: none;
-    }
-
-    .proof-quote__topline { font-size: .58rem; }
-
-    .proof-quote blockquote {
-      margin: 1.15rem 0 1.25rem;
-      font-size: clamp(1.3rem, 6vw, 1.58rem);
-      line-height: 1.15;
-    }
-
-    .proof-quote figcaption {
-      display: grid;
-      gap: .65rem;
-      align-items: start;
-    }
-
-    .proof-quote a { width: fit-content; }
-
-    .proof-foot {
-      grid-template-columns: 1fr;
-      gap: .58rem;
-    }
-
-    .proof-foot__label { padding-bottom: .12rem; }
-
-    .proof-foot p {
-      grid-template-columns: 7.3rem 1fr;
-      align-items: baseline;
-      gap: .55rem;
-      padding-top: .58rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .proof-quote,
-    .proof-quote a,
-    .proof-quote__rail,
-    .proof-score::after,
-    .proof-score__rating,
-    .proof-score__bottom,
-    .proof-score__stars i,
-    .proof-quote__topline,
-    .proof-quote blockquote,
-    .proof-quote figcaption {
-      transition: none;
-      transform: none;
-      opacity: 1;
-    }
+  @media (max-width: 52rem) {
+    .proof-head,
+    .proof-head__statement,
+    .proof-link { grid-template-columns: 1fr; }
+    .proof-link { align-items: start; }
+    .proof-link a { width: fit-content; white-space: normal; }
   }
 </style>
