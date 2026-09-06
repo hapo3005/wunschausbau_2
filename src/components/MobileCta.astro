@@ -1,16 +1,35 @@
 ---
 import settings from '../data/settings.json';
-const isContactPage = Astro.url.pathname.includes('/kontakt');
+import { withBase } from '../lib/paths';
+import { getLocalizedPath, sharedCopy, type Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale; }
+const { lang = 'de' } = Astro.props;
+const copy = sharedCopy[lang].mobile;
+const isContactPage = Astro.url.pathname.includes('/kontakt') || Astro.url.pathname.includes('/en/contact');
+const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
 ---
 {!isContactPage && (
-  <div class="mobile-cta" role="region" aria-label="Schnellkontakt" aria-hidden="true" data-phone={`tel:${settings.telefonLink}`}>
-    <a class="btn" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
+  <div
+    class="mobile-cta"
+    role="region"
+    aria-label={copy.quickContact}
+    aria-hidden="true"
+    data-phone={`tel:${settings.telefonLink}`}
+    data-contact={localizedContact}
+    data-lang={lang}
+    data-label-desktop={copy.desktopAppointment}
+    data-label-mobile={copy.mobileAppointment}
+    data-label-secondary={copy.secondaryAppointment}
+    data-label-work={copy.work}
+  >
+    <a class="btn" href={`tel:${settings.telefonLink}`} aria-label={`${copy.call}: ${settings.telefon}`}>
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
       </svg>
-      <span>Anrufen</span>
+      <span>{copy.call}</span>
     </a>
-    <a class="btn btn--ghost" href={settings.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp-Nachricht schreiben">
+    <a class="btn btn--ghost" href={settings.whatsapp} target="_blank" rel="noopener noreferrer" aria-label={copy.whatsapp}>
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.06 8.06 0 0 1 2.37 5.72c0 4.47-3.64 8.11-8.11 8.11a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.12.82.83-3.04-.19-.31a8.05 8.05 0 0 1-1.24-4.3c0-4.47 3.64-8.11 8.11-8.11Zm-3.2 4.03c-.15 0-.4.06-.61.29-.21.23-.8.79-.8 1.92 0 1.13.82 2.22.94 2.38.11.15 1.6 2.55 3.95 3.48.55.24.98.38 1.32.49.55.18 1.06.15 1.46.09.44-.07 1.36-.56 1.55-1.09.19-.53.19-.99.14-1.09-.06-.09-.21-.15-.44-.26-.23-.11-1.36-.67-1.57-.75-.21-.08-.36-.11-.52.12-.15.23-.59.75-.72.9-.13.15-.27.17-.5.06-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.47.1-.1.23-.27.34-.4.11-.13.15-.23.23-.38.08-.15.04-.29-.02-.4-.06-.12-.52-1.26-.72-1.72-.19-.45-.38-.39-.52-.4-.13-.01-.29-.01-.44-.01Z"/>
       </svg>
@@ -144,20 +163,24 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
     const heroCta = document.querySelector('.ks-hero .ks-button');
     const heroSecondary = document.querySelector('.ks-hero .ks-textlink');
     const phoneHref = dock.getAttribute('data-phone');
+    const contactHref = dock.getAttribute('data-contact');
+    const labelDesktop = dock.getAttribute('data-label-desktop') || 'Book an appointment';
+    const labelMobile = dock.getAttribute('data-label-mobile') || 'Call now';
+    const labelSecondary = dock.getAttribute('data-label-secondary') || 'Book an appointment';
+    const labelWork = dock.getAttribute('data-label-work') || 'View our work';
     const mobile = window.matchMedia('(max-width: 56rem)');
-    const contactHref = heroCta instanceof HTMLAnchorElement ? heroCta.href : null;
     const workHref = heroSecondary instanceof HTMLAnchorElement ? heroSecondary.href : null;
 
     if (heroCta instanceof HTMLAnchorElement && phoneHref) {
       heroCta.href = phoneHref;
       heroCta.classList.add('ks-button--phone');
-      heroCta.setAttribute('aria-label', 'Jetzt telefonisch einen Termin vereinbaren');
+      heroCta.setAttribute('aria-label', labelDesktop);
       heroCta.innerHTML = `
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
         </svg>
-        <span class="ks-button__label--desktop">Termin vereinbaren</span>
-        <span class="ks-button__label--mobile">Jetzt anrufen</span>
+        <span class="ks-button__label--desktop">${labelDesktop}</span>
+        <span class="ks-button__label--mobile">${labelMobile}</span>
       `;
     }
 
@@ -167,18 +190,18 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       if (mobile.matches) {
         if (contactHref) heroSecondary.href = contactHref;
         heroSecondary.classList.add('ks-secondary-cta--button');
-        heroSecondary.setAttribute('aria-label', 'Termin vereinbaren');
+        heroSecondary.setAttribute('aria-label', labelSecondary);
         heroSecondary.innerHTML = `
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M7 3.5v3M17 3.5v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm2 8h3v3H8v-3Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.65"/>
           </svg>
-          <span>Termin vereinbaren</span>
+          <span>${labelSecondary}</span>
         `;
       } else {
         if (workHref) heroSecondary.href = workHref;
         heroSecondary.classList.remove('ks-secondary-cta--button');
         heroSecondary.removeAttribute('aria-label');
-        heroSecondary.innerHTML = 'Arbeiten ansehen <span aria-hidden="true">→</span>';
+        heroSecondary.innerHTML = `${labelWork} <span aria-hidden="true">→</span>`;
       }
     };
 
