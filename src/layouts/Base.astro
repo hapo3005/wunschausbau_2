@@ -203,17 +203,33 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     <meta name="twitter:title" content={resolvedTitle} />
     <meta name="twitter:description" content={resolvedDescription} />
     <script type="application/ld+json" set:html={structuredDataJson} />
-    <script is:inline define:vars={{ currentLocale: lang, alternateUrl: alternateHref, currentRoute: normalizedPath }}>
+    <script is:inline define:vars={{ currentLocale: lang, alternateUrl: alternateHref }}>
       (() => {
         const key = 'ks-language';
         let stored = null;
         try { stored = localStorage.getItem(key); } catch {}
         const browserLocale = (navigator.languages?.[0] || navigator.language || 'de').toLowerCase();
-        const preferred = stored === 'de' || stored === 'en' ? stored : (browserLocale.startsWith('en') ? 'en' : 'de');
         const hasAlternate = typeof alternateUrl === 'string' && alternateUrl.length > 0;
-        if (hasAlternate && preferred !== currentLocale) {
-          window.location.replace(alternateUrl);
+
+        // An explicit /en/ URL is a deliberate language choice. Keep it unless the
+        // visitor has previously selected German themselves. This prevents search,
+        // shared and bookmarked English URLs from being bounced back to German.
+        if (currentLocale === 'en') {
+          if (stored === 'de' && hasAlternate) {
+            window.location.replace(alternateUrl);
+            return;
+          }
+          if (stored !== 'en') {
+            try { localStorage.setItem(key, 'en'); } catch {}
+          }
+          return;
         }
+
+        // German stays the default. An explicitly saved English preference wins;
+        // without a saved preference, an English browser receives the English
+        // counterpart automatically when one exists.
+        const wantsEnglish = stored === 'en' || (stored !== 'de' && browserLocale.startsWith('en'));
+        if (wantsEnglish && hasAlternate) window.location.replace(alternateUrl);
       })();
     </script>
     <script is:inline>
