@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import interior from '../../assets/service-interior.png';
+import floors from '../../assets/service-floors.png';
+import doors from '../../assets/service-doors-windows.png';
+import terrace from '../../assets/service-terrace.png';
+import drywall from '../../assets/service-drywall.png';
+import sun from '../../assets/service-sun-protection.png';
+
+const images = [
+  { src: interior, alt: 'Living space with timber wall panelling and built-in shelving', label: 'Interior fit-out' },
+  { src: floors, alt: 'Oak parquet in a bright living space', label: 'Flooring' },
+  { src: doors, alt: 'Modern interior door and glazed frontage', label: 'Interior doors' },
+  { src: drywall, alt: 'Drywall wall with ceiling and recessed lighting', label: 'Drywall' },
+  { src: sun, alt: 'Living room with pleated blinds for shading', label: 'Shading' },
+  { src: terrace, alt: 'Timber terrace looking onto a garden', label: 'Timber decking' }
+];
+---
+<Base
+  lang="en"
+  title="Projects & References | KS-Innenausbau"
+  description="Visual insights into the work of KS-Innenausbau: flooring, interior doors, drywall, shading, timber decking and complete interior renovation."
+>
+  <section class="section visual-intro">
+    <div class="wrap intro-grid">
+      <div>
+        <p class="eyebrow">Projects & references</p>
+        <h1>Spaces, materials, details.</h1>
+      </div>
+      <div class="intro-copy">
+        <p class="lead">This preview presents our service areas through spaces, materials and construction details.</p>
+        <p class="preview-note">For launch, this section will show only approved original photographs from completed KS-Innenausbau projects.</p>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <ul class="galerie">
+        {images.map((image, index) => (
+          <li class="reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
+            <div class="gallery-media">
+              <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 50vw" quality={78} format="webp" loading="lazy" />
+            </div>
+            <span class="label">{image.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand lang="en" title="Would you like to see what is possible for your project?" />
+</Base>
+
+<style>
+  .visual-intro { padding-top: clamp(5rem, 8vw, 7rem); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, .78fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+  .intro-grid h1 { max-width: 12ch; }
+  .intro-copy { display: grid; gap: 1.15rem; }
+  .intro-copy .lead { margin-top: 0; }
+  .preview-note {
+    max-width: 52ch;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: .78rem;
+    line-height: 1.65;
+  }
+
+  .galerie {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: clamp(.8rem, 1.5vw, 1.2rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding: 0;
+    list-style: none;
+  }
+  .galerie li {
+    position: relative;
+    overflow: hidden;
+    background: var(--sand);
+  }
+  .galerie li:nth-child(3n + 2),
+  .galerie li:nth-child(3n + 3) { align-self: stretch; }
+  .gallery-media { height: 100%; overflow: hidden; }
+  .galerie :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: clamp(18rem, 34vw, 32rem);
+    object-fit: cover;
+    transition: transform 300ms var(--ease-move);
+  }
+  .galerie li:nth-child(even) :global(img) { min-height: clamp(16rem, 27vw, 25rem); }
+  .label {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    padding: .55rem .8rem;
+    color: #fff;
+    background: rgba(23,24,27,.88);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    backdrop-filter: blur(8px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .galerie li:hover :global(img) { transform: scale(1.018); }
+  }
+
+  @media (max-width: 56rem) {
+    .intro-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .galerie { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 40rem) {
+    .galerie { grid-template-columns: 1fr; }
+    .galerie :global(img), .galerie li:nth-child(even) :global(img) { min-height: 16rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .galerie :global(img) { transition: none; }
+  }
+</style>
