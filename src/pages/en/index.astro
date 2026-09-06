@@ -1,0 +1,1076 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import settings from '../../data/settings.json';
+import { withBase } from '../../lib/paths';
+import hero from '../../assets/hero.png';
+import interior from '../../assets/service-interior.png';
+import floors from '../../assets/service-floors.png';
+import doors from '../../assets/service-doors-windows.png';
+
+const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+const serviceEn: Record<string, { title: string; short: string; slug: string }> = {
+  boeden: { title: 'Flooring', short: 'New floors, precise installation and careful repairs for a clean, durable result.', slug: 'flooring' },
+  innentueren: { title: 'Interior doors', short: 'Doors fitted accurately and coordinated with the room, floor and existing structure.', slug: 'interior-doors' },
+  'fenster-aussentueren': { title: 'Windows & exterior doors', short: 'Professional installation and replacement with attention to fit, function and finish.', slug: 'windows-exterior-doors' },
+  trockenbau: { title: 'Drywall', short: 'Walls, ceilings and practical room solutions planned cleanly and built precisely.', slug: 'drywall' },
+  sonnenschutz: { title: 'Shading', short: 'Blinds, shutters and shading solutions installed and repaired reliably.', slug: 'shading' },
+  holzterrassen: { title: 'Timber decking', short: 'Carefully built timber terraces with a solid substructure and refined detailing.', slug: 'timber-decking' },
+  komplettrenovierung: { title: 'Complete renovation', short: 'Coordinated renovation work from the first measurement to the finished room.', slug: 'complete-renovation' }
+};
+
+const process = [
+  {
+    title: 'Understand',
+    label: 'Consultation & measurement',
+    meta: 'On site · Measure · Requirements',
+    text: 'We inspect the existing space, take accurate measurements and clarify what the finished room needs to achieve.'
+  },
+  {
+    title: 'Plan',
+    label: 'Planning & coordination',
+    meta: 'Materials · Details · Schedule',
+    text: 'Materials, connections, sequence and timing are agreed before the actual work begins.'
+  },
+  {
+    title: 'Build',
+    label: 'Execution & handover',
+    meta: 'Craft · Quality check · Handover',
+    text: 'We execute precisely, check the details and hand over a room that works as one coherent whole.'
+  }
+];
+
+const principles = [
+  {
+    title: 'Direct',
+    text: 'One point of contact who knows your project and coordinates decisions with you.'
+  },
+  {
+    title: 'Clarified first',
+    text: 'Measurements, materials and connections are settled before the actual work starts.'
+  },
+  {
+    title: 'Coordinated',
+    text: 'Each stage fits logically into the next, without unnecessary loops or avoidable delays.'
+  }
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': 'https://www.wunschausbau.de/#business',
+  name: settings.firma,
+  alternateName: settings.marke,
+  url: 'https://www.wunschausbau.de/',
+  telephone: settings.telefonLink,
+  email: settings.email,
+  image: new URL(withBase('/og-image.jpg'), Astro.site).href,
+  logo: new URL(withBase('/favicon.svg'), Astro.site).href,
+  areaServed: settings.regionen,
+  knowsAbout: leistungen.map((leistung) => serviceEn[leistung.id]?.title || leistung.data.title)
+};
+---
+<Base
+  lang="en"
+  title="wunschausbau.de | Interior Fit-out & Renovation in Wittlich, Trier and the Moselle Region"
+  description="Interior fit-out and renovation in Wittlich, Trier and the Moselle region: flooring, doors, windows, drywall, shading and timber decking – carefully planned and precisely executed."
+  schema={schema}
+>
+  <section class="ks-hero" aria-labelledby="hero-title">
+    <div class="ks-hero__media">
+      <Image
+        src={hero}
+        alt="Bright, modern living and kitchen area with warm timber finishes"
+        widths={[640, 1024, 1440, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={82}
+        format="webp"
+      />
+    </div>
+
+    <div class="wrap ks-hero__inner">
+      <div class="ks-hero__copy">
+        <p class="eyebrow">{settings.firma}</p>
+        <h1 id="hero-title">
+          <span>Interior fit-out.</span>
+          <strong>With precision.</strong>
+        </h1>
+        <p class="ks-hero__lead">
+          Flooring, doors, drywall or complete renovations: carefully planned, precisely executed and coordinated so every detail works together.
+        </p>
+        <div class="ks-hero__actions">
+          <a class="ks-button" href={withBase('/en/contact/')}>Discuss your project</a>
+          <a class="ks-textlink" href={withBase('/en/references/')}>View our work <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof-rail" aria-label="Trust and professional expertise">
+    <div class="wrap proof-rail__line">
+      <p class="proof-rail__lead">Craftsmanship from Wittlich. For interiors that work as a whole.</p>
+      <div class="proof-rail__facts">
+        <span><strong>5.0 / 5</strong><small>MyHammer</small></span>
+        <span><strong>Carpenter</strong><small>trade expertise</small></span>
+        <span><strong>Wittlich · Trier · Moselle</strong><small>regional service</small></span>
+        <span><strong>Direct</strong><small>one point of contact</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="selected-work" aria-labelledby="selected-work-title">
+    <div class="wrap">
+      <header class="work-intro reveal">
+        <div class="work-intro__title">
+          <p class="eyebrow">Space & material</p>
+          <h2 id="selected-work-title">Material becomes space.</h2>
+        </div>
+        <div class="work-intro__side">
+          <p>These images currently define the visual direction. For launch, they will be replaced by approved original projects from KS-Innenausbau.</p>
+          <a class="ks-textlink ks-textlink--dark" href={withBase('/en/references/')}>View projects <span aria-hidden="true">→</span></a>
+        </div>
+      </header>
+
+      <div class="work-stage">
+        <a class="work-shot work-shot--main reveal" href={withBase('/en/references/')}>
+          <Image src={interior} alt="Living room with custom timber wall panelling and built-in shelving" widths={[720, 1080, 1600]} sizes="(max-width: 56rem) 100vw, 68vw" quality={84} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Interior fit-out</small><strong>Living space</strong></span>
+        </a>
+
+        <a class="work-shot work-shot--top reveal" href={withBase('/en/references/')} style="--reveal-delay: 55ms">
+          <Image src={floors} alt="Precisely installed oak parquet flooring" widths={[480, 720, 960]} sizes="(max-width: 56rem) 50vw, 31vw" quality={82} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Flooring</small><strong>Oak parquet</strong></span>
+        </a>
+
+        <a class="work-shot work-shot--overlap reveal" href={withBase('/en/references/')} style="--reveal-delay: 90ms">
+          <Image src={doors} alt="Modern interior door and glazed frontage after installation" widths={[480, 720, 960]} sizes="(max-width: 56rem) 50vw, 34vw" quality={82} format="webp" loading="lazy" />
+          <span class="work-shot__caption"><small>Doors & windows</small><strong>Installation</strong></span>
+        </a>
+      </div>
+
+      <div class="work-note reveal" style="--reveal-delay: 110ms">
+        <span>A room is more than a collection of individual trades.</span>
+        <strong>Proportion, material and workmanship need to speak the same language.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="customer-value" aria-labelledby="customer-value-title">
+    <div class="wrap customer-value__inner">
+      <header class="value-manifest reveal">
+        <p class="eyebrow">Working together</p>
+        <h2 id="customer-value-title">Everything should be clear before work begins.</h2>
+        <p>Good workmanship starts with decisions, not tools. That is why we clarify the important details before the pace picks up on site.</p>
+      </header>
+
+      <div class="value-system">
+        <div class="value-rail" aria-label="What good collaboration means">
+          {principles.map((principle, index) => (
+            <article class={`principle principle--${index + 1} reveal`} style={`--reveal-delay: ${index * 50}ms`}>
+              <span class="principle__icon" aria-hidden="true"></span>
+              <div>
+                <h3>{principle.title}</h3>
+                <p>{principle.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="value-conclusion reveal" style="--reveal-delay: 120ms">
+          <span>The standard</span>
+          <strong>In the end, it is not the individual door, floor or wall that matters.</strong>
+          <p>What matters is whether the entire room feels naturally coherent.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="capabilities" aria-labelledby="capabilities-title">
+    <div class="wrap capability-layout">
+      <header class="capability-intro reveal">
+        <p class="eyebrow">Services</p>
+        <h2 id="capabilities-title">Everything an interior needs.</h2>
+        <p>Individual jobs or a complete renovation: we do not think in isolated trades, but in a coherent finished result.</p>
+        <a class="ks-textlink ks-textlink--dark" href={withBase('/en/services/')}>View all services <span aria-hidden="true">→</span></a>
+      </header>
+
+      <div class="service-index">
+        {leistungen.map((leistung) => {
+          const translated = serviceEn[leistung.id] || { title: leistung.data.title, short: leistung.data.kurztext, slug: leistung.id };
+          return (
+            <a class="service-row" href={withBase(`/en/services/${translated.slug}/`)}>
+              <span class="service-row__title">{translated.title}</span>
+              <span class="service-row__text">{translated.short}</span>
+              <span class="service-row__arrow" aria-hidden="true">→</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="project-flow" aria-labelledby="project-flow-title">
+    <div class="wrap">
+      <header class="flow-head reveal">
+        <div>
+          <p class="eyebrow">Process</p>
+          <h2 id="project-flow-title">Understand. Plan. Build.</h2>
+        </div>
+        <div class="flow-head__side">
+          <p>A good process should not feel complicated. You know what is happening, what has been decided and what comes next.</p>
+          <a class="ks-textlink" href={withBase('/en/contact/')}>Discuss your project <span aria-hidden="true">→</span></a>
+        </div>
+      </header>
+
+      <div class="flow-path">
+        {process.map((step, index) => (
+          <article class={`flow-step flow-step--${index + 1} reveal`} style={`--reveal-delay: ${index * 65}ms`}>
+            <span class="flow-step__marker" aria-hidden="true"></span>
+            <p class="flow-step__meta">{step.meta}</p>
+            <h3>{step.title}</h3>
+            <strong>{step.label}</strong>
+            <p class="flow-step__text">{step.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials lang="en" />
+  <CtaBand lang="en" title="Planning a renovation or interior fit-out?" />
+</Base>
+
+<style>
+  .ks-hero {
+    position: relative;
+    display: grid;
+    min-height: clamp(40rem, calc(100svh - 5.5rem), 53rem);
+    align-items: center;
+    overflow: hidden;
+    color: #fff;
+    background: #24211e;
+    isolation: isolate;
+  }
+
+  .ks-hero__media,
+  .ks-hero__media::after,
+  .ks-hero__media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ks-hero__media { z-index: 0; overflow: hidden; }
+
+  .ks-hero__media :global(img) {
+    object-fit: cover;
+    object-position: 66% 50%;
+    filter: saturate(1) contrast(1.01) brightness(1.08);
+    transform: scale(1.006);
+  }
+
+  .ks-hero__media::after {
+    z-index: 1;
+    background:
+      linear-gradient(90deg,
+        rgba(18,17,16,.36) 0%,
+        rgba(18,17,16,.26) 20%,
+        rgba(18,17,16,.15) 38%,
+        rgba(18,17,16,.06) 54%,
+        rgba(18,17,16,.01) 66%,
+        rgba(18,17,16,0) 76%),
+      linear-gradient(0deg, rgba(15,14,13,.10) 0%, rgba(15,14,13,0) 48%);
+    content: '';
+  }
+
+  .ks-hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-block: clamp(5rem, 8vw, 7rem);
+  }
+
+  .ks-hero__copy { width: min(100%, 45rem); color: #fff; }
+
+  .ks-hero .eyebrow {
+    margin-bottom: clamp(1.25rem, 2vw, 1.65rem);
+    color: #e0bd7a;
+    font-size: .69rem;
+    letter-spacing: .13em;
+  }
+
+  .ks-hero .eyebrow::before { background: rgba(224,189,122,.82); }
+
+  .ks-hero h1 {
+    display: grid;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-brand);
+    font-size: clamp(3.55rem, 5.65vw, 5.85rem);
+    font-weight: 500;
+    letter-spacing: -.045em;
+    line-height: .9;
+    text-shadow: 0 1px 16px rgba(0,0,0,.11);
+  }
+
+  .ks-hero h1 span,
+  .ks-hero h1 strong { display: block; white-space: nowrap; }
+  .ks-hero h1 strong { font-weight: 650; }
+
+  .ks-hero__lead {
+    max-width: 34rem;
+    margin-top: clamp(1.45rem, 2.3vw, 1.9rem);
+    color: rgba(255,255,255,.94);
+    font-size: clamp(1rem, 1.15vw, 1.08rem);
+    font-weight: 430;
+    line-height: 1.7;
+    text-shadow: 0 1px 14px rgba(0,0,0,.13);
+  }
+
+  .ks-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(1.2rem, 2vw, 1.7rem);
+    margin-top: clamp(1.9rem, 3vw, 2.45rem);
+  }
+
+  .ks-button {
+    display: inline-flex;
+    min-height: 3.45rem;
+    align-items: center;
+    justify-content: center;
+    padding: .82rem 1.5rem;
+    color: var(--ink);
+    background: #f8f5ee;
+    border: 1px solid #f8f5ee;
+    font-size: .92rem;
+    font-weight: 620;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+
+  .ks-textlink {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: .55rem;
+    padding-bottom: .28rem;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(28,29,31,.45);
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .ks-hero .ks-textlink { color: rgba(255,255,255,.96); border-bottom-color: rgba(255,255,255,.62); }
+
+  .proof-rail {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .proof-rail__line {
+    display: flex;
+    min-width: 0;
+    min-height: 5.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+  }
+
+  .proof-rail__lead {
+    min-width: 0;
+    max-width: 26rem;
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-brand);
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .proof-rail__facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-width: 0;
+    flex: 1;
+  }
+
+  .proof-rail__facts > span {
+    display: grid;
+    min-width: 0;
+    gap: .22rem;
+    padding-inline: clamp(1rem, 2vw, 1.7rem);
+    border-left: 1px solid var(--line);
+  }
+
+  .proof-rail__facts > span:last-child { padding-right: 0; }
+
+  .proof-rail__facts strong {
+    min-width: 0;
+    color: var(--ink);
+    font-size: .82rem;
+    font-weight: 650;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .proof-rail__facts small {
+    min-width: 0;
+    color: var(--ink-muted);
+    font-size: .64rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .selected-work,
+  .capabilities {
+    padding-block: clamp(5.5rem, 8vw, 8rem);
+    background: var(--paper);
+  }
+
+  .work-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, .62fr);
+    align-items: end;
+    gap: clamp(2.5rem, 8vw, 8rem);
+    margin-bottom: clamp(3rem, 5vw, 4.7rem);
+  }
+
+  .work-intro > *,
+  .work-note > *,
+  .customer-value__inner > *,
+  .value-conclusion > *,
+  .capability-layout > *,
+  .service-row > *,
+  .flow-head > *,
+  .flow-path > * { min-width: 0; }
+
+  .work-intro h2,
+  .value-manifest h2,
+  .capability-intro h2,
+  .flow-head h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-brand);
+    font-size: clamp(2.7rem, 4.8vw, 4.35rem);
+    font-weight: 600;
+    line-height: .94;
+    letter-spacing: -.04em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .work-intro__side {
+    display: grid;
+    min-width: 0;
+    gap: 1.5rem;
+  }
+
+  .work-intro__side p,
+  .capability-intro > p:last-of-type {
+    margin: 0;
+    color: var(--ink-soft);
+    line-height: 1.72;
+    overflow-wrap: anywhere;
+  }
+
+  .work-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: minmax(18rem, 30vw) minmax(14rem, 22vw);
+    gap: clamp(.8rem, 1.35vw, 1.15rem);
+  }
+
+  .work-shot {
+    position: relative;
+    display: block;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--sand);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .work-shot--main { grid-column: 1 / 9; grid-row: 1 / 3; }
+  .work-shot--top { grid-column: 9 / 13; grid-row: 1; }
+  .work-shot--overlap {
+    z-index: 2;
+    grid-column: 8 / 13;
+    grid-row: 2;
+    margin: 1.4rem 0 0 1.4rem;
+    border: .7rem solid var(--paper);
+  }
+
+  .work-shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 260ms var(--ease-move);
+  }
+
+  .work-shot--main :global(img) { object-position: center 52%; }
+  .work-shot--top :global(img) { object-position: center 48%; }
+
+  .work-shot::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 54%, rgba(18,18,18,.48));
+    content: '';
+  }
+
+  .work-shot__caption {
+    position: absolute;
+    z-index: 2;
+    right: 1.3rem;
+    bottom: 1.2rem;
+    left: 1.3rem;
+    display: flex;
+    min-width: 0;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    text-shadow: 0 1px 12px rgba(0,0,0,.18);
+  }
+
+  .work-shot__caption small {
+    font-size: .65rem;
+    font-weight: 650;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .work-shot__caption strong { min-width: 0; font-size: .88rem; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+
+  .work-note {
+    display: grid;
+    grid-template-columns: minmax(0, .55fr) minmax(0, 1.45fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    margin-top: clamp(2rem, 3.5vw, 3rem);
+    padding-top: 1.3rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .work-note span {
+    max-width: 21rem;
+    color: var(--ink-muted);
+    font-size: .74rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .work-note strong {
+    max-width: 34ch;
+    color: var(--ink);
+    font-family: var(--font-brand);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 550;
+    line-height: 1.3;
+    letter-spacing: -.018em;
+    overflow-wrap: anywhere;
+  }
+
+  .customer-value {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(5.5rem, 8vw, 8rem);
+    color: #f5f1e9;
+    background: #1b1c1e;
+  }
+
+  .customer-value::after {
+    position: absolute;
+    top: -18rem;
+    right: -12rem;
+    width: 38rem;
+    height: 38rem;
+    border: 1px solid rgba(209,168,95,.12);
+    border-radius: 50%;
+    content: '';
+    pointer-events: none;
+  }
+
+  .customer-value__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr);
+    gap: clamp(3.5rem, 8vw, 8rem);
+  }
+
+  .value-manifest { min-width: 0; align-self: start; }
+  .customer-value .eyebrow { color: #d4ad68; }
+  .value-manifest h2 { color: #fffdf9; max-width: 11ch; }
+
+  .value-manifest > p:last-child {
+    max-width: 29rem;
+    margin-top: 1.5rem;
+    color: rgba(245,241,233,.68);
+    line-height: 1.72;
+    overflow-wrap: anywhere;
+  }
+
+  .value-system { display: grid; min-width: 0; }
+
+  .value-rail { min-width: 0; border-top: 1px solid rgba(245,241,233,.18); }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    min-width: 0;
+    gap: clamp(1.3rem, 3vw, 2.3rem);
+    padding-block: clamp(1.65rem, 2.8vw, 2.25rem);
+    border-bottom: 1px solid rgba(245,241,233,.14);
+  }
+
+  .principle > div { min-width: 0; }
+
+  .principle__icon {
+    display: block;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-top: .15rem;
+    background: #d4ad68;
+    -webkit-mask: var(--principle-icon) center / contain no-repeat;
+    mask: var(--principle-icon) center / contain no-repeat;
+  }
+
+  .principle--1 { --principle-icon: var(--ks-icon-talk); }
+  .principle--2 { --principle-icon: var(--ks-icon-plan); }
+  .principle--3 { --principle-icon: var(--ks-icon-build); }
+
+  .principle h3 {
+    margin: 0;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -.02em;
+    overflow-wrap: anywhere;
+  }
+
+  .principle p {
+    max-width: 46rem;
+    margin-top: .55rem;
+    color: rgba(245,241,233,.65);
+    font-size: .86rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+
+  .value-conclusion {
+    display: grid;
+    grid-template-columns: minmax(0, .32fr) minmax(0, 1fr);
+    gap: 1rem 2rem;
+    padding-top: clamp(2.4rem, 4vw, 3.5rem);
+  }
+
+  .value-conclusion > span {
+    grid-row: 1 / 3;
+    color: #d4ad68;
+    font-size: .67rem;
+    font-weight: 650;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .value-conclusion strong {
+    max-width: 29ch;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+    font-weight: 520;
+    line-height: 1.2;
+    letter-spacing: -.022em;
+    overflow-wrap: anywhere;
+  }
+
+  .value-conclusion p {
+    max-width: 35rem;
+    margin: 0;
+    color: rgba(245,241,233,.62);
+    font-size: .82rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .capability-layout {
+    display: grid;
+    grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr);
+    align-items: start;
+    gap: clamp(3.5rem, 9vw, 9rem);
+  }
+
+  .capability-intro {
+    position: sticky;
+    top: 8.5rem;
+    display: grid;
+    min-width: 0;
+    align-self: start;
+    gap: 1.4rem;
+  }
+
+  .capability-intro .eyebrow { margin-bottom: -.15rem; }
+  .capability-intro h2 { max-width: 10ch; }
+  .capability-intro > p:last-of-type { max-width: 27rem; }
+
+  .service-index { min-width: 0; border-top: 1px solid var(--line); }
+
+  .service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, .58fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    min-width: 0;
+    min-height: 6.7rem;
+    padding-block: 1.25rem;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .service-row::before {
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    left: -.9rem;
+    width: .18rem;
+    background: var(--brass);
+    content: '';
+    opacity: 0;
+    transform: scaleY(.35);
+    transform-origin: center;
+    transition: opacity var(--dur) var(--ease), transform 220ms var(--ease-move);
+  }
+
+  .service-row__title {
+    font-family: var(--font-brand);
+    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+    font-weight: 600;
+    letter-spacing: -.018em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .service-row__text {
+    max-width: 43rem;
+    color: var(--ink-soft);
+    font-size: .8rem;
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+  }
+
+  .service-row__arrow {
+    color: var(--brass-deep);
+    font-size: 1rem;
+    transition: transform 220ms var(--ease-move);
+  }
+
+  .project-flow {
+    padding-block: clamp(5.5rem, 8vw, 8rem);
+    background: #202124;
+    color: #f7f4ee;
+  }
+
+  .flow-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .62fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+    margin-bottom: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .project-flow .eyebrow { color: #d4ad68; }
+  .flow-head h2 { max-width: 12ch; color: #fffdf9; }
+
+  .flow-head__side {
+    display: grid;
+    min-width: 0;
+    gap: 1.5rem;
+  }
+
+  .flow-head__side p {
+    margin: 0;
+    color: rgba(247,244,238,.68);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  .project-flow .ks-textlink { color: #f7f4ee; border-bottom-color: rgba(247,244,238,.42); }
+
+  .flow-path {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-top: 2.2rem;
+    border-top: 1px solid rgba(247,244,238,.2);
+  }
+
+  .flow-path::before {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 34%;
+    height: 2px;
+    background: #d4ad68;
+    content: '';
+  }
+
+  .flow-step { position: relative; min-width: 0; padding-top: 1rem; }
+
+  .flow-step__marker {
+    position: absolute;
+    top: -2.62rem;
+    left: 0;
+    width: .78rem;
+    height: .78rem;
+    background: #202124;
+    border: 2px solid #d4ad68;
+    border-radius: 50%;
+  }
+
+  .flow-step__meta {
+    margin: 0 0 1.3rem;
+    color: rgba(247,244,238,.5);
+    font-size: .62rem;
+    font-weight: 650;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .flow-step h3 {
+    margin: 0;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(2.4rem, 4vw, 3.65rem);
+    font-weight: 520;
+    line-height: .95;
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .flow-step > strong {
+    display: block;
+    margin-top: .75rem;
+    color: #d4ad68;
+    font-size: .74rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+
+  .flow-step__text {
+    max-width: 27rem;
+    margin-top: 1.15rem;
+    color: rgba(247,244,238,.67);
+    font-size: .84rem;
+    line-height: 1.67;
+    overflow-wrap: anywhere;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ks-button:hover { background: #fff; border-color: #fff; transform: translateY(-1px); }
+    .ks-textlink:hover { gap: .78rem; color: var(--brass-deep); border-color: var(--brass-deep); }
+    .ks-hero .ks-textlink:hover { color: #e0bd7a; border-color: #e0bd7a; }
+    .work-shot:hover :global(img) { transform: scale(1.012); }
+    .service-row:hover::before { opacity: 1; transform: scaleY(1); }
+    .service-row:hover .service-row__arrow { transform: translateX(.2rem); }
+  }
+
+  @media (max-width: 64rem) {
+    .ks-hero__media::after {
+      background:
+        linear-gradient(90deg,
+          rgba(18,17,16,.40) 0%,
+          rgba(18,17,16,.28) 30%,
+          rgba(18,17,16,.15) 52%,
+          rgba(18,17,16,.04) 76%,
+          rgba(18,17,16,0) 88%),
+        linear-gradient(0deg, rgba(15,14,13,.10), rgba(15,14,13,0) 52%);
+    }
+
+    .proof-rail__lead { display: none; }
+    .proof-rail__facts { justify-content: stretch; }
+    .proof-rail__facts > span { flex: 1; }
+
+    .customer-value__inner,
+    .capability-layout { gap: 4rem; }
+  }
+
+  @media (max-width: 56rem) {
+    .ks-hero { min-height: 44rem; align-items: end; }
+    .ks-hero__media :global(img) { object-position: 66% center; }
+    .ks-hero__inner { padding-block: 8rem 4rem; }
+    .ks-hero__copy { max-width: 37rem; }
+    .ks-hero h1 { font-size: clamp(3rem, 9.5vw, 4.7rem); }
+
+    .work-intro,
+    .customer-value__inner,
+    .capability-layout,
+    .flow-head {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .work-stage {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: clamp(24rem, 70vw, 34rem) 16rem;
+    }
+
+    .work-shot--main { grid-column: 1 / -1; grid-row: 1; }
+    .work-shot--top { grid-column: 1; grid-row: 2; }
+    .work-shot--overlap {
+      grid-column: 2;
+      grid-row: 2;
+      margin: 0;
+      border: 0;
+    }
+
+    .work-note { grid-template-columns: 1fr 1.5fr; gap: 2rem; }
+
+    .value-manifest h2 { max-width: 13ch; }
+    .value-conclusion { grid-template-columns: 8rem 1fr; }
+
+    .capability-intro { position: static; }
+    .capability-intro h2 { max-width: 12ch; }
+
+    .flow-head { margin-bottom: 4.5rem; }
+    .flow-path { gap: 2rem; }
+    .flow-step h3 { font-size: clamp(2.15rem, 6vw, 3rem); }
+  }
+
+  @media (max-width: 40rem) {
+    .ks-hero { min-height: 41rem; }
+
+    .ks-hero__media :global(img) {
+      object-position: 68% center;
+      filter: saturate(1) contrast(1.01) brightness(1.03);
+    }
+
+    .ks-hero__media::after {
+      background:
+        linear-gradient(180deg,
+          rgba(18,17,16,.04) 0%,
+          rgba(18,17,16,.10) 28%,
+          rgba(18,17,16,.30) 64%,
+          rgba(18,17,16,.50) 100%);
+    }
+
+    .ks-hero__inner { padding-block: 11rem 3.35rem; }
+    .ks-hero h1 { font-size: clamp(2.65rem, 11.2vw, 3.7rem); line-height: .91; }
+    .ks-hero h1 span,
+    .ks-hero h1 strong { white-space: normal; }
+    .ks-hero__lead { font-size: .97rem; line-height: 1.65; }
+    .ks-hero__actions { align-items: flex-start; gap: 1rem; }
+
+    .proof-rail__line { min-height: 0; }
+    .proof-rail__facts { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+    .proof-rail__facts > span {
+      min-width: 0;
+      padding: .9rem .7rem .9rem 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .proof-rail__facts > span:nth-child(even) { padding-left: .7rem; border-left: 1px solid var(--line); }
+    .proof-rail__facts > span:nth-last-child(-n + 2) { border-bottom: 0; }
+
+    .selected-work,
+    .customer-value,
+    .capabilities,
+    .project-flow { padding-block: 4rem; }
+
+    .work-intro h2,
+    .value-manifest h2,
+    .capability-intro h2,
+    .flow-head h2 { font-size: clamp(2.25rem, 10vw, 3rem); }
+
+    .work-stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: 22rem 14rem 14rem;
+    }
+
+    .work-shot--main,
+    .work-shot--top,
+    .work-shot--overlap { grid-column: 1; grid-row: auto; }
+
+    .work-shot__caption { display: grid; justify-content: start; gap: .25rem; }
+    .work-shot__caption strong { text-align: left; }
+
+    .work-note { grid-template-columns: 1fr; gap: .7rem; }
+    .work-note strong { font-size: 1.25rem; }
+
+    .principle { grid-template-columns: 2.6rem 1fr; gap: 1rem; padding-block: 1.4rem; }
+    .principle h3 { font-size: 1.25rem; }
+
+    .value-conclusion {
+      grid-template-columns: 1fr;
+      gap: .7rem;
+      padding-top: 2rem;
+    }
+    .value-conclusion > span { grid-row: auto; }
+    .value-conclusion strong { font-size: 1.45rem; }
+
+    .service-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .35rem 1rem;
+      min-height: 0;
+      padding-block: 1.2rem;
+    }
+    .service-row__title { font-size: 1.25rem; }
+    .service-row__text { grid-column: 1; font-size: .76rem; }
+    .service-row__arrow { grid-column: 2; grid-row: 1 / 3; }
+
+    .flow-head { margin-bottom: 3.7rem; }
+    .flow-path {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-top: 0;
+      border-top: 0;
+      border-left: 1px solid rgba(247,244,238,.2);
+    }
+    .flow-path::before {
+      top: 0;
+      bottom: auto;
+      left: -1px;
+      width: 2px;
+      height: 34%;
+    }
+    .flow-step {
+      padding: 0 0 2.8rem 1.5rem;
+    }
+    .flow-step:last-child { padding-bottom: 0; }
+    .flow-step__marker {
+      top: .15rem;
+      left: -.45rem;
+    }
+    .flow-step__meta { margin-bottom: .8rem; }
+    .flow-step h3 { font-size: 2.45rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ks-button,
+    .ks-textlink,
+    .work-shot :global(img),
+    .service-row::before,
+    .service-row__arrow { transition: none; }
+  }
+</style>
