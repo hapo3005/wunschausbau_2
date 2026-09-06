@@ -1,6 +1,11 @@
 ---
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
+import { getLocalizedPath, sharedCopy, type Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale; }
+const { lang = 'de' } = Astro.props;
+const copy = sharedCopy[lang].footer;
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
@@ -11,8 +16,8 @@ const year = new Date().getFullYear();
       <p class="footer-region">{settings.region}</p>
     </div>
 
-    <nav class="footer-contact" aria-label="Kontakt">
-      <p class="footer-heading">Kontakt</p>
+    <nav class="footer-contact" aria-label={copy.contact}>
+      <p class="footer-heading">{copy.contact}</p>
       <ul>
         <li>
           <a href={`tel:${settings.telefonLink}`}>
@@ -35,21 +40,21 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
 
-    <nav aria-label="Seiten">
-      <p class="footer-heading">Seiten</p>
+    <nav aria-label={copy.pages}>
+      <p class="footer-heading">{copy.pages}</p>
       <ul>
-        <li><a href={withBase('/leistungen/')}>Leistungen</a></li>
-        <li><a href={withBase('/referenzen/')}>Referenzen</a></li>
-        <li><a href={withBase('/ueber-uns/')}>Über uns</a></li>
-        <li><a href={withBase('/kontakt/')}>Kontakt</a></li>
+        <li><a href={withBase(getLocalizedPath('/leistungen/', lang))}>{copy.services}</a></li>
+        <li><a href={withBase(getLocalizedPath('/referenzen/', lang))}>{copy.references}</a></li>
+        <li><a href={withBase(getLocalizedPath('/ueber-uns/', lang))}>{copy.about}</a></li>
+        <li><a href={withBase(getLocalizedPath('/kontakt/', lang))}>{copy.contactPage}</a></li>
       </ul>
     </nav>
 
-    <nav aria-label="Rechtliches">
-      <p class="footer-heading">Rechtliches</p>
+    <nav aria-label={copy.legal}>
+      <p class="footer-heading">{copy.legal}</p>
       <ul>
-        <li><a href={withBase('/impressum/')}>Impressum</a></li>
-        <li><a href={withBase('/datenschutz/')}>Datenschutz</a></li>
+        <li><a href={withBase('/impressum/')} lang="de">{copy.imprint}</a></li>
+        <li><a href={withBase('/datenschutz/')} lang="de">{copy.privacy}</a></li>
       </ul>
     </nav>
   </div>
