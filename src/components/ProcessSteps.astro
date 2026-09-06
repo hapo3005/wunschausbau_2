@@ -1,5 +1,22 @@
 ---
-const steps = [
+import type { Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale; }
+const { lang = 'de' } = Astro.props;
+const steps = lang === 'en' ? [
+  {
+    title: 'Consultation & measurement',
+    text: 'We discuss your requirements and the existing space on site, take accurate measurements and review materials, options and sensible solutions.'
+  },
+  {
+    title: 'Planning & coordination',
+    text: 'Details, material choices and sequence are agreed clearly before work starts, so key decisions are not left until the site is already in motion.'
+  },
+  {
+    title: 'Execution & handover',
+    text: 'We work precisely and cleanly, keep agreed details in view and hand over the finished result together with you.'
+  }
+] : [
   {
     title: 'Beratung & Aufmaß',
     text: 'Wir klären Wünsche und Bestand vor Ort, nehmen sauber Maß und besprechen Materialien, Möglichkeiten und sinnvolle Lösungen.'
