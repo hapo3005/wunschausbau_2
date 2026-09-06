@@ -84,26 +84,19 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       flex: 0 0 auto;
     }
 
-    :global(.ks-hero .ks-hero__actions) {
-      display: grid;
-      width: 100%;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch;
-      gap: .72rem;
-    }
-
     :global(.ks-hero .ks-button--phone),
     :global(.ks-hero .ks-secondary-cta--button) {
-      width: 100%;
+      flex: 1 1 0;
+      min-width: 0;
       min-height: 3.45rem;
       align-items: center;
       justify-content: center;
-      gap: .52rem;
-      padding: .74rem .58rem;
-      color: var(--ink);
-      background: #f8f5ee;
-      border: 1px solid #f8f5ee;
-      font-size: clamp(.79rem, 3.25vw, .9rem);
+      gap: .46rem;
+      padding: .76rem .5rem !important;
+      color: var(--ink) !important;
+      background: #f8f5ee !important;
+      border: 1px solid #f8f5ee !important;
+      font-size: clamp(.76rem, 3.15vw, .86rem);
       font-weight: 620;
       line-height: 1.2;
       text-decoration: none;
@@ -113,13 +106,12 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
 
     :global(.ks-hero .ks-secondary-cta--button) {
       display: inline-flex;
-      padding-bottom: .74rem;
-      border-bottom: 1px solid #f8f5ee;
+      width: auto;
     }
 
     :global(.ks-hero .ks-secondary-cta--button svg) {
-      width: 1.08rem;
-      height: 1.08rem;
+      width: 1.05rem;
+      height: 1.05rem;
       flex: 0 0 auto;
     }
 
@@ -132,12 +124,11 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
     .mobile-cta .btn { padding-inline: .5rem; }
     .mobile-cta .btn span { font-size: .78rem; }
 
-    :global(.ks-hero .ks-hero__actions) { gap: .5rem; }
     :global(.ks-hero .ks-button--phone),
     :global(.ks-hero .ks-secondary-cta--button) {
-      gap: .4rem;
-      padding-inline: .42rem;
-      font-size: .77rem;
+      gap: .35rem;
+      padding-inline: .35rem !important;
+      font-size: .72rem;
     }
   }
 
