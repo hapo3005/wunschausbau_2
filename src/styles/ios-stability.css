@@ -84,3 +84,53 @@ html.ios-safari .reveal.is-visible {
   opacity: 1 !important;
   transform: none !important;
 }
+
+/* The company name is a primary identity element, not decorative microcopy.
+   Give it a solid reading surface and enough size to remain legible over every
+   mobile hero crop. */
+body .ks-hero .eyebrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  max-width: min(100%, 30rem) !important;
+  margin-bottom: 1.05rem !important;
+  padding: .72rem .95rem !important;
+  color: #fff !important;
+  background: rgba(15, 14, 13, .82) !important;
+  border: 1px solid rgba(255, 255, 255, .18) !important;
+  border-left: 3px solid #d4ad68 !important;
+  border-radius: .18rem !important;
+  font-size: clamp(.9rem, 1.05vw, 1rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: .055em !important;
+  line-height: 1.28 !important;
+  text-shadow: none !important;
+  box-shadow: 0 .45rem 1.3rem rgba(0, 0, 0, .18) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  backdrop-filter: blur(6px) !important;
+  white-space: normal !important;
+  text-wrap: pretty;
+}
+
+body .ks-hero .eyebrow::before {
+  display: none !important;
+}
+
+@media (max-width: 56rem) {
+  body .ks-hero .eyebrow {
+    max-width: min(100%, 21rem) !important;
+    padding: .72rem .88rem !important;
+    font-size: .92rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .045em !important;
+    line-height: 1.3 !important;
+  }
+}
+
+@media (max-width: 40rem) {
+  body .ks-hero .eyebrow {
+    max-width: min(100%, 20rem) !important;
+    font-size: .9rem !important;
+    letter-spacing: .04em !important;
+  }
+}
