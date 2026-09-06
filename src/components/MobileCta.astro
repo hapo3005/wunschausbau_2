@@ -1,13 +1,11 @@
 ---
 import settings from '../data/settings.json';
-import { withBase } from '../lib/paths';
-import { getLocalizedPath, sharedCopy, type Locale } from '../lib/i18n';
+import { sharedCopy, type Locale } from '../lib/i18n';
 
 interface Props { lang?: Locale; }
 const { lang = 'de' } = Astro.props;
 const copy = sharedCopy[lang].mobile;
 const isContactPage = Astro.url.pathname.includes('/kontakt') || Astro.url.pathname.includes('/en/contact');
-const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
 ---
 {!isContactPage && (
   <div
@@ -15,13 +13,6 @@ const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
     role="region"
     aria-label={copy.quickContact}
     aria-hidden="true"
-    data-phone={`tel:${settings.telefonLink}`}
-    data-contact={localizedContact}
-    data-lang={lang}
-    data-label-desktop={copy.desktopAppointment}
-    data-label-mobile={copy.mobileAppointment}
-    data-label-secondary={copy.secondaryAppointment}
-    data-label-work={copy.work}
   >
     <a class="btn" href={`tel:${settings.telefonLink}`} aria-label={`${copy.call}: ${settings.telefon}`}>
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -40,21 +31,6 @@ const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
 
 <style>
   .mobile-cta { display: none; }
-
-  :global(.ks-hero .ks-button--phone) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .68rem;
-  }
-
-  :global(.ks-hero .ks-button--phone svg) {
-    width: 1.08rem;
-    height: 1.08rem;
-    flex: 0 0 auto;
-  }
-
-  :global(.ks-hero .ks-button__label--mobile) { display: none; }
 
   @media (max-width: 56rem) {
     .mobile-cta {
@@ -102,53 +78,12 @@ const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
       height: .96rem;
       flex: 0 0 auto;
     }
-
-    :global(.ks-hero .ks-button--phone),
-    :global(.ks-hero .ks-secondary-cta--button) {
-      flex: 1 1 0;
-      min-width: 0;
-      min-height: 3.45rem;
-      align-items: center;
-      justify-content: center;
-      gap: .46rem;
-      padding: .76rem .5rem !important;
-      color: var(--ink) !important;
-      background: #f8f5ee !important;
-      border: 1px solid #f8f5ee !important;
-      font-size: clamp(.76rem, 3.15vw, .86rem);
-      font-weight: 620;
-      line-height: 1.2;
-      text-decoration: none;
-      white-space: nowrap;
-      box-shadow: none;
-    }
-
-    :global(.ks-hero .ks-secondary-cta--button) {
-      display: inline-flex;
-      width: auto;
-    }
-
-    :global(.ks-hero .ks-secondary-cta--button svg) {
-      width: 1.05rem;
-      height: 1.05rem;
-      flex: 0 0 auto;
-    }
-
-    :global(.ks-hero .ks-button__label--desktop) { display: none; }
-    :global(.ks-hero .ks-button__label--mobile) { display: inline; }
   }
 
   @media (max-width: 22rem) {
     .mobile-cta { width: calc(100% - 1rem); }
     .mobile-cta .btn { padding-inline: .5rem; }
     .mobile-cta .btn span { font-size: .78rem; }
-
-    :global(.ks-hero .ks-button--phone),
-    :global(.ks-hero .ks-secondary-cta--button) {
-      gap: .35rem;
-      padding-inline: .35rem !important;
-      font-size: .72rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -162,26 +97,16 @@ const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
   if (dock) {
     const heroCta = document.querySelector('.ks-hero .ks-button');
     const heroSecondary = document.querySelector('.ks-hero .ks-textlink');
-    const phoneHref = dock.getAttribute('data-phone');
-    const contactHref = dock.getAttribute('data-contact');
-    const labelDesktop = dock.getAttribute('data-label-desktop') || 'Book an appointment';
-    const labelMobile = dock.getAttribute('data-label-mobile') || 'Call now';
-    const labelSecondary = dock.getAttribute('data-label-secondary') || 'Book an appointment';
-    const labelWork = dock.getAttribute('data-label-work') || 'View our work';
-    const mobile = window.matchMedia('(max-width: 56rem)');
+    const phoneLink = dock.querySelector('a.btn');
+    const phoneHref = phoneLink instanceof HTMLAnchorElement ? phoneLink.href : null;
+    const contactHref = heroCta instanceof HTMLAnchorElement ? heroCta.href : null;
     const workHref = heroSecondary instanceof HTMLAnchorElement ? heroSecondary.href : null;
+    const mobile = window.matchMedia('(max-width: 56rem)');
+    const isEnglish = document.documentElement.lang === 'en';
 
     if (heroCta instanceof HTMLAnchorElement && phoneHref) {
       heroCta.href = phoneHref;
-      heroCta.classList.add('ks-button--phone');
-      heroCta.setAttribute('aria-label', labelDesktop);
-      heroCta.innerHTML = `
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
-        </svg>
-        <span class="ks-button__label--desktop">${labelDesktop}</span>
-        <span class="ks-button__label--mobile">${labelMobile}</span>
-      `;
+      heroCta.setAttribute('aria-label', isEnglish ? 'Call now to discuss an appointment' : 'Jetzt anrufen und Termin besprechen');
     }
 
     const syncHeroSecondary = () => {
@@ -189,19 +114,10 @@ const localizedContact = withBase(getLocalizedPath('/kontakt/', lang));
 
       if (mobile.matches) {
         if (contactHref) heroSecondary.href = contactHref;
-        heroSecondary.classList.add('ks-secondary-cta--button');
-        heroSecondary.setAttribute('aria-label', labelSecondary);
-        heroSecondary.innerHTML = `
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M7 3.5v3M17 3.5v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm2 8h3v3H8v-3Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.65"/>
-          </svg>
-          <span>${labelSecondary}</span>
-        `;
+        heroSecondary.setAttribute('aria-label', isEnglish ? 'Book an appointment' : 'Termin vereinbaren');
       } else {
         if (workHref) heroSecondary.href = workHref;
-        heroSecondary.classList.remove('ks-secondary-cta--button');
         heroSecondary.removeAttribute('aria-label');
-        heroSecondary.innerHTML = `${labelWork} <span aria-hidden="true">→</span>`;
       }
     };
 
