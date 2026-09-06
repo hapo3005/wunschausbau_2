@@ -104,7 +104,11 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
 
   if (dock) {
     const heroCta = document.querySelector('.ks-hero .ks-button');
+    const heroSecondary = document.querySelector('.ks-hero .ks-textlink');
     const phoneHref = dock.getAttribute('data-phone');
+    const mobile = window.matchMedia('(max-width: 56rem)');
+    const contactHref = heroCta instanceof HTMLAnchorElement ? heroCta.href : null;
+    const workHref = heroSecondary instanceof HTMLAnchorElement ? heroSecondary.href : null;
 
     if (heroCta instanceof HTMLAnchorElement && phoneHref) {
       heroCta.href = phoneHref;
@@ -119,7 +123,20 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       `;
     }
 
-    const mobile = window.matchMedia('(max-width: 56rem)');
+    const syncHeroSecondary = () => {
+      if (!(heroSecondary instanceof HTMLAnchorElement)) return;
+
+      if (mobile.matches) {
+        if (contactHref) heroSecondary.href = contactHref;
+        heroSecondary.setAttribute('aria-label', 'Termin vereinbaren');
+        heroSecondary.innerHTML = 'Termin vereinbaren <span aria-hidden="true">→</span>';
+      } else {
+        if (workHref) heroSecondary.href = workHref;
+        heroSecondary.removeAttribute('aria-label');
+        heroSecondary.innerHTML = 'Arbeiten ansehen <span aria-hidden="true">→</span>';
+      }
+    };
+
     const links = [...dock.querySelectorAll('a')];
     let blocked = false;
     let currentShow = null;
@@ -164,9 +181,13 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
     }
 
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
-    mobile.addEventListener('change', scheduleUpdate);
+    mobile.addEventListener('change', () => {
+      syncHeroSecondary();
+      scheduleUpdate();
+    });
     new MutationObserver(scheduleUpdate).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     setFocusable(false);
+    syncHeroSecondary();
     applyState();
   }
 </script>
