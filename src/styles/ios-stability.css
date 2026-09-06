@@ -2,6 +2,13 @@
    Keep the visual language, but avoid expensive continuously composited effects
    on touch devices and make Safari fall back to static, fully visible content. */
 
+/* The inactive language option must keep WCAG-AA contrast on the light header.
+   Header.astro intentionally uses inherited colour here, so one shared override
+   fixes the switch consistently across German and English routes. */
+body .language-switch {
+  color: #55585f !important;
+}
+
 @media (max-width: 56rem) and (hover: none) and (pointer: coarse) {
   .site-header,
   .site-header.is-scrolled {
