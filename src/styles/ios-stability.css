@@ -149,3 +149,112 @@ body .ks-hero .eyebrow::before {
     letter-spacing: .075em !important;
   }
 }
+
+/* Hero CTA labels are painted from CSS instead of being injected after the page
+   has rendered. The actual href/ARIA target may still be synchronized by JS, but
+   the button geometry is final from the first paint, preventing CLS. */
+body .ks-hero .ks-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .68rem !important;
+  font-size: 0 !important;
+}
+
+body .ks-hero .ks-button::before {
+  display: block;
+  width: 1.08rem;
+  height: 1.08rem;
+  flex: 0 0 1.08rem;
+  background: currentColor;
+  content: '';
+  -webkit-mask: var(--ks-icon-phone) center / contain no-repeat;
+  mask: var(--ks-icon-phone) center / contain no-repeat;
+}
+
+body .ks-hero .ks-button::after {
+  color: inherit;
+  content: 'Termin vereinbaren';
+  font-size: .92rem;
+  font-weight: 620;
+  line-height: 1.2;
+}
+
+html[lang='en'] body .ks-hero .ks-button::after {
+  content: 'Book an appointment';
+}
+
+@media (max-width: 56rem) {
+  body .ks-hero__actions {
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+
+  body .ks-hero__actions > a {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    min-height: 3.45rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .46rem !important;
+    padding: .76rem .5rem !important;
+    white-space: nowrap !important;
+  }
+
+  body .ks-hero .ks-button::after {
+    content: 'Jetzt anrufen';
+    font-size: clamp(.76rem, 3.15vw, .86rem);
+  }
+
+  html[lang='en'] body .ks-hero .ks-button::after {
+    content: 'Call now';
+  }
+
+  body .ks-hero__actions > .ks-textlink {
+    font-size: 0 !important;
+  }
+
+  body .ks-hero__actions > .ks-textlink > span {
+    display: none !important;
+  }
+
+  body .ks-hero__actions > .ks-textlink::before {
+    display: block;
+    width: 1.05rem;
+    height: 1.05rem;
+    flex: 0 0 1.05rem;
+    background: currentColor;
+    content: '';
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='1.65' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7%203.5v3M17%203.5v3M4%209h16M6%205h12a2%202%200%200%201%202%202v12a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2V7a2%202%200%200%201%202-2Zm2%208h3v3H8v-3Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2024' fill='none' stroke='black' stroke-width='1.65' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7%203.5v3M17%203.5v3M4%209h16M6%205h12a2%202%200%200%201%202%202v12a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2V7a2%202%200%200%201%202-2Zm2%208h3v3H8v-3Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  body .ks-hero__actions > .ks-textlink::after {
+    color: inherit;
+    content: 'Termin vereinbaren';
+    font-size: clamp(.76rem, 3.15vw, .86rem);
+    font-weight: 620;
+    line-height: 1.2;
+  }
+
+  html[lang='en'] body .ks-hero__actions > .ks-textlink::after {
+    content: 'Book appointment';
+  }
+}
+
+@media (max-width: 22rem) {
+  body .ks-hero__actions {
+    gap: .55rem !important;
+  }
+
+  body .ks-hero__actions > a {
+    gap: .35rem !important;
+    padding-inline: .35rem !important;
+  }
+
+  body .ks-hero .ks-button::after,
+  body .ks-hero__actions > .ks-textlink::after {
+    font-size: .72rem;
+  }
+}
