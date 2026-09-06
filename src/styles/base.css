@@ -264,3 +264,81 @@ button, input, textarea, select { font: inherit; }
     border: 0;
   }
 }
+
+/* Launch polish: the company name is identity, not decoration. Keep it readable
+   against every crop of the hero image without making the hero visually heavy. */
+body .ks-hero .eyebrow {
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  gap: .7rem !important;
+  margin-bottom: clamp(1.1rem, 2vw, 1.5rem) !important;
+  padding: .52rem .82rem !important;
+  color: #f3cc80 !important;
+  background: rgba(15, 14, 13, .50) !important;
+  border: 1px solid rgba(243, 204, 128, .34) !important;
+  border-radius: 999px !important;
+  font-size: clamp(.82rem, .95vw, .98rem) !important;
+  font-weight: 750 !important;
+  letter-spacing: .105em !important;
+  line-height: 1.2 !important;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .46) !important;
+  box-shadow: 0 .3rem 1rem rgba(0, 0, 0, .10) !important;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+body .ks-hero .eyebrow::before {
+  width: 1.55rem !important;
+  background: currentColor !important;
+  opacity: .9 !important;
+}
+
+body .ks-hero__media::after {
+  background:
+    linear-gradient(90deg,
+      rgba(18,17,16,.54) 0%,
+      rgba(18,17,16,.44) 18%,
+      rgba(18,17,16,.28) 36%,
+      rgba(18,17,16,.12) 54%,
+      rgba(18,17,16,.035) 68%,
+      rgba(18,17,16,0) 80%),
+    linear-gradient(180deg,
+      rgba(15,14,13,.16) 0%,
+      rgba(15,14,13,.07) 34%,
+      rgba(15,14,13,0) 58%) !important;
+}
+
+/* First-scroll stability: Testimonials used a second IntersectionObserver-driven
+   hide/show choreography. Neutralize it so content never disappears on first entry. */
+body .proof-motion-ready .proof-score::after,
+body .proof-motion-ready .proof-quote__rail,
+body .proof-motion-ready .proof-score__rating,
+body .proof-motion-ready .proof-score__bottom,
+body .proof-motion-ready .proof-quote__topline,
+body .proof-motion-ready .proof-quote blockquote,
+body .proof-motion-ready .proof-quote figcaption,
+body .proof-motion-ready .proof-score__stars i {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+@media (max-width: 56rem) {
+  body .ks-hero .eyebrow {
+    padding: .48rem .72rem !important;
+    font-size: .76rem !important;
+    letter-spacing: .09em !important;
+  }
+}
+
+@media (max-width: 40rem) {
+  body .ks-hero__media::after {
+    background:
+      linear-gradient(180deg,
+        rgba(18,17,16,.08) 0%,
+        rgba(18,17,16,.15) 26%,
+        rgba(18,17,16,.38) 62%,
+        rgba(18,17,16,.58) 100%) !important;
+  }
+}
