@@ -3,7 +3,7 @@ import settings from '../data/settings.json';
 const isContactPage = Astro.url.pathname.includes('/kontakt');
 ---
 {!isContactPage && (
-  <div class="mobile-cta" role="region" aria-label="Schnellkontakt" aria-hidden="true">
+  <div class="mobile-cta" role="region" aria-label="Schnellkontakt" aria-hidden="true" data-phone={`tel:${settings.telefonLink}`}>
     <a class="btn" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
@@ -21,6 +21,21 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
 
 <style>
   .mobile-cta { display: none; }
+
+  :global(.ks-hero .ks-button--phone) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .68rem;
+  }
+
+  :global(.ks-hero .ks-button--phone svg) {
+    width: 1.08rem;
+    height: 1.08rem;
+    flex: 0 0 auto;
+  }
+
+  :global(.ks-hero .ks-button__label--mobile) { display: none; }
 
   @media (max-width: 56rem) {
     .mobile-cta {
@@ -68,6 +83,9 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       height: .96rem;
       flex: 0 0 auto;
     }
+
+    :global(.ks-hero .ks-button__label--desktop) { display: none; }
+    :global(.ks-hero .ks-button__label--mobile) { display: inline; }
   }
 
   @media (max-width: 22rem) {
@@ -85,6 +103,22 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
   const dock = document.querySelector('.mobile-cta');
 
   if (dock) {
+    const heroCta = document.querySelector('.ks-hero .ks-button');
+    const phoneHref = dock.getAttribute('data-phone');
+
+    if (heroCta instanceof HTMLAnchorElement && phoneHref) {
+      heroCta.href = phoneHref;
+      heroCta.classList.add('ks-button--phone');
+      heroCta.setAttribute('aria-label', 'Jetzt telefonisch einen Termin vereinbaren');
+      heroCta.innerHTML = `
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7.1 2.8 10 7.9 7.7 10a15.1 15.1 0 0 0 6.3 6.3l2.1-2.3 5.1 2.9-.7 3.3c-.2.8-.9 1.4-1.8 1.4A16.4 16.4 0 0 1 2.4 5.3c0-.9.6-1.6 1.4-1.8l3.3-.7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
+        </svg>
+        <span class="ks-button__label--desktop">Termin vereinbaren</span>
+        <span class="ks-button__label--mobile">Jetzt anrufen</span>
+      `;
+    }
+
     const mobile = window.matchMedia('(max-width: 56rem)');
     const links = [...dock.querySelectorAll('a')];
     let blocked = false;
