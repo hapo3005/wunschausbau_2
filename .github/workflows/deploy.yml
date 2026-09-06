@@ -108,7 +108,8 @@ jobs:
           export CHROME_PATH="$(node --input-type=module -e "import { chromium } from 'playwright'; console.log(chromium.executablePath())")"
           npx lighthouse "$QA_BASE_URL/" \
             --quiet \
-            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --locale=de \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --lang=de-DE" \
             --only-categories=performance,accessibility,best-practices,seo \
             --output=json \
             --output=html \
