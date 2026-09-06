@@ -243,18 +243,56 @@ html[lang='en'] body .ks-hero .ks-button::after {
   }
 }
 
-@media (max-width: 22rem) {
+/* 360px devices keep the two-action layout, but with a compact rhythm that
+   cannot push either interactive target outside the viewport. */
+@media (max-width: 23rem) {
   body .ks-hero__actions {
-    gap: .55rem !important;
+    gap: .45rem !important;
   }
 
   body .ks-hero__actions > a {
-    gap: .35rem !important;
-    padding-inline: .35rem !important;
+    gap: .26rem !important;
+    padding-inline: .2rem !important;
+  }
+
+  body .ks-hero .ks-button::before,
+  body .ks-hero__actions > .ks-textlink::before {
+    width: .86rem !important;
+    height: .86rem !important;
+    flex-basis: .86rem !important;
   }
 
   body .ks-hero .ks-button::after,
   body .ks-hero__actions > .ks-textlink::after {
-    font-size: .72rem;
+    font-size: .68rem !important;
+  }
+}
+
+/* At the 320px extreme, stacking is more legible and safer than shrinking the
+   labels further. The visual button language remains identical. */
+@media (max-width: 21rem) {
+  body .ks-hero__actions {
+    flex-direction: column !important;
+    gap: .55rem !important;
+  }
+
+  body .ks-hero__actions > a {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    min-height: 3.2rem !important;
+    gap: .42rem !important;
+    padding-inline: .75rem !important;
+  }
+
+  body .ks-hero .ks-button::before,
+  body .ks-hero__actions > .ks-textlink::before {
+    width: .95rem !important;
+    height: .95rem !important;
+    flex-basis: .95rem !important;
+  }
+
+  body .ks-hero .ks-button::after,
+  body .ks-hero__actions > .ks-textlink::after {
+    font-size: .78rem !important;
   }
 }
