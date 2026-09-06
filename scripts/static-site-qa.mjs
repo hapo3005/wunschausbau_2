@@ -60,6 +60,7 @@ const titleRoutes = new Map();
 const descriptionRoutes = new Map();
 let checkedLinks = 0;
 
+const localizedHomeRoutes = new Set(['/', '/en/']);
 const publicCommercialRoute = (route) =>
   route === '/'
   || route === '/leistungen/'
@@ -67,7 +68,13 @@ const publicCommercialRoute = (route) =>
   || route === '/referenzen/'
   || route.startsWith('/referenzen/')
   || route === '/ueber-uns/'
-  || route === '/kontakt/';
+  || route === '/kontakt/'
+  || route === '/en/'
+  || route === '/en/services/'
+  || route.startsWith('/en/services/')
+  || route === '/en/references/'
+  || route === '/en/about/'
+  || route === '/en/contact/';
 
 const primaryLocalSeoRoute = (route) =>
   route === '/'
@@ -75,9 +82,15 @@ const primaryLocalSeoRoute = (route) =>
   || route.startsWith('/leistungen/')
   || route === '/referenzen/'
   || route === '/ueber-uns/'
-  || route === '/kontakt/';
+  || route === '/kontakt/'
+  || route === '/en/'
+  || route === '/en/services/'
+  || route.startsWith('/en/services/')
+  || route === '/en/references/'
+  || route === '/en/about/'
+  || route === '/en/contact/';
 
-const noindexAllowed = new Set(['/danke/', '/freigabe/', '/404.html']);
+const noindexAllowed = new Set(['/danke/', '/en/thank-you/', '/freigabe/', '/404.html']);
 const unverifiedClaimPatterns = [
   { label: 'kostenlose Erstberatung', pattern: /kostenlose\s+Erstberatung/i },
   { label: 'unverbindlich', pattern: /\bunverbindlich\b/i },
@@ -85,7 +98,10 @@ const unverifiedClaimPatterns = [
   { label: 'aus einer Hand', pattern: /aus\s+einer\s+Hand/i },
   { label: 'alle Gewerke', pattern: /alle\s+(?:beteiligten\s+)?Gewerke/i },
   { label: '500+ Projekte', pattern: /\b500\+\s*(?:realisierte\s+)?Projekte\b/i },
-  { label: '24-h-Reaktionszeit', pattern: /\b24\s*h(?:\.|\b)/i }
+  { label: '24-h-Reaktionszeit', pattern: /\b24\s*h(?:\.|\b)/i },
+  { label: 'free consultation', pattern: /\bfree\s+(?:initial\s+)?consultation\b/i },
+  { label: 'no obligation', pattern: /\bno[- ]obligation\b|\bwithout obligation\b/i },
+  { label: 'all trades from one source', pattern: /\ball\s+trades\b|\bone[- ]stop\b/i }
 ];
 
 for (const file of htmlFiles) {
@@ -150,7 +166,7 @@ for (const file of htmlFiles) {
 
       if (!types.has('WebSite')) errors.push(`${route}: WebSite-Schema fehlt im JSON-LD-Graph.`);
       if (!business) errors.push(`${route}: HomeAndConstructionBusiness-Schema fehlt im JSON-LD-Graph.`);
-      if (route !== '/' && !types.has('BreadcrumbList')) errors.push(`${route}: BreadcrumbList-Schema fehlt.`);
+      if (!localizedHomeRoutes.has(route) && !types.has('BreadcrumbList')) errors.push(`${route}: BreadcrumbList-Schema fehlt.`);
 
       if (isProduction && jsonLdBlocks[0].includes('https://wunschausbau.de')) {
         errors.push(`${route}: Structured Data enthält noch den nicht-kanonischen Apex-Host.`);
