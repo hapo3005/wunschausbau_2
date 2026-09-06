@@ -84,6 +84,45 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
       flex: 0 0 auto;
     }
 
+    :global(.ks-hero .ks-hero__actions) {
+      display: grid;
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+      gap: .72rem;
+    }
+
+    :global(.ks-hero .ks-button--phone),
+    :global(.ks-hero .ks-secondary-cta--button) {
+      width: 100%;
+      min-height: 3.45rem;
+      align-items: center;
+      justify-content: center;
+      gap: .52rem;
+      padding: .74rem .58rem;
+      color: var(--ink);
+      background: #f8f5ee;
+      border: 1px solid #f8f5ee;
+      font-size: clamp(.79rem, 3.25vw, .9rem);
+      font-weight: 620;
+      line-height: 1.2;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: none;
+    }
+
+    :global(.ks-hero .ks-secondary-cta--button) {
+      display: inline-flex;
+      padding-bottom: .74rem;
+      border-bottom: 1px solid #f8f5ee;
+    }
+
+    :global(.ks-hero .ks-secondary-cta--button svg) {
+      width: 1.08rem;
+      height: 1.08rem;
+      flex: 0 0 auto;
+    }
+
     :global(.ks-hero .ks-button__label--desktop) { display: none; }
     :global(.ks-hero .ks-button__label--mobile) { display: inline; }
   }
@@ -92,6 +131,14 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
     .mobile-cta { width: calc(100% - 1rem); }
     .mobile-cta .btn { padding-inline: .5rem; }
     .mobile-cta .btn span { font-size: .78rem; }
+
+    :global(.ks-hero .ks-hero__actions) { gap: .5rem; }
+    :global(.ks-hero .ks-button--phone),
+    :global(.ks-hero .ks-secondary-cta--button) {
+      gap: .4rem;
+      padding-inline: .42rem;
+      font-size: .77rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -128,10 +175,17 @@ const isContactPage = Astro.url.pathname.includes('/kontakt');
 
       if (mobile.matches) {
         if (contactHref) heroSecondary.href = contactHref;
+        heroSecondary.classList.add('ks-secondary-cta--button');
         heroSecondary.setAttribute('aria-label', 'Termin vereinbaren');
-        heroSecondary.innerHTML = 'Termin vereinbaren <span aria-hidden="true">→</span>';
+        heroSecondary.innerHTML = `
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3.5v3M17 3.5v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm2 8h3v3H8v-3Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.65"/>
+          </svg>
+          <span>Termin vereinbaren</span>
+        `;
       } else {
         if (workHref) heroSecondary.href = workHref;
+        heroSecondary.classList.remove('ks-secondary-cta--button');
         heroSecondary.removeAttribute('aria-label');
         heroSecondary.innerHTML = 'Arbeiten ansehen <span aria-hidden="true">→</span>';
       }
