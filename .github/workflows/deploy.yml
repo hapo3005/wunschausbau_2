@@ -106,10 +106,13 @@ jobs:
         run: |
           mkdir -p qa-artifacts/lighthouse
           export CHROME_PATH="$(node --input-type=module -e "import { chromium } from 'playwright'; console.log(chromium.executablePath())")"
-          npx lighthouse "$QA_BASE_URL/" \
+          # Lighthouse's headless Chromium reports an English browser locale.
+          # Audit the matching localised route so the site's language preference
+          # logic stays inside the local QA server instead of redirecting away.
+          npx lighthouse "$QA_BASE_URL/en/" \
             --quiet \
-            --locale=de \
-            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --lang=de-DE" \
+            --locale=en \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --lang=en-US" \
             --only-categories=performance,accessibility,best-practices,seo \
             --output=json \
             --output=html \
