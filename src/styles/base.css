@@ -342,3 +342,75 @@ body .proof-motion-ready .proof-score__stars i {
         rgba(18,17,16,.58) 100%) !important;
   }
 }
+
+/* CTA consistency: whenever two actions sit together, the secondary/right action
+   uses the same button language as the primary/left action. */
+body .ks-hero__actions > .ks-textlink {
+  display: inline-flex !important;
+  min-height: 3.45rem !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .65rem !important;
+  padding: .82rem 1.5rem !important;
+  color: var(--ink) !important;
+  background: #f8f5ee !important;
+  border: 1px solid #f8f5ee !important;
+  border-radius: 0 !important;
+  font-size: .92rem !important;
+  font-weight: 620 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body .service-head__actions > .text-link {
+  display: inline-flex !important;
+  min-height: 3.25rem !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .65rem !important;
+  padding: .75rem 1.5rem !important;
+  color: var(--paper-inverse) !important;
+  background: var(--ink) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: var(--radius) !important;
+  font-family: var(--font-text) !important;
+  font-size: .95rem !important;
+  font-weight: 660 !important;
+  letter-spacing: -.012em !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body .mobile-cta .btn--ghost {
+  color: var(--paper-inverse) !important;
+  background: var(--ink) !important;
+  border-color: var(--ink) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body .ks-hero__actions > .ks-textlink:hover {
+    color: var(--ink) !important;
+    background: #fff !important;
+    border-color: #fff !important;
+    transform: translateY(-1px);
+  }
+
+  body .service-head__actions > .text-link:hover,
+  body .mobile-cta .btn--ghost:hover {
+    color: #fff !important;
+    background: var(--brass-deep) !important;
+    border-color: var(--brass-deep) !important;
+    box-shadow: var(--shadow-soft) !important;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 56rem) {
+  body .ks-hero__actions > a,
+  body .service-head__actions > a {
+    min-width: 0;
+  }
+}
