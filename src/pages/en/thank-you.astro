@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import settings from '../../data/settings.json';
+import { withBase } from '../../lib/paths';
+---
+<Base
+  lang="en"
+  title="Thank you | wunschausbau.de"
+  description="Your enquiry has reached us. We usually respond within 24 hours."
+  noindex
+>
+  <section class="section status-page">
+    <div class="wrap status-page__inner">
+      <p class="eyebrow">Enquiry sent</p>
+      <h1>Thank you.</h1>
+      <p class="lead">
+        Your enquiry has reached us. We usually respond within 24 hours.
+        For urgent questions, call us on <a href={`tel:${settings.telefonLink}`}>{settings.telefon}</a>.
+      </p>
+      <a class="btn" href={withBase('/en/')}>Back to home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .eyebrow { justify-content: center; }
+</style>
