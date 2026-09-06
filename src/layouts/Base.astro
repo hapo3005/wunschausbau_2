@@ -195,59 +195,19 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
         } catch {}
       });
 
-      const targets = [...document.querySelectorAll('.reveal')];
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const touchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches || navigator.maxTouchPoints > 0;
-      const iOSLike = /iP(hone|ad|od)/i.test(navigator.userAgent)
-        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-      document.documentElement.classList.toggle('ios-safari', iOSLike);
-
-      const canAnimate = !reduceMotion
-        && !touchLike
-        && !iOSLike
-        && 'IntersectionObserver' in window
-        && typeof Element.prototype.animate === 'function';
-
-      if (!canAnimate) {
-        targets.forEach((target) => {
-          target.classList.add('is-visible');
-          target.setAttribute('data-reveal-complete', 'true');
-        });
-      } else {
-        const observer = new IntersectionObserver((entries) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-
-            const target = entry.target;
-            observer.unobserve(target);
-            target.classList.add('is-visible');
-
-            const delayValue = target instanceof HTMLElement
-              ? target.style.getPropertyValue('--reveal-delay').trim()
-              : '';
-            const delay = Number.parseFloat(delayValue) || 0;
-            const animation = target.animate(
-              [
-                { opacity: 0, transform: 'translateY(.65rem)' },
-                { opacity: 1, transform: 'translateY(0)' }
-              ],
-              {
-                duration: 540,
-                delay,
-                easing: 'cubic-bezier(.22,1,.36,1)',
-                fill: 'none'
-              }
-            );
-
-            const complete = () => target.setAttribute('data-reveal-complete', 'true');
-            animation.addEventListener('finish', complete, { once: true });
-            animation.addEventListener('cancel', complete, { once: true });
-          }
-        }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
-
-        targets.forEach((target) => observer.observe(target));
-      }
+      // Scroll-reveal animations used to start from opacity: 0 only after an element
+      // had already entered the viewport. That produced a visible hide/show flash.
+      // Keep page content stable and visible; motion remains limited to deliberate
+      // component interactions instead of being tied to scrolling.
+      document.querySelectorAll('.reveal').forEach((target) => {
+        target.classList.add('is-visible');
+        target.setAttribute('data-reveal-complete', 'true');
+        if (target instanceof HTMLElement) {
+          target.style.removeProperty('opacity');
+          target.style.removeProperty('transform');
+          target.style.removeProperty('will-change');
+        }
+      });
 
       const projectForm = document.querySelector('form.anfrage');
       const emailInput = projectForm?.querySelector('input[name="email"]');
@@ -265,3 +225,18 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     </script>
   </body>
 </html>
+
+<style is:global>
+  /* A sticky header must not change its geometry after scrolling starts. The old
+     5.5rem -> 4.9rem / 3.15rem -> 2.8rem transition shifted the whole page at 20px. */
+  @media (min-width: 56.001rem) {
+    .site-header.is-scrolled .header-shell {
+      min-height: 5.5rem !important;
+    }
+
+    .site-header.is-scrolled .brand-mark {
+      width: 3.15rem !important;
+      height: 3.15rem !important;
+    }
+  }
+</style>
