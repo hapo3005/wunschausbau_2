@@ -1,0 +1,334 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import settings from '../../data/settings.json';
+
+const values = [
+  { title: 'Straight advice', text: 'We tell you what makes sense for the project, and just as clearly what is unlikely to be worth doing.' },
+  { title: 'Clear coordination', text: 'Materials, dimensions, junctions and timing are clarified before the site has to rely on improvisation.' },
+  { title: 'Precise workmanship', text: 'Clean junctions, considered details and a tidy finished result are not extras; they are the standard.' },
+  { title: 'The whole room in view', text: 'Floors, doors, drywall and transitions should not compete for attention. They should feel naturally connected.' }
+];
+---
+<Base
+  lang="en"
+  title="About us | wunschausbau.de – KS-Innenausbau Kevin Schmieding"
+  description="Kevin Schmieding, carpenter from Wittlich: interior fit-out and renovation in Wittlich, Trier and the Moselle region – personal, transparent and precise."
+>
+  <section class="about-hero">
+    <div class="wrap about-hero__grid">
+      <div>
+        <p class="eyebrow">About us</p>
+        <h1>Interior work that genuinely fits.</h1>
+      </div>
+      <div class="about-hero__copy">
+        <p>Behind {settings.marke} is Kevin Schmieding, a trained carpenter from Wittlich. The goal is not simply to install individual elements, but to make sure materials, junctions and details come together cleanly in the finished room.</p>
+        <div class="about-identity" aria-label="Business owner and trade expertise">
+          <span>KS-Innenausbau</span>
+          <strong>Kevin Schmieding</strong>
+          <small>Carpenter · Wittlich</small>
+        </div>
+        <p class="about-hero__signature">Personally coordinated. Precisely crafted. Locally available.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto" aria-labelledby="manifesto-title">
+    <div class="wrap manifesto__grid">
+      <div>
+        <p class="eyebrow">Approach</p>
+        <h2 id="manifesto-title">Not as much as possible.<br />The right solution, done properly.</h2>
+      </div>
+      <div class="manifesto__copy">
+        <p>Good interior work starts for us before the first cut, with the right questions. What should the room do? Which details need to be resolved first? And which solution will still feel right later?</p>
+        <p>That is how the result becomes one coherent room rather than a collection of separate trades.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="values" aria-labelledby="values-title">
+    <div class="wrap values__grid">
+      <header class="values__head reveal">
+        <p class="eyebrow">Working together</p>
+        <h2 id="values-title">What matters on every project.</h2>
+        <p>Four principles we use to judge decisions, communication and workmanship.</p>
+      </header>
+
+      <div class="values__list">
+        {values.map((value, index) => (
+          <article class="value reveal" style={`--reveal-delay: ${index * 45}ms`}>
+            <span class="value__mark" aria-hidden="true"></span>
+            <div>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="workflow" aria-labelledby="workflow-title">
+    <div class="wrap workflow__intro reveal">
+      <div>
+        <p class="eyebrow">How we work</p>
+        <h2 id="workflow-title">A clear process.</h2>
+      </div>
+      <p>From the first conversation to handover, you can see what happens next and which decisions need to be made beforehand.</p>
+    </div>
+    <div class="wrap process-wrap"><ProcessSteps lang="en" /></div>
+  </section>
+
+  <section class="region-band" aria-labelledby="region-title">
+    <div class="wrap region-band__grid">
+      <div>
+        <p class="eyebrow">Service area</p>
+        <h2 id="region-title">Rooted in the region.</h2>
+        <p>Our core service area is Wittlich, Trier and the Moselle region. Whether a specific location is practical for us depends on the scope of the project, and we will clarify that directly with you.</p>
+      </div>
+      <p class="region-band__mark" aria-hidden="true">Wittlich · Trier · Moselle</p>
+    </div>
+  </section>
+
+  <CtaBand lang="en" />
+</Base>
+
+<style>
+  .about-hero {
+    padding-block: clamp(3rem, 4.5vw, 4.25rem);
+    background: var(--paper);
+  }
+
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, .75fr);
+    align-items: start;
+    gap: clamp(3rem, 7vw, 7rem);
+  }
+
+  .about-hero h1 {
+    max-width: 11ch;
+    font-size: clamp(3.4rem, 6.2vw, 5.9rem);
+    line-height: .92;
+  }
+
+  .about-hero__copy {
+    display: grid;
+    gap: 1.6rem;
+    padding-top: .2rem;
+    color: var(--ink-soft);
+    font-size: clamp(1.02rem, 1.35vw, 1.16rem);
+    line-height: 1.72;
+  }
+
+  .about-identity {
+    display: grid;
+    gap: .18rem;
+    padding: 1.2rem 1.25rem 1.25rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brass-deep);
+    background: #f4efe7;
+  }
+
+  .about-identity span {
+    color: var(--brass-deep);
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  .about-identity strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 2.5vw, 2.1rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .about-identity small {
+    margin-top: .18rem;
+    color: var(--ink-muted);
+    font-size: .78rem;
+    font-weight: 600;
+  }
+
+  .about-hero__signature {
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--line);
+    color: var(--brass-deep);
+    font-size: .78rem;
+    font-weight: 650;
+    letter-spacing: .04em;
+  }
+
+  .manifesto {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    color: var(--paper-inverse);
+    background: #1c1d1f;
+  }
+
+  .manifesto__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .7fr);
+    align-items: start;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .manifesto .eyebrow { color: #d2ab65; }
+  .manifesto .eyebrow::before { background: #d2ab65; }
+
+  .manifesto h2 {
+    max-width: 15ch;
+    color: #fff;
+    font-size: clamp(3rem, 5.2vw, 5rem);
+    font-weight: 600;
+    line-height: .94;
+    letter-spacing: -.04em;
+  }
+
+  .manifesto__copy {
+    display: grid;
+    gap: 1.4rem;
+    padding-top: 2.2rem;
+    border-top: 1px solid rgba(247,244,238,.18);
+    color: rgba(247,244,238,.74);
+    font-size: .98rem;
+    line-height: 1.75;
+  }
+
+  .values {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    background: #f4efe7;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .values__grid {
+    display: grid;
+    grid-template-columns: minmax(18rem, .72fr) minmax(0, 1.28fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .values__head h2,
+  .workflow__intro h2,
+  .region-band h2 {
+    max-width: 12ch;
+    font-size: clamp(2.55rem, 4.4vw, 4rem);
+    line-height: .97;
+  }
+
+  .values__head > p:last-child {
+    max-width: 28rem;
+    margin-top: 1.35rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .values__list { border-top: 1px solid rgba(28,29,31,.2); }
+
+  .value {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-block: clamp(1.6rem, 2.5vw, 2.2rem);
+    border-bottom: 1px solid rgba(28,29,31,.16);
+  }
+
+  .value__mark {
+    width: 1.4rem;
+    height: 1px;
+    margin-top: .75rem;
+    background: var(--brass);
+  }
+
+  .value h3 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 600;
+  }
+
+  .value p {
+    max-width: 52ch;
+    margin-top: .65rem;
+    color: var(--ink-soft);
+    font-size: .9rem;
+    line-height: 1.7;
+  }
+
+  .workflow {
+    padding-block: clamp(5.5rem, 8vw, 7.5rem);
+    background: var(--paper);
+  }
+
+  .workflow__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, .72fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .workflow__intro > p {
+    max-width: 47ch;
+    color: var(--ink-soft);
+    line-height: 1.72;
+  }
+
+  .process-wrap { margin-top: clamp(3rem, 5vw, 4.5rem); }
+
+  .region-band {
+    padding-block: clamp(4.5rem, 7vw, 6.5rem);
+    background: #f4efe7;
+    border-block: 1px solid var(--line);
+  }
+
+  .region-band__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .region-band__grid > div > p:last-child {
+    max-width: 48ch;
+    margin-top: 1.3rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .region-band__mark {
+    max-width: 12ch;
+    color: var(--brass-deep);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 4.2rem);
+    font-weight: 600;
+    line-height: .98;
+    text-align: right;
+  }
+
+  @media (max-width: 56rem) {
+    .about-hero__grid,
+    .manifesto__grid,
+    .values__grid,
+    .workflow__intro,
+    .region-band__grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .manifesto__copy { padding-top: 1.5rem; }
+    .region-band__mark { text-align: left; }
+  }
+
+  @media (max-width: 36rem) {
+    .about-hero { padding-block: 3.25rem; }
+    .about-hero h1 { font-size: clamp(2.75rem, 11.5vw, 4rem); }
+    .manifesto,
+    .values,
+    .workflow,
+    .region-band { padding-block: 4.25rem; }
+    .manifesto h2 { font-size: clamp(2.5rem, 10.5vw, 3.6rem); }
+    .value { gap: 1rem; }
+    .region-band__mark { font-size: clamp(2.2rem, 11vw, 3.3rem); }
+  }
+</style>
