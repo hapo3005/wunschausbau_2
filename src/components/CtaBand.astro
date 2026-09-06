@@ -1,23 +1,24 @@
 ---
 import { withBase } from '../lib/paths';
+import { getLocalizedPath, sharedCopy, type Locale } from '../lib/i18n';
 
-interface Props { title?: string; text?: string; }
-const {
-  title = 'Sie möchten etwas umbauen oder renovieren?',
-  text = 'Schicken Sie uns kurz, worum es geht. Wir schauen uns Ihre Anfrage persönlich an und besprechen mit Ihnen die nächsten sinnvollen Schritte.'
-} = Astro.props;
+interface Props { title?: string; text?: string; lang?: Locale; }
+const { lang = 'de', title, text } = Astro.props;
+const copy = sharedCopy[lang].cta;
+const resolvedTitle = title || copy.title;
+const resolvedText = text || copy.text;
 ---
 <section class="section cta-section">
   <div class="wrap cta-band">
     <div class="cta-copy">
-      <p class="eyebrow">Ihr Projekt</p>
-      <h2>{title}</h2>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2>{resolvedTitle}</h2>
     </div>
 
     <div class="cta-side">
-      <p>{text}</p>
-      <a class="cta-link" href={withBase('/kontakt/')}>
-        <span>Anfrage senden</span>
+      <p>{resolvedText}</p>
+      <a class="cta-link" href={withBase(getLocalizedPath('/kontakt/', lang))}>
+        <span>{copy.action}</span>
         <span class="cta-link__icon" aria-hidden="true">
           <svg viewBox="0 0 18 18">
             <path d="M4.75 9h8.5M9.75 5.5 13.25 9l-3.5 3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45" />
