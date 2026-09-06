@@ -1,26 +1,39 @@
 ---
 import settings from '../data/settings.json';
 import { withBase } from '../lib/paths';
+import { getLocalizedPath, sharedCopy, type Locale } from '../lib/i18n';
 import logoUrl from '../assets/logo.svg?url';
 
+interface Props {
+  lang?: Locale;
+  alternatePath?: string | null;
+}
+
+const { lang = 'de', alternatePath = null } = Astro.props;
+const copy = sharedCopy[lang];
 const nav = [
-  { href: withBase('/leistungen/'), label: 'Leistungen' },
-  { href: withBase('/referenzen/'), label: 'Referenzen' },
-  { href: withBase('/ueber-uns/'), label: 'Über uns' }
+  { href: withBase(getLocalizedPath('/leistungen/', lang)), label: copy.nav.services },
+  { href: withBase(getLocalizedPath('/referenzen/', lang)), label: copy.nav.references },
+  { href: withBase(getLocalizedPath('/ueber-uns/', lang)), label: copy.nav.about }
 ];
+const homeHref = withBase(lang === 'en' ? '/en/' : '/');
+const contactHref = withBase(getLocalizedPath('/kontakt/', lang));
+const languageTarget: Locale = lang === 'de' ? 'en' : 'de';
+const languageTargetPath = alternatePath || (languageTarget === 'en' ? '/en/' : '/');
+const languageTargetHref = withBase(languageTargetPath);
 const path = Astro.url.pathname;
 ---
 <header class="site-header">
   <div class="header-shell">
-    <a class="brand" href={withBase('/')} aria-label={`${settings.marke} – Startseite`}>
+    <a class="brand" href={homeHref} aria-label={`${settings.marke} – ${copy.home}`}>
       <img class="brand-mark" src={logoUrl} width="449" height="452" alt="" />
       <span class="brand-copy">
         <span class="brand-name">{settings.marke}</span>
-        <span class="brand-claim">Innenausbau · Renovierung</span>
+        <span class="brand-claim">{lang === 'en' ? 'Interior fit-out · Renovation' : 'Innenausbau · Renovierung'}</span>
       </span>
     </a>
 
-    <nav class="site-nav" aria-label="Hauptnavigation" id="site-nav">
+    <nav class="site-nav" aria-label={lang === 'en' ? 'Main navigation' : 'Hauptnavigation'} id="site-nav">
       <div class="nav-links">
         {nav.map((item) => (
           <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
@@ -28,9 +41,17 @@ const path = Astro.url.pathname;
       </div>
 
       <div class="nav-actions">
-        <a class="nav-phone" href={`tel:${settings.telefonLink}`} aria-label={`Anrufen: ${settings.telefon}`}>
+        <div class="language-switch" aria-label={lang === 'en' ? 'Language' : 'Sprache'}>
+          {lang === 'de' ? (
+            <><strong aria-current="true">DE</strong><span aria-hidden="true">/</span><a href={languageTargetHref} hreflang="en" lang="en" data-language-switch="en">EN</a></>
+          ) : (
+            <><a href={languageTargetHref} hreflang="de" lang="de" data-language-switch="de">DE</a><span aria-hidden="true">/</span><strong aria-current="true">EN</strong></>
+          )}
+        </div>
+
+        <a class="nav-phone" href={`tel:${settings.telefonLink}`} aria-label={`${copy.nav.phoneLabel}: ${settings.telefon}`}>
           <span class="nav-phone__copy">
-            <span class="nav-phone__label">Jetzt anrufen</span>
+            <span class="nav-phone__label">{copy.nav.phoneLabel}</span>
             <span class="nav-phone__number">{settings.telefon}</span>
           </span>
           <span class="nav-phone__icon" aria-hidden="true">
@@ -40,8 +61,8 @@ const path = Astro.url.pathname;
           </span>
         </a>
 
-        <a class="nav-cta" href={withBase('/kontakt/')}>
-          <span>Projekt anfragen</span>
+        <a class="nav-cta" href={contactHref}>
+          <span>{copy.nav.contact}</span>
           <span class="nav-cta__icon" aria-hidden="true">
             <svg viewBox="0 0 18 18"><path d="M4.75 9h8.5M9.75 5.5 13.25 9l-3.5 3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45" /></svg>
           </span>
@@ -49,7 +70,15 @@ const path = Astro.url.pathname;
       </div>
     </nav>
 
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menü öffnen">
+    <button
+      class="menu-btn"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label={copy.nav.openMenu}
+      data-open-label={copy.nav.openMenu}
+      data-close-label={copy.nav.closeMenu}
+    >
       <span></span><span></span>
     </button>
   </div>
@@ -179,7 +208,29 @@ const path = Astro.url.pathname;
     min-width: 0;
     align-items: center;
     justify-content: flex-end;
+    gap: .9rem;
   }
+
+  .language-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: .28rem;
+    color: rgba(28,29,31,.50);
+    font-size: .68rem;
+    font-weight: 650;
+    letter-spacing: .08em;
+    line-height: 1;
+  }
+
+  .language-switch a,
+  .language-switch strong {
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+  }
+
+  .language-switch strong { color: var(--ink); }
+  .language-switch a { transition: color 170ms ease; }
 
   .nav-phone { display: none; }
 
@@ -225,6 +276,7 @@ const path = Astro.url.pathname;
     .nav-links > a:hover { color: #111214; }
     .nav-links > a:hover::after { opacity: .55; transform: translate(-50%, 0) scale(.85); }
     .nav-links > a[aria-current="page"]:hover::after { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    .language-switch a:hover { color: var(--brass-deep); }
     .nav-cta:hover {
       color: #17181b;
       background: #f4efe7;
@@ -246,6 +298,8 @@ const path = Astro.url.pathname;
     .brand-claim { font-size: .62rem; }
     .nav-links { gap: 0 1.75rem; }
     .nav-links > a { font-size: .96rem; }
+    .nav-actions { gap: .65rem; }
+    .language-switch { font-size: .64rem; }
     .nav-cta { font-size: .9rem; }
   }
 
@@ -253,6 +307,7 @@ const path = Astro.url.pathname;
     .header-shell { grid-template-columns: minmax(0, 1fr) auto minmax(0, auto); gap: 1.1rem; }
     .nav-links { gap: 0 1.2rem; }
     .nav-links > a { font-size: .9rem; }
+    .language-switch { display: none; }
     .nav-cta > span:first-child { display: none; }
     .nav-cta { min-width: 3.2rem; padding: 0; }
     .nav-cta__icon { width: 3.2rem; }
@@ -328,6 +383,36 @@ const path = Astro.url.pathname;
       align-self: end;
       gap: .65rem;
     }
+
+    .language-switch {
+      display: flex;
+      width: fit-content;
+      min-height: 2.2rem;
+      align-items: center;
+      gap: .45rem;
+      margin-bottom: .1rem;
+      color: rgba(28,29,31,.48);
+      font-size: .72rem;
+      letter-spacing: .1em;
+    }
+
+    .language-switch a,
+    .language-switch strong {
+      display: inline-flex;
+      min-width: 2.15rem;
+      min-height: 2.15rem;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(28,29,31,.14);
+    }
+
+    .language-switch strong {
+      color: #fff;
+      background: var(--brass-deep);
+      border-color: var(--brass-deep);
+    }
+
+    .language-switch > span { display: none; }
 
     .nav-phone {
       display: flex;
@@ -437,6 +522,7 @@ const path = Astro.url.pathname;
     .header-shell,
     .brand-mark,
     .nav-links > a::after,
+    .language-switch a,
     .nav-phone,
     .nav-cta,
     .nav-cta__icon,
@@ -460,7 +546,7 @@ const path = Astro.url.pathname;
   const setMenu = (open, returnFocus = false) => {
     if (!button || !navigation) return;
     button.setAttribute('aria-expanded', String(open));
-    button.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    button.setAttribute('aria-label', open ? (button.getAttribute('data-close-label') || 'Close menu') : (button.getAttribute('data-open-label') || 'Open menu'));
     navigation.classList.toggle('open', open);
     document.body.classList.toggle('nav-open', open);
 
