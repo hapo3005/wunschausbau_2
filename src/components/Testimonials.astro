@@ -1,27 +1,74 @@
 ---
-const score = '5,0';
+import type { Locale } from '../lib/i18n';
+
+interface Props { lang?: Locale; }
+const { lang = 'de' } = Astro.props;
+const score = lang === 'en' ? '5.0' : '5,0';
 const reviewCount = '13';
 const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
+const copy = lang === 'en' ? {
+  eyebrow: 'Reviews',
+  meta: `MyHammer · ${reviewCount} public reviews`,
+  heading: 'Trust is proven afterwards.',
+  subheading: 'When workmanship, communication and handover all deliver.',
+  scoreAria: `${score} out of 5 from ${reviewCount} reviews on MyHammer`,
+  public: 'publicly available',
+  reviews: 'reviews',
+  date: 'As of · August 2026',
+  voice: 'Customer review',
+  reviewDate: 'July 15, 2026',
+  quote: '“Very quick response and appointment scheduling. Reliable, and a great help with repairing our blinds.”',
+  source: 'Public MyHammer review · translated from German',
+  all: 'View all reviews',
+  footAria: 'What matters in our collaboration',
+  footLabel: 'What matters',
+  items: [
+    ['Personal', 'Direct communication.'],
+    ['Transparent', 'Details clarified before work starts.'],
+    ['Precise', 'Workmanship and handover to a high standard.']
+  ]
+} : {
+  eyebrow: 'Bewertungen',
+  meta: `MyHammer · ${reviewCount} öffentliche Bewertungen`,
+  heading: 'Vertrauen zeigt sich danach.',
+  subheading: 'Wenn Arbeit, Kommunikation und Übergabe stimmen.',
+  scoreAria: `${score} von 5 bei ${reviewCount} Bewertungen auf MyHammer`,
+  public: 'öffentlich einsehbar',
+  reviews: 'Bewertungen',
+  date: 'Stand · August 2026',
+  voice: 'Kundenstimme',
+  reviewDate: '15. Juli 2026',
+  quote: '„Sehr schnelle Rückmeldung und Terminvereinbarung. Zuverlässig und super Hilfe bei der Reparatur unserer Jalousien.“',
+  source: 'Öffentliche Bewertung auf MyHammer',
+  all: 'Alle Bewertungen',
+  footAria: 'Unser Anspruch in der Zusammenarbeit',
+  footLabel: 'Was dabei zählt',
+  items: [
+    ['Persönlich', 'Direkte Abstimmung.'],
+    ['Nachvollziehbar', 'Details vor Beginn geklärt.'],
+    ['Sauber', 'Ausführung und Übergabe mit Anspruch.']
+  ]
+};
 ---
 <section class="testimonials" aria-labelledby="stimmen-titel" data-proof-section>
   <div class="wrap testimonials-inner">
     <header class="proof-head reveal">
       <div class="proof-head__label">
-        <p class="eyebrow">Bewertungen</p>
-        <p class="proof-head__meta">MyHammer · {reviewCount} öffentliche Bewertungen</p>
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <p class="proof-head__meta">{copy.meta}</p>
       </div>
 
       <div class="proof-head__statement">
-        <h2 id="stimmen-titel">Vertrauen zeigt sich danach.</h2>
-        <p>Wenn Arbeit, Kommunikation und Übergabe stimmen.</p>
+        <h2 id="stimmen-titel">{copy.heading}</h2>
+        <p>{copy.subheading}</p>
       </div>
     </header>
 
-    <div class="proof-stage reveal" style="--reveal-delay: 55ms" data-proof-stage>
-      <aside class="proof-score" aria-label={`${score} von 5 bei ${reviewCount} Bewertungen auf MyHammer`}>
+    <div class="proof-stage reveal" style="--reveal-delay: 55ms" data-proof-stage data-proof-visible="true">
+      <aside class="proof-score" aria-label={copy.scoreAria}>
         <div class="proof-score__top">
           <span class="proof-score__source">MyHammer</span>
-          <span class="proof-score__status">öffentlich einsehbar</span>
+          <span class="proof-score__status">{copy.public}</span>
         </div>
 
         <div class="proof-score__rating">
@@ -33,58 +80,35 @@ const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
           <span class="proof-score__stars" aria-hidden="true">
             <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i>
           </span>
-          <span class="proof-score__count"><strong>{reviewCount}</strong> Bewertungen</span>
-          <span class="proof-score__date">Stand · August 2026</span>
+          <span class="proof-score__count"><strong>{reviewCount}</strong> {copy.reviews}</span>
+          <span class="proof-score__date">{copy.date}</span>
         </div>
       </aside>
 
       <figure class="proof-quote">
         <span class="proof-quote__rail" aria-hidden="true"></span>
         <div class="proof-quote__topline">
-          <span>Kundenstimme</span>
-          <time datetime="2026-07-15">15. Juli 2026</time>
+          <span>{copy.voice}</span>
+          <time datetime="2026-07-15">{copy.reviewDate}</time>
         </div>
 
-        <blockquote>
-          „Sehr schnelle Rückmeldung und Terminvereinbarung. Zuverlässig und super Hilfe bei der Reparatur unserer Jalousien.“
-        </blockquote>
+        <blockquote>{copy.quote}</blockquote>
 
         <figcaption>
-          <span>Öffentliche Bewertung auf MyHammer</span>
+          <span>{copy.source}</span>
           <a href={myHammerUrl} target="_blank" rel="noopener noreferrer">
-            Alle Bewertungen <span aria-hidden="true">↗</span>
+            {copy.all} <span aria-hidden="true">↗</span>
           </a>
         </figcaption>
       </figure>
     </div>
 
-    <div class="proof-foot reveal" style="--reveal-delay: 90ms" aria-label="Unser Anspruch in der Zusammenarbeit">
-      <span class="proof-foot__label">Was dabei zählt</span>
-      <p><strong>Persönlich</strong><span>Direkte Abstimmung.</span></p>
-      <p><strong>Nachvollziehbar</strong><span>Details vor Beginn geklärt.</span></p>
-      <p><strong>Sauber</strong><span>Ausführung und Übergabe mit Anspruch.</span></p>
+    <div class="proof-foot reveal" style="--reveal-delay: 90ms" aria-label={copy.footAria}>
+      <span class="proof-foot__label">{copy.footLabel}</span>
+      {copy.items.map(([title, text]) => <p><strong>{title}</strong><span>{text}</span></p>)}
     </div>
   </div>
 </section>
-
-<script>
-  const section = document.querySelector('[data-proof-section]');
-  const stage = section?.querySelector('[data-proof-stage]');
-
-  if (section && stage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    section.classList.add('proof-motion-ready');
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        stage.setAttribute('data-proof-visible', 'true');
-        observer.disconnect();
-      }
-    }, { threshold: 0.28 });
-    observer.observe(stage);
-  } else if (stage) {
-    stage.setAttribute('data-proof-visible', 'true');
-  }
-</script>
 
 <style>
   .testimonials {
@@ -388,74 +412,6 @@ const myHammerUrl = 'https://www.my-hammer.de/auftragnehmer/ks-innenausbau-3';
     font-size: .7rem;
     line-height: 1.45;
   }
-
-  .proof-motion-ready .proof-score::after {
-    transform: scaleX(.12);
-    transition: transform 520ms var(--ease-move) 90ms;
-  }
-
-  .proof-motion-ready .proof-score__rating,
-  .proof-motion-ready .proof-score__bottom,
-  .proof-motion-ready .proof-quote blockquote,
-  .proof-motion-ready .proof-quote figcaption,
-  .proof-motion-ready .proof-quote__topline {
-    opacity: .001;
-    transform: translateY(.6rem);
-  }
-
-  .proof-motion-ready .proof-score__rating {
-    transition: opacity 420ms var(--ease) 80ms, transform 520ms var(--ease-move) 80ms;
-  }
-
-  .proof-motion-ready .proof-score__bottom {
-    transition: opacity 380ms var(--ease) 180ms, transform 480ms var(--ease-move) 180ms;
-  }
-
-  .proof-motion-ready .proof-quote__rail {
-    transform: scaleY(.08);
-    transition: transform 560ms var(--ease-move) 90ms;
-  }
-
-  .proof-motion-ready .proof-quote__topline {
-    transition: opacity 360ms var(--ease) 170ms, transform 460ms var(--ease-move) 170ms;
-  }
-
-  .proof-motion-ready .proof-quote blockquote {
-    transition: opacity 450ms var(--ease) 250ms, transform 560ms var(--ease-move) 250ms;
-  }
-
-  .proof-motion-ready .proof-quote figcaption {
-    transition: opacity 360ms var(--ease) 360ms, transform 480ms var(--ease-move) 360ms;
-  }
-
-  .proof-motion-ready .proof-score__stars i {
-    opacity: .15;
-    transform: translateY(.22rem) scale(.84);
-    transition: opacity 260ms var(--ease), transform 360ms var(--ease-move);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score::after { transform: scaleX(1); }
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote__rail { transform: scaleY(1); }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__rating,
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__bottom,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote__topline,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote blockquote,
-  .proof-motion-ready [data-proof-visible='true'] .proof-quote figcaption {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(1) { transition-delay: 230ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(2) { transition-delay: 285ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(3) { transition-delay: 340ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(4) { transition-delay: 395ms; }
-  .proof-motion-ready [data-proof-visible='true'] .proof-score__stars i:nth-child(5) { transition-delay: 450ms; }
 
   @media (hover: hover) and (pointer: fine) {
     .proof-quote:hover {
