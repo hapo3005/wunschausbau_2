@@ -15,6 +15,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.endsWith('/danke/') &&
+        !page.endsWith('/en/thank-you/') &&
         !page.endsWith('/freigabe/') &&
         !page.endsWith('/agb/')
     })
