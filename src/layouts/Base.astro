@@ -171,6 +171,19 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     <meta name="twitter:title" content={resolvedTitle} />
     <meta name="twitter:description" content={resolvedDescription} />
     <script type="application/ld+json" set:html={structuredDataJson} />
+    <script is:inline>
+      (() => {
+        const ua = navigator.userAgent || '';
+        const platform = navigator.platform || '';
+        const isIOS = /iPad|iPhone|iPod/i.test(ua)
+          || (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isWebKit = /WebKit/i.test(ua);
+        const isOtherIOSBrowser = /CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
+        if (isIOS && isWebKit && !isOtherIOSBrowser) {
+          document.documentElement.classList.add('ios-safari');
+        }
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
