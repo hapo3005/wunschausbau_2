@@ -15,17 +15,20 @@ import seo from '../data/seo.json';
 import legal from '../data/legal.json';
 import release from '../data/release.json';
 import { withBase } from '../lib/paths';
+import { getAlternatePath, sharedCopy, type Locale } from '../lib/i18n';
 
 interface Props {
   title: string;
   description: string;
   schema?: Record<string, unknown>;
   noindex?: boolean;
+  lang?: Locale;
 }
 
 const PRIMARY_SITE = 'https://www.wunschausbau.de';
 const LEGACY_SITE = 'https://wunschausbau.de';
-const { title, description, schema, noindex = false } = Astro.props;
+const { title, description, schema, noindex = false, lang = 'de' } = Astro.props;
+const copy = sharedCopy[lang];
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const isPreview = Astro.site?.hostname === 'hapo3005.github.io';
 const releaseReady = legal.launchApproved === true
@@ -43,11 +46,18 @@ if (basePath && normalizedPath.startsWith(basePath)) {
 if (!normalizedPath.startsWith('/')) normalizedPath = `/${normalizedPath}`;
 if (!normalizedPath.endsWith('/') && !normalizedPath.split('/').at(-1)?.includes('.')) normalizedPath += '/';
 
+const alternatePath = getAlternatePath(normalizedPath, lang);
+const alternateHref = alternatePath ? new URL(withBase(alternatePath), Astro.site).href : '';
+const dePath = lang === 'de' ? normalizedPath : alternatePath;
+const enPath = lang === 'en' ? normalizedPath : alternatePath;
+const deHref = dePath ? new URL(withBase(dePath), Astro.site).href : '';
+const enHref = enPath ? new URL(withBase(enPath), Astro.site).href : '';
+
 const titleOverrides = seo.titleOverrides as Record<string, string>;
 const descriptionOverrides = (seo.descriptionOverrides || {}) as Record<string, string>;
 const breadcrumbLabels = seo.breadcrumbLabels as Record<string, string>;
-const resolvedTitle = titleOverrides[normalizedPath] || title;
-const resolvedDescription = descriptionOverrides[normalizedPath] || description;
+const resolvedTitle = lang === 'de' ? (titleOverrides[normalizedPath] || title) : title;
+const resolvedDescription = lang === 'de' ? (descriptionOverrides[normalizedPath] || description) : description;
 const sameAs = [settings.instagram, settings.myHammer].filter(Boolean);
 const ogImage = new URL(withBase('/og-image.jpg'), Astro.site).href;
 const logo = new URL(withBase('/favicon.svg'), Astro.site).href;
@@ -68,7 +78,9 @@ const defaultBusiness: Record<string, unknown> = {
   '@id': `${PRIMARY_SITE}/#business`,
   name: settings.firma,
   alternateName: settings.marke,
-  description: `${settings.claim} aus Wittlich`,
+  description: lang === 'en'
+    ? 'Interior fit-out and renovation contractor based in Wittlich, Germany.'
+    : `${settings.claim} aus Wittlich`,
   url: `${PRIMARY_SITE}/`,
   telephone: settings.telefonLink,
   email: settings.email,
@@ -105,11 +117,26 @@ const websiteNode: Record<string, unknown> = {
   url: `${PRIMARY_SITE}/`,
   name: settings.marke,
   alternateName: settings.firma,
-  inLanguage: 'de-DE',
+  inLanguage: lang === 'en' ? 'en' : 'de-DE',
   publisher: { '@id': `${PRIMARY_SITE}/#business` }
 };
 
-const segments = normalizedPath.split('/').filter(Boolean);
+const allSegments = normalizedPath.split('/').filter(Boolean);
+const segments = lang === 'en' && allSegments[0] === 'en' ? allSegments.slice(1) : allSegments;
+const enBreadcrumbLabels: Record<string, string> = {
+  services: 'Services',
+  references: 'Projects',
+  about: 'About us',
+  contact: 'Contact',
+  flooring: 'Flooring',
+  'interior-doors': 'Interior doors',
+  'windows-exterior-doors': 'Windows & exterior doors',
+  drywall: 'Drywall',
+  shading: 'Shading',
+  'timber-decking': 'Timber decking',
+  'complete-renovation': 'Complete renovation',
+  'thank-you': 'Thank you'
+};
 const breadcrumbNode = segments.length
   ? {
       '@type': 'BreadcrumbList',
@@ -118,17 +145,18 @@ const breadcrumbNode = segments.length
         {
           '@type': 'ListItem',
           position: 1,
-          name: 'Startseite',
-          item: new URL(withBase('/'), Astro.site).href
+          name: copy.home,
+          item: new URL(withBase(lang === 'en' ? '/en/' : '/'), Astro.site).href
         },
         ...segments.map((segment, index) => {
-          const path = `/${segments.slice(0, index + 1).join('/')}/`;
+          const localSegments = segments.slice(0, index + 1).join('/');
+          const path = lang === 'en' ? `/en/${localSegments}/` : `/${localSegments}/`;
           const isCurrent = index === segments.length - 1;
           const fallbackLabel = isCurrent ? resolvedTitle.split('|')[0].trim() : segment.replace(/-/g, ' ');
           return {
             '@type': 'ListItem',
             position: index + 2,
-            name: breadcrumbLabels[segment] || fallbackLabel,
+            name: lang === 'en' ? (enBreadcrumbLabels[segment] || fallbackLabel) : (breadcrumbLabels[segment] || fallbackLabel),
             item: new URL(withBase(path), Astro.site).href
           };
         })
@@ -143,7 +171,7 @@ const structuredData = {
 const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE, PRIMARY_SITE);
 ---
 <!DOCTYPE html>
-<html lang="de">
+<html lang={lang === 'en' ? 'en' : 'de'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -157,20 +185,37 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     <meta name="description" content={resolvedDescription} />
     {shouldNoindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
+    {deHref && <link rel="alternate" hreflang="de" href={deHref} />}
+    {enHref && <link rel="alternate" hreflang="en" href={enHref} />}
+    {deHref && <link rel="alternate" hreflang="x-default" href={deHref} />}
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <meta name="theme-color" content="#fdfcf9" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={settings.marke} />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'de_DE'} />
+    {alternateHref && <meta property="og:locale:alternate" content={lang === 'en' ? 'de_DE' : 'en_US'} />}
     <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={resolvedDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content={`${settings.marke} – ${settings.claim}`} />
+    <meta property="og:image:alt" content={`${settings.marke} – ${lang === 'en' ? 'Interior fit-out and renovation' : settings.claim}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={resolvedTitle} />
     <meta name="twitter:description" content={resolvedDescription} />
     <script type="application/ld+json" set:html={structuredDataJson} />
+    <script is:inline define:vars={{ currentLocale: lang, alternateUrl: alternateHref, currentRoute: normalizedPath }}>
+      (() => {
+        const key = 'ks-language';
+        let stored = null;
+        try { stored = localStorage.getItem(key); } catch {}
+        const browserLocale = (navigator.languages?.[0] || navigator.language || 'de').toLowerCase();
+        const preferred = stored === 'de' || stored === 'en' ? stored : (browserLocale.startsWith('en') ? 'en' : 'de');
+        const hasAlternate = typeof alternateUrl === 'string' && alternateUrl.length > 0;
+        if (hasAlternate && preferred !== currentLocale) {
+          window.location.replace(alternateUrl);
+        }
+      })();
+    </script>
     <script is:inline>
       (() => {
         const ua = navigator.userAgent || '';
@@ -186,14 +231,22 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
-    <Header />
+    <a class="skip-link" href="#inhalt">{copy.skip}</a>
+    <Header lang={lang} alternatePath={alternatePath} />
     <main id="inhalt">
       <slot />
     </main>
-    <Footer />
-    <MobileCta />
+    <Footer lang={lang} />
+    <MobileCta lang={lang} />
     <script>
+      document.querySelectorAll('[data-language-switch]').forEach((link) => {
+        link.addEventListener('click', () => {
+          const locale = link.getAttribute('data-language-switch');
+          if (locale !== 'de' && locale !== 'en') return;
+          try { localStorage.setItem('ks-language', locale); } catch {}
+        });
+      });
+
       // Internal links must always leave embedded preview/sidebar frames. In a normal
       // top-level browser context `_top` is identical to the current page, so this
       // does not change ordinary navigation behaviour.
@@ -228,7 +281,7 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
       const syncEmailRequirement = () => {
         if (!(emailInput instanceof HTMLInputElement)) return;
         const selected = contactInputs.find((input) => input instanceof HTMLInputElement && input.checked);
-        const emailRequired = selected instanceof HTMLInputElement && selected.value === 'E-Mail';
+        const emailRequired = selected instanceof HTMLInputElement && (selected.value === 'E-Mail' || selected.value === 'Email');
         emailInput.required = emailRequired;
         if (emailRequired) emailInput.setAttribute('aria-required', 'true');
         else emailInput.removeAttribute('aria-required');
