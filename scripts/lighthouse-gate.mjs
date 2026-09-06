@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const targetDir = process.argv[2] || 'qa-artifacts/lighthouse';
 const files = fs.existsSync(targetDir)
-  ? fs.readdirSync(targetDir).filter((name) => name.endsWith('.json'))
+  ? fs.readdirSync(targetDir).filter((name) => name.endsWith('.json') && name !== 'lighthouse-summary.json')
   : [];
 const isProduction = process.env.PRODUCTION_LAUNCH === 'true';
 
@@ -20,10 +20,17 @@ const thresholds = isProduction
       seo: 0.95
     }
   : {
-      performance: 0.75,
-      accessibility: 0.90,
-      'best-practices': 0.90
+      performance: 0.85,
+      accessibility: 0.95,
+      'best-practices': 0.95
     };
+
+const metricThresholds = {
+  'cumulative-layout-shift': {
+    maximum: 0.10,
+    label: 'CLS'
+  }
+};
 
 const reports = [];
 const failures = [];
@@ -34,7 +41,10 @@ for (const file of files) {
   const scores = Object.fromEntries(
     Object.entries(data.categories || {}).map(([key, value]) => [key, value.score])
   );
-  reports.push({ file, scores });
+  const metrics = Object.fromEntries(
+    Object.entries(metricThresholds).map(([auditId]) => [auditId, data.audits?.[auditId]?.numericValue ?? null])
+  );
+  reports.push({ file, scores, metrics });
 
   for (const [category, minimum] of Object.entries(thresholds)) {
     const score = scores[category];
@@ -44,17 +54,27 @@ for (const file of files) {
       failures.push(`${file}: ${category} ${(score * 100).toFixed(0)} < ${(minimum * 100).toFixed(0)}`);
     }
   }
+
+  for (const [auditId, threshold] of Object.entries(metricThresholds)) {
+    const value = metrics[auditId];
+    if (typeof value !== 'number') {
+      failures.push(`${file}: Lighthouse-Metrik ${threshold.label} fehlt.`);
+    } else if (value > threshold.maximum) {
+      failures.push(`${file}: ${threshold.label} ${value.toFixed(3)} > ${threshold.maximum.toFixed(2)}`);
+    }
+  }
 }
 
 const summary = {
   generatedAt: new Date().toISOString(),
   productionMode: isProduction,
   thresholds,
+  metricThresholds,
   reports,
   failures,
   note: isProduction
-    ? 'Production verlangt mindestens 90 Performance sowie 95 Accessibility, Best Practices und SEO.'
-    : 'SEO wird in Preview-Builds reportet, aber wegen der absichtlichen noindex-Sperre nicht gegated.'
+    ? 'Production verlangt mindestens 90 Performance sowie 95 Accessibility, Best Practices und SEO; CLS darf 0,10 nicht überschreiten.'
+    : 'Preview verlangt mindestens 85 Performance sowie 95 Accessibility und Best Practices; CLS darf 0,10 nicht überschreiten. SEO wird wegen der absichtlichen noindex-Sperre nur reportet.'
 };
 
 fs.writeFileSync(path.join(targetDir, 'lighthouse-summary.json'), `${JSON.stringify(summary, null, 2)}\n`);
@@ -63,7 +83,8 @@ for (const report of reports) {
   const printable = Object.entries(report.scores)
     .map(([key, score]) => `${key}: ${typeof score === 'number' ? Math.round(score * 100) : 'n/a'}`)
     .join(' | ');
-  console.log(`${report.file} -> ${printable}`);
+  const cls = report.metrics['cumulative-layout-shift'];
+  console.log(`${report.file} -> ${printable} | CLS: ${typeof cls === 'number' ? cls.toFixed(3) : 'n/a'}`);
 }
 
 if (failures.length) {
