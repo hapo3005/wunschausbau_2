@@ -211,9 +211,6 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
         const browserLocale = (navigator.languages?.[0] || navigator.language || 'de').toLowerCase();
         const hasAlternate = typeof alternateUrl === 'string' && alternateUrl.length > 0;
 
-        // An explicit /en/ URL is a deliberate language choice. Keep it unless the
-        // visitor has previously selected German themselves. This prevents search,
-        // shared and bookmarked English URLs from being bounced back to German.
         if (currentLocale === 'en') {
           if (stored === 'de' && hasAlternate) {
             window.location.replace(alternateUrl);
@@ -225,9 +222,6 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
           return;
         }
 
-        // German stays the default. An explicitly saved English preference wins;
-        // without a saved preference, an English browser receives the English
-        // counterpart automatically when one exists.
         const wantsEnglish = stored === 'en' || (stored !== 'de' && browserLocale.startsWith('en'));
         if (wantsEnglish && hasAlternate) window.location.replace(alternateUrl);
       })();
@@ -263,9 +257,6 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
         });
       });
 
-      // Internal links must always leave embedded preview/sidebar frames. In a normal
-      // top-level browser context `_top` is identical to the current page, so this
-      // does not change ordinary navigation behaviour.
       document.querySelectorAll('a[href]').forEach((link) => {
         if (!(link instanceof HTMLAnchorElement) || link.target === '_blank') return;
         const href = link.getAttribute('href');
@@ -275,20 +266,6 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
           const targetUrl = new URL(href, window.location.href);
           if (targetUrl.origin === window.location.origin) link.target = '_top';
         } catch {}
-      });
-
-      // Scroll-reveal animations used to start from opacity: 0 only after an element
-      // had already entered the viewport. That produced a visible hide/show flash.
-      // Keep page content stable and visible; motion remains limited to deliberate
-      // component interactions instead of being tied to scrolling.
-      document.querySelectorAll('.reveal').forEach((target) => {
-        target.classList.add('is-visible');
-        target.setAttribute('data-reveal-complete', 'true');
-        if (target instanceof HTMLElement) {
-          target.style.removeProperty('opacity');
-          target.style.removeProperty('transform');
-          target.style.removeProperty('will-change');
-        }
       });
 
       const projectForm = document.querySelector('form.anfrage');
@@ -307,18 +284,3 @@ const structuredDataJson = JSON.stringify(structuredData).replaceAll(LEGACY_SITE
     </script>
   </body>
 </html>
-
-<style is:global>
-  /* A sticky header must not change its geometry after scrolling starts. The old
-     5.5rem -> 4.9rem / 3.15rem -> 2.8rem transition shifted the whole page at 20px. */
-  @media (min-width: 56.001rem) {
-    .site-header.is-scrolled .header-shell {
-      min-height: 5.5rem !important;
-    }
-
-    .site-header.is-scrolled .brand-mark {
-      width: 3.15rem !important;
-      height: 3.15rem !important;
-    }
-  }
-</style>
