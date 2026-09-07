@@ -211,3 +211,71 @@ jobs:
       - name: GitHub Pages veröffentlichen
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+
+  verify-deployed:
+    name: Verify Published Preview
+    needs: deploy
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      QA_BASE_URL: https://hapo3005.github.io/wunschausbau_2
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Node einrichten
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+
+      - name: Veröffentlichtes Deployment abwarten
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..30}; do
+            if curl -fsS --max-time 10 "$QA_BASE_URL/" > /dev/null; then
+              echo "Veröffentlichte Preview erreichbar."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Veröffentlichte Preview nach 60 Sekunden nicht erreichbar."
+          exit 1
+
+      - name: Browser für Post-Deploy-QA installieren
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium firefox webkit
+
+      - name: Real-World Browser QA gegen veröffentlichte Preview
+        id: deployedqa
+        continue-on-error: true
+        run: node scripts/deployed-real-world-qa.mjs
+
+      - name: Post-Deploy-QA zusammenfassen
+        if: always()
+        run: |
+          if [ -f qa-artifacts/deployed-real-world/deployed-real-world-qa.md ]; then
+            cat qa-artifacts/deployed-real-world/deployed-real-world-qa.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Post-Deploy Reports hochladen
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: deployed-real-world-qa-${{ github.sha }}
+          path: qa-artifacts/deployed-real-world/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Published Preview Gate
+        if: always()
+        run: |
+          echo "Post-Deploy Real-World QA: ${{ steps.deployedqa.outcome }}"
+          if [ "${{ steps.deployedqa.outcome }}" != "success" ]; then
+            echo "Die veröffentlichte Preview hat mindestens einen Real-World-Browsercheck nicht bestanden."
+            exit 1
+          fi
+          echo "Veröffentlichte Preview in allen vorgesehenen Real-World-Profilen verifiziert."
