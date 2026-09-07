@@ -14,13 +14,13 @@ const profiles = [
     key: 'firefox-desktop',
     engine: 'Firefox/Gecko',
     launch: firefox,
-    context: { viewport: { width: 1366, height: 768 }, locale: 'de-DE', colorScheme: 'light', reducedMotion: 'no-preference' }
+    context: { viewport: { width: 1366, height: 768 }, colorScheme: 'light', reducedMotion: 'no-preference' }
   },
   {
     key: 'webkit-desktop',
     engine: 'WebKit/Safari engine',
     launch: webkit,
-    context: { viewport: { width: 1440, height: 900 }, locale: 'de-DE', colorScheme: 'light', reducedMotion: 'no-preference' }
+    context: { viewport: { width: 1440, height: 900 }, colorScheme: 'light', reducedMotion: 'no-preference' }
   },
   {
     key: 'android-360',
@@ -33,7 +33,6 @@ const profiles = [
       isMobile: true,
       hasTouch: true,
       userAgent: androidUa,
-      locale: 'de-DE',
       colorScheme: 'light',
       reducedMotion: 'no-preference'
     }
@@ -49,7 +48,6 @@ const profiles = [
       isMobile: true,
       hasTouch: true,
       userAgent: androidUa,
-      locale: 'en-US',
       colorScheme: 'light',
       reducedMotion: 'no-preference'
     }
@@ -112,7 +110,13 @@ try {
 
     for (const route of routes) {
       const started = Date.now();
-      const context = await browser.newContext(profile.context);
+      // Test the requested language route in the matching browser locale. The site
+      // intentionally redirects a first-time English browser from a German route to
+      // its English counterpart; that preference behaviour is tested separately.
+      const context = await browser.newContext({
+        ...profile.context,
+        locale: route.lang === 'en' ? 'en-US' : 'de-DE'
+      });
       const page = await context.newPage();
       page.setDefaultTimeout(6_000);
       page.setDefaultNavigationTimeout(20_000);
@@ -150,6 +154,10 @@ try {
             .map((img) => img.currentSrc || img.src || img.alt || '<image>');
           const visibleInteractive = [...document.querySelectorAll('a[href], button, input, select, textarea, summary')]
             .filter((element) => {
+              // Deliberately non-user-facing controls such as the anti-spam honeypot
+              // must not be treated as clipped UI. aria-hidden on the element or an
+              // ancestor is the semantic source of truth here.
+              if (element.closest('[aria-hidden="true"]')) return false;
               const style = getComputedStyle(element);
               const rect = element.getBoundingClientRect();
               return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) !== 0 && rect.width > 0 && rect.height > 0;
@@ -252,6 +260,30 @@ try {
       }
     }
   }
+
+  // Verify the intentional first-visit language routing explicitly instead of
+  // confusing it with a rendering failure in the route matrix.
+  const localeProfile = profiles.find((profile) => profile.key === 'android-412');
+  if (localeProfile) {
+    const browser = await getBrowser(localeProfile);
+    const route = { key: 'locale-auto-en', path: '/', lang: 'en' };
+    const context = await browser.newContext({ ...localeProfile.context, locale: 'en-US' });
+    const page = await context.newPage();
+    try {
+      await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+      await page.waitForURL((url) => url.pathname.endsWith('/en/'), { timeout: 6_000 });
+      const state = await page.evaluate(() => ({ lang: document.documentElement.lang, pathname: location.pathname }));
+      if (state.lang !== 'en' || !state.pathname.endsWith('/en/')) {
+        fail(localeProfile, route, 'locale-routing', 'Englische Browserpräferenz wurde nicht auf die englische Startseite abgebildet.', state);
+      }
+      results.push({ profile: localeProfile.key, engine: localeProfile.engine, route: route.key, durationMs: 0, errors: failures.filter((item) => item.profile === localeProfile.key && item.route === route.key).length });
+    } catch (error) {
+      fail(localeProfile, route, 'locale-routing', String(error));
+      results.push({ profile: localeProfile.key, engine: localeProfile.engine, route: route.key, durationMs: 0, errors: 1 });
+    } finally {
+      await context.close();
+    }
+  }
 } finally {
   for (const browser of browsers.values()) await browser.close();
 }
@@ -269,11 +301,11 @@ const lines = [
   '# Cross-Browser & Android QA',
   '',
   `- Browser-/Device-Profile: **${profiles.length}**`,
-  `- Routen: **${routes.length}**`,
+  `- Routen: **${routes.length} + 1** inklusive Locale-Routing`,
   `- Testfälle: **${results.length}**`,
   `- Fehler: **${failures.length}**`,
   '- Engines: Firefox/Gecko, WebKit/Safari-Engine, Chromium mit Android-/Touch-Emulation',
-  '- Sprachen: DE + EN inklusive 404, Kontakt und Leistungsdetail',
+  '- Sprachen: DE + EN inklusive 404, Kontakt, Leistungsdetail und Browser-Sprachpräferenz',
   '',
   failures.length ? '## Fehler' : '## Ergebnis',
   ''
