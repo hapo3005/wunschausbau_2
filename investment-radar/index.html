@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Immobilien Investment Radar</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f3f4f6}
+    *{box-sizing:border-box}body{margin:0}.shell{max-width:1440px;margin:auto;padding:24px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}.hero h1{margin:0;font-size:clamp(28px,4vw,46px)}.hero p{margin:8px 0 0;color:#4b5563;max-width:850px}.badge{background:#111827;color:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700}.grid{display:grid;grid-template-columns:minmax(360px,.85fr) minmax(0,1.4fr);gap:18px}.card{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:18px;box-shadow:0 8px 30px rgba(17,24,39,.05)}.section-title{font-size:15px;font-weight:800;margin:0 0 12px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#374151}input,textarea{width:100%;border:1px solid #d1d5db;border-radius:10px;padding:10px 11px;font:inherit;background:#fff}textarea{min-height:68px;resize:vertical}.actions{display:flex;gap:10px;margin-top:14px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.primary{background:#111827;color:white}.btn.secondary{background:#e5e7eb;color:#111827}.results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:14px}.metric .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#6b7280}.metric .v{font-size:22px;font-weight:900;margin-top:4px}.metric .s{font-size:12px;color:#6b7280;margin-top:4px}.decision{grid-column:1/-1;padding:18px;border-radius:16px;background:#111827;color:white;display:flex;justify-content:space-between;gap:18px;align-items:center}.decision strong{font-size:28px}.decision small{display:block;color:#d1d5db;margin-top:4px}.tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.table{border:1px solid #e5e7eb;border-radius:14px;overflow:hidden}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid #e5e7eb;font-size:13px}.row:last-child{border-bottom:0}.row b{font-variant-numeric:tabular-nums}.warn{margin-top:12px;padding:12px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px}.good{color:#166534}.bad{color:#b91c1c}.muted{color:#6b7280}.foot{font-size:12px;color:#6b7280;margin-top:12px}@media(max-width:1050px){.grid{grid-template-columns:1fr}.results{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.shell{padding:14px}.hero{align-items:flex-start;flex-direction:column}.fields,.results,.tables{grid-template-columns:1fr}.decision{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="hero">
+      <div><h1>Immobilien Investment Radar</h1><p>Interner Deal-Analyzer für Wittlich + Umgebung. Entscheidend ist der risikoadjustierte Nettoertrag – nicht der Inseratspreis und nicht die Optik.</p></div>
+      <div class="badge">MVP · Investment Engine V1</div>
+    </div>
+    <div class="grid">
+      <section class="card">
+        <h2 class="section-title">Objekt & Kauf</h2>
+        <div class="fields">
+          <div class="field full"><label>Ort / Objekt</label><input id="location" value="Wittlich" /></div>
+          <div class="field"><label>Kaufpreis €</label><input id="askingPrice" type="number" value="180000" /></div>
+          <div class="field"><label>Wohnfläche m²</label><input id="livingArea" type="number" value="120" /></div>
+          <div class="field"><label>Makler %</label><input id="brokerRate" type="number" step="0.01" value="3.57" /></div>
+          <div class="field"><label>GrESt %</label><input id="purchaseTaxRate" type="number" step="0.01" value="5" /></div>
+        </div>
+        <h2 class="section-title" style="margin-top:18px">Renovierung & Projektkosten</h2>
+        <div class="fields">
+          <div class="field"><label>Renovierung LOW €</label><input id="renovationLow" type="number" value="25000" /></div>
+          <div class="field"><label>Renovierung BASE €</label><input id="renovationBase" type="number" value="35000" /></div>
+          <div class="field"><label>Renovierung HIGH €</label><input id="renovationHigh" type="number" value="45000" /></div>
+          <div class="field"><label>Risiko-Reserve €</label><input id="riskReserve" type="number" value="10000" /></div>
+          <div class="field"><label>Haltedauer-Kosten €</label><input id="holdingCosts" type="number" value="6000" /></div>
+          <div class="field"><label>Finanzierungskosten €</label><input id="financingCosts" type="number" value="8000" /></div>
+          <div class="field"><label>Kevin Stunden</label><input id="kevinHours" type="number" value="220" /></div>
+          <div class="field"><label>Kevin Opportunitätswert €/h</label><input id="kevinOpportunityRate" type="number" value="35" /></div>
+        </div>
+        <h2 class="section-title" style="margin-top:18px">Exit-Werte</h2>
+        <div class="fields">
+          <div class="field"><label>ARV konservativ €</label><input id="arvConservative" type="number" value="285000" /></div>
+          <div class="field"><label>ARV BASE €</label><input id="arvBase" type="number" value="310000" /></div>
+          <div class="field"><label>ARV optimistisch €</label><input id="arvOptimistic" type="number" value="330000" /></div>
+          <div class="field"><label>Zielgewinn Flip €</label><input id="desiredFlipProfit" type="number" value="35000" /></div>
+        </div>
+        <h2 class="section-title" style="margin-top:18px">Vermietung</h2>
+        <div class="fields">
+          <div class="field"><label>Kaltmiete / Monat €</label><input id="monthlyColdRent" type="number" value="1250" /></div>
+          <div class="field"><label>Nicht umlagefähig / Monat €</label><input id="monthlyNonRecoverableCosts" type="number" value="120" /></div>
+          <div class="field"><label>Ferienpreis / Nacht €</label><input id="holidayNightRate" type="number" value="120" /></div>
+          <div class="field"><label>Ferien-Auslastung %</label><input id="holidayOccupancy" type="number" value="48" /></div>
+          <div class="field"><label>Ferien-Fixkosten / Jahr €</label><input id="holidayFixedAnnualCosts" type="number" value="5000" /></div>
+          <div class="field"><label>Ferien variable Kosten %</label><input id="holidayVariableCostRate" type="number" value="25" /></div>
+        </div>
+        <h2 class="section-title" style="margin-top:18px">Förderung & Risiken</h2>
+        <div class="fields">
+          <div class="field"><label>Fördervorteil €</label><input id="fundingBenefit" type="number" value="0" /></div>
+          <div class="field"><label>Wirtschaftliche Förderauflagen €</label><input id="fundingRestrictionsCost" type="number" value="0" /></div>
+          <div class="field full"><label>Red Flags, kommasepariert</label><textarea id="redFlags" placeholder="z. B. Feuchtigkeit, alte Elektrik"></textarea></div>
+        </div>
+        <div class="actions"><button class="btn primary" id="calculate">Deal rechnen</button><button class="btn secondary" id="reset">Beispiel laden</button></div>
+      </section>
+
+      <section class="card">
+        <div class="results" id="results"></div>
+      </section>
+    </div>
+    <div class="foot">Investment Radar V1 ist ein Entscheidungswerkzeug, keine Kauf-, Steuer- oder Rechtsberatung. Positive Deals bleiben bis zur Due Diligence ungeprüft.</div>
+  </main>
+<script>
+const €=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const pct=v=>new Intl.NumberFormat('de-DE',{style:'percent',minimumFractionDigits:1,maximumFractionDigits:1}).format(v);
+const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
+function val(id,d=0){const x=Number(document.getElementById(id).value);return Number.isFinite(x)?x:d}
+function calc(){
+ const asking=val('askingPrice'), tax=val('purchaseTaxRate')/100, notary=.02, broker=val('brokerRate')/100;
+ const rLow=val('renovationLow'), rBase=val('renovationBase'), rHigh=val('renovationHigh');
+ const hold=val('holdingCosts'), fin=val('financingCosts'), reserve=val('riskReserve');
+ const kevinCost=val('kevinHours')*val('kevinOpportunityRate');
+ const funding=Math.max(0,val('fundingBenefit')-val('fundingRestrictionsCost'));
+ const closing=asking*(tax+notary+broker);
+ const fixed=closing+hold+fin+reserve+kevinCost-funding;
+ const total={low:asking+fixed+rLow,base:asking+fixed+rBase,high:asking+fixed+rHigh};
+ const saleCost=.02, arv={c:val('arvConservative'),b:val('arvBase'),o:val('arvOptimistic')};
+ const profit=(sale,cost)=>sale*(1-saleCost)-cost;
+ const flip={c:profit(arv.c,total.high),b:profit(arv.b,total.base),o:profit(arv.o,total.low)};
+ const annualRent=val('monthlyColdRent')*12, vacancy=.03, maint=.08, nonrec=val('monthlyNonRecoverableCosts')*12;
+ const noi=annualRent*(1-vacancy)-annualRent*maint-nonrec;
+ const grossYield=annualRent/total.base, netYield=noi/total.base;
+ const hGross=val('holidayNightRate')*365*clamp(val('holidayOccupancy')/100,0,1);
+ const hNet=hGross*(1-clamp(val('holidayVariableCostRate')/100,0,1))-val('holidayFixedAnnualCosts');
+ const hYield=hNet/total.base;
+ const desired=val('desiredFlipProfit');
+ const maxBefore=arv.c*(1-saleCost)-rHigh-hold-fin-reserve-kevinCost+funding-desired;
+ const maxPrice=Math.max(0,maxBefore/(1+tax+notary+broker));
+ const mos=asking? (maxPrice-asking)/asking:0;
+ const stressSale=arv.b*.9, stressRen=rBase*1.2, stressCost=asking+closing+stressRen+(hold+fin)*1.25+reserve+kevinCost-funding;
+ const stressProfit=profit(stressSale,stressCost);
+ const flags=document.getElementById('redFlags').value.split(',').map(x=>x.trim()).filter(Boolean);
+ const hard=flags.some(x=>/statik|fundament|starke feuchtigkeit|asbest|altlast|ungeklärt|nicht genehmigt/i.test(x));
+ let score=50+clamp(flip.b/2000,-25,25)+clamp(mos*100,-20,20)+clamp((netYield-.04)*400,-10,10)+clamp((hYield-netYield)*150,-5,5)+(stressProfit>0?8:-12)-Math.min(25,flags.length*4);
+ if(hard)score=Math.min(score,49);score=Math.round(clamp(score,0,100));
+ let rec='VERWERFEN';if(!hard&&score>=90)rec='SOFORT PRÜFEN';else if(!hard&&score>=80)rec='SEHR INTERESSANT';else if(!hard&&score>=70)rec='INTERESSANT BEI PREISNACHLASS';else if(!hard&&score>=60)rec='WATCHLIST';else if(score>=40)rec='SCHWACH';
+ const best=hNet>noi?'FERIENVERMIETUNG':'DAUERVERMIETUNG';
+ const cls=v=>v>=0?'good':'bad';
+ document.getElementById('results').innerHTML=`
+  <div class="decision"><div><strong>${rec}</strong><small>${document.getElementById('location').value} · Master Deal Score ${score}/100${hard?' · HARD BLOCK':''}</small></div><div><div class="k">Max. Kaufpreis</div><div class="v">${€.format(maxPrice)}</div></div></div>
+  <div class="metric"><div class="k">All-in BASE</div><div class="v">${€.format(total.base)}</div><div class="s">inkl. Nebenkosten, Reserve, Kevin-Opportunität</div></div>
+  <div class="metric"><div class="k">Flip BASE</div><div class="v ${cls(flip.b)}">${€.format(flip.b)}</div><div class="s">nach 2 % Verkaufskosten</div></div>
+  <div class="metric"><div class="k">Margin of Safety</div><div class="v ${cls(mos)}">${pct(mos)}</div><div class="s">Kaufpreis vs. konservative Obergrenze</div></div>
+  <div class="metric"><div class="k">Stress-Profit</div><div class="v ${cls(stressProfit)}">${€.format(stressProfit)}</div><div class="s">Exit -10 %, Reno +20 %, Halt/Fin +25 %</div></div>
+  <div class="metric"><div class="k">Nettomietrendite</div><div class="v">${pct(netYield)}</div><div class="s">NOI ${€.format(noi)} / Jahr</div></div>
+  <div class="metric"><div class="k">Ferienrendite</div><div class="v">${pct(hYield)}</div><div class="s">Netto ${€.format(hNet)} / Jahr</div></div>
+  <div class="metric"><div class="k">Bester laufender Exit</div><div class="v" style="font-size:17px">${best}</div><div class="s">Vorteil ${€.format(Math.abs(hNet-noi))} / Jahr</div></div>
+  <div class="metric"><div class="k">Kevin-Opportunitätskosten</div><div class="v">${€.format(kevinCost)}</div><div class="s">Arbeitszeit wird nicht als kostenlos behandelt</div></div>
+  <div class="tables">
+   <div class="table"><div class="row"><span>Flip konservativ</span><b class="${cls(flip.c)}">${€.format(flip.c)}</b></div><div class="row"><span>Flip BASE</span><b class="${cls(flip.b)}">${€.format(flip.b)}</b></div><div class="row"><span>Flip optimistisch</span><b class="${cls(flip.o)}">${€.format(flip.o)}</b></div><div class="row"><span>Kaufnebenkosten</span><b>${€.format(closing)}</b></div></div>
+   <div class="table"><div class="row"><span>Bruttomietrendite</span><b>${pct(grossYield)}</b></div><div class="row"><span>Nettomietrendite</span><b>${pct(netYield)}</b></div><div class="row"><span>Ferien-Nettoertrag</span><b>${€.format(hNet)}</b></div><div class="row"><span>Netto-Fördervorteil</span><b>${€.format(funding)}</b></div></div>
+  </div>
+  <div class="warn"><b>Investment-Gate:</b> Förderung ist nur dann einzupreisen, wenn Anspruch, Antragstiming und Auflagen verifiziert sind. Ferienvermietung nur bei rechtlicher Zulässigkeit. Steuerwirkung, Finanzierungstilgung, Mikrolage und technische Due Diligence müssen vor Kauf ergänzt werden.${flags.length?`<br><br><b>Red Flags:</b> ${flags.join(', ')}`:''}</div>`;
+}
+document.getElementById('calculate').addEventListener('click',calc);document.getElementById('reset').addEventListener('click',()=>location.reload());calc();
+</script>
+</body>
+</html>
