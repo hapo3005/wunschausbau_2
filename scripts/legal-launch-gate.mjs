@@ -14,6 +14,17 @@ const legal = JSON.parse(fs.readFileSync(path.resolve('src/data/legal.json'), 'u
 const release = JSON.parse(fs.readFileSync(path.resolve('src/data/release.json'), 'utf8'));
 const errors = [];
 
+const collectMarkdownFiles = (dir) => {
+  if (!fs.existsSync(dir)) return [];
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...collectMarkdownFiles(full));
+    else if (entry.isFile() && entry.name.endsWith('.md')) files.push(full);
+  }
+  return files;
+};
+
 if (isProductionBuild && process.env.MANUAL_PRODUCTION_DEPLOY !== 'true') {
   errors.push('Live-Build ist nur über den freigegebenen manuellen Production-Workflow erlaubt.');
 }
@@ -43,6 +54,26 @@ const releaseChecks = [
 
 for (const [field, message] of releaseChecks) {
   if (release[field] !== true) errors.push(message);
+}
+
+if (release.projectMediaApproved === true) {
+  const referenceDir = path.resolve('src/content/referenzen');
+  const referenceFiles = collectMarkdownFiles(referenceDir);
+  const publishedReferences = referenceFiles.filter((file) => {
+    const source = fs.readFileSync(file, 'utf8');
+    return /^published:\s*true\s*$/m.test(source);
+  });
+
+  if (publishedReferences.length < 3) {
+    errors.push(`Projektmedien sind als freigegeben markiert, aber es sind nur ${publishedReferences.length} veröffentlichte reale Referenz(en) vorhanden; mindestens 3 sind für den Launch vorgesehen.`);
+  }
+
+  for (const file of publishedReferences) {
+    const source = fs.readFileSync(file, 'utf8');
+    if (/\b(?:PLATZHALTER|TODO|TBD)\b/i.test(source)) {
+      errors.push(`Veröffentlichte Referenz enthält noch einen Platzhalter: ${path.relative(process.cwd(), file)}.`);
+    }
+  }
 }
 
 if (errors.length) {
