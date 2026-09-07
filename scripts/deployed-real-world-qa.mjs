@@ -153,7 +153,10 @@ try {
       page.on('crash', () => { crashed = true; });
       page.on('pageerror', (error) => pageErrors.push(error.message));
       page.on('console', (message) => {
-        if (message.type() === 'error') consoleErrors.push(message.text());
+        if (message.type() !== 'error') return;
+        const text = message.text();
+        const expectedNavigation404 = route.notFound && /Failed to load resource: the server responded with a status of 404/i.test(text);
+        if (!expectedNavigation404) consoleErrors.push(text);
       });
 
       try {
