@@ -95,32 +95,7 @@ const isContactPage = Astro.url.pathname.includes('/kontakt') || Astro.url.pathn
   const dock = document.querySelector('.mobile-cta');
 
   if (dock) {
-    const heroCta = document.querySelector('.ks-hero .ks-button');
-    const heroSecondary = document.querySelector('.ks-hero .ks-textlink');
-    const phoneLink = dock.querySelector('a.btn');
-    const phoneHref = phoneLink instanceof HTMLAnchorElement ? phoneLink.href : null;
-    const contactHref = heroCta instanceof HTMLAnchorElement ? heroCta.href : null;
-    const workHref = heroSecondary instanceof HTMLAnchorElement ? heroSecondary.href : null;
     const mobile = window.matchMedia('(max-width: 56rem)');
-    const isEnglish = document.documentElement.lang === 'en';
-
-    if (heroCta instanceof HTMLAnchorElement && phoneHref) {
-      heroCta.href = phoneHref;
-      heroCta.setAttribute('aria-label', isEnglish ? 'Call now to discuss an appointment' : 'Jetzt anrufen und Termin besprechen');
-    }
-
-    const syncHeroSecondary = () => {
-      if (!(heroSecondary instanceof HTMLAnchorElement)) return;
-
-      if (mobile.matches) {
-        if (contactHref) heroSecondary.href = contactHref;
-        heroSecondary.setAttribute('aria-label', isEnglish ? 'Book an appointment' : 'Termin vereinbaren');
-      } else {
-        if (workHref) heroSecondary.href = workHref;
-        heroSecondary.removeAttribute('aria-label');
-      }
-    };
-
     const links = [...dock.querySelectorAll('a')];
     let blocked = false;
     let currentShow = null;
@@ -165,13 +140,9 @@ const isContactPage = Astro.url.pathname.includes('/kontakt') || Astro.url.pathn
     }
 
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
-    mobile.addEventListener('change', () => {
-      syncHeroSecondary();
-      scheduleUpdate();
-    });
+    mobile.addEventListener('change', scheduleUpdate);
     new MutationObserver(scheduleUpdate).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     setFocusable(false);
-    syncHeroSecondary();
     applyState();
   }
 </script>
