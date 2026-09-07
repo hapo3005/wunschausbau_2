@@ -1,13 +1,25 @@
 ---
+import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import { withBase } from '../../lib/paths';
+import { englishServiceBySourceId } from '../../data/services.en';
 import interior from '../../assets/service-interior.png';
 import floors from '../../assets/service-floors.png';
 import doors from '../../assets/service-doors-windows.png';
 import terrace from '../../assets/service-terrace.png';
 import drywall from '../../assets/service-drywall.png';
 import sun from '../../assets/service-sun-protection.png';
+
+const references = (await getCollection('referenzen'))
+  .filter((project) => project.data.published === true)
+  .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+const hasRealCases = references.length > 0;
+const serviceNames = (ids: string[]) => ids
+  .map((id) => englishServiceBySourceId[id]?.title)
+  .filter(Boolean)
+  .join(' · ');
 
 const images = [
   { src: interior, alt: 'Living space with timber wall panelling and built-in shelving', label: 'Interior fit-out' },
@@ -21,34 +33,74 @@ const images = [
 <Base
   lang="en"
   title="Projects & References | KS-Innenausbau Wittlich"
-  description="Visual insights into the work of KS-Innenausbau: flooring, interior doors, drywall, shading, timber decking and complete interior renovation."
+  description={hasRealCases
+    ? 'Selected completed projects by KS-Innenausbau in Wittlich and the surrounding region, with project details, materials and finished results.'
+    : 'Visual insights into the work of KS-Innenausbau: flooring, interior doors, drywall, shading, timber decking and complete interior renovation.'}
 >
   <section class="section visual-intro">
     <div class="wrap intro-grid">
       <div>
-        <p class="eyebrow">Projects & references</p>
-        <h1>Spaces, materials, details.</h1>
+        <p class="eyebrow">{hasRealCases ? 'Selected projects' : 'Projects & references'}</p>
+        <h1>{hasRealCases ? 'Work that proves itself in the details.' : 'Spaces, materials, details.'}</h1>
       </div>
       <div class="intro-copy">
-        <p class="lead">This preview presents our service areas through spaces, materials and construction details.</p>
-        <p class="preview-note">For launch, this section will show only approved original photographs from completed KS-Innenausbau projects.</p>
+        {hasRealCases ? (
+          <p class="lead">Completed projects show how existing spaces, materials and careful workmanship come together as one coherent result.</p>
+        ) : (
+          <>
+            <p class="lead">This preview presents our service areas through spaces, materials and construction details.</p>
+            <p class="preview-note">For launch, this section will show only approved original photographs from completed KS-Innenausbau projects.</p>
+          </>
+        )}
       </div>
     </div>
 
-    <div class="wrap">
-      <ul class="galerie">
-        {images.map((image, index) => (
-          <li class="reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
-            <div class="gallery-media">
-              <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 50vw" quality={78} format="webp" loading="lazy" />
-            </div>
-            <span class="label">{image.label}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    {hasRealCases ? (
+      <div class="wrap case-index" aria-label="Approved reference projects">
+        {references.map((project, index) => {
+          const services = serviceNames(project.data.leistungen);
+          return (
+            <article class:list={['case-card', index === 0 && 'case-card--lead', 'reveal']} style={`--reveal-delay: ${(index % 3) * 55}ms`}>
+              <a href={withBase(`/en/references/${project.id}/`)} class="case-card__link" aria-label={`View project in ${project.data.ort}`}>
+                <div class="case-card__media">
+                  <Image
+                    src={project.data.hero}
+                    alt={project.data.heroAlt}
+                    lang="de"
+                    widths={[560, 800, 1200, 1600]}
+                    sizes={index === 0 ? '(max-width: 56rem) 100vw, 66vw' : '(max-width: 56rem) 100vw, 34vw'}
+                    quality={82}
+                    format="webp"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </div>
+                <div class="case-card__meta">
+                  <p>{project.data.ort}{project.data.jahr ? ` · ${project.data.jahr}` : ''}</p>
+                  <h2>Project in {project.data.ort}</h2>
+                  <span>{services ? `Completed interior work: ${services}.` : 'Completed interior fit-out and renovation work.'}</span>
+                  <strong>View project <span aria-hidden="true">→</span></strong>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="wrap">
+        <ul class="galerie">
+          {images.map((image, index) => (
+            <li class="reveal" style={`--reveal-delay: ${(index % 2) * 55}ms`}>
+              <div class="gallery-media">
+                <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 56rem) 100vw, 50vw" quality={78} format="webp" loading="lazy" />
+              </div>
+              <span class="label">{image.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
   </section>
-  <CtaBand lang="en" title="Would you like to see what is possible for your project?" />
+  <CtaBand lang="en" title={hasRealCases ? 'Planning a similar project?' : 'Would you like to see what is possible for your project?'} />
 </Base>
 
 <style>
@@ -70,6 +122,25 @@ const images = [
     font-size: .78rem;
     line-height: 1.65;
   }
+
+  .case-index {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: clamp(1rem, 2vw, 1.6rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .case-card { min-width: 0; background: #f4efe7; border: 1px solid var(--line); }
+  .case-card--lead { grid-row: span 2; }
+  .case-card__link { display: grid; height: 100%; color: inherit; text-decoration: none; }
+  .case-card__media { min-height: 20rem; overflow: hidden; background: var(--sand); }
+  .case-card--lead .case-card__media { min-height: clamp(30rem, 54vw, 48rem); }
+  .case-card__media :global(img) { display: block; width: 100%; height: 100%; min-height: inherit; object-fit: cover; transition: transform 300ms var(--ease-move); }
+  .case-card__meta { display: grid; align-content: start; padding: clamp(1.4rem, 3vw, 2rem); }
+  .case-card__meta p { margin: 0 0 .7rem; color: var(--brass-deep); font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+  .case-card__meta h2 { max-width: 16ch; margin: 0; font-size: clamp(1.8rem, 3vw, 3rem); line-height: .98; }
+  .case-card__meta > span { max-width: 48ch; margin-top: 1rem; color: var(--ink-soft); line-height: 1.65; }
+  .case-card__meta strong { display: inline-flex; gap: .55rem; margin-top: 1.35rem; color: var(--ink); font-size: .82rem; font-weight: 700; }
 
   .galerie {
     display: grid;
@@ -109,20 +180,25 @@ const images = [
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .galerie li:hover :global(img) { transform: scale(1.018); }
+    .galerie li:hover :global(img),
+    .case-card__link:hover .case-card__media :global(img) { transform: scale(1.018); }
   }
 
   @media (max-width: 56rem) {
     .intro-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    .galerie { grid-template-columns: 1fr 1fr; }
+    .galerie, .case-index { grid-template-columns: 1fr 1fr; }
+    .case-card--lead { grid-row: auto; grid-column: 1 / -1; }
+    .case-card--lead .case-card__media { min-height: clamp(24rem, 70vw, 38rem); }
   }
 
   @media (max-width: 40rem) {
-    .galerie { grid-template-columns: 1fr; }
+    .galerie, .case-index { grid-template-columns: 1fr; }
+    .case-card--lead { grid-column: auto; }
+    .case-card__media, .case-card--lead .case-card__media { min-height: 17rem; }
     .galerie :global(img), .galerie li:nth-child(even) :global(img) { min-height: 16rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .galerie :global(img) { transition: none; }
+    .galerie :global(img), .case-card__media :global(img) { transition: none; }
   }
 </style>
