@@ -10,8 +10,8 @@ import { withBase } from '../lib/paths';
       <p class="lead">Die Adresse ist veraltet oder wurde falsch eingegeben. Von hier kommen Sie direkt zurück zu den wichtigsten Bereichen.</p>
       <div class="status-actions" aria-label="Weiterführende Seiten">
         <a class="btn" href={withBase('/')}>Zur Startseite</a>
-        <a class="text-link" href={withBase('/leistungen/')}>Leistungen ansehen</a>
-        <a class="text-link" href={withBase('/kontakt/')}>Projekt anfragen</a>
+        <a class="btn btn--ghost" href={withBase('/leistungen/')}>Leistungen ansehen</a>
+        <a class="btn btn--ghost" href={withBase('/kontakt/')}>Projekt anfragen</a>
       </div>
     </div>
   </section>
@@ -19,19 +19,28 @@ import { withBase } from '../lib/paths';
 
 <style>
   .eyebrow { justify-content: center; }
+
   .status-actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    gap: 1rem 1.4rem;
+    gap: 1rem;
+    margin-top: var(--space-4);
   }
-  .text-link {
-    min-height: 2.75rem;
-    display: inline-flex;
-    align-items: center;
-    border-bottom: 1px solid currentColor;
-    font-weight: 650;
-    text-decoration: none;
+
+  .status-actions .btn {
+    min-width: 12.5rem;
+    margin-top: 0;
+  }
+
+  @media (max-width: 40rem) {
+    .status-actions {
+      width: min(100%, 22rem);
+    }
+
+    .status-actions .btn {
+      width: 100%;
+    }
   }
 </style>
