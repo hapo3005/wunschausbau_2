@@ -66,6 +66,9 @@ jobs:
       - name: HTML, SEO-Basis und interne Links prüfen
         run: npm run qa:static
 
+      - name: UI-Konsistenz und DE/EN-Parität prüfen
+        run: npm run qa:ui
+
       - name: Browser-QA Werkzeuge installieren
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.13.0 lighthouse@13.4.1
@@ -121,7 +124,9 @@ jobs:
 
       - name: Static QA Report erneuern
         if: always()
-        run: npm run qa:static
+        run: |
+          npm run qa:static
+          npm run qa:ui
 
       - name: Release-Status dokumentieren
         if: always()
@@ -145,7 +150,7 @@ jobs:
       - name: QA-Zusammenfassung anzeigen
         if: always()
         run: |
-          for report in qa-artifacts/static-site-qa.md qa-artifacts/visual-qa.md qa-artifacts/responsive-accessibility-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
+          for report in qa-artifacts/static-site-qa.md qa-artifacts/ui-consistency-qa.md qa-artifacts/visual-qa.md qa-artifacts/responsive-accessibility-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
             if [ -f "$report" ]; then
               echo '' >> "$GITHUB_STEP_SUMMARY"
               cat "$report" >> "$GITHUB_STEP_SUMMARY"
