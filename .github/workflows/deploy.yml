@@ -32,7 +32,7 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       QA_BASE_URL: http://127.0.0.1:4321/wunschausbau_2
     steps:
@@ -72,7 +72,7 @@ jobs:
       - name: Browser-QA Werkzeuge installieren
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1 @axe-core/playwright@4.13.0 lighthouse@13.4.1
-          npx playwright install --with-deps chromium webkit
+          npx playwright install --with-deps chromium firefox webkit
 
       - name: Lokale Preview starten
         run: |
@@ -102,6 +102,11 @@ jobs:
         id: webkit
         continue-on-error: true
         run: node scripts/webkit-qa.mjs
+
+      - name: Firefox, WebKit Desktop & Android QA
+        id: crossbrowser
+        continue-on-error: true
+        run: npm run qa:cross-browser
 
       - name: Lighthouse Audit
         id: lighthouse
@@ -150,7 +155,7 @@ jobs:
       - name: QA-Zusammenfassung anzeigen
         if: always()
         run: |
-          for report in qa-artifacts/static-site-qa.md qa-artifacts/ui-consistency-qa.md qa-artifacts/visual-qa.md qa-artifacts/responsive-accessibility-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md; do
+          for report in qa-artifacts/static-site-qa.md qa-artifacts/ui-consistency-qa.md qa-artifacts/visual-qa.md qa-artifacts/responsive-accessibility-qa.md qa-artifacts/motion-qa.md qa-artifacts/webkit/webkit-qa.md qa-artifacts/cross-browser/cross-browser-qa.md; do
             if [ -f "$report" ]; then
               echo '' >> "$GITHUB_STEP_SUMMARY"
               cat "$report" >> "$GITHUB_STEP_SUMMARY"
@@ -184,8 +189,9 @@ jobs:
           echo "Visual QA: ${{ steps.visual.outcome }}"
           echo "Motion QA: ${{ steps.motion.outcome }}"
           echo "WebKit iPhone QA: ${{ steps.webkit.outcome }}"
+          echo "Cross-Browser QA: ${{ steps.crossbrowser.outcome }}"
           echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
-          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
+          if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.crossbrowser.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
             echo "Quality Gate fehlgeschlagen – Preview-Deployment wird gestoppt."
             exit 1
           fi
