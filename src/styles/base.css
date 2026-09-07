@@ -168,13 +168,6 @@ button, input, textarea, select { font: inherit; }
   background: var(--paper);
 }
 
-/* Motion is progressive enhancement: content is never hidden by CSS. */
-.reveal,
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
 .legal { max-width: 46rem; }
 .legal h1 { margin-bottom: var(--space-4); overflow-wrap: anywhere; hyphens: auto; }
 .legal p { margin-bottom: var(--space-2); overflow-wrap: anywhere; }
@@ -231,13 +224,9 @@ button, input, textarea, select { font: inherit; }
   html { scroll-behavior: auto; }
   .skip-link,
   .btn { transition: none; }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
 }
 
-/* Home: deliberate editorial asymmetry must still land on a precise grid. */
+/* Home layout: shared final geometry for both localized home routes. */
 @media (min-width: 56.01rem) {
   body .selected-work .work-stage {
     grid-template-columns: minmax(0, 1.62fr) minmax(0, .88fr);
@@ -265,33 +254,37 @@ button, input, textarea, select { font: inherit; }
   }
 }
 
-/* Launch polish: the company name is identity, not decoration. Keep it readable
-   against every crop of the hero image without making the hero visually heavy. */
+/* Hero identity: one canonical definition shared by DE and EN. */
 body .ks-hero .eyebrow {
   display: inline-flex !important;
   width: fit-content !important;
-  max-width: 100% !important;
-  gap: .7rem !important;
-  margin-bottom: clamp(1.1rem, 2vw, 1.5rem) !important;
-  padding: .52rem .82rem !important;
-  color: #f3cc80 !important;
-  background: rgba(15, 14, 13, .50) !important;
-  border: 1px solid rgba(243, 204, 128, .34) !important;
-  border-radius: 999px !important;
-  font-size: clamp(.82rem, .95vw, .98rem) !important;
-  font-weight: 750 !important;
+  max-width: min(100%, 34rem) !important;
+  margin-bottom: clamp(1.1rem, 1.8vw, 1.45rem) !important;
+  padding: 0 !important;
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-size: clamp(.79rem, .9vw, .9rem) !important;
+  font-weight: 760 !important;
   letter-spacing: .105em !important;
-  line-height: 1.2 !important;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, .46) !important;
-  box-shadow: 0 .3rem 1rem rgba(0, 0, 0, .10) !important;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  line-height: 1.35 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .72), 0 3px 18px rgba(0, 0, 0, .58) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  white-space: normal !important;
+  text-wrap: balance;
 }
 
 body .ks-hero .eyebrow::before {
-  width: 1.55rem !important;
-  background: currentColor !important;
-  opacity: .9 !important;
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 2.8rem !important;
+  height: 2px !important;
+  margin-right: .75rem !important;
+  background: #d4ad68 !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, .28) !important;
 }
 
 body .ks-hero__media::after {
@@ -309,42 +302,7 @@ body .ks-hero__media::after {
       rgba(15,14,13,0) 58%) !important;
 }
 
-/* First-scroll stability: Testimonials used a second IntersectionObserver-driven
-   hide/show choreography. Neutralize it so content never disappears on first entry. */
-body .proof-motion-ready .proof-score::after,
-body .proof-motion-ready .proof-quote__rail,
-body .proof-motion-ready .proof-score__rating,
-body .proof-motion-ready .proof-score__bottom,
-body .proof-motion-ready .proof-quote__topline,
-body .proof-motion-ready .proof-quote blockquote,
-body .proof-motion-ready .proof-quote figcaption,
-body .proof-motion-ready .proof-score__stars i {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
-}
-
-@media (max-width: 56rem) {
-  body .ks-hero .eyebrow {
-    padding: .48rem .72rem !important;
-    font-size: .76rem !important;
-    letter-spacing: .09em !important;
-  }
-}
-
-@media (max-width: 40rem) {
-  body .ks-hero__media::after {
-    background:
-      linear-gradient(180deg,
-        rgba(18,17,16,.08) 0%,
-        rgba(18,17,16,.15) 26%,
-        rgba(18,17,16,.38) 62%,
-        rgba(18,17,16,.58) 100%) !important;
-  }
-}
-
-/* CTA consistency: whenever two actions sit together, the secondary/right action
-   uses the same button language as the primary/left action. */
+/* Shared CTA visual language. Labels and destinations remain real HTML content. */
 body .ks-hero__actions > .ks-textlink {
   display: inline-flex !important;
   min-height: 3.45rem !important;
@@ -409,8 +367,78 @@ body .mobile-cta .btn--ghost {
 }
 
 @media (max-width: 56rem) {
-  body .ks-hero__actions > a,
-  body .service-head__actions > a {
-    min-width: 0;
+  body .ks-hero .eyebrow {
+    max-width: min(100%, 22rem) !important;
+    margin-bottom: 1.15rem !important;
+    font-size: .84rem !important;
+    letter-spacing: .085em !important;
+    line-height: 1.4 !important;
+  }
+
+  body .ks-hero .eyebrow::before {
+    width: 2.1rem !important;
+    margin-right: .65rem !important;
+  }
+
+  body .ks-hero__actions {
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+
+  body .ks-hero__actions > a {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    min-height: 3.45rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .46rem !important;
+    padding: .76rem .5rem !important;
+    font-size: clamp(.76rem, 3.15vw, .86rem) !important;
+    white-space: nowrap !important;
+  }
+
+  body .service-head__actions > a { min-width: 0; }
+}
+
+@media (max-width: 40rem) {
+  body .ks-hero .eyebrow {
+    max-width: min(100%, 19rem) !important;
+    font-size: .81rem !important;
+    letter-spacing: .075em !important;
+  }
+
+  body .ks-hero__media::after {
+    background:
+      linear-gradient(180deg,
+        rgba(18,17,16,.08) 0%,
+        rgba(18,17,16,.15) 26%,
+        rgba(18,17,16,.38) 62%,
+        rgba(18,17,16,.58) 100%) !important;
+  }
+}
+
+@media (max-width: 23rem) {
+  body .ks-hero__actions { gap: .45rem !important; }
+  body .ks-hero__actions > a {
+    gap: .26rem !important;
+    padding-inline: .2rem !important;
+    font-size: .68rem !important;
+  }
+}
+
+@media (max-width: 21rem) {
+  body .ks-hero__actions {
+    flex-direction: column !important;
+    gap: .55rem !important;
+  }
+
+  body .ks-hero__actions > a {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    min-height: 3.2rem !important;
+    gap: .42rem !important;
+    padding-inline: .75rem !important;
+    font-size: .78rem !important;
   }
 }
