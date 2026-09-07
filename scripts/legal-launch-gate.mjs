@@ -74,6 +74,22 @@ if (release.projectMediaApproved === true) {
       errors.push(`Veröffentlichte Referenz enthält noch einen Platzhalter: ${path.relative(process.cwd(), file)}.`);
     }
   }
+
+  const publicMediaPages = [
+    path.resolve('src/pages/index.astro'),
+    path.resolve('src/pages/en/index.astro')
+  ];
+  const forbiddenMediaCopy = [
+    /Zum Launch ersetzen wir/i,
+    /For launch, they will be replaced/i
+  ];
+
+  for (const file of publicMediaPages) {
+    const source = fs.readFileSync(file, 'utf8');
+    if (forbiddenMediaCopy.some((pattern) => pattern.test(source))) {
+      errors.push(`Projektmedien sind als freigegeben markiert, aber die Seite enthält noch Launch-Platzhaltertext: ${path.relative(process.cwd(), file)}.`);
+    }
+  }
 }
 
 if (errors.length) {
