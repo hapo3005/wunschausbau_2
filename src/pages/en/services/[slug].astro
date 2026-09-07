@@ -49,7 +49,7 @@ const serviceSchema = {
           <p class="service-head__lead">{service.short}</p>
           <div class="service-head__actions">
             <a class="btn" href={`${withBase('/en/contact/')}?service=${encodeURIComponent(service.slug)}`}>Request a project</a>
-            <a class="text-link" href={withBase('/en/services/')}>All services <span aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href={withBase('/en/services/')}>All services</a>
           </div>
         </div>
 
@@ -143,21 +143,11 @@ const serviceSchema = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1.4rem;
+    gap: 1rem;
     margin-top: 2rem;
   }
 
-  .text-link {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
-    padding-bottom: .28rem;
-    border-bottom: 1px solid rgba(28,29,31,.38);
-    font-size: .9rem;
-    font-weight: 650;
-    text-decoration: none;
-    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-  }
+  .service-head__actions .btn { margin-top: 0; }
 
   .service-head__media {
     position: relative;
@@ -308,7 +298,6 @@ const serviceSchema = {
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .text-link:hover { gap: .8rem; color: var(--brass-deep); border-color: var(--brass-deep); }
     .weitere a:hover { padding-left: .35rem; color: var(--brass-deep); }
   }
 
@@ -335,14 +324,14 @@ const serviceSchema = {
       margin-left: -1.125rem;
     }
     .service-head h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
-    .service-head__actions { align-items: flex-start; }
+    .service-head__actions { align-items: stretch; width: min(100%, 22rem); }
+    .service-head__actions .btn { width: 100%; }
     .service-content,
     .more-services { padding-block: 4.25rem; }
     .service-content__statement { font-size: clamp(2.15rem, 10vw, 3rem); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .text-link,
     .weitere a { transition: none; }
   }
 </style>
