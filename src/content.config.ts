@@ -18,26 +18,38 @@ const leistungen = defineCollection({
     })
 });
 
+const leistungsSlugs = [
+  'boeden',
+  'fenster-aussentueren',
+  'holzterrassen',
+  'innentueren',
+  'komplettrenovierung',
+  'sonnenschutz',
+  'trockenbau'
+] as const;
+
 /**
  * Referenzen: echte, freigegebene KS-Projekte.
  * Nur Einträge mit published: true dürfen öffentlich gerendert werden.
  * Keine Demo-/Stock-Projekte in dieser Collection anlegen.
+ * Leistungszuordnungen werden gegen den realen Leistungskatalog validiert,
+ * damit Tippfehler keine stillen, unvollständigen Case Studies erzeugen.
  */
 const referenzen = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/referenzen' }),
   schema: ({ image }) =>
     z.object({
-      title: z.string(),
-      ort: z.string(),
+      title: z.string().min(3),
+      ort: z.string().min(2),
       jahr: z.string().optional(),
-      leistungen: z.array(z.string()).min(1),
-      kurztext: z.string(),
-      metaDescription: z.string(),
+      leistungen: z.array(z.enum(leistungsSlugs)).min(1),
+      kurztext: z.string().min(20),
+      metaDescription: z.string().min(80).max(180),
       hero: image(),
-      heroAlt: z.string(),
+      heroAlt: z.string().min(8),
       galerie: z.array(z.object({
         bild: image(),
-        alt: z.string(),
+        alt: z.string().min(8),
         caption: z.string().optional()
       })).default([]),
       reihenfolge: z.number().default(100),
