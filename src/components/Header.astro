@@ -108,10 +108,7 @@ const path = Astro.url.pathname;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: clamp(1.8rem, 3vw, 3.5rem);
-    transition: min-height 210ms var(--ease-move);
   }
-
-  .site-header.is-scrolled .header-shell { min-height: 4.9rem; }
 
   .brand {
     display: inline-flex;
@@ -130,10 +127,8 @@ const path = Astro.url.pathname;
     flex: 0 0 auto;
     object-fit: contain;
     opacity: .97;
-    transition: width 210ms var(--ease-move), height 210ms var(--ease-move), transform 200ms var(--ease-move);
+    transition: transform 200ms var(--ease-move);
   }
-
-  .site-header.is-scrolled .brand-mark { width: 2.8rem; height: 2.8rem; }
 
   .brand-copy { display: grid; gap: .26rem; min-width: 0; }
 
@@ -215,7 +210,7 @@ const path = Astro.url.pathname;
     display: inline-flex;
     align-items: center;
     gap: .28rem;
-    color: rgba(28,29,31,.50);
+    color: #55585f;
     font-size: .68rem;
     font-weight: 650;
     letter-spacing: .08em;
@@ -316,8 +311,7 @@ const path = Astro.url.pathname;
   @media (max-width: 56rem) {
     .site-header { min-height: 4.75rem; }
 
-    .header-shell,
-    .site-header.is-scrolled .header-shell {
+    .header-shell {
       display: flex;
       width: calc(100% - 2rem);
       min-height: 4.75rem;
@@ -325,8 +319,7 @@ const path = Astro.url.pathname;
     }
 
     .brand { gap: .7rem; }
-    .brand-mark,
-    .site-header.is-scrolled .brand-mark { width: 2.65rem; height: 2.65rem; }
+    .brand-mark { width: 2.65rem; height: 2.65rem; }
     .brand-name { font-size: 1.12rem; }
     .brand-claim { font-size: .57rem; letter-spacing: .085em; }
 
@@ -391,7 +384,7 @@ const path = Astro.url.pathname;
       align-items: center;
       gap: .45rem;
       margin-bottom: .1rem;
-      color: rgba(28,29,31,.48);
+      color: #55585f;
       font-size: .72rem;
       letter-spacing: .1em;
     }
@@ -519,7 +512,6 @@ const path = Astro.url.pathname;
 
   @media (prefers-reduced-motion: reduce) {
     .site-header,
-    .header-shell,
     .brand-mark,
     .nav-links > a::after,
     .language-switch a,
