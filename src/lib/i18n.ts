@@ -30,7 +30,18 @@ export const normalizeRoute = (path: string) => {
 
 export const getAlternatePath = (path: string, locale: Locale) => {
   const normalized = normalizeRoute(path);
-  return locale === 'de' ? deToEn.get(normalized) ?? null : enToDe.get(normalized) ?? null;
+  const mapped = locale === 'de' ? deToEn.get(normalized) : enToDe.get(normalized);
+  if (mapped) return mapped;
+
+  if (locale === 'de') {
+    const reference = normalized.match(/^\/referenzen\/([^/]+)\/$/);
+    if (reference) return `/en/references/${reference[1]}/`;
+  } else {
+    const reference = normalized.match(/^\/en\/references\/([^/]+)\/$/);
+    if (reference) return `/referenzen/${reference[1]}/`;
+  }
+
+  return null;
 };
 
 export const getLocalizedPath = (dePath: string, locale: Locale) => {
