@@ -18,6 +18,7 @@
     "qa:static:production": "node scripts/static-site-qa.mjs --production",
     "qa:ui": "node scripts/ui-consistency-qa.mjs",
     "qa:visual": "node scripts/visual-qa.mjs && node scripts/responsive-accessibility-qa.mjs",
+    "qa:cross-browser": "node scripts/cross-browser-qa.mjs",
     "qa:lighthouse": "node scripts/lighthouse-gate.mjs qa-artifacts/lighthouse",
     "qa:monitor": "node scripts/production-monitor.mjs"
   },
