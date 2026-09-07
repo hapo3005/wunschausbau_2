@@ -1,8 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import { withBase } from '../lib/paths';
+const basePath = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base title="Seite nicht gefunden | wunschausbau.de" description="Die angeforderte Seite existiert nicht." noindex>
+  <script is:inline define:vars={{ basePath }}>
+    (() => {
+      const current = window.location.pathname;
+      const englishPrefix = `${basePath}/en/`;
+      const english404 = `${basePath}/en/404/`;
+      if (current.startsWith(englishPrefix) && current !== english404) {
+        window.location.replace(english404);
+      }
+    })();
+  </script>
+
   <section class="section status-page">
     <div class="wrap status-page__inner">
       <p class="eyebrow">Fehler 404</p>
