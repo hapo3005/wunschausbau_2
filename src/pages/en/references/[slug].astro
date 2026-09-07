@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { withBase } from '../../../lib/paths';
+import { englishServiceBySourceId } from '../../../data/services.en';
+
+export async function getStaticPaths() {
+  const references = (await getCollection('referenzen')).filter((project) => project.data.published === true);
+  return references.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const services = project.data.leistungen
+  .map((id) => englishServiceBySourceId[id])
+  .filter(Boolean);
+const serviceNames = services.map((service) => service.title).join(' · ');
+const description = `Completed KS-Innenausbau project in ${project.data.ort}${serviceNames ? `: ${serviceNames}` : ''}.`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `Project in ${project.data.ort}`,
+  description,
+  spatialCoverage: {
+    '@type': 'Place',
+    name: project.data.ort
+  },
+  about: services.map((service) => ({
+    '@type': 'Service',
+    name: service.title
+  })),
+  publisher: {
+    '@type': 'HomeAndConstructionBusiness',
+    '@id': 'https://www.wunschausbau.de/#business'
+  }
+};
+---
+<Base
+  lang="en"
+  title={`Project in ${project.data.ort} | KS-Innenausbau Wittlich`}
+  description={description}
+  schema={schema}
+>
+  <article class="case-study">
+    <header class="case-hero">
+      <div class="wrap case-hero__intro">
+        <div>
+          <p class="eyebrow"><a href={withBase('/en/references/')}>Projects</a> · {project.data.ort}</p>
+          <h1>Project in {project.data.ort}.</h1>
+        </div>
+        <p class="case-hero__lead">A completed KS-Innenausbau project{serviceNames ? ` combining ${serviceNames}` : ''}, documented through the finished space and its details.</p>
+      </div>
+
+      <div class="wrap case-hero__media">
+        <Image
+          src={project.data.hero}
+          alt={project.data.heroAlt}
+          lang="de"
+          widths={[640, 960, 1440, 1920]}
+          sizes="(max-width: 64rem) 100vw, 86vw"
+          quality={84}
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </header>
+
+    <section class="case-body" aria-labelledby="case-details-title">
+      <div class="wrap case-body__grid">
+        <header>
+          <p class="eyebrow" id="case-details-title">Project details</p>
+          <h2>What came together here.</h2>
+        </header>
+        <dl class="case-facts">
+          <div><dt>Location</dt><dd>{project.data.ort}</dd></div>
+          {project.data.jahr && <div><dt>Period</dt><dd>{project.data.jahr}</dd></div>}
+          <div><dt>Services</dt><dd>{serviceNames || 'Interior fit-out and renovation'}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    {project.data.galerie.length > 0 && (
+      <section class="case-gallery" aria-labelledby="case-gallery-title">
+        <div class="wrap">
+          <header class="case-gallery__head">
+            <p class="eyebrow">Details</p>
+            <h2 id="case-gallery-title">The project in view.</h2>
+          </header>
+          <div class="case-gallery__grid">
+            {project.data.galerie.map((item, index) => (
+              <figure class:list={['case-gallery__item', index % 3 === 0 && 'case-gallery__item--wide']}>
+                <Image
+                  src={item.bild}
+                  alt={item.alt}
+                  lang="de"
+                  widths={[480, 720, 1080, 1440]}
+                  sizes={index % 3 === 0 ? '(max-width: 48rem) 100vw, 66vw' : '(max-width: 48rem) 100vw, 33vw'}
+                  quality={82}
+                  format="webp"
+                  loading="lazy"
+                />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {services.length > 0 && (
+      <section class="case-services" aria-labelledby="case-services-title">
+        <div class="wrap case-services__grid">
+          <header>
+            <p class="eyebrow">Related services</p>
+            <h2 id="case-services-title">Services used on this project.</h2>
+          </header>
+          <ul>
+            {services.map((service) => (
+              <li>
+                <a href={withBase(`/en/services/${service.slug}/`)}>
+                  <span>{service.title}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </article>
+
+  <CtaBand lang="en" title="Planning a similar project?" />
+</Base>
+
+<style>
+  .case-hero { padding-block: clamp(4.5rem, 8vw, 7.5rem); background: var(--paper); }
+  .case-hero__intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .65fr); align-items: end; gap: clamp(2.5rem, 8vw, 8rem); }
+  .case-hero .eyebrow a { color: inherit; text-decoration: none; }
+  .case-hero h1 { max-width: 13ch; font-size: clamp(3.5rem, 6vw, 6rem); line-height: .92; }
+  .case-hero__lead { max-width: 40rem; padding-bottom: .35rem; color: var(--ink-soft); font-size: clamp(1.05rem, 1.45vw, 1.2rem); line-height: 1.72; }
+  .case-hero__media { margin-top: clamp(3rem, 6vw, 5rem); overflow: hidden; background: var(--sand); }
+  .case-hero__media :global(img) { display: block; width: 100%; max-height: 48rem; aspect-ratio: 16 / 9; object-fit: cover; }
+
+  .case-body { padding-block: clamp(5rem, 8vw, 7rem); background: #f4efe7; border-block: 1px solid var(--line); }
+  .case-body__grid { display: grid; grid-template-columns: minmax(18rem, .7fr) minmax(0, 1.3fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
+  .case-body h2 { max-width: 12ch; font-size: clamp(2.4rem, 4vw, 3.8rem); line-height: .98; }
+  .case-facts { margin: 0; border-top: 1px solid rgba(28,29,31,.18); }
+  .case-facts > div { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid rgba(28,29,31,.14); }
+  .case-facts dt { color: var(--ink-muted); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .case-facts dd { margin: 0; color: var(--ink); font-weight: 600; line-height: 1.5; }
+
+  .case-gallery { padding-block: clamp(5rem, 8vw, 7rem); background: var(--paper); }
+  .case-gallery__head { display: grid; grid-template-columns: minmax(15rem, .45fr) minmax(0, 1fr); align-items: end; gap: 3rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .case-gallery__head h2 { max-width: 12ch; font-size: clamp(2.7rem, 4.5vw, 4.3rem); line-height: .96; }
+  .case-gallery__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); }
+  .case-gallery__item { margin: 0; }
+  .case-gallery__item--wide { grid-column: 1 / -1; }
+  .case-gallery__item :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .case-gallery__item--wide :global(img) { aspect-ratio: 16 / 8.5; }
+
+  .case-services { padding-block: clamp(5rem, 8vw, 7rem); color: var(--paper-inverse); background: #202124; }
+  .case-services__grid { display: grid; grid-template-columns: minmax(18rem, .7fr) minmax(0, 1.3fr); gap: clamp(3rem, 8vw, 8rem); }
+  .case-services .eyebrow { color: #d7b06b; }
+  .case-services h2 { max-width: 12ch; color: #fff; font-size: clamp(2.5rem, 4vw, 4rem); line-height: .97; }
+  .case-services ul { margin: 0; padding: 0; border-top: 1px solid rgba(247,244,238,.2); list-style: none; }
+  .case-services a { display: flex; min-height: 4.7rem; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .9rem; border-bottom: 1px solid rgba(247,244,238,.16); color: #fff; font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; text-decoration: none; }
+  .case-services a span:last-child { color: #d7b06b; font-family: var(--font-text); }
+
+  @media (max-width: 56rem) {
+    .case-hero__intro, .case-body__grid, .case-services__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  @media (max-width: 40rem) {
+    .case-hero { padding-block: 3.75rem; }
+    .case-hero h1 { font-size: clamp(3rem, 13vw, 4.4rem); }
+    .case-hero__media { width: calc(100% + 2.25rem); margin-left: -1.125rem; }
+    .case-hero__media :global(img) { aspect-ratio: 4 / 3; }
+    .case-body, .case-gallery, .case-services { padding-block: 4.25rem; }
+    .case-gallery__head, .case-gallery__grid { grid-template-columns: 1fr; }
+    .case-gallery__item--wide { grid-column: auto; }
+    .case-gallery__item--wide :global(img), .case-gallery__item :global(img) { aspect-ratio: 4 / 3; }
+  }
+</style>
