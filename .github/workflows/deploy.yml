@@ -1,4 +1,4 @@
-name: Preview Deploy (GitHub Pages)
+name: KISS QA / Optional GitHub Pages Preview
 
 on:
   push:
@@ -13,8 +13,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # GitHub Pages from a private repository requires a qualifying GitHub plan.
+  # We do not need a public preview for the private customer repo, so this
+  # artifact build is only used if the repository is public again.
   build:
     name: Build Preview Artifact
+    if: ${{ github.event.repository.private == false }}
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -27,8 +31,10 @@ jobs:
         with:
           node-version: 24
 
+  # Regulärer QA-Lauf für das private Kundenrepo. Er baut selbst und benötigt
+  # deshalb kein GitHub-Pages-Artefakt.
   quality:
-    name: KISS Preview Quality Gate
+    name: KISS Private Repo Quality Gate
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -114,9 +120,6 @@ jobs:
         run: |
           mkdir -p qa-artifacts/lighthouse
           export CHROME_PATH="$(node --input-type=module -e "import { chromium } from 'playwright'; console.log(chromium.executablePath())")"
-          # Lighthouse's headless Chromium reports an English browser locale.
-          # Audit the matching localised route so the site's language preference
-          # logic stays inside the local QA server instead of redirecting away.
           npx lighthouse "$QA_BASE_URL/en/" \
             --quiet \
             --locale=en \
@@ -146,7 +149,7 @@ jobs:
           if [ "$status" -eq 0 ]; then
             echo 'Produktionsfreigaben vollständig.' >> "$GITHUB_STEP_SUMMARY"
           else
-            echo 'Produktionsfreigaben noch offen – Preview bleibt erlaubt:' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Produktionsfreigaben noch offen – QA bleibt erlaubt:' >> "$GITHUB_STEP_SUMMARY"
             echo '```text' >> "$GITHUB_STEP_SUMMARY"
             cat /tmp/release-gate.log >> "$GITHUB_STEP_SUMMARY"
             echo '```' >> "$GITHUB_STEP_SUMMARY"
@@ -178,7 +181,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: preview-qa-${{ github.sha }}
+          name: private-repo-qa-${{ github.sha }}
           path: qa-artifacts/
           if-no-files-found: warn
           retention-days: 14
@@ -192,14 +195,17 @@ jobs:
           echo "Cross-Browser QA: ${{ steps.crossbrowser.outcome }}"
           echo "Lighthouse: ${{ steps.lighthouse.outcome }}"
           if [ "${{ steps.visual.outcome }}" != "success" ] || [ "${{ steps.motion.outcome }}" != "success" ] || [ "${{ steps.webkit.outcome }}" != "success" ] || [ "${{ steps.crossbrowser.outcome }}" != "success" ] || [ "${{ steps.lighthouse.outcome }}" != "success" ]; then
-            echo "Quality Gate fehlgeschlagen – Preview-Deployment wird gestoppt."
+            echo "Quality Gate fehlgeschlagen."
             exit 1
           fi
-          echo "KISS Preview Quality Gate bestanden."
+          echo "KISS Private Repo Quality Gate bestanden."
 
+  # GitHub Pages ist nur für den alten öffentlichen Preview-Betrieb relevant.
+  # Im privaten Kundenrepo bleibt der Job bewusst aus.
   deploy:
     name: Publish Preview
     needs: [build, quality]
+    if: ${{ always() && github.event.repository.private == false && needs.build.result == 'success' && needs.quality.result == 'success' }}
     permissions:
       pages: write
       id-token: write
@@ -215,6 +221,7 @@ jobs:
   verify-deployed:
     name: Verify Published Preview
     needs: deploy
+    if: ${{ always() && github.event.repository.private == false && needs.deploy.result == 'success' }}
     permissions:
       contents: read
     runs-on: ubuntu-latest
