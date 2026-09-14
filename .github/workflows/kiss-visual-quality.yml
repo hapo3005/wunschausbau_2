@@ -1,16 +1,15 @@
 name: KISS Visual Quality
 
+# Das Kundenrepo ist privat. Die vollständige Multi-OS-/Multi-Browser-Matrix
+# ist deshalb bewusst ein manueller Deep-QA-Lauf und verbraucht nicht bei
+# jedem Commit GitHub-Actions-Minuten. Der reguläre Push-QA läuft in deploy.yml.
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  # Central KISS gate: geometry-based visual QA across browser engines and operating systems.
   visual-quality:
     uses: hapo3005/kiss/.github/workflows/kiss-visual-quality.yml@main
     with:
