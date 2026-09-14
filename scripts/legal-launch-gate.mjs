@@ -33,8 +33,20 @@ for (const field of ['unternehmen', 'inhaber', 'strasse', 'plz', 'ort', 'land', 
   if (!String(legal[field] || '').trim()) errors.push(`Pflichtangabe fehlt: ${field}`);
 }
 
+if (!String(legal.hostingProvider || '').trim()) {
+  errors.push('Produktionshosting ist für die Datenschutzerklärung noch nicht festgelegt.');
+}
+
+if (legal.hostingConfirmed !== true) {
+  errors.push('Produktionshosting ist nur geplant, aber noch nicht tatsächlich eingerichtet/bestätigt.');
+}
+
 if (!String(legal.mailProvider || '').trim()) {
   errors.push('E-Mail-/SMTP-Dienstleister ist für die Datenschutzerklärung noch nicht bestätigt.');
+}
+
+if (legal.mailProviderConfirmed !== true) {
+  errors.push('E-Mail-/SMTP-Dienstleister ist noch nicht als tatsächlicher Produktionsdienst bestätigt.');
 }
 
 if (legal.vsbgStatus === 'pending') {
