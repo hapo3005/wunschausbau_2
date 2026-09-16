@@ -60,6 +60,11 @@ try {
       if (!response || response.status() >= 400) fail(route, profile, 'navigation', `HTTP ${response?.status() || 0}`);
       await settle(page);
 
+      // Freeze the phase of infinite decorative animations so geometry checks are deterministic.
+      await page.addStyleTag({
+        content: '.precision-rig,.logo-stage__logo,.logo-stage__glow{animation-play-state:paused!important}'
+      });
+
       const state = await page.evaluate(() => {
         const rect = (selector) => {
           const el = document.querySelector(selector);
@@ -67,12 +72,24 @@ try {
           const box = el.getBoundingClientRect();
           return { top: box.top, right: box.right, bottom: box.bottom, left: box.left, width: box.width, height: box.height };
         };
+        const rects = (selectors) => selectors
+          .map((selector) => ({ selector, box: rect(selector) }))
+          .filter((entry) => entry.box && entry.box.width > 0 && entry.box.height > 0);
+
         const root = document.documentElement;
         const section = rect('.not-found');
         const kicker = rect('.not-found__kicker');
         const h1 = rect('.not-found h1');
         const rig = rect('.not-found__rig');
         const logo = document.querySelector('.logo-stage__logo');
+        const motifRects = rects([
+          '.logo-stage',
+          '.precision-rig__vertical',
+          '.precision-rig__horizontal',
+          '.precision-rig__ticks',
+          '.precision-rig__angle',
+          '.precision-rig__bob'
+        ]);
         const buttons = [...document.querySelectorAll('.not-found__actions .btn')].map((el) => {
           const box = el.getBoundingClientRect();
           return { top: box.top, right: box.right, bottom: box.bottom, left: box.left, width: box.width, height: box.height };
@@ -88,6 +105,7 @@ try {
           kicker,
           h1,
           rig,
+          motifRects,
           buttons,
           brokenImages,
           viewportWidth,
@@ -113,8 +131,10 @@ try {
         fail(route, profile, 'first-viewport', 'KS-Präzisionsmotiv ist beim Laden nicht sichtbar.');
       }
 
-      if (state.h1 && state.rig && overlap(state.h1, state.rig)) {
-        fail(route, profile, 'composition', 'KS-Präzisionsmotiv überlappt die Headline.');
+      const visibleCollision = state.h1 && state.motifRects.some(({ box }) => overlap(state.h1, box));
+      if (visibleCollision) {
+        const collisions = state.motifRects.filter(({ box }) => overlap(state.h1, box)).map(({ selector }) => selector);
+        fail(route, profile, 'composition', 'Ein sichtbarer Teil des KS-Präzisionsmotivs überlappt die Headline.', { collisions });
       }
 
       if (profile.key.startsWith('mobile') && state.section && state.kicker && state.h1 && state.rig) {
@@ -168,7 +188,7 @@ const summary = [
   '',
   `- Render-Fälle: **${cases.length}**`,
   `- Fehler: **${failures.length}**`,
-  '- Prüft: KS-Präzisionsmotiv, First-Viewport-Komposition, Mobile-Abstände, CTA-Stack, Overflow, Animation und Reduced Motion.',
+  '- Prüft: sichtbares KS-Präzisionsmotiv, First-Viewport-Komposition, Mobile-Abstände, CTA-Stack, Overflow, Animation und Reduced Motion.',
   '',
   failures.length ? '## Fehler' : '## Ergebnis',
   failures.length
