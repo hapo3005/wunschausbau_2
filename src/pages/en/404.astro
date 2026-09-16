@@ -1,46 +1,268 @@
 ---
 import Base from '../../layouts/Base.astro';
+import settings from '../../data/settings.json';
 import { withBase } from '../../lib/paths';
 ---
 <Base lang="en" title="Page not found | wunschausbau.de" description="The requested page does not exist." noindex>
-  <section class="section status-page">
-    <div class="wrap status-page__inner">
-      <p class="eyebrow">Error 404</p>
-      <h1>This page does not exist.</h1>
-      <p class="lead">The address may be outdated or entered incorrectly. From here you can return directly to the most important sections.</p>
-      <div class="status-actions" aria-label="Useful pages">
-        <a class="btn" href={withBase('/en/')}>Back to home</a>
-        <a class="btn btn--ghost" href={withBase('/en/services/')}>View services</a>
-        <a class="btn btn--ghost" href={withBase('/en/contact/')}>Request a project</a>
+  <section class="not-found" aria-labelledby="not-found-title">
+    <div class="not-found__mark" aria-hidden="true">404</div>
+
+    <div class="wrap not-found__inner">
+      <div class="not-found__copy">
+        <p class="eyebrow">Error 404</p>
+        <h1 id="not-found-title">
+          Something has gone
+          <strong>slightly out of line.</strong>
+        </h1>
+        <p class="lead">
+          The page you were looking for has been moved, removed or the address is incorrect. From here, you can quickly return to the most important sections.
+        </p>
+
+        <div class="not-found__actions" aria-label="Useful pages">
+          <a class="not-found__button" href={withBase('/en/')}>Back to home</a>
+          <a class="not-found__button not-found__button--ghost" href={withBase('/en/services/')}>View services</a>
+        </div>
+
+        <a class="not-found__link" href={withBase('/en/references/')}>
+          View projects <span aria-hidden="true">→</span>
+        </a>
       </div>
+
+      <aside class="not-found__identity" aria-label="KS-Innenausbau">
+        <span class="not-found__rule" aria-hidden="true"></span>
+        <p>{settings.firma}</p>
+        <strong>Interior fit-out & renovation</strong>
+        <span>Wittlich · Trier · Moselle</span>
+      </aside>
     </div>
   </section>
 </Base>
 
 <style>
-  .eyebrow { justify-content: center; }
-
-  .status-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: var(--space-4);
+  .not-found {
+    position: relative;
+    display: grid;
+    min-height: clamp(38rem, 78svh, 50rem);
+    align-items: center;
+    overflow: hidden;
+    color: #f7f4ee;
+    background: #1b1c1e;
+    isolation: isolate;
   }
 
-  .status-actions .btn {
-    min-width: 12.5rem;
-    margin-top: 0;
+  .not-found::before {
+    position: absolute;
+    inset: auto -14rem -24rem auto;
+    width: 42rem;
+    height: 42rem;
+    border: 1px solid rgba(212, 173, 104, .12);
+    border-radius: 50%;
+    content: '';
+    pointer-events: none;
+  }
+
+  .not-found__mark {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: clamp(-1rem, 2vw, 2rem);
+    color: transparent;
+    font-family: var(--font-brand);
+    font-size: clamp(13rem, 28vw, 30rem);
+    font-weight: 700;
+    letter-spacing: -.09em;
+    line-height: .72;
+    opacity: .11;
+    transform: translateY(-48%);
+    -webkit-text-stroke: 1px rgba(247, 244, 238, .65);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .not-found__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(15rem, .55fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 9rem);
+    padding-block: clamp(5rem, 9vw, 8rem);
+  }
+
+  .not-found__copy { max-width: 47rem; }
+
+  .not-found .eyebrow {
+    width: fit-content;
+    margin-bottom: clamp(1.35rem, 2.5vw, 2rem);
+    color: #d4ad68;
+  }
+
+  .not-found .eyebrow::before { background: #d4ad68; }
+
+  .not-found h1 {
+    display: grid;
+    max-width: 12ch;
+    margin: 0;
+    color: #fffdf9;
+    font-size: clamp(3.25rem, 6.5vw, 6.3rem);
+    font-weight: 520;
+    line-height: .91;
+    letter-spacing: -.05em;
+  }
+
+  .not-found h1 strong {
+    display: block;
+    color: #fffdf9;
+    font-weight: 680;
+  }
+
+  .not-found .lead {
+    max-width: 39rem;
+    margin-top: clamp(1.5rem, 2.7vw, 2rem);
+    color: rgba(247, 244, 238, .7);
+    font-size: clamp(1rem, 1.35vw, 1.12rem);
+    line-height: 1.7;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .not-found__button {
+    display: inline-flex;
+    min-height: 3.45rem;
+    align-items: center;
+    justify-content: center;
+    padding: .82rem 1.5rem;
+    border: 1px solid #f8f5ee;
+    color: var(--ink);
+    background: #f8f5ee;
+    font-size: .92rem;
+    font-weight: 650;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease), background-color var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .not-found__button--ghost {
+    color: #f7f4ee;
+    background: transparent;
+    border-color: rgba(247, 244, 238, .42);
+  }
+
+  .not-found__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    margin-top: 1.35rem;
+    padding-bottom: .28rem;
+    color: rgba(247, 244, 238, .82);
+    border-bottom: 1px solid rgba(247, 244, 238, .32);
+    font-size: .86rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+
+  .not-found__identity {
+    display: grid;
+    align-self: end;
+    gap: .5rem;
+    min-width: 0;
+    padding-bottom: .35rem;
+  }
+
+  .not-found__rule {
+    width: 3.5rem;
+    height: 2px;
+    margin-bottom: 1rem;
+    background: #d4ad68;
+  }
+
+  .not-found__identity p {
+    margin: 0;
+    color: #d4ad68;
+    font-size: .68rem;
+    font-weight: 720;
+    letter-spacing: .08em;
+    line-height: 1.45;
+    text-transform: uppercase;
+  }
+
+  .not-found__identity strong {
+    max-width: 18rem;
+    color: #fffdf9;
+    font-family: var(--font-brand);
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    font-weight: 560;
+    line-height: 1.16;
+    letter-spacing: -.02em;
+  }
+
+  .not-found__identity > span:last-child {
+    color: rgba(247, 244, 238, .56);
+    font-size: .78rem;
+    line-height: 1.5;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .not-found__button:hover {
+      color: var(--ink);
+      background: #fff;
+      border-color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .not-found__button--ghost:hover {
+      color: #1b1c1e;
+      background: #d4ad68;
+      border-color: #d4ad68;
+    }
+
+    .not-found__link:hover {
+      gap: .78rem;
+      color: #d4ad68;
+      border-color: #d4ad68;
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .not-found__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 3.5rem;
+    }
+
+    .not-found__identity {
+      max-width: 28rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(247, 244, 238, .16);
+    }
+
+    .not-found__mark {
+      top: auto;
+      right: -1rem;
+      bottom: 1rem;
+      font-size: clamp(12rem, 40vw, 20rem);
+      transform: none;
+    }
   }
 
   @media (max-width: 40rem) {
-    .status-actions {
-      width: min(100%, 22rem);
-    }
+    .not-found { min-height: 42rem; }
+    .not-found__inner { padding-block: 4.25rem 5rem; gap: 3rem; }
+    .not-found h1 { max-width: 10ch; font-size: clamp(2.8rem, 12.5vw, 4rem); }
+    .not-found .lead { font-size: .98rem; }
+    .not-found__actions { display: grid; width: 100%; }
+    .not-found__button { width: 100%; }
+    .not-found__mark { right: -2rem; bottom: 1rem; font-size: 12rem; opacity: .08; }
+  }
 
-    .status-actions .btn {
-      width: 100%;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .not-found__button,
+    .not-found__link { transition: none; }
   }
 </style>
