@@ -4,6 +4,7 @@ export const defaultLocale: Locale = 'de';
 
 export const routePairs = [
   ['/', '/en/'],
+  ['/404/', '/en/404/'],
   ['/leistungen/', '/en/services/'],
   ['/referenzen/', '/en/references/'],
   ['/ueber-uns/', '/en/about/'],
