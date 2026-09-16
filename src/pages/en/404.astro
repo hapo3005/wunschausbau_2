@@ -333,16 +333,16 @@ import logoUrl from '../../assets/logo.svg?url';
 
     .not-found__visual {
       position: absolute;
-      top: 2rem;
-      right: 0;
+      top: 1.55rem;
+      right: -.1rem;
       display: block;
-      width: 9.5rem;
+      width: 10.25rem;
       padding: 0;
       border: 0;
       pointer-events: none;
     }
 
-    .logo-stage { width: 9.5rem; }
+    .logo-stage { width: 10.25rem; }
     .not-found__identity { display: none; }
 
     .not-found__mark {
@@ -355,15 +355,33 @@ import logoUrl from '../../assets/logo.svg?url';
   }
 
   @media (max-width: 40rem) {
-    .not-found { min-height: 46rem; }
-    .not-found__inner { padding-block: 4.25rem 5rem; }
-    .not-found h1 { max-width: 10ch; font-size: clamp(2.8rem, 12.5vw, 4rem); }
-    .not-found .lead { font-size: .98rem; }
-    .not-found__actions { display: grid; width: 100%; }
-    .not-found__button { width: 100%; }
-    .not-found__visual { top: 1.55rem; right: -.2rem; width: 7.6rem; }
-    .logo-stage { width: 7.6rem; }
-    .not-found__mark { right: -2rem; bottom: 1rem; font-size: 12rem; opacity: .05; }
+    .not-found { min-height: 43rem; }
+    .not-found__inner { padding-block: 3.75rem 3.75rem; }
+    .not-found .eyebrow { margin-bottom: 1.1rem; }
+    .not-found h1 { max-width: 10ch; font-size: clamp(2.8rem, 12.5vw, 4rem); line-height: .9; }
+    .not-found .lead { margin-top: 1.2rem; font-size: .96rem; line-height: 1.6; }
+    .not-found__actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      gap: .6rem;
+      margin-top: 1.6rem;
+    }
+    .not-found__button {
+      width: 100%;
+      min-height: 3.05rem;
+      padding: .64rem .75rem;
+      font-size: .86rem;
+    }
+    .not-found__visual { top: .7rem; right: -.15rem; width: 8.5rem; }
+    .logo-stage { width: 8.5rem; }
+    .logo-stage__glow { inset: 9%; }
+    .logo-stage__orbit { inset: 3%; }
+    .not-found__mark { right: -2rem; bottom: .5rem; font-size: 11rem; opacity: .045; }
+  }
+
+  @media (max-width: 22rem) {
+    .not-found__actions { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {
