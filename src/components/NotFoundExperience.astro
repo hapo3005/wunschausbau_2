@@ -291,6 +291,8 @@ const copy = lang === 'en'
     aspect-ratio: 1;
     place-items: center;
     transform: translateX(-50%);
+    perspective: 900px;
+    transform-style: preserve-3d;
   }
 
   .logo-stage__glow {
@@ -305,23 +307,24 @@ const copy = lang === 'en'
   .logo-stage__logo,
   .logo-stage__core {
     position: absolute;
-    z-index: 1;
     width: 82%;
     height: 82%;
     object-fit: contain;
     filter: invert(82%) sepia(34%) saturate(550%) hue-rotate(357deg) brightness(94%) contrast(88%) drop-shadow(0 1.15rem 1.7rem rgba(0,0,0,.34));
-  }
-
-  .logo-stage__logo {
-    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 46%, #000 48% 100%);
-    mask-image: radial-gradient(circle at 50% 50%, transparent 0 46%, #000 48% 100%);
-    animation: blade-spin 14s linear infinite;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
     will-change: transform;
   }
 
-  .logo-stage__core {
+  .logo-stage__logo {
     z-index: 2;
-    clip-path: circle(47% at 50% 50%);
+    animation: medallion-front 12s cubic-bezier(.65,0,.35,1) infinite;
+  }
+
+  .logo-stage__core {
+    z-index: 1;
+    animation: medallion-back 12s cubic-bezier(.65,0,.35,1) infinite;
   }
 
   .precision-rig__bob {
@@ -366,7 +369,18 @@ const copy = lang === 'en'
     font-size: .74rem;
   }
 
-  @keyframes blade-spin { to { transform: rotate(360deg); } }
+  @keyframes medallion-front {
+    0%, 18% { transform: rotateY(0deg); }
+    48%, 68% { transform: rotateY(180deg); }
+    98%, 100% { transform: rotateY(360deg); }
+  }
+
+  @keyframes medallion-back {
+    0%, 18% { transform: rotateY(180deg); }
+    48%, 68% { transform: rotateY(360deg); }
+    98%, 100% { transform: rotateY(540deg); }
+  }
+
   @keyframes ks-glow { from { opacity: .5; transform: scale(.94); } to { opacity: .9; transform: scale(1.08); } }
   @keyframes rig-settle {
     0% { opacity: 0; transform: translateY(-.65rem) scale(.985); }
@@ -380,7 +394,8 @@ const copy = lang === 'en'
       border-color: #d4ad68;
     }
 
-    .precision-rig:hover .logo-stage__logo { animation-duration: 7s; }
+    .precision-rig:hover .logo-stage__logo,
+    .precision-rig:hover .logo-stage__core { animation-duration: 7s; }
   }
 
   @media (max-width: 56rem) {
@@ -451,7 +466,9 @@ const copy = lang === 'en'
   @media (prefers-reduced-motion: reduce) {
     .precision-rig,
     .logo-stage__logo,
+    .logo-stage__core,
     .logo-stage__glow { animation: none; }
     .precision-rig { transform: none; }
+    .logo-stage__core { display: none; }
   }
 </style>
