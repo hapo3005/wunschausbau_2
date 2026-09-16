@@ -272,6 +272,11 @@ try {
     try {
       await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
       await page.waitForURL((url) => url.pathname.endsWith('/en/'), { timeout: 6_000 });
+      await page.waitForFunction(
+        () => document.documentElement.lang === 'en' && location.pathname.endsWith('/en/'),
+        { timeout: 6_000 }
+      );
+      await page.waitForLoadState('domcontentloaded');
       const state = await page.evaluate(() => ({ lang: document.documentElement.lang, pathname: location.pathname }));
       if (state.lang !== 'en' || !state.pathname.endsWith('/en/')) {
         fail(localeProfile, route, 'locale-routing', 'Englische Browserpräferenz wurde nicht auf die englische Startseite abgebildet.', state);
