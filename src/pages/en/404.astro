@@ -22,10 +22,6 @@ import { withBase } from '../../lib/paths';
           <a class="not-found__button" href={withBase('/en/')}>Back to home</a>
           <a class="not-found__button not-found__button--ghost" href={withBase('/en/services/')}>View services</a>
         </div>
-
-        <a class="not-found__link" href={withBase('/en/references/')}>
-          View projects <span aria-hidden="true">→</span>
-        </a>
       </div>
 
       <aside class="not-found__identity" aria-label="KS-Innenausbau">
@@ -153,20 +149,6 @@ import { withBase } from '../../lib/paths';
     border-color: rgba(247, 244, 238, .42);
   }
 
-  .not-found__link {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
-    margin-top: 1.35rem;
-    padding-bottom: .28rem;
-    color: rgba(247, 244, 238, .82);
-    border-bottom: 1px solid rgba(247, 244, 238, .32);
-    font-size: .86rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: gap var(--dur) var(--ease-move), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-  }
-
   .not-found__identity {
     display: grid;
     align-self: end;
@@ -221,12 +203,6 @@ import { withBase } from '../../lib/paths';
       background: #d4ad68;
       border-color: #d4ad68;
     }
-
-    .not-found__link:hover {
-      gap: .78rem;
-      color: #d4ad68;
-      border-color: #d4ad68;
-    }
   }
 
   @media (max-width: 56rem) {
@@ -262,7 +238,6 @@ import { withBase } from '../../lib/paths';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .not-found__button,
-    .not-found__link { transition: none; }
+    .not-found__button { transition: none; }
   }
 </style>
