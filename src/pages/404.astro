@@ -367,8 +367,11 @@ const basePath = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_UR
   }
 
   @media (max-width: 40rem) {
-    .not-found { min-height: 43rem; }
-    .not-found__inner { padding-block: 3.75rem 3.75rem; }
+    .not-found {
+      min-height: 0;
+      align-items: start;
+    }
+    .not-found__inner { padding-block: 2.55rem 3.5rem; }
     .not-found .eyebrow { margin-bottom: 1.1rem; }
     .not-found h1 { max-width: 9ch; font-size: clamp(2.9rem, 13.2vw, 4.05rem); line-height: .9; }
     .not-found .lead { margin-top: 1.2rem; font-size: .96rem; line-height: 1.6; }
@@ -385,7 +388,7 @@ const basePath = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_UR
       padding: .64rem .75rem;
       font-size: .86rem;
     }
-    .not-found__visual { top: .7rem; right: -.15rem; width: 8.5rem; }
+    .not-found__visual { top: 1.05rem; right: -.15rem; width: 8.5rem; }
     .logo-stage { width: 8.5rem; }
     .logo-stage__glow { inset: 9%; }
     .logo-stage__orbit { inset: 3%; }
