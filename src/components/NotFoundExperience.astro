@@ -70,6 +70,7 @@ const copy = lang === 'en'
         <div class="logo-stage">
           <span class="logo-stage__glow"></span>
           <img class="logo-stage__logo" src={logoUrl} width="449" height="452" alt="" />
+          <img class="logo-stage__core" src={logoUrl} width="449" height="452" alt="" />
         </div>
 
         <span class="precision-rig__bob"></span>
@@ -178,7 +179,7 @@ const copy = lang === 'en'
   .not-found__kicker > span {
     padding-left: .9rem;
     border-left: 1px solid rgba(212, 173, 104, .28);
-    color: rgba(247, 244, 238, .42);
+    color: rgba(247,244,238,.42);
     font-size: .68rem;
     font-weight: 650;
     letter-spacing: .13em;
@@ -204,7 +205,7 @@ const copy = lang === 'en'
   .not-found .lead {
     max-width: 38rem;
     margin-top: clamp(1.4rem, 2.5vw, 1.9rem);
-    color: rgba(247, 244, 238, .7);
+    color: rgba(247,244,238,.7);
     font-size: clamp(1rem, 1.35vw, 1.12rem);
     line-height: 1.7;
   }
@@ -221,7 +222,7 @@ const copy = lang === 'en'
   .not-found .btn--ghost {
     color: #f7f4ee;
     background: transparent;
-    border-color: rgba(247, 244, 238, .42);
+    border-color: rgba(247,244,238,.42);
   }
 
   .not-found__rig {
@@ -235,7 +236,7 @@ const copy = lang === 'en'
     width: clamp(16rem, 26vw, 22rem);
     aspect-ratio: .82;
     transform-origin: 50% 8%;
-    animation: rig-settle 2.4s cubic-bezier(.2, .75, .2, 1) both, rig-breathe 7s ease-in-out 2.4s infinite alternate;
+    animation: rig-settle 1.7s cubic-bezier(.2,.75,.2,1) both;
   }
 
   .precision-rig__vertical,
@@ -250,7 +251,7 @@ const copy = lang === 'en'
     bottom: 11%;
     left: 50%;
     width: 1px;
-    background: linear-gradient(to bottom, rgba(212, 173, 104, .18), rgba(212, 173, 104, .62) 22%, rgba(212, 173, 104, .46) 78%, transparent);
+    background: linear-gradient(to bottom, rgba(212,173,104,.18), rgba(212,173,104,.62) 22%, rgba(212,173,104,.46) 78%, transparent);
   }
 
   .precision-rig__horizontal {
@@ -258,7 +259,7 @@ const copy = lang === 'en'
     right: 0;
     left: 0;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(212, 173, 104, .3) 12%, rgba(212, 173, 104, .3) 88%, transparent);
+    background: linear-gradient(to right, transparent, rgba(212,173,104,.3) 12%, rgba(212,173,104,.3) 88%, transparent);
   }
 
   .precision-rig__ticks {
@@ -267,14 +268,14 @@ const copy = lang === 'en'
     left: 6%;
     height: .45rem;
     opacity: .5;
-    background: repeating-linear-gradient(90deg, rgba(212, 173, 104, .65) 0 1px, transparent 1px 1.4rem);
+    background: repeating-linear-gradient(90deg, rgba(212,173,104,.65) 0 1px, transparent 1px 1.4rem);
   }
 
   .precision-rig__angle {
     position: absolute;
     top: calc(44% + .75rem);
     left: calc(50% + .8rem);
-    color: rgba(212, 173, 104, .7);
+    color: rgba(212,173,104,.7);
     font-size: .62rem;
     font-weight: 700;
     letter-spacing: .12em;
@@ -289,28 +290,38 @@ const copy = lang === 'en'
     width: 72%;
     aspect-ratio: 1;
     place-items: center;
-    transform: translateX(-50%) rotateX(7deg);
-    perspective: 900px;
+    transform: translateX(-50%);
   }
 
   .logo-stage__glow {
     position: absolute;
     inset: 12%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 173, 104, .2), transparent 70%);
+    background: radial-gradient(circle, rgba(212,173,104,.2), transparent 70%);
     filter: blur(14px);
     animation: ks-glow 5s ease-in-out infinite alternate;
   }
 
-  .logo-stage__logo {
-    position: relative;
+  .logo-stage__logo,
+  .logo-stage__core {
+    position: absolute;
     z-index: 1;
     width: 82%;
     height: 82%;
     object-fit: contain;
-    filter: invert(82%) sepia(34%) saturate(550%) hue-rotate(357deg) brightness(94%) contrast(88%) drop-shadow(0 1.15rem 1.7rem rgba(0, 0, 0, .34));
-    animation: blade-spin 11s linear infinite;
+    filter: invert(82%) sepia(34%) saturate(550%) hue-rotate(357deg) brightness(94%) contrast(88%) drop-shadow(0 1.15rem 1.7rem rgba(0,0,0,.34));
+  }
+
+  .logo-stage__logo {
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 46%, #000 48% 100%);
+    mask-image: radial-gradient(circle at 50% 50%, transparent 0 46%, #000 48% 100%);
+    animation: blade-spin 14s linear infinite;
     will-change: transform;
+  }
+
+  .logo-stage__core {
+    z-index: 2;
+    clip-path: circle(47% at 50% 50%);
   }
 
   .precision-rig__bob {
@@ -319,11 +330,11 @@ const copy = lang === 'en'
     bottom: 2%;
     width: 1.05rem;
     height: 1.6rem;
-    border: 1px solid rgba(212, 173, 104, .78);
+    border: 1px solid rgba(212,173,104,.78);
     background: #1b1c1e;
     clip-path: polygon(50% 0, 100% 38%, 70% 100%, 30% 100%, 0 38%);
     transform: translateX(-50%);
-    box-shadow: 0 0 1.5rem rgba(212, 173, 104, .08);
+    box-shadow: 0 0 1.5rem rgba(212,173,104,.08);
   }
 
   .not-found__identity {
@@ -331,7 +342,7 @@ const copy = lang === 'en'
     width: min(100%, 19rem);
     gap: .28rem;
     padding-top: .9rem;
-    border-top: 1px solid rgba(247, 244, 238, .12);
+    border-top: 1px solid rgba(247,244,238,.12);
   }
 
   .not-found__identity > span {
@@ -351,14 +362,16 @@ const copy = lang === 'en'
   }
 
   .not-found__identity small {
-    color: rgba(247, 244, 238, .48);
+    color: rgba(247,244,238,.48);
     font-size: .74rem;
   }
 
   @keyframes blade-spin { to { transform: rotate(360deg); } }
   @keyframes ks-glow { from { opacity: .5; transform: scale(.94); } to { opacity: .9; transform: scale(1.08); } }
-  @keyframes rig-settle { 0% { opacity: 0; transform: rotate(7deg) translateY(-1rem); } 65% { opacity: 1; transform: rotate(-1.2deg); } 100% { opacity: 1; transform: rotate(0); } }
-  @keyframes rig-breathe { from { transform: rotate(-.45deg); } to { transform: rotate(.45deg); } }
+  @keyframes rig-settle {
+    0% { opacity: 0; transform: translateY(-.65rem) scale(.985); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
   @media (hover: hover) and (pointer: fine) {
     .not-found .btn--ghost:hover {
@@ -367,7 +380,7 @@ const copy = lang === 'en'
       border-color: #d4ad68;
     }
 
-    .precision-rig:hover .logo-stage__logo { animation-duration: 4.5s; }
+    .precision-rig:hover .logo-stage__logo { animation-duration: 7s; }
   }
 
   @media (max-width: 56rem) {
