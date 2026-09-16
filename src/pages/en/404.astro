@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import settings from '../../data/settings.json';
 import { withBase } from '../../lib/paths';
+import logoUrl from '../../assets/logo.svg?url';
 ---
 <Base lang="en" title="Page not found | wunschausbau.de" description="The requested page does not exist." noindex>
   <section class="not-found" aria-labelledby="not-found-title">
@@ -24,11 +25,23 @@ import { withBase } from '../../lib/paths';
         </div>
       </div>
 
-      <aside class="not-found__identity" aria-label="KS-Innenausbau">
-        <span class="not-found__rule" aria-hidden="true"></span>
-        <p>{settings.firma}</p>
-        <strong>Interior fit-out & renovation</strong>
-        <span>Wittlich · Trier · Moselle</span>
+      <aside class="not-found__visual" aria-label="KS-Innenausbau">
+        <div class="logo-stage" aria-hidden="true">
+          <span class="logo-stage__glow"></span>
+          <span class="logo-stage__orbit"></span>
+          <div class="logo-stage__spinner">
+            <img class="logo-stage__face logo-stage__face--front" src={logoUrl} width="449" height="452" alt="" />
+            <img class="logo-stage__face logo-stage__face--back" src={logoUrl} width="449" height="452" alt="" />
+          </div>
+          <span class="logo-stage__shadow"></span>
+        </div>
+
+        <div class="not-found__identity">
+          <span class="not-found__rule" aria-hidden="true"></span>
+          <p>{settings.firma}</p>
+          <strong>Interior fit-out & renovation</strong>
+          <span>Wittlich · Trier · Moselle</span>
+        </div>
       </aside>
     </div>
   </section>
@@ -38,11 +51,13 @@ import { withBase } from '../../lib/paths';
   .not-found {
     position: relative;
     display: grid;
-    min-height: clamp(38rem, 78svh, 50rem);
+    min-height: clamp(40rem, 80svh, 52rem);
     align-items: center;
     overflow: hidden;
     color: #f7f4ee;
-    background: #1b1c1e;
+    background:
+      radial-gradient(circle at 78% 48%, rgba(212, 173, 104, .09), transparent 25rem),
+      #1b1c1e;
     isolation: isolate;
   }
 
@@ -68,7 +83,7 @@ import { withBase } from '../../lib/paths';
     font-weight: 700;
     letter-spacing: -.09em;
     line-height: .72;
-    opacity: .11;
+    opacity: .065;
     transform: translateY(-48%);
     -webkit-text-stroke: 1px rgba(247, 244, 238, .65);
     user-select: none;
@@ -79,9 +94,9 @@ import { withBase } from '../../lib/paths';
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(15rem, .55fr);
-    align-items: end;
-    gap: clamp(3rem, 9vw, 9rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .72fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 8rem);
     padding-block: clamp(5rem, 9vw, 8rem);
   }
 
@@ -149,12 +164,94 @@ import { withBase } from '../../lib/paths';
     border-color: rgba(247, 244, 238, .42);
   }
 
+  .not-found__visual {
+    display: grid;
+    justify-items: center;
+    gap: clamp(1.6rem, 3vw, 2.5rem);
+    min-width: 0;
+  }
+
+  .logo-stage {
+    position: relative;
+    display: grid;
+    width: clamp(15rem, 25vw, 21rem);
+    aspect-ratio: 1;
+    place-items: center;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  .logo-stage__glow {
+    position: absolute;
+    inset: 14%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 173, 104, .22), rgba(212, 173, 104, 0) 68%);
+    filter: blur(14px);
+    animation: ks-glow 4.8s ease-in-out infinite alternate;
+  }
+
+  .logo-stage__orbit {
+    position: absolute;
+    inset: 5%;
+    border: 1px solid rgba(212, 173, 104, .24);
+    border-radius: 50%;
+    transform: rotateX(68deg) rotateZ(-11deg);
+    animation: ks-orbit 16s linear infinite;
+  }
+
+  .logo-stage__orbit::after {
+    position: absolute;
+    top: 50%;
+    left: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d4ad68;
+    box-shadow: 0 0 1.2rem rgba(212, 173, 104, .9);
+    content: '';
+  }
+
+  .logo-stage__spinner {
+    position: relative;
+    z-index: 2;
+    width: 72%;
+    aspect-ratio: 1;
+    transform-style: preserve-3d;
+    animation: ks-spin 8s linear infinite;
+    will-change: transform;
+  }
+
+  .logo-stage__face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    backface-visibility: hidden;
+    filter: invert(82%) sepia(34%) saturate(550%) hue-rotate(357deg) brightness(94%) contrast(88%) drop-shadow(0 1.25rem 1.8rem rgba(0,0,0,.36));
+  }
+
+  .logo-stage__face--back {
+    opacity: .78;
+    transform: rotateY(180deg);
+  }
+
+  .logo-stage__shadow {
+    position: absolute;
+    right: 24%;
+    bottom: 8%;
+    left: 24%;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .42);
+    filter: blur(8px);
+    animation: ks-shadow 4s ease-in-out infinite alternate;
+  }
+
   .not-found__identity {
     display: grid;
-    align-self: end;
+    width: min(100%, 20rem);
     gap: .5rem;
-    min-width: 0;
-    padding-bottom: .35rem;
   }
 
   .not-found__rule {
@@ -190,6 +287,26 @@ import { withBase } from '../../lib/paths';
     line-height: 1.5;
   }
 
+  @keyframes ks-spin {
+    from { transform: translateY(-.25rem) rotateY(-18deg); }
+    to { transform: translateY(-.25rem) rotateY(342deg); }
+  }
+
+  @keyframes ks-orbit {
+    from { transform: rotateX(68deg) rotateZ(-11deg); }
+    to { transform: rotateX(68deg) rotateZ(349deg); }
+  }
+
+  @keyframes ks-glow {
+    from { opacity: .55; transform: scale(.92); }
+    to { opacity: .95; transform: scale(1.08); }
+  }
+
+  @keyframes ks-shadow {
+    from { opacity: .45; transform: scaleX(.82); }
+    to { opacity: .7; transform: scaleX(1.08); }
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .not-found__button:hover {
       color: var(--ink);
@@ -203,20 +320,29 @@ import { withBase } from '../../lib/paths';
       background: #d4ad68;
       border-color: #d4ad68;
     }
+
+    .logo-stage:hover .logo-stage__spinner { animation-duration: 3.8s; }
   }
 
   @media (max-width: 56rem) {
     .not-found__inner {
       grid-template-columns: 1fr;
       align-items: start;
-      gap: 3.5rem;
+      gap: 3rem;
     }
 
-    .not-found__identity {
-      max-width: 28rem;
+    .not-found__visual {
+      width: 100%;
+      grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
+      align-items: center;
+      justify-items: start;
+      gap: 2rem;
       padding-top: 2rem;
       border-top: 1px solid rgba(247, 244, 238, .16);
     }
+
+    .logo-stage { width: 12rem; }
+    .not-found__identity { width: 100%; }
 
     .not-found__mark {
       top: auto;
@@ -228,16 +354,23 @@ import { withBase } from '../../lib/paths';
   }
 
   @media (max-width: 40rem) {
-    .not-found { min-height: 42rem; }
-    .not-found__inner { padding-block: 4.25rem 5rem; gap: 3rem; }
+    .not-found { min-height: 46rem; }
+    .not-found__inner { padding-block: 4.25rem 5rem; gap: 2.6rem; }
     .not-found h1 { max-width: 10ch; font-size: clamp(2.8rem, 12.5vw, 4rem); }
     .not-found .lead { font-size: .98rem; }
     .not-found__actions { display: grid; width: 100%; }
     .not-found__button { width: 100%; }
-    .not-found__mark { right: -2rem; bottom: 1rem; font-size: 12rem; opacity: .08; }
+    .not-found__visual { grid-template-columns: 8.25rem minmax(0, 1fr); gap: 1.25rem; }
+    .logo-stage { width: 8.25rem; }
+    .not-found__mark { right: -2rem; bottom: 1rem; font-size: 12rem; opacity: .05; }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .logo-stage__spinner,
+    .logo-stage__orbit,
+    .logo-stage__glow,
+    .logo-stage__shadow { animation: none; }
+    .logo-stage__spinner { transform: none; }
     .not-found__button { transition: none; }
   }
 </style>
